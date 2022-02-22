@@ -1,0 +1,47 @@
+name: godot-ci
+
+on:
+  push:
+    branches: [ release ]
+
+env:
+  EXPORT_NAME: MouseAttack
+  GODOT_VERSION: 3.4.2
+
+jobs:
+  export-web:
+    name: Web Export
+    runs-on: ubuntu-latest
+    container:
+      image: barichello/godot-ci:mono-3.4.2
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v1
+
+      - name: Setup
+        run: |
+          mkdir -v -p ~/.local/share/godot/templates
+          mv /root/.local/share/godot/templates/${GODOT_VERSION}.stable.mono ~/.local/share/godot/templates/${GODOT_VERSION}.stable.mono
+          apt-get update && apt-get install -y rsync
+      - name: Web Build
+        run: |
+          cp export_presets_ci.cfg export_presets.cfg
+          mkdir ./$EXPORT_NAME
+          rsync -Rr . ./$EXPORT_NAME
+          cd $EXPORT_NAME
+          mkdir -v -p build/web
+          godot -v --export "HTML5" build/web/index.html
+      - name: Upload Artifacts
+        uses: actions/upload-artifact@v2
+        with:
+          name: web
+          path: ${{ env.EXPORT_NAME }}/build/web
+
+      - name: Publish to itch.io
+        uses: josephbmanley/butler-publish-itchio-action@v1.0.2
+        env:
+          BUTLER_CREDENTIALS: ${{ secrets.BUTLER_API_KEY }}
+          CHANNEL: web
+          ITCH_GAME: mouse-attack
+          ITCH_USER: andreterra
+          PACKAGE: ${{ env.EXPORT_NAME }}/build/web
