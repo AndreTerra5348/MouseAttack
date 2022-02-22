@@ -5,7 +5,7 @@ on:
     branches: [ release ]
 
 env:
-  EXPORT_NAME: MouseAttack
+  EXPORT_NAME: MouseAttackBuild
   GODOT_VERSION: 3.4.2
 
 jobs:
