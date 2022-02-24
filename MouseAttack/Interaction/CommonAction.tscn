@@ -1,0 +1,12 @@
+[gd_scene load_steps=2 format=2]
+
+[ext_resource path="res://MouseAttack/Interaction/CommonAction.cs" type="Script" id=1]
+
+[node name="CommonAction" type="Node2D"]
+script = ExtResource( 1 )
+
+[node name="DurationTimer" type="Timer" parent="."]
+wait_time = 0.5
+autostart = true
+
+[connection signal="timeout" from="DurationTimer" to="." method="queue_free"]

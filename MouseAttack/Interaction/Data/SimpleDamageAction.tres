@@ -1,0 +1,12 @@
+[gd_resource type="Resource" load_steps=3 format=2]
+
+[ext_resource path="res://MouseAttack/Interaction/DamageActionData.cs" type="Script" id=1]
+[ext_resource path="res://MouseAttack/Interaction/DamageAction.tscn" type="PackedScene" id=2]
+
+[resource]
+script = ExtResource( 1 )
+Scene = ExtResource( 2 )
+Cost = 1.0
+CooldownTimeout = 0.5
+Radius = 15.0
+Damage = 1
