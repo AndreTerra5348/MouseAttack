@@ -1,0 +1,17 @@
+[gd_scene load_steps=5 format=2]
+
+[ext_resource path="res://MouseAttack/Entity/CommonEntity.tscn" type="PackedScene" id=1]
+[ext_resource path="res://icon.png" type="Texture" id=2]
+[ext_resource path="res://MouseAttack/Entity/Monster/CommonMonster.cs" type="Script" id=3]
+
+[sub_resource type="CircleShape2D" id=1]
+
+[node name="CommonMonster" instance=ExtResource( 1 )]
+script = ExtResource( 3 )
+
+[node name="CollisionShape2D" parent="." index="0"]
+shape = SubResource( 1 )
+
+[node name="Icon" type="Sprite" parent="." index="1"]
+visible = false
+texture = ExtResource( 2 )

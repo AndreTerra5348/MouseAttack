@@ -4,5 +4,5 @@
 
 [resource]
 script = ExtResource( 1 )
-ValuePerPoint = 1
+ValuePerPoint = 1.0
 Points = 3

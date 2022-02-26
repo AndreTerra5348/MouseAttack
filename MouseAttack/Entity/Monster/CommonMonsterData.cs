@@ -2,7 +2,7 @@ using Godot;
 using MouseAttack.Character;
 using System;
 
-namespace MouseAttack.Entity
+namespace MouseAttack.Entity.Monster
 {
     public class CommonMonsterData : Resource
     {

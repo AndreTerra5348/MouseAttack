@@ -1,5 +1,5 @@
 using Godot;
-using MouseAttack.World;
+using MouseAttack.World.Autoload;
 
 namespace MouseAttack.Interaction
 {
@@ -24,7 +24,7 @@ namespace MouseAttack.Interaction
             var instance = Scene.Instance<CommonAction>();
             worldProxy.AddChild(instance);
             instance.Position = position;
-            instance.Initialize(this);
+            instance.SetActionData(this);
         }
     }
 }

@@ -1,24 +1,37 @@
 using Godot;
+using MouseAttack.Extensions;
 using System;
 
 namespace MouseAttack.Entity
 {
     public class CommonEntity : KinematicBody2D
     {
-        public override void _Ready()
+        // Sealed avoid not being called from inherited class
+        sealed public override void _EnterTree()
         {
             Connect(Signals.CollisionObject2D.MouseEntered, this, nameof(OnMouseEntered));
             Connect(Signals.CollisionObject2D.MouseExited, this, nameof(OnMouseExited));
         }
 
-        protected virtual void OnMouseExited()
+        public override void _InputEvent(Godot.Object viewport, InputEvent @event, int shapeIdx)
         {
-            // hover feedback on
+            if (!@event.IsActionPressed("RMB"))
+                return;
+
+            OnRightMouseButtonClicked();
         }
 
         protected virtual void OnMouseEntered()
         {
-            // hover feedback off
+        }
+
+        protected virtual void OnMouseExited()
+        {
+        }
+        
+        protected virtual void OnRightMouseButtonClicked()
+        {
+
         }
     }
 }

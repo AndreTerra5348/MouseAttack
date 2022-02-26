@@ -5,6 +5,7 @@ using System.Linq;
 using MouseAttack.Extensions;
 using MouseAttack.World;
 using System;
+using MouseAttack.World.Autoload;
 
 namespace MouseAttack.Player
 {
@@ -15,7 +16,7 @@ namespace MouseAttack.Player
         [Export]
         public List<CommonActionData> commonActions;        
 
-        CommonActionData selected;
+        CommonActionData _action;
 
         public override void _Ready()
         {
@@ -23,22 +24,22 @@ namespace MouseAttack.Player
             controller.LMBPressed += OnLMBPressed;
             controller.HotkeyPressed += HotkeyPressed;
 
-            selected = commonActions.First();
+            _action = commonActions.First();
         }
 
         async private void OnLMBPressed(object sender, EventArgs e)
         {
-            if (selected.OnCooldown())
+            if (_action.OnCooldown())
                 return;
 
             var worldProxy = this.GetAutoload<WorldProxy>();
             var mousePosition = GetViewport().GetMousePosition();
-            selected.Instantiate(worldProxy, mousePosition);
-            selected.Use();
+            _action.Instantiate(worldProxy, mousePosition);
+            _action.Use();
 
-            await ToSignal(GetTree().CreateTimer(selected.CooldownTimeout), Signals.Timer.Timeout);
+            await ToSignal(GetTree().CreateTimer(_action.CooldownTimeout), Signals.Timer.Timeout);
 
-            selected.StopCooldown();
+            _action.StopCooldown();
         }
 
         private void HotkeyPressed(object sender, Controller.HotkeyPressedEventArgs e)
@@ -47,7 +48,7 @@ namespace MouseAttack.Player
             if (hotkey >= commonActions.Count)
                 return;
 
-            selected = commonActions[hotkey];
+            _action = commonActions[hotkey];
         }
     }
 }

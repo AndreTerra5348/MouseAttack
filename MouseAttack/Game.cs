@@ -2,7 +2,7 @@ using Godot;
 using System;
 
 using MouseAttack.Extensions;
-using MouseAttack.World;
+using MouseAttack.World.Autoload;
 
 namespace MouseAttack
 {

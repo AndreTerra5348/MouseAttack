@@ -5,11 +5,18 @@ namespace MouseAttack.Interaction
     public class CommonAction : Node2D
     {
         private CommonActionData commonActionData;
-        public virtual void Initialize(CommonActionData commonActionData) => this.commonActionData = commonActionData;
+
+        public void SetActionData(CommonActionData commonActionData)
+        {
+            this.commonActionData = commonActionData;
+        }
+
+        protected virtual void OnCommonActionInit() { }
 
         protected T GetActionData<T>() where T : CommonActionData
         {
             return commonActionData as T;
         }
+
     }
 }
