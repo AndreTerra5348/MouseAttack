@@ -3,7 +3,7 @@ using System;
 
 namespace MouseAttack.Character
 {
-    public class StatsData : Resource, ICloneable
+    public class StatsData : Resource
     {
         [Export]
         public float ValuePerPoint { private set; get; } = 1.0f;
@@ -31,12 +31,5 @@ namespace MouseAttack.Character
         public void AddPoint(int value = 1) => Points += value;
         public void RemovePoint(int value = 1) => Points -= value;
 
-        public virtual object Clone()
-        {
-            StatsData statsData = new StatsData();
-            statsData.ValuePerPoint = ValuePerPoint;
-            statsData.Points = Points;
-            return statsData;
-        }
     }
 }

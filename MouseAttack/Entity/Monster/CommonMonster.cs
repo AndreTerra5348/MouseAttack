@@ -1,6 +1,7 @@
 using Godot;
 using MouseAttack.Character;
 using MouseAttack.Extensions;
+using MouseAttack.Misc;
 using MouseAttack.World.Autoload;
 using System;
 
@@ -9,10 +10,13 @@ namespace MouseAttack.Entity.Monster
     public class CommonMonster : CommonAliveEntity
     {
         [Export]
+        [MakeUnique]
         StatsData _movementSpeed;
         [Export]
+        [MakeUnique]
         StatsData _damage;
         [Export]
+        [MakeUnique]
         StatsData _defense;
 
         WorldProxy _worldProxy;
@@ -32,13 +36,17 @@ namespace MouseAttack.Entity.Monster
 
         protected override void OnHit()
         {
-            GD.PrintT("Enemy Health:", Health, GetInstanceId());
             // Hit feedback
         }
 
         protected override void OnMouseEntered()
         {
-            GD.PrintT("OnMouseEntered CommonMonster");
+            // Enable Hover feedback
+        }
+
+        protected override void OnMouseExited()
+        {
+            // Disable Hover feedback
         }
 
         async protected override void OnDeath()

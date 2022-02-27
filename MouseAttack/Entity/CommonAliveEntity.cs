@@ -1,5 +1,6 @@
 ﻿using Godot;
 using MouseAttack.Character;
+using MouseAttack.Misc;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,9 +9,10 @@ using System.Threading.Tasks;
 
 namespace MouseAttack.Entity
 {
-    public class CommonAliveEntity : CommonEntity
+    public abstract class CommonAliveEntity : CommonEntity
     {
         [Export]
+        [MakeUnique]
         ResourceData _health;
 
         public bool IsDead { get => _health.IsDepleted; }
@@ -18,15 +20,8 @@ namespace MouseAttack.Entity
 
         public override void _EnterTree()
         {
-            // Make resource unique
-            _health = new ResourceData(_health);
-            _health.Depleted += OnHealthDepleted;
             base._EnterTree();
-        }
-
-        public override void _Ready()
-        {
-            base._Ready();
+            _health.Depleted += OnHealthDepleted;
         }
 
         private void OnHealthDepleted(object sender, EventArgs e)
@@ -41,7 +36,7 @@ namespace MouseAttack.Entity
             OnHit();
         }
 
-        protected virtual void OnDeath() { }
-        protected virtual void OnHit() { }
+        protected abstract void OnDeath();
+        protected abstract void OnHit();
     }
 }

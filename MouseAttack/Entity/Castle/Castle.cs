@@ -16,7 +16,16 @@ namespace MouseAttack.Entity.Castle
 
         protected override void OnRightMouseButtonClicked()
         {
-            GD.Print("clicked on castle");
+        }
+
+        protected override void OnMouseEntered()
+        {
+            // Enable Hover Feeback
+        }
+
+        protected override void OnMouseExited()
+        {
+            // Disable Hover Feedback
         }
 
         protected override void OnDeath()
