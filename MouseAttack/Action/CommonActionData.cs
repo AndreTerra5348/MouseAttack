@@ -1,12 +1,16 @@
 using Godot;
 using MouseAttack.World.Autoload;
 
-namespace MouseAttack.Interaction
+namespace MouseAttack.Action
 {
     public class CommonActionData : Resource
     {
         [Export]
-        public PackedScene Scene;
+        public PackedScene EffectScene;
+        [Export]
+        public PackedScene ItemScene;
+        [Export]
+        public Texture Icon;
         [Export]
         public float Cost;
         [Export]
@@ -19,13 +23,8 @@ namespace MouseAttack.Interaction
         public void StopCooldown() => cooldown = false;
         public bool OnCooldown() => cooldown;
 
-        public void Instantiate(WorldProxy worldProxy, Vector2 position)
-        {
-            var instance = Scene.Instance<CommonAction>();
-            worldProxy.AddChild(instance);
-            instance.Position = position;
-            instance.SetActionData(this);
-        }
+        public CommonAction GetEffectInstance() => EffectScene.Instance<CommonAction>();
+
     }
 }
 

@@ -13,6 +13,11 @@ namespace MouseAttack.World.Autoload
         public void RegistryGame(Game game) => _world = game.GetWorld();
         public void RegistryCastle(Castle castle) => _castle = castle;
         public void AddChild(Node2D child) => _world.AddChild(child);
+        public void AddChildAtMousePosition(Node2D child)
+        {
+            _world.AddChild(child);
+            child.Position = GetViewport().GetMousePosition();
+        }
     }
 }
 

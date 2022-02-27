@@ -1,12 +1,12 @@
 using Godot;
 using System;
 
-namespace MouseAttack.Interaction
+namespace MouseAttack.Action
 {
     public class DamageActionData : WorldActionData
     {
         [Export]
-        public int Damage;
+        public float Damage;
     }
 }
 

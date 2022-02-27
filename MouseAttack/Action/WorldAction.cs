@@ -1,24 +1,23 @@
 using Godot;
 
-namespace MouseAttack.Interaction
+namespace MouseAttack.Action
 {
     public class WorldAction : CommonAction
     {
         [Export]
         public NodePath Area2DPath;
 
-        sealed protected override void OnCommonActionInit()
+        public override void SetData(CommonActionData commonActionData)
         {
-            var worldActionData = GetActionData<WorldActionData>();
+            base.SetData(commonActionData);
+
+            var worldActionData = commonActionData as WorldActionData;
             var area2d = GetNode<Area2D>(Area2DPath);
             var shape = area2d.ShapeOwnerGetShape(0, 0) as CircleShape2D;
             shape.Radius = worldActionData.Radius;
 
             area2d.Connect(Signals.Area2D.BodyEntered, this, nameof(OnBodyEntered));
-            OnWorldActionInit();
         }
-
-        protected virtual void OnWorldActionInit() { }
 
         protected virtual void OnBodyEntered(Node body)
         {

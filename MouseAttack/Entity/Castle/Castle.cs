@@ -5,21 +5,13 @@ using System;
 
 namespace MouseAttack.Entity.Castle
 {
-    public class Castle : CommonEntity
+    public class Castle : CommonAliveEntity
     {
-        [Export]
-        public CastleData CastleData;
         public override void _Ready()
         {
+            base._Ready();
             var worldProxy = this.GetAutoload<WorldProxy>();
             worldProxy.RegistryCastle(this);
-            CastleData.ResetResources();
-            CastleData.Health.Depleted += OnHealthDepleted;
-        }
-
-        private void OnHealthDepleted(object sender, EventArgs e)
-        {
-            // Game Over
         }
 
         protected override void OnRightMouseButtonClicked()
@@ -27,6 +19,14 @@ namespace MouseAttack.Entity.Castle
             GD.Print("clicked on castle");
         }
 
+        protected override void OnDeath()
+        {
+            // Game Over
+        }
 
+        protected override void OnHit()
+        {
+            // Hit feedback
+        }
     }
 }

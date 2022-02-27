@@ -5,30 +5,33 @@ using System.Linq;
 using System.Reflection;
 using Godot;
 
+//https://docs.godotengine.org/pt_BR/stable/classes/class_scriptcreatedialog.html#class-scriptcreatedialog
 namespace CustomResourceRegister
 {
 	[Tool]
 	public class Plugin : EditorPlugin
 	{
 		private readonly List<string> _scripts = new List<string>();
-		private Control _control;
-
+		private Button _button;
+		
 		public override void _EnterTree()
 		{
 			Settings.Init();
 			RegisterCustomClasses();
-			_control = CreateBottomMenuControl();
-			AddControlToBottomPanel(_control, "CRR");
+			_button = new Button { Text = "CRR" };
+			_button.Flat = true;
+			_button.Connect("pressed", this, nameof(OnRefreshPressed));
+			AddControlToContainer(CustomControlContainer.Toolbar, _button);
 		}
 
-		public override void _ExitTree()
+        public override void _ExitTree()
 		{
 			UnregisterCustomClasses();
-			RemoveControlFromBottomPanel(_control);
-			_control = null;
+			RemoveControlFromContainer(CustomControlContainer.Toolbar, _button);
+			_button = null;
 		}
 
-		private void RegisterCustomClasses()
+        private void RegisterCustomClasses()
 		{
 			_scripts.Clear();
 
@@ -88,18 +91,6 @@ namespace CustomResourceRegister
 			}
 
 			_scripts.Clear();
-		}
-
-		private Control CreateBottomMenuControl()
-		{
-			var container = new GridContainer()
-			{
-				RectMinSize = new Vector2(100, 100),
-			};
-			var button = new Button {Text = "Refresh"};
-			button.Connect("pressed", this, nameof(OnRefreshPressed));
-			container.AddChild(button);
-			return container;
 		}
 
 		private void OnRefreshPressed()

@@ -7,7 +7,19 @@ namespace MouseAttack.Character
     {
         public EventHandler Depleted;
         public float CurrentValue { private set; get; }
-        public void Reset() => CurrentValue = Value;
+        public float MaxValue { get => Value; }
+        public bool IsDepleted { get => CurrentValue <= 0; }
+
+        public ResourceData()
+        {
+        }
+
+        public ResourceData(ResourceData resourceData) : base(resourceData)
+        {
+            Reset();
+        }
+
+        public void Reset() => CurrentValue = MaxValue;
 
         public void Decrease(float value = 1.0f)
         {
@@ -22,7 +34,7 @@ namespace MouseAttack.Character
 
         public override string ToString()
         {
-            return String.Format("Max Value: {0} Current Value: {1}", Value, CurrentValue);
+            return String.Format("Max Value: {0} Current Value: {1}", MaxValue, CurrentValue);
         }
     }
 }

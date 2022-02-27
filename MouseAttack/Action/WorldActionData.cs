@@ -1,6 +1,6 @@
 using Godot;
 
-namespace MouseAttack.Interaction
+namespace MouseAttack.Action
 {
     public class WorldActionData : CommonActionData
     {

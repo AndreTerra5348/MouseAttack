@@ -6,19 +6,22 @@ namespace MouseAttack.Entity
 {
     public class CommonEntity : KinematicBody2D
     {
-        // Sealed avoid not being called from inherited class
-        sealed public override void _EnterTree()
+        public override void _EnterTree()
         {
             Connect(Signals.CollisionObject2D.MouseEntered, this, nameof(OnMouseEntered));
             Connect(Signals.CollisionObject2D.MouseExited, this, nameof(OnMouseExited));
+        }      
+
+        sealed public override void _InputEvent(Godot.Object viewport, InputEvent @event, int shapeIdx)
+        {
+            if (@event.IsActionPressed("RMB"))
+                OnRightMouseButtonClicked();
+            if (@event is InputEventMouseMotion)
+                OnMouseHover();
         }
 
-        public override void _InputEvent(Godot.Object viewport, InputEvent @event, int shapeIdx)
+        protected virtual void OnMouseHover()
         {
-            if (!@event.IsActionPressed("RMB"))
-                return;
-
-            OnRightMouseButtonClicked();
         }
 
         protected virtual void OnMouseEntered()
@@ -31,7 +34,6 @@ namespace MouseAttack.Entity
         
         protected virtual void OnRightMouseButtonClicked()
         {
-
         }
     }
 }

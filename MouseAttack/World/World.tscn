@@ -1,29 +1,40 @@
 [gd_scene load_steps=8 format=2]
 
-[ext_resource path="res://MouseAttack/Player/Interaction.cs" type="Script" id=1]
-[ext_resource path="res://MouseAttack/Player/Controller.cs" type="Script" id=2]
+[ext_resource path="res://MouseAttack/System/Controller.cs" type="Script" id=1]
+[ext_resource path="res://MouseAttack/System/Interaction.cs" type="Script" id=2]
 [ext_resource path="res://MouseAttack/Entity/Monster/CommonMonster.tscn" type="PackedScene" id=3]
-[ext_resource path="res://MouseAttack/Entity/Monster/Data/SimpleCommonMonster.tres" type="Resource" id=4]
-[ext_resource path="res://MouseAttack/Interaction/Data/SimpleDamageAction.tres" type="Resource" id=5]
+[ext_resource path="res://MouseAttack/Action/Data/SimpleDamageAction.tres" type="Resource" id=5]
 [ext_resource path="res://MouseAttack/Entity/Castle/Castle.tscn" type="PackedScene" id=6]
-[ext_resource path="res://MouseAttack/Entity/Castle/Data/Castle.tres" type="Resource" id=7]
+[ext_resource path="res://MouseAttack/World/MonsterGenerator.cs" type="Script" id=8]
+
+[sub_resource type="Curve2D" id=1]
+_data = {
+"points": PoolVector2Array( 0, 0, 0, 0, -33, -60, 0, 0, 0, 0, 1064, -65, 0, 0, 0, 0, 1076, 632, 0, 0, 0, 0, -38, 632, 0, 0, 0, 0, -33, -60 )
+}
 
 [node name="World" type="Node2D"]
+
+[node name="MonsterGenerator" type="Node2D" parent="."]
+script = ExtResource( 8 )
+_monsters = [ ExtResource( 3 ) ]
+_spawnPathFollowPath = NodePath("MobSpawnPath2D/MobSpawnPathFollow2D")
+
+[node name="MobSpawnPath2D" type="Path2D" parent="MonsterGenerator"]
+curve = SubResource( 1 )
+
+[node name="MobSpawnPathFollow2D" type="PathFollow2D" parent="MonsterGenerator/MobSpawnPath2D"]
+position = Vector2( -33, -60 )
+rotation = -0.00455819
 
 [node name="Player" type="Node2D" parent="."]
 
 [node name="Controller" type="Node2D" parent="Player"]
-script = ExtResource( 2 )
+script = ExtResource( 1 )
 
 [node name="Interaction" type="Node2D" parent="Player"]
-script = ExtResource( 1 )
+script = ExtResource( 2 )
 ControllerPath = NodePath("../Controller")
 commonActions = [ ExtResource( 5 ) ]
 
 [node name="Castle" parent="." instance=ExtResource( 6 )]
-position = Vector2( 541, 385 )
-CastleData = ExtResource( 7 )
-
-[node name="CommonMonster" parent="." instance=ExtResource( 3 )]
-position = Vector2( 309, 262 )
-MonsterData = ExtResource( 4 )
+position = Vector2( 464, 272 )

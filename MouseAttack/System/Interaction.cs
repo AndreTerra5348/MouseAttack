@@ -1,13 +1,12 @@
 using Godot;
-using MouseAttack.Interaction;
+using MouseAttack.Action;
 using System.Collections.Generic;
 using System.Linq;
 using MouseAttack.Extensions;
-using MouseAttack.World;
 using System;
 using MouseAttack.World.Autoload;
 
-namespace MouseAttack.Player
+namespace MouseAttack.System
 {
     public class Interaction : Node2D
     {
@@ -29,12 +28,14 @@ namespace MouseAttack.Player
 
         async private void OnLMBPressed(object sender, EventArgs e)
         {
+            // Use Action
             if (_action.OnCooldown())
                 return;
 
+            CommonAction effectScene = _action.GetEffectInstance();
             var worldProxy = this.GetAutoload<WorldProxy>();
-            var mousePosition = GetViewport().GetMousePosition();
-            _action.Instantiate(worldProxy, mousePosition);
+            worldProxy.AddChildAtMousePosition(effectScene);
+            effectScene.SetData(_action);
             _action.Use();
 
             await ToSignal(GetTree().CreateTimer(_action.CooldownTimeout), Signals.Timer.Timeout);
@@ -44,6 +45,7 @@ namespace MouseAttack.Player
 
         private void HotkeyPressed(object sender, Controller.HotkeyPressedEventArgs e)
         {
+            // Select Action
             var hotkey = e.Hotkey;
             if (hotkey >= commonActions.Count)
                 return;

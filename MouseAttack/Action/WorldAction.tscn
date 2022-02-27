@@ -1,7 +1,7 @@
 [gd_scene load_steps=4 format=2]
 
-[ext_resource path="res://MouseAttack/Interaction/CommonAction.tscn" type="PackedScene" id=1]
-[ext_resource path="res://MouseAttack/Interaction/WorldAction.cs" type="Script" id=2]
+[ext_resource path="res://MouseAttack/Action/CommonAction.tscn" type="PackedScene" id=1]
+[ext_resource path="res://MouseAttack/Action/WorldAction.cs" type="Script" id=2]
 
 [sub_resource type="CircleShape2D" id=1]
 
