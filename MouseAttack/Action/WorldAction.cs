@@ -7,11 +7,10 @@ namespace MouseAttack.Action
         [Export]
         public NodePath Area2DPath;
 
-        public override void SetData(CommonActionData commonActionData)
+        public override void _Ready()
         {
-            base.SetData(commonActionData);
-
-            var worldActionData = commonActionData as WorldActionData;
+            base._Ready();
+            var worldActionData = ActionData as WorldActionData;
             var area2d = GetNode<Area2D>(Area2DPath);
             var shape = area2d.ShapeOwnerGetShape(0, 0) as CircleShape2D;
             shape.Radius = worldActionData.Radius;

@@ -7,6 +7,6 @@
 script = ExtResource( 1 )
 EffectScene = ExtResource( 2 )
 Cost = 1.0
-CooldownTimeout = 1.0
+CooldownTimeout = 0.1
 Radius = 10.0
 Damage = 2.0

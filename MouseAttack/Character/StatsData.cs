@@ -46,11 +46,8 @@ namespace MouseAttack.Character
 
         public StatsData(StatsData statsData)
         {
-            Console.WriteLine("stats data");
             ValuePerPoint = statsData.ValuePerPoint;
             Points = statsData.Points;
-            Console.WriteLine(ValuePerPoint);
-            Console.WriteLine(Points);
         }
 
         public void AddSkillAlteredValue(float value) => _skillAlteredValue += value;

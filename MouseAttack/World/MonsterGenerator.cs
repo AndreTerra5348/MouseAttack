@@ -1,7 +1,7 @@
 ﻿using Godot;
+using MouseAttack.Entity.Castle;
 using MouseAttack.Entity.Monster;
 using MouseAttack.Extensions;
-using MouseAttack.World.Autoload;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -19,12 +19,13 @@ namespace MouseAttack.World
 
         int _currentLevel = 0;
         Random _random = new Random();
-        WorldProxy _worldProxy;
+        PathFollow2D _pathFollow2d = null;
+        Stage _stage = null;
 
         public override void _Ready()
         {
-            _worldProxy = this.GetAutoload<WorldProxy>();
-            
+            _pathFollow2d = GetNode<PathFollow2D>(_spawnPathFollowPath);
+            _stage = this.GetStage();
         }
 
         public override void _Input(InputEvent @event)
@@ -36,12 +37,11 @@ namespace MouseAttack.World
 
         void Spawn()
         {
-            var pathFollow = GetNode<PathFollow2D>(_spawnPathFollowPath);
-            pathFollow.Offset = _random.Next();
+            _pathFollow2d.Offset = _random.Next();
 
-            var instance = _monsters[_currentLevel].Instance<CommonMonster>();            
-            _worldProxy.AddChild(instance);
-            instance.Position = pathFollow.Position;
+            var instance = _monsters[_currentLevel].Instance<CommonMonster>();
+            _stage.AddChild(instance);
+            instance.Position = _pathFollow2d.Position;
         }
 
     }

@@ -3,7 +3,6 @@ using MouseAttack.Character;
 using MouseAttack.Extensions;
 using MouseAttack.Misc;
 using MouseAttack.Subsystem;
-using MouseAttack.World.Autoload;
 using System;
 
 namespace MouseAttack.Entity.Castle
@@ -11,14 +10,12 @@ namespace MouseAttack.Entity.Castle
     public class CastleEntity : CommonAliveEntity
     {
         [Export]
-        [MakeUnique]
-        StatsData _healthRegen = null;
+        [MakeCopy]
+        public StatsData HealthRegen { get; private set; }
 
         public override void _Ready()
         {
             base._Ready();
-            var worldProxy = this.GetAutoload<WorldProxy>();
-            worldProxy.RegistryCastle(this);
             AddChild(new ResourceRegenerator(this));
         }
 
@@ -44,7 +41,7 @@ namespace MouseAttack.Entity.Castle
 
         public override void Regenerate()
         {
-            Regenerate(_healthRegen.Value);
+            Regenerate(HealthRegen.Value);
         }
     }
 }

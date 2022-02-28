@@ -12,10 +12,10 @@
 
 [node name="CommonMonster" instance=ExtResource( 1 )]
 script = ExtResource( 3 )
-_health = ExtResource( 6 )
-_movementSpeed = ExtResource( 5 )
-_damage = ExtResource( 7 )
-_defense = ExtResource( 4 )
+Health = ExtResource( 6 )
+MovementSpeed = ExtResource( 5 )
+Damage = ExtResource( 7 )
+Defense = ExtResource( 4 )
 
 [node name="CollisionShape2D" parent="." index="0"]
 shape = SubResource( 1 )

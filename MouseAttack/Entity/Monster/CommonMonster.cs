@@ -1,8 +1,9 @@
 using Godot;
 using MouseAttack.Character;
+using MouseAttack.Entity.Castle;
 using MouseAttack.Extensions;
 using MouseAttack.Misc;
-using MouseAttack.World.Autoload;
+using MouseAttack.World;
 using System;
 
 namespace MouseAttack.Entity.Monster
@@ -10,28 +11,28 @@ namespace MouseAttack.Entity.Monster
     public class CommonMonster : CommonAliveEntity
     {
         [Export]
-        [MakeUnique]
-        StatsData _movementSpeed = null;
+        [MakeCopy]
+        public StatsData MovementSpeed { get; private set; }
         [Export]
-        [MakeUnique]
-        StatsData _damage = null;
+        [MakeCopy]
+        public StatsData Damage { get; private set; }
         [Export]
-        [MakeUnique]
-        StatsData _defense = null;
+        [MakeCopy]
+        public StatsData Defense { get; private set; }
 
-        WorldProxy _worldProxy;
+        Stage _stage;
 
         public override void _Ready()
         {
             base._Ready();
-            _worldProxy = this.GetAutoload<WorldProxy>();
+            _stage = this.GetStage();
         }
 
         public override void _PhysicsProcess(float delta)
         {
-            var _castleDirection = Position.DirectionTo(_worldProxy.CastlePosition);
-            LookAt(_worldProxy.CastlePosition);
-            MoveAndCollide(_castleDirection * _movementSpeed.Value);
+            var _castleDirection = Position.DirectionTo(_stage.Castle.Position);
+            LookAt(_stage.Castle.Position);
+            MoveAndCollide(_castleDirection * MovementSpeed.Value);
         }
 
         protected override void OnHit()

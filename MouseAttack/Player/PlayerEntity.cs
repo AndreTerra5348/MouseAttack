@@ -9,15 +9,15 @@ namespace MouseAttack.Player
     public class PlayerEntity : Node2D, IResourceRegenerable
     {
         [Export]
-        [MakeUnique]
-        ResourceData _mana = null;
+        [MakeCopy]
+        public ResourceData Mana { get; private set; }
         [Export]
-        [MakeUnique]
-        StatsData _manaRegeneration = null;
+        [MakeCopy]
+        public StatsData ManaRegen { get; private set; }
         [Export]
-        [MakeUnique]
-        StatsData _damage = null;
-        public bool IsResourceFull => _mana.IsFull;
+        [MakeCopy]
+        public StatsData Damage { get; private set; }
+        public bool IsResourceFull => Mana.IsFull;
 
         public event EventHandler ResourceUsed;
 
@@ -25,20 +25,18 @@ namespace MouseAttack.Player
         {
             AddChild(new ResourceRegenerator(this));
             base._Ready();
-            _mana.Reset();
+            Mana.Reset();
         }
 
 
-        public bool HasEnoughMana(float value) => _mana.CurrentValue >= value;
+        public bool HasEnoughMana(float value) => Mana.CurrentValue >= value;
 
         public void UseMana(float value)
         {
-            Console.WriteLine($"Antes de usar CurrentValue { _mana.CurrentValue}");
-            _mana.Use(value);
-            Console.WriteLine($"Depois de usar CurrentValue { _mana.CurrentValue}");
+            Mana.Use(value);
             ResourceUsed?.Invoke(this, EventArgs.Empty);
         }
 
-        public void Regenerate() => _mana.Regenerate(_manaRegeneration.Value);
+        public void Regenerate() => Mana.Regenerate(ManaRegen.Value);
     }
 }

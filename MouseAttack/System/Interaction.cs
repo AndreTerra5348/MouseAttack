@@ -1,12 +1,10 @@
 using Godot;
 using MouseAttack.Action;
-using System.Collections.Generic;
 using System.Linq;
 using MouseAttack.Extensions;
 using System;
-using MouseAttack.World.Autoload;
-using MouseAttack.Entity;
 using MouseAttack.Player;
+using MouseAttack.World;
 
 namespace MouseAttack.System
 {
@@ -15,15 +13,11 @@ namespace MouseAttack.System
         [Export]
         NodePath _controllerPath = null;
         [Export]
-        NodePath _playerPath = null;
-        [Export]
         CommonActionData[] _slottedActions = new CommonActionData[5];
 
         CommonActionData _action;
-        PlayerEntity _player;
-        public void SetAction(CommonActionData action, int slot) => _slottedActions[slot] = action;
+        Stage _stage;
 
-        public void RemoveAction(int slot) => _slottedActions[slot] = null;
 
         public override void _Ready()
         {
@@ -31,27 +25,22 @@ namespace MouseAttack.System
             controller.LMBPressed += OnLMBPressed;
             controller.HotkeyPressed += HotkeyPressed;
 
-            _player = GetNode<PlayerEntity>(_playerPath);
-
+            _stage = this.GetStage();
             _action = _slottedActions.First();
         }
 
         async private void OnLMBPressed(object sender, EventArgs e)
         {
             // Use Action
-            if (_action.OnCooldown())
+            if (_action.OnCooldown)
                 return;
 
-            if (!_player.HasEnoughMana(_action.Cost))
+            if (!_stage.Player.HasEnoughMana(_action.Cost))
                 return;
 
-            _player.UseMana(_action.Cost);
+            _stage.Player.UseMana(_action.Cost);
             
-            CommonAction effectScene = _action.GetEffectInstance();
-            var worldProxy = this.GetAutoload<WorldProxy>();
-            worldProxy.AddChildAtMousePosition(effectScene);
-            effectScene.SetData(_action);
-            _action.Use();
+            _action.Use(_stage);
 
             await ToSignal(GetTree().CreateTimer(_action.CooldownTimeout), Signals.Timer.Timeout);
 
@@ -67,6 +56,9 @@ namespace MouseAttack.System
 
             _action = _slottedActions[hotkey];
         }
+
+        public void SetAction(CommonActionData action, int slot) => _slottedActions[slot] = action;
+        public void RemoveAction(int slot) => _slottedActions[slot] = null;
 
 
     }

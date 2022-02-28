@@ -1,30 +1,33 @@
 using Godot;
-using MouseAttack.World.Autoload;
+using MouseAttack.World;
 
 namespace MouseAttack.Action
 {
     public class CommonActionData : Resource
     {
         [Export]
-        public PackedScene EffectScene;
+        public PackedScene EffectScene { get; private set; }
         [Export]
-        public PackedScene ItemScene;
+        public PackedScene ItemScene { get; private set; }
         [Export]
-        public Texture Icon;
+        public Texture Icon { get; private set; }
         [Export]
-        public float Cost;
+        public float Cost { get; private set; }
         [Export]
-        public float CooldownTimeout;
+        public float CooldownTimeout { get; private set; }
 
-        bool cooldown = false;
+        bool _cooldown = false;
+        public bool OnCooldown => _cooldown;
 
-        public virtual void Use() => StartCooldown();
-        protected void StartCooldown() => cooldown = true;
-        public void StopCooldown() => cooldown = false;
-        public bool OnCooldown() => cooldown;
-
-        public CommonAction GetEffectInstance() => EffectScene.Instance<CommonAction>();
-
+        public virtual void Use(Stage stage)
+        {
+            var instance = EffectScene.Instance<CommonAction>();
+            instance.ActionData = this;
+            stage.AddChild(instance);
+            StartCooldown();
+        }
+        protected void StartCooldown() => _cooldown = true;
+        public void StopCooldown() => _cooldown = false;
     }
 }
 
