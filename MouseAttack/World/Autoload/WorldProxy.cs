@@ -11,7 +11,7 @@ namespace MouseAttack.World.Autoload
 
         public Vector2 CastlePosition { get => _castle.Position; }
         public void RegistryGame(Game game) => _world = game.GetWorld();
-        public void RegistryCastle(Castle castle) => _castle = castle;
+        public void RegistryCastle(CastleEntity castle) => _castle = castle;
         public void AddChild(Node2D child) => _world.AddChild(child);
         public void AddChildAtMousePosition(Node2D child)
         {

@@ -9,7 +9,7 @@ namespace MouseAttack.Entity
     {
         public override void _EnterTree()
         {
-            this.MakeUnique(typeof(CommonEntity));
+            this.MakeResourcesUnique(typeof(CommonEntity));
             Connect(Signals.CollisionObject2D.MouseEntered, this, nameof(OnMouseEntered));
             Connect(Signals.CollisionObject2D.MouseExited, this, nameof(OnMouseExited));
         }
@@ -22,11 +22,15 @@ namespace MouseAttack.Entity
 
         protected virtual void OnMouseEntered()
         {
+            ToggleHoverFeedback();
         }
 
         protected virtual void OnMouseExited()
         {
+            ToggleHoverFeedback();
         }
+
+        protected abstract void ToggleHoverFeedback();
         
         protected virtual void OnRightMouseButtonClicked()
         {

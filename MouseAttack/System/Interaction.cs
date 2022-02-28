@@ -5,25 +5,35 @@ using System.Linq;
 using MouseAttack.Extensions;
 using System;
 using MouseAttack.World.Autoload;
+using MouseAttack.Entity;
+using MouseAttack.Player;
 
 namespace MouseAttack.System
 {
     public class Interaction : Node2D
     {
         [Export]
-        public NodePath ControllerPath;
+        NodePath _controllerPath = null;
         [Export]
-        public List<CommonActionData> commonActions;        
+        NodePath _playerPath = null;
+        [Export]
+        CommonActionData[] _slottedActions = new CommonActionData[5];
 
         CommonActionData _action;
+        PlayerEntity _player;
+        public void SetAction(CommonActionData action, int slot) => _slottedActions[slot] = action;
+
+        public void RemoveAction(int slot) => _slottedActions[slot] = null;
 
         public override void _Ready()
         {
-            var controller = GetNode<Controller>(ControllerPath);
+            var controller = GetNode<Controller>(_controllerPath);
             controller.LMBPressed += OnLMBPressed;
             controller.HotkeyPressed += HotkeyPressed;
 
-            _action = commonActions.First();
+            _player = GetNode<PlayerEntity>(_playerPath);
+
+            _action = _slottedActions.First();
         }
 
         async private void OnLMBPressed(object sender, EventArgs e)
@@ -32,6 +42,11 @@ namespace MouseAttack.System
             if (_action.OnCooldown())
                 return;
 
+            if (!_player.HasEnoughMana(_action.Cost))
+                return;
+
+            _player.UseMana(_action.Cost);
+            
             CommonAction effectScene = _action.GetEffectInstance();
             var worldProxy = this.GetAutoload<WorldProxy>();
             worldProxy.AddChildAtMousePosition(effectScene);
@@ -47,10 +62,12 @@ namespace MouseAttack.System
         {
             // Select Action
             var hotkey = e.Hotkey;
-            if (hotkey >= commonActions.Count)
+            if (hotkey >= _slottedActions.Length)
                 return;
 
-            _action = commonActions[hotkey];
+            _action = _slottedActions[hotkey];
         }
+
+
     }
 }

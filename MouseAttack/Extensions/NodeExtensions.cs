@@ -16,7 +16,7 @@ namespace MouseAttack.Extensions
             return node.GetNode<T>(path);
         }
 
-        public static void MakeUnique(this Node node, Type baseType)
+        public static void MakeResourcesUnique(this Node node, Type baseType)
         {
             var type = node.GetType();
 
@@ -24,8 +24,7 @@ namespace MouseAttack.Extensions
             {
                 var fields = type.GetFields(BindingFlags.Instance | BindingFlags.NonPublic)
                     .Where(f => f.IsDefined(typeof(MakeUniqueAttribute), false));
-
-                Console.WriteLine(fields.Count());
+                
                 // Find fields that have a copy-constructor
                 // instantiate the copy
                 // set the copy as the new value

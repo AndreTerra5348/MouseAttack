@@ -11,13 +11,13 @@ namespace MouseAttack.Entity.Monster
     {
         [Export]
         [MakeUnique]
-        StatsData _movementSpeed;
+        StatsData _movementSpeed = null;
         [Export]
         [MakeUnique]
-        StatsData _damage;
+        StatsData _damage = null;
         [Export]
         [MakeUnique]
-        StatsData _defense;
+        StatsData _defense = null;
 
         WorldProxy _worldProxy;
 
@@ -39,14 +39,9 @@ namespace MouseAttack.Entity.Monster
             // Hit feedback
         }
 
-        protected override void OnMouseEntered()
+        protected override void ToggleHoverFeedback()
         {
-            // Enable Hover feedback
-        }
-
-        protected override void OnMouseExited()
-        {
-            // Disable Hover feedback
+            // Hover feedback
         }
 
         async protected override void OnDeath()
@@ -57,6 +52,7 @@ namespace MouseAttack.Entity.Monster
             await ToSignal(GetTree().CreateTimer(0.5f), Signals.Timer.Timeout);
             QueueFree();
         }
+        
     }
 }
 

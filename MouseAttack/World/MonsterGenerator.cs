@@ -13,9 +13,9 @@ namespace MouseAttack.World
     public class MonsterGenerator : Node2D
     {
         [Export]
-        List<PackedScene> _monsters;
+        List<PackedScene> _monsters = null;
         [Export]
-        NodePath _spawnPathFollowPath;
+        NodePath _spawnPathFollowPath = null;
 
         int _currentLevel = 0;
         Random _random = new Random();
