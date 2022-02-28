@@ -1,7 +1,7 @@
 [gd_resource type="Resource" load_steps=3 format=2]
 
-[ext_resource path="res://MouseAttack/Action/DamageActionData.cs" type="Script" id=1]
-[ext_resource path="res://MouseAttack/Action/DamageAction.tscn" type="PackedScene" id=2]
+[ext_resource path="res://MouseAttack/Action/DamageAction.cs" type="Script" id=1]
+[ext_resource path="res://MouseAttack/Action/DamageEffect.tscn" type="PackedScene" id=2]
 
 [resource]
 script = ExtResource( 1 )
@@ -9,4 +9,4 @@ EffectScene = ExtResource( 2 )
 Cost = 1.0
 CooldownTimeout = 0.1
 Radius = 10.0
-Damage = 2.0
+Damage = 5.0

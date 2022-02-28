@@ -2,7 +2,7 @@ using Godot;
 
 namespace MouseAttack.Action
 {
-    public class WorldAction : CommonAction
+    public class CollidableEffect : CommonEffect
     {
         [Export]
         public NodePath Area2DPath;
@@ -10,10 +10,10 @@ namespace MouseAttack.Action
         public override void _Ready()
         {
             base._Ready();
-            var worldActionData = ActionData as WorldActionData;
+            var collidableAction = CommonAction as CollidableAction;
             var area2d = GetNode<Area2D>(Area2DPath);
             var shape = area2d.ShapeOwnerGetShape(0, 0) as CircleShape2D;
-            shape.Radius = worldActionData.Radius;
+            shape.Radius = collidableAction.Radius;
 
             area2d.Connect(Signals.Area2D.BodyEntered, this, nameof(OnBodyEntered));
         }

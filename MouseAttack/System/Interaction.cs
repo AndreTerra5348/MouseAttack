@@ -13,9 +13,9 @@ namespace MouseAttack.System
         [Export]
         NodePath _controllerPath = null;
         [Export]
-        CommonActionData[] _slottedActions = new CommonActionData[5];
+        CommonAction[] _slottedActions = new CommonAction[5];
 
-        CommonActionData _action;
+        CommonAction _action;
         Stage _stage;
 
 
@@ -57,7 +57,7 @@ namespace MouseAttack.System
             _action = _slottedActions[hotkey];
         }
 
-        public void SetAction(CommonActionData action, int slot) => _slottedActions[slot] = action;
+        public void SetAction(CommonAction action, int slot) => _slottedActions[slot] = action;
         public void RemoveAction(int slot) => _slottedActions[slot] = null;
 
 

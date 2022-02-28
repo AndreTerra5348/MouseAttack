@@ -2,7 +2,7 @@ using Godot;
 
 namespace MouseAttack.Action
 {
-    public class WorldActionData : CommonActionData
+    public class CollidableAction : CommonAction
     {
         [Export]
         public float Radius = 10;
