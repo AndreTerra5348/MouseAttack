@@ -1,5 +1,6 @@
 using Godot;
 using MouseAttack.Entity.Castle;
+using MouseAttack.MonsterSystem;
 using MouseAttack.Player;
 using System;
 
@@ -8,6 +9,7 @@ namespace MouseAttack.World
     public class Stage : Node2D
     {
         public event EventHandler LevelFinished;
+
         [Export]
         NodePath _monsterGeneratorPath = null;
         [Export]

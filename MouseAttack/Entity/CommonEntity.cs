@@ -9,7 +9,7 @@ namespace MouseAttack.Entity
     {
         public override void _EnterTree()
         {
-            this.MakeResourcesCopy(typeof(CommonEntity));
+            MakeCopyGenerator.Generate(this, typeof(CommonEntity));
             Connect(Signals.CollisionObject2D.MouseEntered, this, nameof(OnMouseEntered));
             Connect(Signals.CollisionObject2D.MouseExited, this, nameof(OnMouseExited));
         }

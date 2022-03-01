@@ -6,7 +6,7 @@ using System;
 
 namespace MouseAttack.Player
 {
-    public class PlayerEntity : Node2D, IResourceRegenerable
+    public class PlayerEntity : Node, IResourceRegenerable
     {
         [Export]
         [MakeCopy]
@@ -17,7 +17,18 @@ namespace MouseAttack.Player
         [Export]
         [MakeCopy]
         public Stats Damage { get; private set; }
+        [Export]
+        [MakeCopy]
+        public Stats CriticalRate { get; private set; }
+        [Export]
+        [MakeCopy]
+        public Stats CriticalDamage { get; private set; }
+
         public bool IsResourceFull => Mana.IsFull;
+
+        public bool IsCritical => CriticalRate.Value <= _random.Next(100);
+
+        Random _random = new Random();
 
         public event EventHandler ResourceUsed;
 

@@ -1,4 +1,4 @@
-[gd_scene load_steps=16 format=2]
+[gd_scene load_steps=20 format=2]
 
 [ext_resource path="res://MouseAttack/System/Controller.cs" type="Script" id=1]
 [ext_resource path="res://MouseAttack/System/Interaction.cs" type="Script" id=2]
@@ -7,13 +7,17 @@
 [ext_resource path="res://MouseAttack/Action/Data/SimpleDamageAction.tres" type="Resource" id=5]
 [ext_resource path="res://MouseAttack/Entity/Castle/CastleEntity.tscn" type="PackedScene" id=6]
 [ext_resource path="res://MouseAttack/Player/ManaRegen.tres" type="Resource" id=7]
-[ext_resource path="res://MouseAttack/World/MonsterGenerator.cs" type="Script" id=8]
+[ext_resource path="res://MouseAttack/MonsterSystem/MonsterGenerator.cs" type="Script" id=8]
 [ext_resource path="res://MouseAttack/Player/Mana.tres" type="Resource" id=9]
 [ext_resource path="res://MouseAttack/Player/PlayerEntity.cs" type="Script" id=10]
 [ext_resource path="res://MouseAttack/World/Stage.cs" type="Script" id=11]
 [ext_resource path="res://MouseAttack/Entity/Castle/Health.tres" type="Resource" id=12]
 [ext_resource path="res://MouseAttack/Entity/Castle/HealthRegen.tres" type="Resource" id=13]
 [ext_resource path="res://MouseAttack/Entity/Castle/Defense.tres" type="Resource" id=14]
+[ext_resource path="res://MouseAttack/Player/CriticalRate.tres" type="Resource" id=15]
+[ext_resource path="res://MouseAttack/Player/CriticalDanage.tres" type="Resource" id=16]
+[ext_resource path="res://MouseAttack/MonsterSystem/SpawnPathFollow2D.cs" type="Script" id=17]
+[ext_resource path="res://MouseAttack/MonsterSystem/MonsterProgressor.cs" type="Script" id=18]
 
 [sub_resource type="Curve2D" id=1]
 _data = {
@@ -22,27 +26,36 @@ _data = {
 
 [node name="Stage" type="Node2D"]
 script = ExtResource( 11 )
-_monsterGeneratorPath = NodePath("MonsterGenerator")
+_monsterGeneratorPath = NodePath("MonsterSystem/MonsterGenerator")
 _playerPath = NodePath("PlayerEntity")
 _castlePath = NodePath("CastleEntity")
 
-[node name="MonsterGenerator" type="Node2D" parent="."]
+[node name="MonsterSystem" type="Node" parent="."]
+
+[node name="MonsterGenerator" type="Node" parent="MonsterSystem"]
 script = ExtResource( 8 )
 _monsters = [ ExtResource( 3 ) ]
-_spawnPathFollowPath = NodePath("MobSpawnPath2D/MobSpawnPathFollow2D")
+_spawnPathFollowPath = NodePath("SpawnPath2D/SpawnPathFollow2D")
 
-[node name="MobSpawnPath2D" type="Path2D" parent="MonsterGenerator"]
+[node name="SpawnPath2D" type="Path2D" parent="MonsterSystem/MonsterGenerator"]
 curve = SubResource( 1 )
 
-[node name="MobSpawnPathFollow2D" type="PathFollow2D" parent="MonsterGenerator/MobSpawnPath2D"]
+[node name="SpawnPathFollow2D" type="PathFollow2D" parent="MonsterSystem/MonsterGenerator/SpawnPath2D"]
 position = Vector2( -33, -60 )
 rotation = -0.00455819
+script = ExtResource( 17 )
 
-[node name="PlayerEntity" type="Node2D" parent="."]
+[node name="MonsterProgressor" type="Node" parent="MonsterSystem"]
+script = ExtResource( 18 )
+_monsterGeneratorPath = NodePath("../MonsterGenerator")
+
+[node name="PlayerEntity" type="Node" parent="."]
 script = ExtResource( 10 )
 Mana = ExtResource( 9 )
 ManaRegen = ExtResource( 7 )
 Damage = ExtResource( 4 )
+CriticalRate = ExtResource( 15 )
+CriticalDamage = ExtResource( 16 )
 
 [node name="CastleEntity" parent="." instance=ExtResource( 6 )]
 position = Vector2( 512, 300 )
@@ -52,10 +65,10 @@ Defense = ExtResource( 14 )
 
 [node name="System" type="Node" parent="."]
 
-[node name="Controller" type="Node2D" parent="System"]
+[node name="Controller" type="Node" parent="System"]
 script = ExtResource( 1 )
 
-[node name="Interaction" type="Node2D" parent="System"]
+[node name="Interaction" type="Node" parent="System"]
 script = ExtResource( 2 )
 _controllerPath = NodePath("../Controller")
 _slottedActions = [ ExtResource( 5 ), null, null, null, null ]

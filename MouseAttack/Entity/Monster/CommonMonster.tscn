@@ -16,6 +16,9 @@ Health = ExtResource( 6 )
 MovementSpeed = ExtResource( 5 )
 Damage = ExtResource( 7 )
 Defense = ExtResource( 4 )
+CriticalRate = null
+CriticalDamage = null
+t = null
 
 [node name="CollisionShape2D" parent="." index="0"]
 shape = SubResource( 1 )

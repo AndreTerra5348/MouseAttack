@@ -2,30 +2,36 @@
 using MouseAttack.Entity.Castle;
 using MouseAttack.Entity.Monster;
 using MouseAttack.Extensions;
+using MouseAttack.World;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace MouseAttack.World
+namespace MouseAttack.MonsterSystem
 {
-    public class MonsterGenerator : Node2D
+    public class MonsterSpawnedEventArgs : EventArgs
     {
+        public readonly CommonMonster Monster;
+        public MonsterSpawnedEventArgs(CommonMonster monster) => Monster = monster;
+    }
+
+    public class MonsterGenerator : Node
+    {
+        public event EventHandler<MonsterSpawnedEventArgs> MonsterSpawned;
+
         [Export]
         List<PackedScene> _monsters = null;
         [Export]
         NodePath _spawnPathFollowPath = null;
 
-        int _currentLevel = 0;
         int _monsterCount = 0;
-        Random _random = new Random();
-        PathFollow2D _pathFollow2d = null;
-        Stage _stage = null;
-
+        Stage _stage = null;      
+        SpawnPathFollow2D _spawnPathFollow2d = null;
         public override void _Ready()
         {
-            _pathFollow2d = GetNode<PathFollow2D>(_spawnPathFollowPath);
+            _spawnPathFollow2d = GetNode<SpawnPathFollow2D>(_spawnPathFollowPath);
             _stage = this.GetStage();
         }
 
@@ -45,12 +51,12 @@ namespace MouseAttack.World
         {
             for(int i = 0; i < _stage.Level; i++)
             {
-                _pathFollow2d.Offset = _random.Next();
                 var instance = _monsters[i].Instance<CommonMonster>();
                 _stage.AddChild(instance);
                 _monsterCount++;
                 instance.Health.Depleted += (object sender, EventArgs e) => _monsterCount--;
-                instance.Position = _pathFollow2d.Position;
+                instance.Position = _spawnPathFollow2d.RandomPosition;
+                MonsterSpawned?.Invoke(this, new MonsterSpawnedEventArgs(instance));
             }            
         }
     }

@@ -3,8 +3,7 @@ using System;
 
 namespace MouseAttack.System
 {
-
-    public class Controller : Node2D
+    public class Controller : Node
     {
         public class HotkeyPressedEventArgs : EventArgs
         {

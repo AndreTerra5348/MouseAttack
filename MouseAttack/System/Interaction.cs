@@ -8,7 +8,7 @@ using MouseAttack.World;
 
 namespace MouseAttack.System
 {
-    public class Interaction : Node2D
+    public class Interaction : Node
     {
         [Export]
         NodePath _controllerPath = null;
