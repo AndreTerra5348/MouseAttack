@@ -6,8 +6,26 @@ using System.Runtime.CompilerServices;
 
 namespace MouseAttack.Character
 {
+    public enum StatsType
+    {
+        None,
+        Health,
+        HealthRegen,
+        Mana,
+        ManaRegen,
+        Damage,
+        Defense,
+        CriticalRate,
+        CriticalDamage,
+        MovementSpeed,
+        CooldownReducion,
+    }
+
     public class Stats : ObservableResource
     {
+
+        [Export]
+        public StatsType Type { get; private set; } = StatsType.None;
 
         float _valuePerPoint = 1.0f;
         [Export]
@@ -57,6 +75,7 @@ namespace MouseAttack.Character
         {
             ValuePerPoint = stats.ValuePerPoint;
             Points = stats.Points;
+            Type = stats.Type;
         }
 
         public void AddAlteredValue(float value) => _alteredValue += value;

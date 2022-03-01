@@ -9,7 +9,7 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace MouseAttack.Entity
-{
+{    
     public abstract class CommonAliveEntity : CommonEntity, IResourceRegenerable
     {
         public event EventHandler ResourceUsed;
@@ -17,6 +17,8 @@ namespace MouseAttack.Entity
         [Export]
         [MakeCopy]
         public ResourcePool Health { get; private set; }
+
+        public Dictionary<StatsType, Stats> StatsMap { get; private set; }
 
         public bool IsDead { get => Health.IsDepleted; }
 
@@ -26,6 +28,7 @@ namespace MouseAttack.Entity
         {
             base._EnterTree();
             Health.Depleted += OnHealthDepleted;
+            StatsMap = StatsMapBuilder.Build(this);
         }
 
         private void OnHealthDepleted(object sender, EventArgs e)
