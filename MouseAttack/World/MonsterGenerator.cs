@@ -18,6 +18,7 @@ namespace MouseAttack.World
         NodePath _spawnPathFollowPath = null;
 
         int _currentLevel = 0;
+        int _monsterCount = 0;
         Random _random = new Random();
         PathFollow2D _pathFollow2d = null;
         Stage _stage = null;
@@ -28,21 +29,29 @@ namespace MouseAttack.World
             _stage = this.GetStage();
         }
 
-        public override void _Input(InputEvent @event)
+        public override void _Process(float delta)
         {
-            if(@event.IsActionPressed("ui_accept"))
-                for (int i = 0; i < 10; i++)
-                    Spawn();
+            base._Process(delta);
+            if (_monsterCount > 0)
+                return;
+            for (int i  = 0; i < _stage.Wave; i++)
+            {
+                Spawn();
+            }
+            _stage.NextWave();
         }
 
         void Spawn()
         {
-            _pathFollow2d.Offset = _random.Next();
-
-            var instance = _monsters[_currentLevel].Instance<CommonMonster>();
-            _stage.AddChild(instance);
-            instance.Position = _pathFollow2d.Position;
+            for(int i = 0; i < _stage.Level; i++)
+            {
+                _pathFollow2d.Offset = _random.Next();
+                var instance = _monsters[i].Instance<CommonMonster>();
+                _stage.AddChild(instance);
+                _monsterCount++;
+                instance.Health.Depleted += (object sender, EventArgs e) => _monsterCount--;
+                instance.Position = _pathFollow2d.Position;
+            }            
         }
-
     }
 }

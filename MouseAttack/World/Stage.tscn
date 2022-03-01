@@ -1,4 +1,4 @@
-[gd_scene load_steps=15 format=2]
+[gd_scene load_steps=16 format=2]
 
 [ext_resource path="res://MouseAttack/System/Controller.cs" type="Script" id=1]
 [ext_resource path="res://MouseAttack/System/Interaction.cs" type="Script" id=2]
@@ -13,6 +13,7 @@
 [ext_resource path="res://MouseAttack/World/Stage.cs" type="Script" id=11]
 [ext_resource path="res://MouseAttack/Entity/Castle/Health.tres" type="Resource" id=12]
 [ext_resource path="res://MouseAttack/Entity/Castle/HealthRegen.tres" type="Resource" id=13]
+[ext_resource path="res://MouseAttack/Entity/Castle/Defense.tres" type="Resource" id=14]
 
 [sub_resource type="Curve2D" id=1]
 _data = {
@@ -44,9 +45,10 @@ ManaRegen = ExtResource( 7 )
 Damage = ExtResource( 4 )
 
 [node name="CastleEntity" parent="." instance=ExtResource( 6 )]
-position = Vector2( 464, 272 )
+position = Vector2( 512, 300 )
 Health = ExtResource( 12 )
 HealthRegen = ExtResource( 13 )
+Defense = ExtResource( 14 )
 
 [node name="System" type="Node" parent="."]
 

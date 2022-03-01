@@ -1,8 +1,8 @@
 [gd_resource type="Resource" load_steps=2 format=2]
 
-[ext_resource path="res://MouseAttack/Character/ResourceData.cs" type="Script" id=1]
+[ext_resource path="res://MouseAttack/Character/ResourcePool.cs" type="Script" id=1]
 
 [resource]
 script = ExtResource( 1 )
 ValuePerPoint = 1.0
-Points = 10
+Points = 1

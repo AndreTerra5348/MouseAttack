@@ -42,7 +42,6 @@ namespace MouseAttack.Extensions
                 var properties = type.GetProperties(bindingFlags)
                     .Where(f => f.IsDefined(typeof(MakeCopyAttribute), false));
 
-                Console.WriteLine(properties.Count());
                 // Find properties that have a copy-constructor
                 // instantiate the copy
                 // set the copy as the new value

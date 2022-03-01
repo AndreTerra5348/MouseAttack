@@ -3,7 +3,7 @@ using System;
 
 namespace MouseAttack.Character
 {
-    public class ResourceData : StatsData
+    public class ResourcePool : Stats
     {
         public event EventHandler Depleted;
 
@@ -24,12 +24,12 @@ namespace MouseAttack.Character
         public bool IsDepleted { get => CurrentValue <= 0; }
         public bool IsFull { get => CurrentValue == Value; }
 
-        public ResourceData()
+        public ResourcePool()
         {
             Reset();
         }
 
-        public ResourceData(ResourceData resourceData) : base(resourceData)
+        public ResourcePool(ResourcePool resourcePool) : base(resourcePool)
         {
             Reset();
         }

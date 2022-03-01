@@ -10,15 +10,16 @@ namespace MouseAttack.Entity.Monster
 {
     public class CommonMonster : CommonAliveEntity
     {
+        public event EventHandler Freed;
         [Export]
         [MakeCopy]
-        public StatsData MovementSpeed { get; private set; }
+        public Stats MovementSpeed { get; private set; }
         [Export]
         [MakeCopy]
-        public StatsData Damage { get; private set; }
+        public Stats Damage { get; private set; }
         [Export]
         [MakeCopy]
-        public StatsData Defense { get; private set; }
+        public Stats Defense { get; private set; }
 
         Stage _stage;
 
@@ -51,6 +52,7 @@ namespace MouseAttack.Entity.Monster
 
             // TODO: change to await for the animation to finish
             await ToSignal(GetTree().CreateTimer(0.5f), Signals.Timer.Timeout);
+            Freed?.Invoke(this, EventArgs.Empty);
             QueueFree();
         }
         

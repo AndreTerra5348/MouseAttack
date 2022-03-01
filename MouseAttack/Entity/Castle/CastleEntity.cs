@@ -11,7 +11,10 @@ namespace MouseAttack.Entity.Castle
     {
         [Export]
         [MakeCopy]
-        public StatsData HealthRegen { get; private set; }
+        public Stats HealthRegen { get; private set; }
+        [Export]
+        [MakeCopy]
+        public Stats Defense { get; private set; }
 
         public override void _Ready()
         {

@@ -1,25 +1,32 @@
 ﻿using Godot;
 using MouseAttack.Entity.Monster;
+using MouseAttack.Extensions;
+using MouseAttack.World;
 
 namespace MouseAttack.Action
 {
     public class DamageEffect : CollidableEffect
     {
-        DamageAction _damageActionData;
-
+        Stage _stage;
         public override void _Ready()
         {
             base._Ready();
             Position = GetViewport().GetMousePosition();
+            _stage = this.GetStage();
         }
+
         protected override void OnBodyEntered(Node body)
-        {
-            var enemy = body as CommonMonster;
-            if (enemy == null)
+        {            
+            var monster = body as CommonMonster;
+            if (monster == null || monster.IsDead)
                 return;
 
             var damageAction = CommonAction as DamageAction;
-            enemy.Hit(damageAction.Damage);
+            var playerDamage = _stage.Player.Damage.Value;
+            var skillDamage = damageAction.Damage;
+            var monsterDefense = monster.Defense.Value;
+            var finalDamage = playerDamage + skillDamage - monsterDefense;
+            monster.Hit(finalDamage < 0 ? 0 : finalDamage);
         }
     }
 }

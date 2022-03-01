@@ -12,11 +12,11 @@ namespace MouseAttack.Entity
 {
     public abstract class CommonAliveEntity : CommonEntity, IResourceRegenerable
     {
+        public event EventHandler ResourceUsed;
+
         [Export]
         [MakeCopy]
-        public ResourceData Health { get; private set; }
-
-        public event EventHandler ResourceUsed;
+        public ResourcePool Health { get; private set; }
 
         public bool IsDead { get => Health.IsDepleted; }
 
@@ -36,6 +36,8 @@ namespace MouseAttack.Entity
 
         public void Hit(float damage)
         {
+            if (IsDead)
+                return;
             Health.Use(damage);
             ResourceUsed?.Invoke(this, EventArgs.Empty);
             OnHit();

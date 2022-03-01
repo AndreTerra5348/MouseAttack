@@ -10,13 +10,13 @@ namespace MouseAttack.Player
     {
         [Export]
         [MakeCopy]
-        public ResourceData Mana { get; private set; }
+        public ResourcePool Mana { get; private set; }
         [Export]
         [MakeCopy]
-        public StatsData ManaRegen { get; private set; }
+        public Stats ManaRegen { get; private set; }
         [Export]
         [MakeCopy]
-        public StatsData Damage { get; private set; }
+        public Stats Damage { get; private set; }
         public bool IsResourceFull => Mana.IsFull;
 
         public event EventHandler ResourceUsed;
