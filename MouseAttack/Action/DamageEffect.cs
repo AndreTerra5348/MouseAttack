@@ -16,10 +16,11 @@ namespace MouseAttack.Action
         }
 
         protected override void OnBodyEntered(Node body)
-        {            
-            var monster = body as CommonMonster;
-            if (monster == null || monster.IsDead)
+        {
+            MonsterEntity monster = body as MonsterEntity;
+            if (monster == null)
                 return;
+            MonsterCharacter monsterCharacter = monster.Character;
 
             var damageAction = CommonAction as DamageAction;
             var isCritical = _stage.Player.IsCritical;
@@ -27,9 +28,9 @@ namespace MouseAttack.Action
             var playerCriticalDamage = _stage.Player.CriticalDamage.Value;
             playerDamage = isCritical ? playerDamage * playerCriticalDamage : playerDamage;
             var skillDamage = damageAction.Damage;
-            var monsterDefense = monster.Defense.Value;
+            var monsterDefense = monsterCharacter.Defense.Value;
             var finalDamage = playerDamage + skillDamage - monsterDefense;
-            monster.Hit(finalDamage < 0 ? 0 : finalDamage);
+            monsterCharacter.Hit(finalDamage < 0 ? 0 : finalDamage);
         }
     }
 }

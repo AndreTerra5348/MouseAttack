@@ -1,5 +1,5 @@
 ﻿using Godot;
-using MouseAttack.Character;
+using MouseAttack.Characteristic;
 using MouseAttack.Entity.Monster;
 using MouseAttack.Extensions;
 using MouseAttack.World;
@@ -26,7 +26,7 @@ namespace MouseAttack.MonsterSystem
             { StatsType.CriticalDamage, 0.01f },
         };
 
-        List<KeyValuePair<StatsType, float>> _applicableBonuses = new List<KeyValuePair<StatsType, float>>();
+        Dictionary<StatsType, float> _applicableBonuses = new Dictionary<StatsType, float>();
 
         Random _random = new Random();
         Stage _stage;
@@ -42,31 +42,25 @@ namespace MouseAttack.MonsterSystem
 
         private void OnMonsterSpawned(object sender, MonsterSpawnedEventArgs e)
         {
-            CommonMonster monster = e.Monster;
+            MonsterEntity monster = e.Monster;
+            MonsterCharacter monsterCharacter = monster.Character;
             foreach (var item in _applicableBonuses)
             {
-                Stats stats = monster.StatsMap[item.Key];
+                Stats stats = monsterCharacter.StatsMap[item.Key];
                 stats.SetAlteredPercentage(item.Value);
             }
         }
 
         private void OnLevelFinished(object sender, EventArgs e)
         {
-            var stats = GetStats();
-            var value = GetPercentage(stats);
-            _applicableBonuses.Add(new KeyValuePair<StatsType, float>(stats, value));
+            AddApplicableBonuses();
         }
-
-        private StatsType GetStats()
+        private void AddApplicableBonuses()
         {
-            Array values = _baseBonus.Keys.ToArray();
-            return (StatsType)values.GetValue(_random.Next(values.Length));
-        }
-
-        private float GetPercentage(StatsType stats)
-        {
-            var bonusMultiplier = _stage.Wave;
-            return _baseBonus[stats] * bonusMultiplier;
+            Array keys = _baseBonus.Keys.ToArray();
+            var stats = (StatsType)keys.GetValue(_random.Next(keys.Length));
+            var value = _baseBonus[stats] * _stage.Wave;
+            _applicableBonuses[stats] = value;
         }
 
     }

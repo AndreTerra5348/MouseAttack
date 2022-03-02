@@ -4,7 +4,7 @@ using System;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 
-namespace MouseAttack.Character
+namespace MouseAttack.Characteristic
 {
     public enum StatsType
     {
@@ -21,10 +21,8 @@ namespace MouseAttack.Character
         CooldownReducion,
     }
 
-    public class Stats : ObservableResource
+    public class Stats : ObservableNode
     {
-
-        [Export]
         public StatsType Type { get; private set; } = StatsType.None;
 
         float _valuePerPoint = 1.0f;
@@ -59,31 +57,25 @@ namespace MouseAttack.Character
         { 
             get
             {
-                var value = Points * ValuePerPoint + _alteredValue + _skillAlteredValue;
+                var value = Points * ValuePerPoint + _alteredValue;
                 return value + (value * _alteredPercentage);
             }
         }
         private float _alteredValue = 0;
         private float _alteredPercentage = 0;
-        private float _skillAlteredValue = 0;
 
-        public Stats()
+        public override void _Ready()
         {
-        }
-
-        public Stats(Stats stats)
-        {
-            ValuePerPoint = stats.ValuePerPoint;
-            Points = stats.Points;
-            Type = stats.Type;
+            if (Enum.TryParse<StatsType>(Name, out StatsType type))
+                Type = type;
+            else
+                GD.PrintErr($"Stats {Name} is not part of StatsType");
         }
 
         public void AddAlteredValue(float value) => _alteredValue += value;
         public void RemoveAlteredValue(float value) => _alteredValue -= value;
         public void SetAlteredPercentage(float value) => _alteredPercentage = value;
         public void ResetAlteredPercentage() => _alteredPercentage = 0;
-        public void AddSkillAlteredValue(float value) => _skillAlteredValue += value;
-        public void RemoveSkillAlteredValue(float value) => _skillAlteredValue -= value;
         public void AddPoint(int value = 1) => Points += value;
         public void RemovePoint(int value = 1) => Points -= value;       
 

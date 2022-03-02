@@ -1,7 +1,7 @@
 using Godot;
 using MouseAttack.Entity.Castle;
+using MouseAttack.Entity.Player;
 using MouseAttack.MonsterSystem;
-using MouseAttack.Player;
 using System;
 
 namespace MouseAttack.World
@@ -10,15 +10,8 @@ namespace MouseAttack.World
     {
         public event EventHandler LevelFinished;
 
-        [Export]
-        NodePath _monsterGeneratorPath = null;
-        [Export]
-        NodePath _playerPath = null;
-        [Export]
-        NodePath _castlePath = null;
-
         public MonsterGenerator MonsterGenerator { get;  private set; }
-        public PlayerEntity Player { get; private set; }
+        public PlayerCharacter Player { get; private set; }
         public CastleEntity Castle { get; private set; }
 
         public int Wave { get; private set; } = 1;
@@ -28,16 +21,20 @@ namespace MouseAttack.World
         public override void _Ready()
         {
             base._Ready();
-            MonsterGenerator = GetNode<MonsterGenerator>(_monsterGeneratorPath);
-            Player = GetNode<PlayerEntity>(_playerPath);
-            Castle = GetNode<CastleEntity>(_castlePath);
+            MonsterGenerator = GetNode<MonsterGenerator>(nameof(MonsterGenerator));
+            Player = GetNode<PlayerCharacter>(nameof(PlayerCharacter));
+            Castle = GetNode<CastleEntity>(nameof(CastleEntity));
         }
 
         public void NextWave()
         {
             Wave++;
             if (Wave == _wavesPerLevel)
+            {
                 LevelFinished?.Invoke(this, EventArgs.Empty);
+                NextLevel();
+            }
+                
         }
 
         public void NextLevel()

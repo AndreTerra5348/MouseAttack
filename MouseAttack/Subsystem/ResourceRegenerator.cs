@@ -1,5 +1,5 @@
 using Godot;
-using MouseAttack.Character;
+using MouseAttack.Characteristic;
 using System;
 
 namespace MouseAttack.Subsystem

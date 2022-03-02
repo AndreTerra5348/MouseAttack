@@ -3,62 +3,71 @@ using MouseAttack.Action;
 using System.Linq;
 using MouseAttack.Extensions;
 using System;
-using MouseAttack.Player;
 using MouseAttack.World;
+using MouseAttack.Misc;
 
 namespace MouseAttack.System
 {
-    public class Interaction : Node
+    public class Interaction : ObservableNode
     {
         [Export]
-        NodePath _controllerPath = null;
-        [Export]
-        CommonAction[] _slottedActions = new CommonAction[5];
+        public CommonAction[] SlottedActions { get; private set; } = new CommonAction[5];
 
         CommonAction _action;
+        public CommonAction Action
+        {
+            set
+            {
+                if (_action == value)
+                    return;
+                _action = value;
+                OnPropertyChanged();
+            }
+            get => _action;
+        }
         Stage _stage;
 
 
         public override void _Ready()
         {
-            var controller = GetNode<Controller>(_controllerPath);
+            var controller = GetNode<Controller>(nameof(Controller));
             controller.LMBPressed += OnLMBPressed;
             controller.HotkeyPressed += HotkeyPressed;
 
             _stage = this.GetStage();
-            _action = _slottedActions.First();
+            Action = SlottedActions.First();
         }
 
         async private void OnLMBPressed(object sender, EventArgs e)
         {
             // Use Action
-            if (_action.OnCooldown)
+            if (Action.OnCooldown)
                 return;
 
-            if (!_stage.Player.HasEnoughMana(_action.Cost))
+            if (!_stage.Player.HasEnoughMana(Action.Cost))
                 return;
 
-            _stage.Player.UseMana(_action.Cost);
+            _stage.Player.UseMana(Action.Cost);
             
-            _action.Use(_stage);
+            Action.Use(_stage);
 
-            await ToSignal(GetTree().CreateTimer(_action.CooldownTimeout), Signals.Timer.Timeout);
+            await ToSignal(GetTree().CreateTimer(Action.CooldownTimeout), Signals.Timer.Timeout);
 
-            _action.StopCooldown();
+            Action.StopCooldown();
         }
 
         private void HotkeyPressed(object sender, Controller.HotkeyPressedEventArgs e)
         {
             // Select Action
             var hotkey = e.Hotkey;
-            if (hotkey >= _slottedActions.Length)
+            if (hotkey >= SlottedActions.Length)
                 return;
 
-            _action = _slottedActions[hotkey];
+            Action = SlottedActions[hotkey];
         }
 
-        public void SetAction(CommonAction action, int slot) => _slottedActions[slot] = action;
-        public void RemoveAction(int slot) => _slottedActions[slot] = null;
+        public void SetAction(CommonAction action, int slot) => SlottedActions[slot] = action;
+        public void RemoveAction(int slot) => SlottedActions[slot] = null;
 
 
     }

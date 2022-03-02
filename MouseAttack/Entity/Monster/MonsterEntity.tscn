@@ -1,0 +1,35 @@
+[gd_scene load_steps=6 format=2]
+
+[ext_resource path="res://MouseAttack/Entity/Monster/MonsterEntity.cs" type="Script" id=2]
+[ext_resource path="res://MouseAttack/Entity/Monster/MonsterCharacter.cs" type="Script" id=3]
+[ext_resource path="res://MouseAttack/Characteristic/ResourcePool.cs" type="Script" id=4]
+[ext_resource path="res://MouseAttack/Characteristic/Stats.cs" type="Script" id=5]
+
+[sub_resource type="CircleShape2D" id=1]
+
+[node name="KinematicBody2D" type="KinematicBody2D"]
+script = ExtResource( 2 )
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource( 1 )
+
+[node name="MonsterCharacter" type="Node" parent="."]
+script = ExtResource( 3 )
+
+[node name="Health" type="Node" parent="MonsterCharacter"]
+script = ExtResource( 4 )
+
+[node name="Damage" type="Node" parent="MonsterCharacter"]
+script = ExtResource( 5 )
+
+[node name="Defense" type="Node" parent="MonsterCharacter"]
+script = ExtResource( 5 )
+
+[node name="CriticalRate" type="Node" parent="MonsterCharacter"]
+script = ExtResource( 5 )
+
+[node name="CriticalDamage" type="Node" parent="MonsterCharacter"]
+script = ExtResource( 5 )
+
+[node name="MovementSpeed" type="Node" parent="MonsterCharacter"]
+script = ExtResource( 5 )

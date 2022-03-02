@@ -1,7 +1,7 @@
 using Godot;
 using System;
 
-namespace MouseAttack.Character
+namespace MouseAttack.Characteristic
 {
     public class ResourcePool : Stats
     {
@@ -24,13 +24,10 @@ namespace MouseAttack.Character
         public bool IsDepleted { get => CurrentValue <= 0; }
         public bool IsFull { get => CurrentValue == Value; }
 
-        public ResourcePool()
-        {
-            Reset();
-        }
 
-        public ResourcePool(ResourcePool resourcePool) : base(resourcePool)
+        public override void _Ready()
         {
+            base._Ready();
             Reset();
         }
 

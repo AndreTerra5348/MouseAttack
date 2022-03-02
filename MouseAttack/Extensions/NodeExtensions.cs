@@ -1,11 +1,7 @@
 ﻿using Godot;
 using System;
-using System.Linq;
-using System.Reflection;
 using MouseAttack.Misc;
 using MouseAttack.World;
-using MouseAttack.Entity.Castle;
-using MouseAttack.Player;
 
 namespace MouseAttack.Extensions
 {

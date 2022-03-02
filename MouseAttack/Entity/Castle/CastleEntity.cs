@@ -1,50 +1,55 @@
 using Godot;
-using MouseAttack.Character;
+using MouseAttack.Characteristic;
+using MouseAttack.Entity.Monster;
 using MouseAttack.Extensions;
 using MouseAttack.Misc;
 using MouseAttack.Subsystem;
 using System;
+using System.Collections.Generic;
 
 namespace MouseAttack.Entity.Castle
 {
-    public class CastleEntity : CommonAliveEntity
+    public class CastleEntity : Area2D
     {
-        [Export]
-        [MakeCopy]
-        public Stats HealthRegen { get; private set; }
-        [Export]
-        [MakeCopy]
-        public Stats Defense { get; private set; }
+        public CastleCharacter Character { get; private set; }
 
+        public override void _EnterTree()
+        {
+            Connect(Signals.CollisionObject2D.MouseEntered, this, nameof(OnMouseEntered));
+            Connect(Signals.CollisionObject2D.MouseExited, this, nameof(OnMouseExited));            
+        }
         public override void _Ready()
         {
             base._Ready();
-            AddChild(new ResourceRegenerator(this));
+            Character = GetNode<CastleCharacter>(nameof(CastleCharacter));
+            Character.Dead += OnDeath;
+        }
+        
+
+        sealed public override void _InputEvent(Godot.Object viewport, InputEvent @event, int shapeIdx)
+        {
+            if (@event.IsActionPressed("RMB"))
+                OnRightMouseButtonClicked();
         }
 
-        protected override void OnRightMouseButtonClicked()
+        private void OnMouseEntered()
+        {
+            // Toggle Hover Feeback
+        }
+
+        private void OnMouseExited()
+        {
+            // Toggle Hover Feeback
+        }
+
+        private void OnRightMouseButtonClicked()
         {
             // Castle Menu
         }
 
-        protected override void OnDeath()
+        private void OnDeath(object sender, EventArgs e)
         {
             // Game Over
-        }
-
-        protected override void OnHit()
-        {
-            // Hit feedback
-        }
-
-        protected override void ToggleHoverFeedback()
-        {
-            // Hover Feeback
-        }
-
-        public override void Regenerate()
-        {
-            Regenerate(HealthRegen.Value);
         }
     }
 }

@@ -7,7 +7,6 @@
 
 [node name="CollidableEffect" instance=ExtResource( 1 )]
 script = ExtResource( 2 )
-Area2DPath = NodePath("Area2D")
 
 [node name="Area2D" type="Area2D" parent="." index="1"]
 
