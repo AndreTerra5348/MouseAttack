@@ -16,8 +16,10 @@ namespace MouseAttack.Entity.Castle
         public override void _EnterTree()
         {
             Connect(Signals.CollisionObject2D.MouseEntered, this, nameof(OnMouseEntered));
-            Connect(Signals.CollisionObject2D.MouseExited, this, nameof(OnMouseExited));            
-        }
+            Connect(Signals.CollisionObject2D.MouseExited, this, nameof(OnMouseExited));
+            Connect(Signals.Area2D.BodyEntered, this, nameof(OnBodyEntered));
+        }        
+
         public override void _Ready()
         {
             base._Ready();
@@ -50,6 +52,11 @@ namespace MouseAttack.Entity.Castle
         private void OnDeath(object sender, EventArgs e)
         {
             // Game Over
+        }
+
+        private void OnBodyEntered(Node body)
+        {
+
         }
     }
 }

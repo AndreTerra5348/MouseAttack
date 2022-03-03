@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace MouseAttack.Entity.Castle
 {
-    public class CastleCharacter : MortalCharacter
+    public class CastleCharacter : MortalCharacter, IDefender
     {
         public Stats HealthRegen => StatsMap[StatsType.HealthRegen];
         public Stats Defense => StatsMap[StatsType.Defense];

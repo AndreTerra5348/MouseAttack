@@ -1,4 +1,5 @@
 using Godot;
+using MouseAttack.Entity;
 using MouseAttack.World;
 
 namespace MouseAttack.Action
@@ -19,10 +20,12 @@ namespace MouseAttack.Action
         bool _cooldown = false;
         public bool OnCooldown => _cooldown;
 
-        public virtual void Use(Stage stage)
+        public virtual void Use(Stage stage, Character character, Vector2 position)
         {
             var instance = EffectScene.Instance<CommonEffect>();
             instance.CommonAction = this;
+            instance.Character = character;
+            instance.Position = position;
             stage.AddChild(instance);
             StartCooldown();
         }

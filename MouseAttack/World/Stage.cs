@@ -9,10 +9,12 @@ namespace MouseAttack.World
     public class Stage : Node2D
     {
         public event EventHandler LevelFinished;
+        public event EventHandler StageInitialized;
 
         public MonsterGenerator MonsterGenerator { get;  private set; }
-        public PlayerCharacter Player { get; private set; }
-        public CastleEntity Castle { get; private set; }
+        public MonsterProgressor MonsterProgressor { get; private set; }
+        public PlayerCharacter PlayerCharacter { get; private set; }
+        public CastleEntity CastleEntity { get; private set; }
 
         public int Wave { get; private set; } = 1;
         public int Level { get; private set; } = 1;
@@ -22,8 +24,10 @@ namespace MouseAttack.World
         {
             base._Ready();
             MonsterGenerator = GetNode<MonsterGenerator>(nameof(MonsterGenerator));
-            Player = GetNode<PlayerCharacter>(nameof(PlayerCharacter));
-            Castle = GetNode<CastleEntity>(nameof(CastleEntity));
+            PlayerCharacter = GetNode<PlayerCharacter>(nameof(PlayerCharacter));
+            CastleEntity = GetNode<CastleEntity>(nameof(CastleEntity));
+            MonsterProgressor = GetNode<MonsterProgressor>(nameof(MonsterProgressor));
+            StageInitialized?.Invoke(this, EventArgs.Empty);
         }
 
         public void NextWave()

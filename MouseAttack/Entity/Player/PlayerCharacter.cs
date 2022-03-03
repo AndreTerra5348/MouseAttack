@@ -4,7 +4,7 @@ using System;
 
 namespace MouseAttack.Entity.Player
 {
-    public class PlayerCharacter : ResourcefulCharacter
+    public class PlayerCharacter : ResourcefulCharacter, IAttacker
     {
         public Stats ManaRegen => StatsMap[StatsType.ManaRegen];
         public Stats Damage => StatsMap[StatsType.Damage];

@@ -1,13 +1,21 @@
-[gd_scene load_steps=6 format=2]
+[gd_scene load_steps=10 format=2]
 
+[ext_resource path="res://MouseAttack/Action/Monster/MainAttack.tres" type="Resource" id=1]
 [ext_resource path="res://MouseAttack/Entity/Monster/MonsterEntity.cs" type="Script" id=2]
 [ext_resource path="res://MouseAttack/Entity/Monster/MonsterCharacter.cs" type="Script" id=3]
 [ext_resource path="res://MouseAttack/Characteristic/ResourcePool.cs" type="Script" id=4]
 [ext_resource path="res://MouseAttack/Characteristic/Stats.cs" type="Script" id=5]
+[ext_resource path="res://MouseAttack/Entity/Monster/CastleDetector.cs" type="Script" id=6]
+[ext_resource path="res://MouseAttack/Entity/Monster/CastleAttacker.cs" type="Script" id=7]
 
 [sub_resource type="CircleShape2D" id=1]
 
+[sub_resource type="CircleShape2D" id=2]
+radius = 20.0
+
 [node name="KinematicBody2D" type="KinematicBody2D"]
+collision_layer = 2
+collision_mask = 2
 script = ExtResource( 2 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
@@ -33,3 +41,14 @@ script = ExtResource( 5 )
 
 [node name="MovementSpeed" type="Node" parent="MonsterCharacter"]
 script = ExtResource( 5 )
+
+[node name="CastleDetector" type="Area2D" parent="."]
+collision_layer = 4
+script = ExtResource( 6 )
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="CastleDetector"]
+shape = SubResource( 2 )
+
+[node name="CastleAttacker" type="Node" parent="."]
+script = ExtResource( 7 )
+_damageAction = ExtResource( 1 )

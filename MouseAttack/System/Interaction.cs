@@ -26,15 +26,13 @@ namespace MouseAttack.System
             get => _action;
         }
         Stage _stage;
-
+        Stage Stage => _stage ?? (_stage = this.GetStage());
 
         public override void _Ready()
         {
             var controller = GetNode<Controller>(nameof(Controller));
             controller.LMBPressed += OnLMBPressed;
             controller.HotkeyPressed += HotkeyPressed;
-
-            _stage = this.GetStage();
             Action = SlottedActions.First();
         }
 
@@ -44,14 +42,16 @@ namespace MouseAttack.System
             if (Action.OnCooldown)
                 return;
 
-            if (!_stage.Player.HasEnoughMana(Action.Cost))
+            if (!Stage.PlayerCharacter.HasEnoughMana(Action.Cost))
                 return;
 
-            _stage.Player.UseMana(Action.Cost);
+            Stage.PlayerCharacter.UseMana(Action.Cost);
             
-            Action.Use(_stage);
+            Action.Use(Stage, Stage.PlayerCharacter, GetViewport().GetMousePosition());
 
-            await ToSignal(GetTree().CreateTimer(Action.CooldownTimeout), Signals.Timer.Timeout);
+            float cooldownReduction = Action.CooldownTimeout * Stage.PlayerCharacter.CooldownReducion.Value;
+            float cooldownTimeout = Action.CooldownTimeout - cooldownReduction;
+            await ToSignal(GetTree().CreateTimer(cooldownTimeout), Signals.Timer.Timeout);
 
             Action.StopCooldown();
         }

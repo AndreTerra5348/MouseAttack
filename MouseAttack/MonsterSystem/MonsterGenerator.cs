@@ -23,42 +23,40 @@ namespace MouseAttack.MonsterSystem
 
         [Export]
         List<PackedScene> _monsters = null;
-        [Export]
-        NodePath _spawnPathFollowPath = null;
 
+        Stage _stage;
+        Stage Stage => _stage ?? (_stage = this.GetStage());
+
+        SpawnPoint _spawnPoint;
+        SpawnPoint SpawnPoint => _spawnPoint ??
+            (_spawnPoint = GetNode<SpawnPoint>(nameof(SpawnPoint)));
+        
         int _monsterCount = 0;
-        Stage _stage = null;      
-        SpawnPathFollow2D _spawnPathFollow2d = null;
-        public override void _Ready()
-        {
-            _spawnPathFollow2d = GetNode<SpawnPathFollow2D>(_spawnPathFollowPath);
-            _stage = this.GetStage();
-        }
 
         public override void _Process(float delta)
         {
             base._Process(delta);
             if (_monsterCount > 0)
                 return;
-            for (int i  = 0; i < _stage.Wave; i++)
+            for (int i  = 0; i < Stage.Wave; i++)
             {
                 Spawn();
             }
-            _stage.NextWave();
+            Stage.NextWave();
         }
 
         void Spawn()
         {
-            for(int i = 0; i < _stage.Level; i++)
+            for(int i = 0; i < Stage.Level; i++)
             {
                 if (i >= _monsters.Count)
                     continue;
                 _monsterCount++;
                 MonsterEntity monsterEntity = _monsters[i].Instance<MonsterEntity>();
-                _stage.AddChild(monsterEntity);
+                Stage.AddChild(monsterEntity);
                 MonsterCharacter monsterCharacter = monsterEntity.Character;
                 monsterCharacter.Dead += (object sender, EventArgs e) => _monsterCount--;
-                monsterEntity.Position = _spawnPathFollow2d.RandomPosition;
+                monsterEntity.Position = SpawnPoint.RandomPosition;
                 MonsterSpawned?.Invoke(this, new MonsterSpawnedEventArgs(monsterEntity));
             }            
         }

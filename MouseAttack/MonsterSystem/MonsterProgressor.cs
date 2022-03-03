@@ -12,10 +12,7 @@ using System.Threading.Tasks;
 namespace MouseAttack.MonsterSystem
 {
     public class MonsterProgressor : Node
-    {
-        [Export]
-        NodePath _monsterGeneratorPath = null;
-        
+    {        
         Dictionary<StatsType, float> _baseBonus = new Dictionary<StatsType, float>()
         {
             // Percentage
@@ -30,15 +27,19 @@ namespace MouseAttack.MonsterSystem
 
         Random _random = new Random();
         Stage _stage;
+        Stage Stage => _stage ?? (_stage = this.GetStage());
+
         public override void _Ready()
         {
-            MonsterGenerator monsterGenerator = GetNode<MonsterGenerator>(_monsterGeneratorPath);
-            monsterGenerator.MonsterSpawned += OnMonsterSpawned;
-            _stage = this.GetStage();
-            _stage.LevelFinished += OnLevelFinished;
+            Stage.StageInitialized += OnStageInitialized;            
         }
 
-        
+        private void OnStageInitialized(object sender, EventArgs e)
+        {
+            MonsterGenerator monsterGenerator = Stage.MonsterGenerator;
+            monsterGenerator.MonsterSpawned += OnMonsterSpawned;
+            Stage.LevelFinished += OnLevelFinished;
+        }
 
         private void OnMonsterSpawned(object sender, MonsterSpawnedEventArgs e)
         {
@@ -59,7 +60,7 @@ namespace MouseAttack.MonsterSystem
         {
             Array keys = _baseBonus.Keys.ToArray();
             var stats = (StatsType)keys.GetValue(_random.Next(keys.Length));
-            var value = _baseBonus[stats] * _stage.Wave;
+            var value = _baseBonus[stats] * Stage.Wave;
             _applicableBonuses[stats] = value;
         }
 

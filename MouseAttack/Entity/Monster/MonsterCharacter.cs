@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace MouseAttack.Entity.Monster
 {
-    public class MonsterCharacter : MortalCharacter
+    public class MonsterCharacter : MortalCharacter, IDefender, IAttacker
     {
         public Stats MovementSpeed => StatsMap[StatsType.MovementSpeed];
         public Stats Damage => StatsMap[StatsType.Damage];
