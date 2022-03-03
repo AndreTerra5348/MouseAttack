@@ -9,7 +9,7 @@ namespace MouseAttack.Action
         [Export]
         public float Damage { get; private set; }
 
-        public void ApplyDamage(IAttacker attacker, IDefender defender)
+        public void ApplyDamage(Character attacker, Character defender)
         {
             bool isCritical = attacker.IsCritical;
             float attackerDamage = attacker.Damage.Value;

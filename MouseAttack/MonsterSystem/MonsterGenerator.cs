@@ -1,5 +1,5 @@
 ﻿using Godot;
-using MouseAttack.Entity.Castle;
+using MouseAttack.Entity.Player;
 using MouseAttack.Entity.Monster;
 using MouseAttack.Extensions;
 using MouseAttack.World;

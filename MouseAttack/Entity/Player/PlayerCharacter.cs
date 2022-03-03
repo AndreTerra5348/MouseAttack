@@ -4,25 +4,22 @@ using System;
 
 namespace MouseAttack.Entity.Player
 {
-    public class PlayerCharacter : ResourcefulCharacter, IAttacker
+    public class PlayerCharacter : Character
     {
+        ResourcePool _mana;
+        public ResourcePool Mana => _mana ?? (_mana = StatsMap[StatsType.Mana] as ResourcePool);
         public Stats ManaRegen => StatsMap[StatsType.ManaRegen];
-        public Stats Damage => StatsMap[StatsType.Damage];
-        public Stats CriticalRate => StatsMap[StatsType.CriticalRate];
-        public Stats CriticalDamage => StatsMap[StatsType.CriticalDamage];
+        public Stats HealthRegen => StatsMap[StatsType.HealthRegen];
         public Stats CooldownReducion => StatsMap[StatsType.CooldownReducion];
-        public bool IsCritical => CriticalRate.Value <= _random.Next(100);
-        Random _random = new Random();
-
-        protected override StatsType ResourceType => StatsType.Mana;
 
         public override void _Ready()
         {
             base._Ready();
-            AddChild(new ResourceRegenerator(this));
+            AddChild(new ResourceRegenerator(Health, HealthRegen));
+            AddChild(new ResourceRegenerator(Mana, ManaRegen));
         }
 
-        public bool HasEnoughMana(float value) => ResourcePool.CurrentValue >= value;
-        public void UseMana(float value) => ResourcePool.Use(value);
+        public bool HasEnoughMana(float value) => Mana.CurrentValue >= value;
+        public void UseMana(float value) => Mana.Use(value);
     }
 }

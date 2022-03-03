@@ -6,6 +6,7 @@ namespace MouseAttack.Characteristic
     public class ResourcePool : Stats
     {
         public event EventHandler Depleted;
+        public event EventHandler Used;
 
         float _currentValue = 0.0f;
         public float CurrentValue 
@@ -36,6 +37,7 @@ namespace MouseAttack.Characteristic
         public void Use(float value = 1.0f)
         {
             CurrentValue -= value;
+            Used?.Invoke(this, EventArgs.Empty);
             if (CurrentValue > 0)
                 return;
 

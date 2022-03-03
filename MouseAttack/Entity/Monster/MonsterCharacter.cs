@@ -7,14 +7,9 @@ using System.Threading.Tasks;
 
 namespace MouseAttack.Entity.Monster
 {
-    public class MonsterCharacter : MortalCharacter, IDefender, IAttacker
+    public class MonsterCharacter : Character
     {
         public Stats MovementSpeed => StatsMap[StatsType.MovementSpeed];
-        public Stats Damage => StatsMap[StatsType.Damage];
-        public Stats Defense => StatsMap[StatsType.Defense];
-        public Stats CriticalRate => StatsMap[StatsType.CriticalRate];
-        public Stats CriticalDamage => StatsMap[StatsType.CriticalDamage];
-        public bool IsCritical => CriticalRate.Value <= _random.Next(100);
-        Random _random = new Random();
+        public bool IsDead => Health.IsDepleted;
     }
 }

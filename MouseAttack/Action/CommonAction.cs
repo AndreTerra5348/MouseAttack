@@ -24,7 +24,7 @@ namespace MouseAttack.Action
         {
             var instance = EffectScene.Instance<CommonEffect>();
             instance.CommonAction = this;
-            instance.Character = character;
+            instance.User = character;
             instance.Position = position;
             stage.AddChild(instance);
             StartCooldown();

@@ -4,26 +4,21 @@ using System;
 
 namespace MouseAttack.Subsystem
 {
-    public interface IResourceRegenerable
-    {
-        event EventHandler ResourceUsed;
-        bool IsResourceFull { get; }
-        void Regenerate();
-    }
     public class ResourceRegenerator : Timer
     {
-        IResourceRegenerable _resourceRegenerable;
-
+        private readonly ResourcePool _resource;
+        private readonly Stats _regen;
 
         public ResourceRegenerator()
         {
         }
 
-        public ResourceRegenerator(IResourceRegenerable resourceRegenerable)
+        public ResourceRegenerator(ResourcePool resource, Stats regen)
         {
-            _resourceRegenerable = resourceRegenerable;
-            _resourceRegenerable.ResourceUsed += OnResourceUsed;
-        }
+            _resource = resource;
+            _resource.Used += OnResourceUsed;
+            _regen = regen;
+        }        
 
         public override void _EnterTree()
         {
@@ -36,10 +31,10 @@ namespace MouseAttack.Subsystem
                 Start();
         }
 
-        void Regenerate()
+        private void Regenerate()
         {
-            _resourceRegenerable.Regenerate();
-            if (_resourceRegenerable.IsResourceFull)
+            _resource.Regenerate(_regen.Value);
+            if (_resource.IsFull)
                 Stop();
         }
     }

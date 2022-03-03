@@ -31,7 +31,7 @@ namespace MouseAttack.MonsterSystem
 
         public override void _Ready()
         {
-            Stage.StageInitialized += OnStageInitialized;            
+            Stage.Initialized += OnStageInitialized;            
         }
 
         private void OnStageInitialized(object sender, EventArgs e)

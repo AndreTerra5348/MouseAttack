@@ -6,6 +6,6 @@ namespace MouseAttack.Action
     public class CommonEffect : Node2D
     {
         public CommonAction CommonAction { get; set; }
-        public Character Character { get; set; }
+        public Character User { get; set; }
     }
 }

@@ -5,6 +5,7 @@ using MouseAttack.Extensions;
 using System;
 using MouseAttack.World;
 using MouseAttack.Misc;
+using MouseAttack.Entity.Player;
 
 namespace MouseAttack.System
 {
@@ -28,6 +29,7 @@ namespace MouseAttack.System
         Stage _stage;
         Stage Stage => _stage ?? (_stage = this.GetStage());
 
+        PlayerCharacter PlayerCharacter => Stage.PlayerEntity.Character;
         public override void _Ready()
         {
             var controller = GetNode<Controller>(nameof(Controller));
@@ -42,14 +44,14 @@ namespace MouseAttack.System
             if (Action.OnCooldown)
                 return;
 
-            if (!Stage.PlayerCharacter.HasEnoughMana(Action.Cost))
+            if (!PlayerCharacter.HasEnoughMana(Action.Cost))
                 return;
 
-            Stage.PlayerCharacter.UseMana(Action.Cost);
+            PlayerCharacter.UseMana(Action.Cost);
             
-            Action.Use(Stage, Stage.PlayerCharacter, GetViewport().GetMousePosition());
+            Action.Use(Stage, PlayerCharacter, GetViewport().GetMousePosition());
 
-            float cooldownReduction = Action.CooldownTimeout * Stage.PlayerCharacter.CooldownReducion.Value;
+            float cooldownReduction = Action.CooldownTimeout * PlayerCharacter.CooldownReducion.Value;
             float cooldownTimeout = Action.CooldownTimeout - cooldownReduction;
             await ToSignal(GetTree().CreateTimer(cooldownTimeout), Signals.Timer.Timeout);
 

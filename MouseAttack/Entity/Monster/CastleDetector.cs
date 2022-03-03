@@ -1,5 +1,5 @@
 ﻿using Godot;
-using MouseAttack.Entity.Castle;
+using MouseAttack.Entity.Player;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -36,7 +36,7 @@ namespace MouseAttack.Entity.Monster
 
         private void OnAreaEntered(Area2D area)
         {            
-            if (area is CastleEntity)
+            if (area is PlayerEntity)
             {
                 IsInRange = true;
                 var areaShape = area.ShapeOwnerGetShape(0, 0);
@@ -47,7 +47,7 @@ namespace MouseAttack.Entity.Monster
 
         private void OnAreaExited(Area2D area)
         {
-            if (area is CastleEntity)
+            if (area is PlayerEntity)
             {
                 IsInRange = false;
                 Lost?.Invoke(this, EventArgs.Empty);

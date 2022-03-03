@@ -6,64 +6,54 @@ using System;
 
 namespace MouseAttack.Entity.Monster
 {
-    public class MonsterEntity : KinematicBody2D
+    public class MonsterEntity : SpecializedEntity<MonsterCharacter>
     {
-        public event EventHandler Freed;
-        public MonsterCharacter Character { get; private set; }
+        protected override string CharacterName => nameof(MonsterCharacter);
         public CastleAttacker CastleAttacker { get; private set; }
         public CastleDetector CastleDetector { get; private set; }
-        public bool IsDead => Character.IsResourceEmpty;        
+        public bool IsDead => Character.IsDead;
 
         Stage _stage;
         Stage Stage => _stage ?? (_stage = this.GetStage());
 
-        public override void _EnterTree()
-        {
-            Connect(Signals.CollisionObject2D.MouseEntered, this, nameof(OnMouseEntered));
-            Connect(Signals.CollisionObject2D.MouseExited, this, nameof(OnMouseExited));
-        }
-
         public override void _Ready()
-        {
-            CastleAttacker = GetNode<CastleAttacker>(nameof(CastleAttacker));
+        {            
+            base._Ready();
             CastleDetector = GetNode<CastleDetector>(nameof(CastleDetector));
-            CastleDetector.Detected += (object sender, CastleDetectedEventArgs e) => SetPhysicsProcess(false);
-            CastleDetector.Lost += (object sender, EventArgs e) => SetPhysicsProcess(true);
-            Character = GetNode<MonsterCharacter>(nameof(MonsterCharacter));
-            Character.Dead += OnDeath;
+            // Stop moving when castle is in range
+            CastleDetector.Detected += (object sender, CastleDetectedEventArgs e) => SetProcess(false);
+            CastleDetector.Lost += (object sender, EventArgs e) => SetProcess(true);
+
+            CastleAttacker = GetNode<CastleAttacker>(nameof(CastleAttacker));
             CastleAttacker.SetMonsterEntity(this);
         }
 
-        public override void _PhysicsProcess(float delta)
+        public override void _Process(float delta)
         {
-            if (Character.MovementSpeed.Value == 0)
+            base._Process(delta);
+            if (Character.MovementSpeed.Value <= 0)
                 return;
-            var _castleDirection = Position.DirectionTo(Stage.CastleEntity.Position);
-            LookAt(Stage.CastleEntity.Position);
-            MoveAndCollide(_castleDirection * Character.MovementSpeed.Value);
+            Position = Position.MoveToward(Stage.PlayerEntity.Position, Character.MovementSpeed.Value);
         }
 
-        private void OnMouseEntered()
-        {
-            // Toggle Hover feedback
-        }
-
-        private void OnMouseExited()
-        {
-            // Toggle Hover feedback
-        }
-
-        async private void OnDeath(object sender, EventArgs e)
+        async protected override void OnDeath(object sender, EventArgs e)
         {
             // death animation
 
             // TODO: change to await for the animation to finish
             await ToSignal(GetTree().CreateTimer(0.5f), Signals.Timer.Timeout);
-            Freed?.Invoke(this, EventArgs.Empty);
             QueueFree();
         }
 
-        
+        protected override void OnMouseEntered()
+        {
+            // Toggle Hover Feedback
+        }
+
+        protected override void OnMouseExited()
+        {
+            // Toggle Hover Feedback
+        }
     }
 }
 
