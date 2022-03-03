@@ -1,15 +1,16 @@
 [gd_resource type="Resource" load_steps=3 format=2]
 
-[ext_resource path="res://MouseAttack/Action/Monster/MonsterDamageAction.cs" type="Script" id=1]
+[ext_resource path="res://MouseAttack/Action/Monster/MonsterDamage.cs" type="Script" id=1]
 [ext_resource path="res://MouseAttack/Action/DamageEffect.tscn" type="PackedScene" id=2]
 
 [resource]
 script = ExtResource( 1 )
 EffectScene = ExtResource( 2 )
 Cost = 0.0
-CooldownTimeout = 0.1
+CooldownTimeout = 0.5
 Radius = 10.0
 CollisionLayer = 8
 CollisionMask = 1
 Damage = 1.0
-Range = 5.0
+Speed = 1.0
+Range = 20.0

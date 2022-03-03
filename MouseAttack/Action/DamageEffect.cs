@@ -13,7 +13,7 @@ namespace MouseAttack.Action
         public override void _Ready()
         {
             base._Ready();
-            _damageAction = CommonAction as DamageAction;
+            _damageAction = Action as DamageAction;
         }
 
         protected override void OnAreaEntered(Area2D area)

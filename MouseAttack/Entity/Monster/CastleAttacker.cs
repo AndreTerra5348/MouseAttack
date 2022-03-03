@@ -1,4 +1,6 @@
 ﻿using Godot;
+using MouseAttack.Action;
+using MouseAttack.Action.Module;
 using MouseAttack.Action.Monster;
 using MouseAttack.Extensions;
 using MouseAttack.World;
@@ -13,7 +15,7 @@ namespace MouseAttack.Entity.Monster
     public class CastleAttacker : Node
     {
         [Export]
-        MonsterDamageAction _damageAction;
+        MonsterDamage _action;
         CastleDetector _castleDetector;
         MonsterEntity _monsterEntity;
 
@@ -28,14 +30,14 @@ namespace MouseAttack.Entity.Monster
         {
             AddChild(AttackTimer);
             AttackTimer.Connect(Signals.Timer.Timeout, this, nameof(OnAttackTimerTimeout));
-            AttackTimer.WaitTime = _damageAction.CooldownTimeout;
+            AttackTimer.WaitTime = _action.CooldownTimeout;
         }
 
         public void SetMonsterEntity(MonsterEntity monsterEntity)
         {
             _monsterEntity = monsterEntity;
             _castleDetector = _monsterEntity.CastleDetector;
-            _castleDetector.Range = _damageAction.Range;
+            _castleDetector.Range = _action.Range;
             _castleDetector.Detected += OnCastleDetected;
             _castleDetector.Lost += OnCastleLost;
         }
@@ -44,8 +46,14 @@ namespace MouseAttack.Entity.Monster
         {
             if (!_castleDetector.IsInRange)
                 return;
-            
-            _damageAction.Use(Stage, _monsterEntity.Character, _collisionPoint);
+
+            var effectInstance = _action.GetEffectInstance<CollidableEffect>();
+            effectInstance.Action = _action;
+            effectInstance.User = _monsterEntity.Character;
+            effectInstance.Position = _monsterEntity.Position;
+            effectInstance.AddChild(new Mover(_action, _collisionPoint));
+            Stage.AddChild(effectInstance);
+            _action.Use();
         }
         private void OnCastleDetected(object sender, CastleDetectedEventArgs e)
         {

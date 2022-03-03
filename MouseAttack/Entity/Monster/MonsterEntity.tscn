@@ -22,7 +22,7 @@ shape = SubResource( 1 )
 
 [node name="CastleAttacker" type="Node" parent="."]
 script = ExtResource( 7 )
-_damageAction = ExtResource( 1 )
+_action = ExtResource( 1 )
 
 [node name="CastleDetector" type="Area2D" parent="."]
 collision_layer = 4

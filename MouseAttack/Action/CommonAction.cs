@@ -4,6 +4,10 @@ using MouseAttack.World;
 
 namespace MouseAttack.Action
 {
+    /// <summary>
+    /// Base class for all actions
+    /// Examples of instances: Heal, Any buff
+    /// </summary>
     public class CommonAction : Resource
     {
         [Export]
@@ -20,15 +24,8 @@ namespace MouseAttack.Action
         bool _cooldown = false;
         public bool OnCooldown => _cooldown;
 
-        public virtual void Use(Stage stage, Character character, Vector2 position)
-        {
-            var instance = EffectScene.Instance<CommonEffect>();
-            instance.CommonAction = this;
-            instance.User = character;
-            instance.Position = position;
-            stage.AddChild(instance);
-            StartCooldown();
-        }
+        public T GetEffectInstance<T>() where T : CommonEffect => EffectScene.Instance<T>();
+        public virtual void Use() => StartCooldown();
         protected void StartCooldown() => _cooldown = true;
         public void StopCooldown() => _cooldown = false;
     }

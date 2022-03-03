@@ -2,6 +2,10 @@ using Godot;
 
 namespace MouseAttack.Action
 {
+    /// <summary>
+    /// Base class for Collidable Action
+    /// Examples of instances: Debuffs
+    /// </summary>
     public class CollidableAction : CommonAction
     {
         [Export]

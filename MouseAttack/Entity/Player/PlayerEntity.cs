@@ -11,12 +11,7 @@ namespace MouseAttack.Entity.Player
 {
     public class PlayerEntity : SpecializedEntity<PlayerCharacter>
     {
-        protected override string CharacterName => nameof(PlayerCharacter);
-        public override void _EnterTree()
-        {
-            base._EnterTree();
-            Connect(Signals.Area2D.BodyEntered, this, nameof(OnBodyEntered));
-        }                
+        protected override string CharacterName => nameof(PlayerCharacter);   
 
         public override void _InputEvent(Godot.Object viewport, InputEvent @event, int shapeIdx)
         {
@@ -27,11 +22,6 @@ namespace MouseAttack.Entity.Player
         private void OnRightMouseButtonClicked()
         {
             // Menu
-        }
-
-        private void OnBodyEntered(Node body)
-        {
-
         }
 
         protected override void OnDeath(object sender, EventArgs e)

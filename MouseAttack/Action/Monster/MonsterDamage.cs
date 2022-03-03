@@ -7,8 +7,10 @@ using System.Threading.Tasks;
 
 namespace MouseAttack.Action.Monster
 {
-    public class MonsterDamageAction : DamageAction
+    public class MonsterDamage : DamageAction, IMonsterAction
     {
+        [Export]
+        public float Speed { get; private set; }
         [Export]
         public float Range { get; private set; }
     }

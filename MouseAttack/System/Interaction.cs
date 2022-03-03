@@ -48,8 +48,13 @@ namespace MouseAttack.System
                 return;
 
             PlayerCharacter.UseMana(Action.Cost);
-            
-            Action.Use(Stage, PlayerCharacter, GetViewport().GetMousePosition());
+
+            CommonEffect effectInstance = Action.GetEffectInstance<CommonEffect>();
+            effectInstance.Action = Action;
+            effectInstance.User = PlayerCharacter;
+            effectInstance.Position = GetViewport().GetMousePosition();
+            Stage.AddChild(effectInstance);
+            Action.Use();
 
             float cooldownReduction = Action.CooldownTimeout * PlayerCharacter.CooldownReducion.Value;
             float cooldownTimeout = Action.CooldownTimeout - cooldownReduction;
