@@ -1,4 +1,5 @@
 using Godot;
+using MouseAttack.Action.WorldEffect;
 using MouseAttack.Entity;
 using MouseAttack.World;
 
@@ -6,12 +7,13 @@ namespace MouseAttack.Action
 {
     /// <summary>
     /// Base class for all actions
-    /// Examples of instances: Heal, Any buff
     /// </summary>
-    public class CommonAction : Resource
+    public abstract class CommonAction : Resource
     {
         [Export]
-        public PackedScene EffectScene { get; private set; }
+        public PackedScene WorldEffectScene { get; private set; }
+        [Export]
+        public PackedScene TargetEffectScene { get; private set; }
         [Export]
         public PackedScene ItemScene { get; private set; }
         [Export]
@@ -24,7 +26,9 @@ namespace MouseAttack.Action
         bool _cooldown = false;
         public bool OnCooldown => _cooldown;
 
-        public T GetEffectInstance<T>() where T : CommonEffect => EffectScene.Instance<T>();
+        public T GetWorldEffectInstance<T>() where T : CommonEffect => WorldEffectScene.Instance<T>();
+        public T GetTargetEffectScene<T>() where T : Node => TargetEffectScene.Instance<T>();
+        public bool HasTargetEffectScene() => TargetEffectScene != null;
         public virtual void Use() => StartCooldown();
         protected void StartCooldown() => _cooldown = true;
         public void StopCooldown() => _cooldown = false;

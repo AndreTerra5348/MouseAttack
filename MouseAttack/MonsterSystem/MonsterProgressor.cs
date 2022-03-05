@@ -43,8 +43,8 @@ namespace MouseAttack.MonsterSystem
 
         private void OnMonsterSpawned(object sender, MonsterSpawnedEventArgs e)
         {
-            MonsterEntity monster = e.Monster;
-            MonsterCharacter monsterCharacter = monster.Character;
+            MonsterEntity monsterEntity = e.Entity;
+            MonsterCharacter monsterCharacter = monsterEntity.Character;
             foreach (var item in _applicableBonuses)
             {
                 Stats stats = monsterCharacter.StatsMap[item.Key];

@@ -1,11 +1,10 @@
 [gd_scene load_steps=3 format=2]
 
-[ext_resource path="res://MouseAttack/Action/CommonEffect.tscn" type="PackedScene" id=1]
+[ext_resource path="res://MouseAttack/Action/WorldEffect/CommonEffect.tscn" type="PackedScene" id=1]
 
 [sub_resource type="CircleShape2D" id=1]
 
 [node name="CollidableEffect" instance=ExtResource( 1 )]
-script = null
 
 [node name="Area2D" type="Area2D" parent="." index="1"]
 

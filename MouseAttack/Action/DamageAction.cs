@@ -7,16 +7,20 @@ namespace MouseAttack.Action
     public class DamageAction : CollidableAction
     {
         [Export]
-        public float Damage { get; private set; }
+        public float Damage { get; private set; } = 1;
+        [Export]
+        public int Hits { get; private set; } = 1;
+        [Export]
+        public float DamageTimeout { get; private set; } = 0;
 
         public void ApplyDamage(Character attacker, Character defender)
         {
             bool isCritical = attacker.IsCritical;
             float attackerDamage = attacker.Damage.Value;
-            float AttackerCriticalDamage = attacker.CriticalDamage.Value;
-            attackerDamage = isCritical ? attackerDamage * AttackerCriticalDamage : attackerDamage;
-            float DefenderDefense = defender.Defense.Value;
-            float finalDamage = attackerDamage + Damage - DefenderDefense;
+            float attackerCriticalDamage = attacker.CriticalDamage.Value;
+            attackerDamage = isCritical ? attackerDamage * attackerCriticalDamage : attackerDamage;
+            float defenderDefense = defender.Defense.Value;
+            float finalDamage = attackerDamage + Damage - defenderDefense;
             defender.Hit(finalDamage < 0 ? 0 : finalDamage);
         }
     }

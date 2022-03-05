@@ -4,9 +4,8 @@ namespace MouseAttack.Action
 {
     /// <summary>
     /// Base class for Collidable Action
-    /// Examples of instances: Debuffs
     /// </summary>
-    public class CollidableAction : CommonAction
+    public abstract class CollidableAction : CommonAction
     {
         [Export]
         public float Radius { get; private set; } = 10;

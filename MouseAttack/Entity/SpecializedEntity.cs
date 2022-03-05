@@ -12,7 +12,6 @@ namespace MouseAttack.Entity
     /// <typeparam name="T">Character type</typeparam>
     public abstract class SpecializedEntity<T> : CommonEntity where T : Character
     {
-        T _character;
-        public new T Character => _character ?? (_character = base.Character as T);
+        public new T Character => base.Character as T;
     }
 }

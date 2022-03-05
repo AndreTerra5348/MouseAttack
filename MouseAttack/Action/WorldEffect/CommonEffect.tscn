@@ -1,6 +1,7 @@
 [gd_scene format=2]
 
 [node name="CommonEffect" type="Node2D"]
+position = Vector2( 0, 1 )
 
 [node name="QueueFreeTimer" type="Timer" parent="."]
 wait_time = 0.5

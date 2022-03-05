@@ -1,58 +1,51 @@
 using Godot;
 using MouseAttack.Action.Monster;
 using MouseAttack.Extensions;
+using MouseAttack.Misc;
 using MouseAttack.World;
 using System;
 
 namespace MouseAttack.Entity.Monster
 {
-    public class MonsterEntity : SpecializedEntity<MonsterCharacter>
+    public class MonsterEntity : SpecializedEntity<MonsterCharacter>, IInitializable
     {
+        public event EventHandler Initialized;
+        public event EventHandler Freed;
         protected override string CharacterName => nameof(MonsterCharacter);
-        public CastleAttacker CastleAttacker { get; private set; }
-        public CastleDetector CastleDetector { get; private set; }
+        public PlayerAttacker PlayerAttacker { get; private set; }
+        public PlayerDetector PlayerDetector { get; private set; }
         public bool IsDead => Character.IsDead;
 
         Stage _stage;
         Stage Stage => _stage ?? (_stage = this.GetStage());
 
-        public override void _Ready()
+
+        async public override void _Ready()
         {            
             base._Ready();
-            CastleDetector = GetNode<CastleDetector>(nameof(CastleDetector));
-            // Stop moving when castle is in range
-            CastleDetector.Detected += (object sender, CastleDetectedEventArgs e) => SetProcess(false);
-            CastleDetector.Lost += (object sender, EventArgs e) => SetProcess(true);
+            PlayerDetector = GetNode<PlayerDetector>(nameof(PlayerDetector));
+            PlayerAttacker = GetNode<PlayerAttacker>(nameof(PlayerAttacker));
+            Initialized?.Invoke(this, EventArgs.Empty);
 
-            CastleAttacker = GetNode<CastleAttacker>(nameof(CastleAttacker));
-            CastleAttacker.SetMonsterEntity(this);
-        }
-
-        public override void _Process(float delta)
-        {
-            base._Process(delta);
-            if (Character.MovementSpeed.Value <= 0)
-                return;
-            Position = Position.MoveToward(Stage.PlayerEntity.Position, Character.MovementSpeed.Value);
-        }
-
-        async protected override void OnDeath(object sender, EventArgs e)
-        {
-            // death animation
-
-            // TODO: change to await for the animation to finish
             await ToSignal(GetTree().CreateTimer(0.5f), Signals.Timer.Timeout);
-            QueueFree();
+
+            var sprite = GetNode<Sprite>(nameof(Sprite));
+            sprite.FlipH = GlobalPosition.DirectionTo(Stage.PlayerEntity.GlobalPosition).x > 0;
+        }
+
+        protected override void OnDeath(object sender, EventArgs e)
+        {
+            Freed?.Invoke(this, EventArgs.Empty);
         }
 
         protected override void OnMouseEntered()
         {
-            // Toggle Hover Feedback
+
         }
 
         protected override void OnMouseExited()
         {
-            // Toggle Hover Feedback
+
         }
     }
 }

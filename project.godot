@@ -21,12 +21,38 @@ config/icon="res://icon.png"
 
 [display]
 
+window/size/width=640
+window/size/height=448
 window/stretch/mode="2d"
 window/stretch/aspect="keep"
 
 [editor_plugins]
 
 enabled=PoolStringArray( "res://addons/CustomResourceRegister/plugin.cfg" )
+
+[importer_defaults]
+
+texture={
+"compress/bptc_ldr": 0,
+"compress/hdr_mode": 0,
+"compress/lossy_quality": 0.7,
+"compress/mode": 0,
+"compress/normal_map": 0,
+"detect_3d": true,
+"flags/anisotropic": false,
+"flags/filter": false,
+"flags/mipmaps": false,
+"flags/repeat": 0,
+"flags/srgb": 2,
+"process/HDR_as_SRGB": false,
+"process/fix_alpha_border": true,
+"process/invert_color": false,
+"process/normal_map_invert_y": false,
+"process/premult_alpha": false,
+"size_limit": 0,
+"stream": false,
+"svg/scale": 1.0
+}
 
 [input]
 
@@ -68,10 +94,11 @@ hk5={
 
 [layer_names]
 
-2d_physics/layer_1="Castle"
-2d_physics/layer_2="Monster"
-2d_physics/layer_3="CastleDetector"
+2d_physics/layer_1="PlayerEntity"
+2d_physics/layer_2="MonsterEntity"
+2d_physics/layer_3="PlayerDetector"
 2d_physics/layer_4="Skill"
+2d_physics/layer_5="MonsterBody"
 
 [physics]
 
@@ -80,6 +107,7 @@ common/enable_pause_aware_picking=true
 [rendering]
 
 quality/driver/driver_name="GLES2"
+2d/snapping/use_gpu_pixel_snap=true
 vram_compression/import_etc=true
 vram_compression/import_etc2=false
 environment/default_environment="res://default_env.tres"

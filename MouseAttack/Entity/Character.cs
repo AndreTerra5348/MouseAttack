@@ -11,7 +11,7 @@ namespace MouseAttack.Entity
     /// <summary>
     /// Base class for PlayerCharacter and MonsterCharacter
     /// </summary>
-    public class Character : Node
+    public abstract class Character : Node
     {
         public event EventHandler Dead;
 

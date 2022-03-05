@@ -1,5 +1,6 @@
 using Godot;
 using MouseAttack.Action;
+using MouseAttack.Action.WorldEffect;
 using System.Linq;
 using MouseAttack.Extensions;
 using System;
@@ -49,7 +50,7 @@ namespace MouseAttack.System
 
             PlayerCharacter.UseMana(Action.Cost);
 
-            CommonEffect effectInstance = Action.GetEffectInstance<CommonEffect>();
+            CommonEffect effectInstance = Action.GetWorldEffectInstance<CommonEffect>();
             effectInstance.Action = Action;
             effectInstance.User = PlayerCharacter;
             effectInstance.Position = GetViewport().GetMousePosition();

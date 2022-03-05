@@ -13,8 +13,8 @@ namespace MouseAttack.MonsterSystem
 {
     public class MonsterSpawnedEventArgs : EventArgs
     {
-        public readonly MonsterEntity Monster;
-        public MonsterSpawnedEventArgs(MonsterEntity monster) => Monster = monster;
+        public readonly MonsterEntity Entity;
+        public MonsterSpawnedEventArgs(MonsterEntity entity) => Entity = entity;
     }
 
     public class MonsterGenerator : Node
@@ -52,12 +52,12 @@ namespace MouseAttack.MonsterSystem
                 if (i >= _monsters.Count)
                     continue;
                 _monsterCount++;
-                MonsterEntity monsterEntity = _monsters[i].Instance<MonsterEntity>();
-                Stage.AddChild(monsterEntity);
-                MonsterCharacter monsterCharacter = monsterEntity.Character;
+                MonsterBody monasterBody = _monsters[i].Instance<MonsterBody>();
+                Stage.AddChild(monasterBody);
+                MonsterCharacter monsterCharacter = monasterBody.Entity.Character;
                 monsterCharacter.Dead += (object sender, EventArgs e) => _monsterCount--;
-                monsterEntity.Position = SpawnPoint.RandomPosition;
-                MonsterSpawned?.Invoke(this, new MonsterSpawnedEventArgs(monsterEntity));
+                monasterBody.Position = SpawnPoint.RandomPosition;
+                MonsterSpawned?.Invoke(this, new MonsterSpawnedEventArgs(monasterBody.Entity));
             }            
         }
     }

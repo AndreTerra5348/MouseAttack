@@ -2,9 +2,9 @@
 
 [ext_resource path="res://MouseAttack/System/Controller.cs" type="Script" id=1]
 [ext_resource path="res://MouseAttack/System/Interaction.cs" type="Script" id=2]
-[ext_resource path="res://MouseAttack/Entity/Monster/MonsterEntity.tscn" type="PackedScene" id=3]
+[ext_resource path="res://MouseAttack/Entity/Monster/Database/Rat/Rat.tscn" type="PackedScene" id=3]
 [ext_resource path="res://MouseAttack/Entity/Player/PlayerEntity.tscn" type="PackedScene" id=4]
-[ext_resource path="res://MouseAttack/Action/Player/MainAttack.tres" type="Resource" id=5]
+[ext_resource path="res://MouseAttack/Action/Player/MainAttack/MainAttack.tres" type="Resource" id=5]
 [ext_resource path="res://MouseAttack/MonsterSystem/MonsterGenerator.cs" type="Script" id=8]
 [ext_resource path="res://MouseAttack/MonsterSystem/SpawnPoint.cs" type="Script" id=10]
 [ext_resource path="res://MouseAttack/World/Stage.cs" type="Script" id=11]
@@ -12,7 +12,7 @@
 
 [sub_resource type="Curve2D" id=1]
 _data = {
-"points": PoolVector2Array( 0, 0, 0, 0, -33, -60, 0, 0, 0, 0, 1064, -65, 0, 0, 0, 0, 1076, 632, 0, 0, 0, 0, -38, 632, 0, 0, 0, 0, -33, -60 )
+"points": PoolVector2Array( 0, 0, 0, 0, -32, -32, 0, 0, 0, 0, 672, -32, 0, 0, 0, 0, 672, 480, 0, 0, 0, 0, -32, 480, 0, 0, 0, 0, -32, -32 )
 }
 
 [node name="Stage" type="Node2D"]
@@ -27,8 +27,7 @@ curve = SubResource( 1 )
 script = ExtResource( 10 )
 
 [node name="PathFollow2D" type="PathFollow2D" parent="MonsterGenerator/SpawnPoint"]
-position = Vector2( -33, -60 )
-rotation = -0.00455819
+position = Vector2( -32, -32 )
 
 [node name="MonsterProgressor" type="Node" parent="."]
 script = ExtResource( 18 )
@@ -41,4 +40,4 @@ SlottedActions = [ ExtResource( 5 ), null, null, null ]
 script = ExtResource( 1 )
 
 [node name="PlayerEntity" parent="." instance=ExtResource( 4 )]
-position = Vector2( 512, 300 )
+position = Vector2( 320, 224 )

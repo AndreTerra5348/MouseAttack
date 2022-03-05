@@ -1,0 +1,67 @@
+[gd_scene load_steps=12 format=2]
+
+[ext_resource path="res://MouseAttack/Action/Monster/MainAttack/MainAttack.tres" type="Resource" id=1]
+[ext_resource path="res://MouseAttack/Entity/Monster/MonsterBody.cs" type="Script" id=2]
+[ext_resource path="res://MouseAttack/Characteristic/ResourcePool.cs" type="Script" id=3]
+[ext_resource path="res://MouseAttack/Entity/Monster/PlayerAttacker.cs" type="Script" id=4]
+[ext_resource path="res://MouseAttack/Entity/Monster/PlayerDetector.cs" type="Script" id=5]
+[ext_resource path="res://MouseAttack/Entity/Monster/MonsterEntity.cs" type="Script" id=6]
+[ext_resource path="res://MouseAttack/Characteristic/Stats.cs" type="Script" id=7]
+[ext_resource path="res://MouseAttack/Entity/Monster/MonsterCharacter.cs" type="Script" id=8]
+
+[sub_resource type="CircleShape2D" id=3]
+radius = 8.0
+
+[sub_resource type="CircleShape2D" id=1]
+
+[sub_resource type="CircleShape2D" id=2]
+radius = 20.0
+
+[node name="MonsterBody" type="KinematicBody2D"]
+collision_layer = 16
+collision_mask = 16
+script = ExtResource( 2 )
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource( 3 )
+
+[node name="MonsterEntity" type="Area2D" parent="."]
+collision_layer = 2
+script = ExtResource( 6 )
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="MonsterEntity"]
+shape = SubResource( 1 )
+
+[node name="PlayerAttacker" type="Node" parent="MonsterEntity"]
+script = ExtResource( 4 )
+_action = ExtResource( 1 )
+
+[node name="PlayerDetector" type="Area2D" parent="MonsterEntity"]
+collision_layer = 4
+script = ExtResource( 5 )
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="MonsterEntity/PlayerDetector"]
+shape = SubResource( 2 )
+
+[node name="MonsterCharacter" type="Node" parent="MonsterEntity"]
+script = ExtResource( 8 )
+
+[node name="Health" type="Node" parent="MonsterEntity/MonsterCharacter"]
+script = ExtResource( 3 )
+
+[node name="Damage" type="Node" parent="MonsterEntity/MonsterCharacter"]
+script = ExtResource( 7 )
+
+[node name="Defense" type="Node" parent="MonsterEntity/MonsterCharacter"]
+script = ExtResource( 7 )
+
+[node name="CriticalRate" type="Node" parent="MonsterEntity/MonsterCharacter"]
+script = ExtResource( 7 )
+
+[node name="CriticalDamage" type="Node" parent="MonsterEntity/MonsterCharacter"]
+script = ExtResource( 7 )
+
+[node name="MovementSpeed" type="Node" parent="MonsterEntity/MonsterCharacter"]
+script = ExtResource( 7 )
+
+[node name="Sprite" type="Sprite" parent="MonsterEntity"]

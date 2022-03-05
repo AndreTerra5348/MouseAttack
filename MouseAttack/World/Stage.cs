@@ -1,11 +1,12 @@
 using Godot;
 using MouseAttack.Entity.Player;
+using MouseAttack.Misc;
 using MouseAttack.MonsterSystem;
 using System;
 
 namespace MouseAttack.World
 {
-    public class Stage : Node2D
+    public class Stage : Node2D, IInitializable
     {
         public event EventHandler LevelFinished;
         public event EventHandler Initialized;

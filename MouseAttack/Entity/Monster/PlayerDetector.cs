@@ -8,16 +8,16 @@ using System.Threading.Tasks;
 
 namespace MouseAttack.Entity.Monster
 {
-    public class CastleDetectedEventArgs : EventArgs
+    public class PlayerDetectedEventArgs : EventArgs
     {
         public readonly Vector2 CollisionPoint;
-        public CastleDetectedEventArgs(Vector2 collisionPoint) =>
+        public PlayerDetectedEventArgs(Vector2 collisionPoint) =>
             CollisionPoint = collisionPoint;
     }
 
-    public class CastleDetector : Area2D
+    public class PlayerDetector : Area2D
     {
-        public event EventHandler<CastleDetectedEventArgs> Detected;
+        public event EventHandler<PlayerDetectedEventArgs> Detected;
         public event EventHandler Lost;
 
         CircleShape2D Shape => ShapeOwnerGetShape(0, 0) as CircleShape2D;
@@ -26,7 +26,7 @@ namespace MouseAttack.Entity.Monster
             set => Shape.Radius = value;
             get => Shape.Radius;
         }
-        public bool IsInRange { get; private set; }
+        public bool IsInRange { get; private set; } = false;
 
         public override void _EnterTree()
         {
@@ -35,26 +35,23 @@ namespace MouseAttack.Entity.Monster
         }
 
         private void OnAreaEntered(Area2D area)
-        {            
-            if (area is PlayerEntity)
-            {
-                IsInRange = true;
-                var areaShape = area.ShapeOwnerGetShape(0, 0);
-                var points = Shape.CollideAndGetContacts(GlobalTransform, areaShape, area.GlobalTransform);
-                Detected?.Invoke(this, new CastleDetectedEventArgs((Vector2)points[0]));
-            }
+        {
+            if (!(area is PlayerEntity))
+                return;
+
+            IsInRange = true;
+            Shape2D areaShape = area.ShapeOwnerGetShape(0, 0);
+            Godot.Collections.Array points = Shape.CollideAndGetContacts(GlobalTransform, areaShape, area.GlobalTransform);
+            Detected?.Invoke(this, new PlayerDetectedEventArgs((Vector2)points[0]));            
         }
 
         private void OnAreaExited(Area2D area)
         {
-            if (area is PlayerEntity)
-            {
-                IsInRange = false;
-                Lost?.Invoke(this, EventArgs.Empty);
-            }
-                
-        }
+            if (!(area is PlayerEntity))
+                return;
 
-        
+            IsInRange = false;
+            Lost?.Invoke(this, EventArgs.Empty);
+        }
     }
 }

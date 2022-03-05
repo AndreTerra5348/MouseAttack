@@ -2,6 +2,7 @@
 using MouseAttack.Action;
 using MouseAttack.Action.Module;
 using MouseAttack.Action.Monster;
+using MouseAttack.Action.WorldEffect;
 using MouseAttack.Extensions;
 using MouseAttack.World;
 using System;
@@ -12,13 +13,13 @@ using System.Threading.Tasks;
 
 namespace MouseAttack.Entity.Monster
 {
-    public class CastleAttacker : Node
+    public class PlayerAttacker : Node
     {
         [Export]
-        MonsterDamage _action;
-        CastleDetector _castleDetector;
+        MonsterDamage _action = null;
+        PlayerDetector PlayerDetector => MonsterEntity.PlayerDetector;
         MonsterEntity _monsterEntity;
-
+        MonsterEntity MonsterEntity => _monsterEntity ?? (_monsterEntity = GetParent<MonsterEntity>());
         Stage _stage;
         Stage Stage => _stage ?? (_stage = this.GetStage());
 
@@ -31,35 +32,34 @@ namespace MouseAttack.Entity.Monster
             AddChild(AttackTimer);
             AttackTimer.Connect(Signals.Timer.Timeout, this, nameof(OnAttackTimerTimeout));
             AttackTimer.WaitTime = _action.CooldownTimeout;
+            MonsterEntity.Initialized += OnMonsterEntityInitialized;
         }
 
-        public void SetMonsterEntity(MonsterEntity monsterEntity)
+        private void OnMonsterEntityInitialized(object sender, EventArgs e)
         {
-            _monsterEntity = monsterEntity;
-            _castleDetector = _monsterEntity.CastleDetector;
-            _castleDetector.Range = _action.Range;
-            _castleDetector.Detected += OnCastleDetected;
-            _castleDetector.Lost += OnCastleLost;
+            PlayerDetector.Range = _action.Range;
+            PlayerDetector.Detected += OnPlayerDetected;
+            PlayerDetector.Lost += OnPlayerLost;
         }
 
         private void OnAttackTimerTimeout()
         {
-            if (!_castleDetector.IsInRange)
+            if (!PlayerDetector.IsInRange)
                 return;
 
-            var effectInstance = _action.GetEffectInstance<CollidableEffect>();
+            var effectInstance = _action.GetWorldEffectInstance<CollidableEffect>();
             effectInstance.Action = _action;
-            effectInstance.User = _monsterEntity.Character;
-            effectInstance.Position = _monsterEntity.Position;
+            effectInstance.User = MonsterEntity.Character;
+            effectInstance.GlobalPosition = MonsterEntity.GlobalPosition;
             effectInstance.AddChild(new Mover(_action, _collisionPoint));
             Stage.AddChild(effectInstance);
             _action.Use();
         }
-        private void OnCastleDetected(object sender, CastleDetectedEventArgs e)
+        private void OnPlayerDetected(object sender, PlayerDetectedEventArgs e)
         {
             _collisionPoint = e.CollisionPoint;
             AttackTimer.Start();
         }
-        private void OnCastleLost(object sender, EventArgs e) => AttackTimer.Stop();
+        private void OnPlayerLost(object sender, EventArgs e) => AttackTimer.Stop();
     }
 }
