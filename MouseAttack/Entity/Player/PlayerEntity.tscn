@@ -1,4 +1,4 @@
-[gd_scene load_steps=11 format=2]
+[gd_scene load_steps=10 format=2]
 
 [ext_resource path="res://MouseAttack/Characteristic/ResourcePool.cs" type="Script" id=1]
 [ext_resource path="res://MouseAttack/Entity/Player/PlayerEntity.cs" type="Script" id=2]
@@ -6,7 +6,6 @@
 [ext_resource path="res://MouseAttack/Entity/Player/PlayerCharacter.cs" type="Script" id=4]
 [ext_resource path="res://MouseAttack/Entity/Player/mangrove_1.png" type="Texture" id=5]
 [ext_resource path="res://MouseAttack/Characteristic/System/ResourceRegenerator.cs" type="Script" id=6]
-[ext_resource path="res://MouseAttack/Entity/UI/ResourceFloatingTextBinder.tscn" type="PackedScene" id=7]
 [ext_resource path="res://MouseAttack/Entity/UI/ResourceBar.tscn" type="PackedScene" id=8]
 [ext_resource path="res://MouseAttack/Entity/UI/BigResourceBar.tscn" type="PackedScene" id=9]
 
@@ -24,7 +23,8 @@ script = ExtResource( 4 )
 
 [node name="Health" type="Node" parent="PlayerCharacter"]
 script = ExtResource( 1 )
-Points = 100
+ValuePerPoint = 5.0
+Points = 10
 
 [node name="ResourceRegenerator" type="Timer" parent="PlayerCharacter/Health"]
 script = ExtResource( 6 )
@@ -32,13 +32,18 @@ _regenPath = NodePath("../../HealthRegen")
 
 [node name="HealthRegen" type="Node" parent="PlayerCharacter"]
 script = ExtResource( 3 )
+ValuePerPoint = 0.5
+Points = 10
 
 [node name="Defense" type="Node" parent="PlayerCharacter"]
 script = ExtResource( 3 )
+ValuePerPoint = 2.0
+Points = 5
 
 [node name="Mana" type="Node" parent="PlayerCharacter"]
 script = ExtResource( 1 )
-Points = 50
+ValuePerPoint = 5.0
+Points = 5
 
 [node name="ResourceRegenerator" type="Timer" parent="PlayerCharacter/Mana"]
 script = ExtResource( 6 )
@@ -46,15 +51,23 @@ _regenPath = NodePath("../../ManaRegen")
 
 [node name="ManaRegen" type="Node" parent="PlayerCharacter"]
 script = ExtResource( 3 )
+ValuePerPoint = 0.1
+Points = 5
 
 [node name="Damage" type="Node" parent="PlayerCharacter"]
 script = ExtResource( 3 )
+ValuePerPoint = 3.0
+Points = 2
 
 [node name="CriticalRate" type="Node" parent="PlayerCharacter"]
 script = ExtResource( 3 )
+ValuePerPoint = 0.1
+Points = 30
 
 [node name="CriticalDamage" type="Node" parent="PlayerCharacter"]
 script = ExtResource( 3 )
+ValuePerPoint = 0.5
+Points = 15
 
 [node name="CooldownReducion" type="Node" parent="PlayerCharacter"]
 script = ExtResource( 3 )
@@ -69,18 +82,10 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="ManaFloatingTextBinder" parent="GUI" instance=ExtResource( 7 )]
-_option = 0
-_increaseColor = Color( 0, 0.788235, 1, 1 )
-_resourcePath = NodePath("../../PlayerCharacter/Mana")
-
-[node name="HealthFloatingTextBinder" parent="GUI" instance=ExtResource( 7 )]
-_resourcePath = NodePath("../../PlayerCharacter/Health")
-
 [node name="HealthResourceBar" parent="GUI" instance=ExtResource( 8 )]
 _resourcePath = NodePath("../../PlayerCharacter/Health")
 
-[node name="DefaultPosition" type="Node" parent="GUI"]
+[node name="WorldPosition" type="Node" parent="GUI"]
 
-[node name="ManaResourceBar" parent="GUI/DefaultPosition" instance=ExtResource( 9 )]
+[node name="ManaResourceBar" parent="GUI/WorldPosition" instance=ExtResource( 9 )]
 _resourcePath = NodePath("../../../PlayerCharacter/Mana")

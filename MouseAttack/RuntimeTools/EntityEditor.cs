@@ -110,8 +110,8 @@ namespace MouseAttack.RuntimeTools
                     new Godot.Collections.Array { stats, nameof(stats.Points), valueLabel });
 
                 SpinBox valuePerPointEdit = new SpinBox();
+                valuePerPointEdit.Step = 0.01f;
                 valuePerPointEdit.Value = stats.ValuePerPoint;
-                valuePerPointEdit.Step = 0.1f;
                 grid.AddChild(valuePerPointEdit);
                 valuePerPointEdit.Connect(Signals.ValueChanged, this, nameof(OnStatsValueChanged),
                     new Godot.Collections.Array { stats, nameof(stats.ValuePerPoint), valueLabel });

@@ -32,6 +32,7 @@ namespace MouseAttack.Action.WorldEffect
         }
 
         protected abstract void OnCollision(CommonEntity target);
+
     }
 }
 

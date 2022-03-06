@@ -2,7 +2,7 @@ using Godot;
 using System;
 using MouseAttack.Constants;
 
-namespace MouseAttack.Entity.UI
+namespace MouseAttack.Action.WorldEffect.UI
 {
     public class FloatingText : Control
     {

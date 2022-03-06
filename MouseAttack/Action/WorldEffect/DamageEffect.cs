@@ -16,6 +16,7 @@ namespace MouseAttack.Action.WorldEffect
         Random _random = new Random();
         Stage _stage;
 
+
         public override void _Ready()
         {
             base._Ready();
@@ -28,7 +29,9 @@ namespace MouseAttack.Action.WorldEffect
         {
             for (int i = 0; i < Action.Hits; i++)
             {
-                Action.ApplyDamage(User, target.Character);
+                float damage = Action.GetDamage(User, target.Character);
+                target.Character.Hit(damage);
+                OnActionApplied(target, damage);
 
                 if (Action.HasTargetEffectScene())
                 {
@@ -37,6 +40,7 @@ namespace MouseAttack.Action.WorldEffect
                     instance.Rotation = _random.Next();
                     instance.ZIndex = target.ZIndex - 1;
                     _stage.AddChild(instance);
+                    
                 }
 
                 if (Action.DamageTimeout == 0)

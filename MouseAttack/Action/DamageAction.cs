@@ -13,15 +13,17 @@ namespace MouseAttack.Action
         [Export]
         public float DamageTimeout { get; private set; } = 0;
 
-        public void ApplyDamage(Character attacker, Character defender)
+
+        public float GetDamage(Character attacker, Character defender)
         {
             bool isCritical = attacker.IsCritical;
             float attackerDamage = attacker.Damage.Value;
             float attackerCriticalDamage = attacker.CriticalDamage.Value;
-            attackerDamage = isCritical ? attackerDamage * attackerCriticalDamage : attackerDamage;
+            if (isCritical)
+                attackerDamage += attackerCriticalDamage;
             float defenderDefense = defender.Defense.Value;
             float finalDamage = attackerDamage + Damage - defenderDefense;
-            defender.Hit(finalDamage < 0 ? 0 : finalDamage);
+            return finalDamage < 0 ? 0 : finalDamage;
         }
     }
 }
