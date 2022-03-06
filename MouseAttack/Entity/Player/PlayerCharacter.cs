@@ -6,8 +6,7 @@ namespace MouseAttack.Entity.Player
 {
     public class PlayerCharacter : Character
     {
-        ResourcePool _mana;
-        public ResourcePool Mana => _mana ?? (_mana = StatsMap[StatsType.Mana] as ResourcePool);
+        public ResourcePool Mana => StatsMap[StatsType.Mana] as ResourcePool;
         public Stats ManaRegen => StatsMap[StatsType.ManaRegen];
         public Stats HealthRegen => StatsMap[StatsType.HealthRegen];
         public Stats CooldownReducion => StatsMap[StatsType.CooldownReducion];

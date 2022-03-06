@@ -17,49 +17,46 @@ namespace MouseAttack.Entity.Monster
     {
         [Export]
         MonsterDamage _action = null;
-        PlayerDetector PlayerDetector => MonsterEntity.PlayerDetector;
         MonsterEntity _monsterEntity;
-        MonsterEntity MonsterEntity => _monsterEntity ?? (_monsterEntity = GetParent<MonsterEntity>());
         Stage _stage;
-        Stage Stage => _stage ?? (_stage = this.GetStage());
-
         Timer _attackTimer;
-        Timer AttackTimer => _attackTimer ?? (_attackTimer = new Timer());
         Vector2 _collisionPoint = Vector2.Zero;
 
         public override void _Ready()
         {
-            AddChild(AttackTimer);
-            AttackTimer.Connect(Signals.Timer.Timeout, this, nameof(OnAttackTimerTimeout));
-            AttackTimer.WaitTime = _action.CooldownTimeout;
-            MonsterEntity.Initialized += OnMonsterEntityInitialized;
+            _stage = this.GetStage();
+            _monsterEntity = GetParent<MonsterEntity>();
+            AddChild(_attackTimer = new Timer());
+            _attackTimer.Connect(Signals.Timer.Timeout, this, nameof(OnAttackTimerTimeout));
+            _attackTimer.WaitTime = _action.CooldownTimeout;
+            _monsterEntity.Initialized += OnMonsterEntityInitialized;
         }
 
         private void OnMonsterEntityInitialized(object sender, EventArgs e)
         {
-            PlayerDetector.Range = _action.Range;
-            PlayerDetector.Detected += OnPlayerDetected;
-            PlayerDetector.Lost += OnPlayerLost;
+            _monsterEntity.PlayerDetector.Range = _action.Range;
+            _monsterEntity.PlayerDetector.Detected += OnPlayerDetected;
+            _monsterEntity.PlayerDetector.Lost += OnPlayerLost;
         }
 
         private void OnAttackTimerTimeout()
         {
-            if (!PlayerDetector.IsInRange)
+            if (!_monsterEntity.PlayerDetector.IsInRange)
                 return;
 
             var effectInstance = _action.GetWorldEffectInstance<CollidableEffect>();
             effectInstance.Action = _action;
-            effectInstance.User = MonsterEntity.Character;
-            effectInstance.GlobalPosition = MonsterEntity.GlobalPosition;
+            effectInstance.User = _monsterEntity.Character;
+            effectInstance.GlobalPosition = _monsterEntity.GlobalPosition;
             effectInstance.AddChild(new Mover(_action, _collisionPoint));
-            Stage.AddChild(effectInstance);
+            _stage.AddChild(effectInstance);
             _action.Use();
         }
         private void OnPlayerDetected(object sender, PlayerDetectedEventArgs e)
         {
             _collisionPoint = e.CollisionPoint;
-            AttackTimer.Start();
+            _attackTimer.Start();
         }
-        private void OnPlayerLost(object sender, EventArgs e) => AttackTimer.Stop();
+        private void OnPlayerLost(object sender, EventArgs e) => _attackTimer.Stop();
     }
 }

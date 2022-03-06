@@ -2,7 +2,7 @@
 
 [ext_resource path="res://MouseAttack/System/Controller.cs" type="Script" id=1]
 [ext_resource path="res://MouseAttack/System/Interaction.cs" type="Script" id=2]
-[ext_resource path="res://MouseAttack/Entity/Monster/Database/Rat/Rat.tscn" type="PackedScene" id=3]
+[ext_resource path="res://MouseAttack/MonsterSystem/Pool/Level1.tres" type="Resource" id=3]
 [ext_resource path="res://MouseAttack/Entity/Player/PlayerEntity.tscn" type="PackedScene" id=4]
 [ext_resource path="res://MouseAttack/Action/Player/MainAttack/MainAttack.tres" type="Resource" id=5]
 [ext_resource path="res://MouseAttack/MonsterSystem/MonsterGenerator.cs" type="Script" id=8]
@@ -20,7 +20,7 @@ script = ExtResource( 11 )
 
 [node name="MonsterGenerator" type="Node" parent="."]
 script = ExtResource( 8 )
-_monsters = [ ExtResource( 3 ) ]
+Pool = [ ExtResource( 3 ) ]
 
 [node name="SpawnPoint" type="Path2D" parent="MonsterGenerator"]
 curve = SubResource( 1 )
@@ -28,6 +28,8 @@ script = ExtResource( 10 )
 
 [node name="PathFollow2D" type="PathFollow2D" parent="MonsterGenerator/SpawnPoint"]
 position = Vector2( -32, -32 )
+
+[node name="SpawnTimer" type="Timer" parent="MonsterGenerator"]
 
 [node name="MonsterProgressor" type="Node" parent="."]
 script = ExtResource( 18 )

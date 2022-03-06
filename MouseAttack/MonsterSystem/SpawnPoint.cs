@@ -11,15 +11,17 @@ namespace MouseAttack.MonsterSystem
     {
         Random _random = new Random();
         PathFollow2D _pathFollow2d;
-        PathFollow2D PathFollow2D => _pathFollow2d ?? (_pathFollow2d = GetNode<PathFollow2D>(nameof(Godot.PathFollow2D)));
 
-        public Vector2 RandomPosition
+        public override void _Ready()
         {
-            get
-            {
-                PathFollow2D.Offset = _random.Next();
-                return PathFollow2D.Position.Snapped(Vector2.One);
-            }
+            base._Ready();
+            _pathFollow2d = GetNode<PathFollow2D>(nameof(PathFollow2D);
+        }
+
+        public Vector2 GetRandomPosition()
+        {
+            _pathFollow2d.Offset = _random.Next();
+            return _pathFollow2d.Position.Snapped(Vector2.One);
         }
     }
 }

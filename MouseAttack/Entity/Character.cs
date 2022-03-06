@@ -8,22 +8,27 @@ using System.Threading.Tasks;
 
 namespace MouseAttack.Entity
 {
+    public class DamagedEventArgs : EventArgs
+    {
+        public readonly float Damage;
+        public DamagedEventArgs(float damage) => Damage = damage;
+
+    }
     /// <summary>
     /// Base class for PlayerCharacter and MonsterCharacter
     /// </summary>
     public abstract class Character : Node
     {
         public event EventHandler Dead;
+        public event EventHandler<DamagedEventArgs> Damaged;
 
-        ResourcePool _health;
-        public ResourcePool Health => _health ?? (_health = StatsMap[StatsType.Health] as ResourcePool);
+        public ResourcePool Health => StatsMap[StatsType.Health] as ResourcePool;
         public Stats Damage => StatsMap[StatsType.Damage];
         public Stats Defense => StatsMap[StatsType.Defense];
         public Stats CriticalRate => StatsMap[StatsType.CriticalRate];
         public Stats CriticalDamage => StatsMap[StatsType.CriticalDamage];
         public bool IsCritical => CriticalRate.Value <= _random.Next(100);
         Random _random = new Random();
-
         public Dictionary<StatsType, Stats> StatsMap { get; private set; } = new Dictionary<StatsType, Stats>();
 
         public override void _Ready()
@@ -44,6 +49,10 @@ namespace MouseAttack.Entity
             Dead?.Invoke(this, EventArgs.Empty);
         }
 
-        public void Hit(float damage) => Health.Use(damage);
+        public void Hit(float damage)
+        {
+            Health.Use(damage);
+            Damaged?.Invoke(this, new DamagedEventArgs(damage));
+        }
     }
 }

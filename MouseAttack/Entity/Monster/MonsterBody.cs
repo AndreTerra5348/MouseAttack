@@ -11,16 +11,17 @@ namespace MouseAttack.Entity.Monster
 {
     public class MonsterBody : KinematicBody2D
     {
+        public MonsterEntity Entity { get; private set; }
         Stage _stage;
-        Stage Stage => _stage ?? (_stage = this.GetStage());
-        MonsterEntity _entity;
-        public MonsterEntity Entity => 
-            _entity ?? (_entity = GetNode<MonsterEntity>(nameof(MonsterEntity)));
-        float Speed => Entity.Character.MovementSpeed.Value;
-        Vector2 PlayerPosition => Stage.PlayerEntity.Position;
+        Vector2 _playerPosition;
 
         public override void _Ready()
         {
+            base._Ready();
+            Entity = GetNode<MonsterEntity>(nameof(MonsterEntity));
+            _stage = this.GetStage();
+            _playerPosition = _stage.PlayerEntity.Position;
+
             // Stop moving when castle is in range
             Entity.PlayerDetector.Detected += (object sender, PlayerDetectedEventArgs e) => SetPhysicsProcess(false);
             Entity.PlayerDetector.Lost += (object sender, EventArgs e) => SetPhysicsProcess(true);
@@ -30,10 +31,10 @@ namespace MouseAttack.Entity.Monster
 
         public override void _PhysicsProcess(float delta)
         {
-            if (Speed == 0)
+            if (Entity.Character.MovementSpeed.Value == 0)
                 return;
-            var _castleDirection = Position.DirectionTo(PlayerPosition);
-            MoveAndCollide(_castleDirection * Speed);
+            var _castleDirection = Position.DirectionTo(_playerPosition);
+            MoveAndCollide(_castleDirection * Entity.Character.MovementSpeed.Value);
         }
     }
 }

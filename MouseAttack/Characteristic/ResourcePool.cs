@@ -3,10 +3,21 @@ using System;
 
 namespace MouseAttack.Characteristic
 {
+    public class ResourceChangedEventArgs : EventArgs
+    {
+        public readonly float Value;
+        public readonly bool Used;
+        public ResourceChangedEventArgs(float value)
+        {
+            Value = value;
+            Used = value < 0;
+        }
+    }
     public class ResourcePool : Stats
     {
         public event EventHandler Depleted;
         public event EventHandler Used;
+        public event EventHandler<ResourceChangedEventArgs> Changed;
 
         float _currentValue = 0.0f;
         public float CurrentValue 
@@ -25,6 +36,7 @@ namespace MouseAttack.Characteristic
         public bool IsDepleted { get => CurrentValue <= 0; }
         public bool IsFull { get => CurrentValue == Value; }
 
+        
 
         public override void _Ready()
         {
@@ -38,6 +50,7 @@ namespace MouseAttack.Characteristic
         {
             CurrentValue -= value;
             Used?.Invoke(this, EventArgs.Empty);
+            Changed?.Invoke(this, new ResourceChangedEventArgs(-value));
             if (CurrentValue > 0)
                 return;
 
@@ -47,6 +60,7 @@ namespace MouseAttack.Characteristic
         public void Regenerate(float value = 1.0f)
         {
             CurrentValue += value;
+            Changed?.Invoke(this, new ResourceChangedEventArgs(value));
             if (CurrentValue >= Value)
                 CurrentValue = Value;
         }

@@ -22,43 +22,36 @@ namespace MouseAttack.MonsterSystem
         public event EventHandler<MonsterSpawnedEventArgs> MonsterSpawned;
 
         [Export]
-        List<PackedScene> _monsters = null;
+        List<MonsterPool> _pool;
 
         Stage _stage;
-        Stage Stage => _stage ?? (_stage = this.GetStage());
-
         SpawnPoint _spawnPoint;
-        SpawnPoint SpawnPoint => _spawnPoint ??
-            (_spawnPoint = GetNode<SpawnPoint>(nameof(SpawnPoint)));
-        
+        Timer _spawnTimer;
         int _monsterCount = 0;
+        int _dbIndex = 0;
 
-        public override void _Process(float delta)
+        public override void _Ready()
         {
-            base._Process(delta);
-            if (_monsterCount > 0)
-                return;
-            for (int i  = 0; i < Stage.Wave; i++)
-            {
-                Spawn();
-            }
-            Stage.NextWave();
+            base._Ready();
+            _stage = this.GetStage();
+            _spawnPoint = GetNode<SpawnPoint>(nameof(SpawnPoint));
+            _spawnTimer = GetNode<Timer>(nameof(Timer));
+
+            _spawnTimer.Connect(Signals.Timer.Timeout, this, nameof(Spawn));
+            _spawnTimer.Start();
+            _stage.Initialized += (object sender, EventArgs e) => Spawn();
         }
 
         void Spawn()
         {
-            for(int i = 0; i < Stage.Level; i++)
-            {
-                if (i >= _monsters.Count)
-                    continue;
-                _monsterCount++;
-                MonsterBody monasterBody = _monsters[i].Instance<MonsterBody>();
-                Stage.AddChild(monasterBody);
-                MonsterCharacter monsterCharacter = monasterBody.Entity.Character;
-                monsterCharacter.Dead += (object sender, EventArgs e) => _monsterCount--;
-                monasterBody.Position = SpawnPoint.RandomPosition;
-                MonsterSpawned?.Invoke(this, new MonsterSpawnedEventArgs(monasterBody.Entity));
-            }            
+            _monsterCount++;
+            MonsterBody monasterBody = _pool[_dbIndex].GetRandomMonster();
+            _stage.AddChild(monasterBody);
+            MonsterCharacter monsterCharacter = monasterBody.Entity.Character;
+            monsterCharacter.Dead += (object sender, EventArgs e) => _monsterCount--;
+            monasterBody.Position = _spawnPoint.GetRandomPosition();
+            MonsterSpawned?.Invoke(this, new MonsterSpawnedEventArgs(monasterBody.Entity));
+                     
         }
     }
 }

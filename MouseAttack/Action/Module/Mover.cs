@@ -10,11 +10,15 @@ namespace MouseAttack.Action.Module
     /// </summary>
     public class Mover : Node2D
     {
-        private readonly IMonsterAction _action;
-        private readonly Vector2 _target;
-
+        readonly IMonsterAction _action;
+        readonly Vector2 _target;
         DamageEffect _effect;
-        DamageEffect Effect => _effect ?? (_effect = GetParent<DamageEffect>());
+
+        public override void _Ready()
+        {
+            base._Ready();
+            _effect = GetParent<DamageEffect>();
+        }
 
         public Mover()
         {
@@ -28,7 +32,7 @@ namespace MouseAttack.Action.Module
 
         public override void _Process(float delta)
         {
-            Effect.Position = Effect.Position.MoveToward(_target, _action.Speed).Snapped(Vector2.One);
+            _effect.Position = _effect.Position.MoveToward(_target, _action.Speed).Snapped(Vector2.One);
         }
     }
 }

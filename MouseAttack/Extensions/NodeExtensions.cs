@@ -16,9 +16,7 @@ namespace MouseAttack.Extensions
             return node.GetNode<T>(path);
         }
 
-        public static Stage GetStage(this Node node)
-        {
-            return node.GetNode<Stage>(StagePath);
-        }
+        public static Stage GetStage(this Node node) =>
+            node.GetNode<Stage>(StagePath);
     }
 }

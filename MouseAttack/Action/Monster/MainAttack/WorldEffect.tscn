@@ -4,6 +4,10 @@
 [ext_resource path="res://MouseAttack/Action/Monster/MainAttack/stone_0_new.png" type="Texture" id=2]
 
 [node name="MainAttack" instance=ExtResource( 1 )]
+QueueFreeTimerStarter = 1
+
+[node name="QueueFreeTimer" parent="." index="0"]
+wait_time = 0.2
 
 [node name="Sprite" parent="." index="2"]
 texture = ExtResource( 2 )

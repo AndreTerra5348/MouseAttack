@@ -22,23 +22,21 @@ namespace MouseAttack.MonsterSystem
             { StatsType.CriticalRate, 0.01f },
             { StatsType.CriticalDamage, 0.01f },
         };
-
         Dictionary<StatsType, float> _applicableBonuses = new Dictionary<StatsType, float>();
-
         Random _random = new Random();
         Stage _stage;
-        Stage Stage => _stage ?? (_stage = this.GetStage());
 
         public override void _Ready()
         {
-            Stage.Initialized += OnStageInitialized;            
+            _stage = this.GetStage();
+            _stage.Initialized += OnStageInitialized;            
         }
 
         private void OnStageInitialized(object sender, EventArgs e)
         {
-            MonsterGenerator monsterGenerator = Stage.MonsterGenerator;
+            MonsterGenerator monsterGenerator = _stage.MonsterGenerator;
             monsterGenerator.MonsterSpawned += OnMonsterSpawned;
-            Stage.LevelFinished += OnLevelFinished;
+            _stage.LevelFinished += OnLevelFinished;
         }
 
         private void OnMonsterSpawned(object sender, MonsterSpawnedEventArgs e)
@@ -60,7 +58,7 @@ namespace MouseAttack.MonsterSystem
         {
             Array keys = _baseBonus.Keys.ToArray();
             var stats = (StatsType)keys.GetValue(_random.Next(keys.Length));
-            var value = _baseBonus[stats] * Stage.Wave;
+            var value = _baseBonus[stats] * _stage.Wave;
             _applicableBonuses[stats] = value;
         }
 

@@ -12,13 +12,13 @@ namespace MouseAttack.Action.WorldEffect
     {
         new DamageAction Action => base.Action as DamageAction;
 
-        Stage _stage;
-        Stage Stage => _stage ?? (_stage = this.GetStage());
-
         Random _random = new Random();
+        Stage _stage;
+
         public override void _Ready()
         {
             base._Ready();
+            _stage = this.GetStage();
             if (Action.DamageTimeout > 0)
                 QueueFreeTimer.WaitTime = Action.DamageTimeout * Action.Hits; ;
         }
@@ -35,7 +35,7 @@ namespace MouseAttack.Action.WorldEffect
                     instance.GlobalPosition = target.GlobalPosition;
                     instance.Rotation = _random.Next();
                     instance.ZIndex = target.ZIndex - 1;
-                    Stage.AddChild(instance);
+                    _stage.AddChild(instance);
                 }
 
                 if (Action.DamageTimeout == 0)

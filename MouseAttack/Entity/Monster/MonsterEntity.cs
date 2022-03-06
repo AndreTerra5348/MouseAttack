@@ -1,5 +1,6 @@
 using Godot;
 using MouseAttack.Action.Monster;
+using MouseAttack.Entity.UI;
 using MouseAttack.Extensions;
 using MouseAttack.Misc;
 using MouseAttack.World;
@@ -11,18 +12,22 @@ namespace MouseAttack.Entity.Monster
     {
         public event EventHandler Initialized;
         public event EventHandler Freed;
+
+        [Export]
+        PackedScene _floatingNumberScene = null;
+
         protected override string CharacterName => nameof(MonsterCharacter);
         public PlayerAttacker PlayerAttacker { get; private set; }
         public PlayerDetector PlayerDetector { get; private set; }
         public bool IsDead => Character.IsDead;
 
         Stage _stage;
-        Stage Stage => _stage ?? (_stage = this.GetStage());
 
 
         async public override void _Ready()
         {            
             base._Ready();
+            _stage = this.GetStage();
             PlayerDetector = GetNode<PlayerDetector>(nameof(PlayerDetector));
             PlayerAttacker = GetNode<PlayerAttacker>(nameof(PlayerAttacker));
             Initialized?.Invoke(this, EventArgs.Empty);
@@ -30,7 +35,19 @@ namespace MouseAttack.Entity.Monster
             await ToSignal(GetTree().CreateTimer(0.5f), Signals.Timer.Timeout);
 
             var sprite = GetNode<Sprite>(nameof(Sprite));
-            sprite.FlipH = GlobalPosition.DirectionTo(Stage.PlayerEntity.GlobalPosition).x > 0;
+            sprite.FlipH = GlobalPosition.DirectionTo(_stage.PlayerEntity.GlobalPosition).x > 0;
+
+            Character.Damaged += OnCharacterDamaged;
+            
+        }
+
+        private void OnCharacterDamaged(object sender, DamagedEventArgs e)
+        {
+            var instance = _floatingNumberScene.Instance<FloatingText>();
+            instance.Text = e.Damage.ToString();
+            instance.Color = Colors.Red;
+            instance.RectGlobalPosition = GlobalPosition;
+            _stage.AddChild(instance);
         }
 
         protected override void OnDeath(object sender, EventArgs e)

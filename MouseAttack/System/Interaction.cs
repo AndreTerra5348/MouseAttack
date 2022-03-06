@@ -27,12 +27,13 @@ namespace MouseAttack.System
             }
             get => _action;
         }
-        Stage _stage;
-        Stage Stage => _stage ?? (_stage = this.GetStage());
 
-        PlayerCharacter PlayerCharacter => Stage.PlayerEntity.Character;
+        Stage _stage;
+
         public override void _Ready()
         {
+            base._Ready();
+            _stage = this.GetStage();
             var controller = GetNode<Controller>(nameof(Controller));
             controller.LMBPressed += OnLMBPressed;
             controller.HotkeyPressed += HotkeyPressed;
@@ -45,20 +46,21 @@ namespace MouseAttack.System
             if (Action.OnCooldown)
                 return;
 
-            if (!PlayerCharacter.HasEnoughMana(Action.Cost))
+            if (!_stage.PlayerEntity.Character.HasEnoughMana(Action.Cost))
                 return;
 
-            PlayerCharacter.UseMana(Action.Cost);
+            _stage.PlayerEntity.Character.UseMana(Action.Cost);
 
             CommonEffect effectInstance = Action.GetWorldEffectInstance<CommonEffect>();
             effectInstance.Action = Action;
-            effectInstance.User = PlayerCharacter;
+            effectInstance.User = _stage.PlayerEntity.Character;
             effectInstance.Position = GetViewport().GetMousePosition();
-            Stage.AddChild(effectInstance);
+            _stage.AddChild(effectInstance);
             Action.Use();
 
-            float cooldownReduction = Action.CooldownTimeout * PlayerCharacter.CooldownReducion.Value;
+            float cooldownReduction = Action.CooldownTimeout * _stage.PlayerEntity.Character.CooldownReducion.Value;
             float cooldownTimeout = Action.CooldownTimeout - cooldownReduction;
+
             await ToSignal(GetTree().CreateTimer(cooldownTimeout), Signals.Timer.Timeout);
 
             Action.StopCooldown();
