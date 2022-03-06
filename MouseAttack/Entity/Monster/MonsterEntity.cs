@@ -35,19 +35,7 @@ namespace MouseAttack.Entity.Monster
             await ToSignal(GetTree().CreateTimer(0.5f), Signals.Timer.Timeout);
 
             var sprite = GetNode<Sprite>(nameof(Sprite));
-            sprite.FlipH = GlobalPosition.DirectionTo(_stage.PlayerEntity.GlobalPosition).x > 0;
-
-            Character.Damaged += OnCharacterDamaged;
-            
-        }
-
-        private void OnCharacterDamaged(object sender, DamagedEventArgs e)
-        {
-            var instance = _floatingNumberScene.Instance<FloatingText>();
-            instance.Text = e.Damage.ToString();
-            instance.Color = Colors.Red;
-            instance.RectGlobalPosition = GlobalPosition;
-            _stage.AddChild(instance);
+            sprite.FlipH = GlobalPosition.DirectionTo(_stage.PlayerEntity.GlobalPosition).x > 0;            
         }
 
         protected override void OnDeath(object sender, EventArgs e)

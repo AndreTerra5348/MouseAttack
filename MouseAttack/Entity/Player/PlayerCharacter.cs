@@ -1,5 +1,4 @@
 ﻿using MouseAttack.Characteristic;
-using MouseAttack.Subsystem;
 using System;
 
 namespace MouseAttack.Entity.Player
@@ -14,8 +13,6 @@ namespace MouseAttack.Entity.Player
         public override void _Ready()
         {
             base._Ready();
-            AddChild(new ResourceRegenerator(Health, HealthRegen));
-            AddChild(new ResourceRegenerator(Mana, ManaRegen));
         }
 
         public bool HasEnoughMana(float value) => Mana.CurrentValue >= value;

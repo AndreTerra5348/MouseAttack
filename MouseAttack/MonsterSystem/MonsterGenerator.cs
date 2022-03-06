@@ -22,11 +22,11 @@ namespace MouseAttack.MonsterSystem
         public event EventHandler<MonsterSpawnedEventArgs> MonsterSpawned;
 
         [Export]
-        List<MonsterPool> _pool;
+        List<MonsterPool> _pool = new List<MonsterPool>();
 
         Stage _stage;
         SpawnPoint _spawnPoint;
-        Timer _spawnTimer;
+        Timer timer;
         int _monsterCount = 0;
         int _dbIndex = 0;
 
@@ -35,10 +35,10 @@ namespace MouseAttack.MonsterSystem
             base._Ready();
             _stage = this.GetStage();
             _spawnPoint = GetNode<SpawnPoint>(nameof(SpawnPoint));
-            _spawnTimer = GetNode<Timer>(nameof(Timer));
+            timer = GetNode<Timer>(nameof(Timer));
 
-            _spawnTimer.Connect(Signals.Timer.Timeout, this, nameof(Spawn));
-            _spawnTimer.Start();
+            timer.Connect(Signals.Timer.Timeout, this, nameof(Spawn));
+            timer.Start();
             _stage.Initialized += (object sender, EventArgs e) => Spawn();
         }
 

@@ -15,7 +15,7 @@ namespace MouseAttack.MonsterSystem
         public override void _Ready()
         {
             base._Ready();
-            _pathFollow2d = GetNode<PathFollow2D>(nameof(PathFollow2D);
+            _pathFollow2d = GetNode<PathFollow2D>(nameof(PathFollow2D));
         }
 
         public Vector2 GetRandomPosition()

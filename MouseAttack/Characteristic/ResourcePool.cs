@@ -6,11 +6,11 @@ namespace MouseAttack.Characteristic
     public class ResourceChangedEventArgs : EventArgs
     {
         public readonly float Value;
-        public readonly bool Used;
-        public ResourceChangedEventArgs(float value)
+        public readonly bool Increased;
+        public ResourceChangedEventArgs(float value, bool increased)
         {
             Value = value;
-            Used = value < 0;
+            Increased = increased;
         }
     }
     public class ResourcePool : Stats
@@ -50,7 +50,7 @@ namespace MouseAttack.Characteristic
         {
             CurrentValue -= value;
             Used?.Invoke(this, EventArgs.Empty);
-            Changed?.Invoke(this, new ResourceChangedEventArgs(-value));
+            Changed?.Invoke(this, new ResourceChangedEventArgs(value, false));
             if (CurrentValue > 0)
                 return;
 
@@ -60,7 +60,7 @@ namespace MouseAttack.Characteristic
         public void Regenerate(float value = 1.0f)
         {
             CurrentValue += value;
-            Changed?.Invoke(this, new ResourceChangedEventArgs(value));
+            Changed?.Invoke(this, new ResourceChangedEventArgs(value, true));
             if (CurrentValue >= Value)
                 CurrentValue = Value;
         }

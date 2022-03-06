@@ -2,27 +2,25 @@ using Godot;
 using MouseAttack.Characteristic;
 using System;
 
-namespace MouseAttack.Subsystem
+namespace MouseAttack.Characteristic.System
 {
     public class ResourceRegenerator : Timer
     {
-        private readonly ResourcePool _resource;
-        private readonly Stats _regen;
-
-        public ResourceRegenerator()
-        {
-        }
-
-        public ResourceRegenerator(ResourcePool resource, Stats regen)
-        {
-            _resource = resource;
-            _resource.Used += OnResourceUsed;
-            _regen = regen;
-        }        
+        [Export]
+        NodePath _regenPath = null;        
+        ResourcePool _resource;
+        Stats _regen;
 
         public override void _EnterTree()
         {
             Connect(Signals.Timer.Timeout, this, nameof(Regenerate));
+        }
+
+        public override void _Ready()
+        {
+            _resource = GetParent<ResourcePool>();
+            _resource.Used += OnResourceUsed;
+            _regen = GetNode<Stats>(_regenPath);
         }
 
         private void OnResourceUsed(object sender, EventArgs e)

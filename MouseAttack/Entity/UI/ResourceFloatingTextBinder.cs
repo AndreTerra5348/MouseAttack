@@ -8,25 +8,36 @@ using System.Threading.Tasks;
 
 namespace MouseAttack.Entity.UI
 {
-    public class ResourceFloatingTextBinder : Node
+    public class ResourceFloatingTextBinder : Control
     {
+        enum Options { IncreaseOnly, DecreaseOnly, Both }
         [Export]
-        Color _increaseColor;
+        Options _option = Options.Both;
         [Export]
-        Color _decreaseColor;
-        FloatingTextSpawner _textSpawner;
+        Color _increaseColor = Colors.Green;
+        [Export]
+        Color _decreaseColor = Colors.Red;
+        [Export]
+        NodePath _resourcePath;
+        FloatingTextSpawner _textSpawner = null;
 
         public override void _Ready()
         {
-            ResourcePool resource = GetParent<ResourcePool>();
-            resource.Changed += OnResourceChanged;
             _textSpawner = GetNode<FloatingTextSpawner>(nameof(FloatingTextSpawner));
-
+            ResourcePool resource = GetNode<ResourcePool>(_resourcePath);
+            resource.Changed += OnResourceChanged;
         }
 
         private void OnResourceChanged(object sender, ResourceChangedEventArgs e)
         {
-            throw new NotImplementedException();
+            if (_option == Options.IncreaseOnly && !e.Increased)
+                return;
+            if (_option == Options.DecreaseOnly && e.Increased)
+                return;
+
+            Color color = e.Increased ? _increaseColor : _decreaseColor;
+            string valueText = e.Value.ToString();
+            _textSpawner.Spawn(valueText, color);
         }
     }
 }

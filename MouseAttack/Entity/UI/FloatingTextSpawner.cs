@@ -12,7 +12,7 @@ namespace MouseAttack.Entity.UI
     public class FloatingTextSpawner : Control
     {
         [Export]
-        PackedScene _floatingText;
+        PackedScene _floatingText = null;
         Stage _stage;
 
         public override void _Ready()

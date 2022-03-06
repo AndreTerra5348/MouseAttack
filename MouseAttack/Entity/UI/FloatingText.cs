@@ -1,5 +1,6 @@
 using Godot;
 using System;
+using MouseAttack.Extensions;
 
 namespace MouseAttack.Entity.UI
 {
@@ -12,7 +13,7 @@ namespace MouseAttack.Entity.UI
         {
             Label label = GetNode<Label>(nameof(Label));
             label.Text = Text;
-            label.AddColorOverride("font_color", Color);
+            label.SetFontColor(Color);
         }
     }
 }
