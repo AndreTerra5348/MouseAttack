@@ -1,5 +1,6 @@
 using Godot;
 using MouseAttack.Action.Monster;
+using MouseAttack.Constants;
 using MouseAttack.Entity.UI;
 using MouseAttack.Extensions;
 using MouseAttack.Misc;
@@ -12,9 +13,6 @@ namespace MouseAttack.Entity.Monster
     {
         public event EventHandler Initialized;
         public event EventHandler Freed;
-
-        [Export]
-        PackedScene _floatingNumberScene = null;
 
         protected override string CharacterName => nameof(MonsterCharacter);
         public PlayerAttacker PlayerAttacker { get; private set; }
@@ -32,7 +30,7 @@ namespace MouseAttack.Entity.Monster
             PlayerAttacker = GetNode<PlayerAttacker>(nameof(PlayerAttacker));
             Initialized?.Invoke(this, EventArgs.Empty);
 
-            await ToSignal(GetTree().CreateTimer(0.5f), Signals.Timer.Timeout);
+            await ToSignal(GetTree().CreateTimer(0.5f), Signals.Timeout);
 
             var sprite = GetNode<Sprite>(nameof(Sprite));
             sprite.FlipH = GlobalPosition.DirectionTo(_stage.PlayerEntity.GlobalPosition).x > 0;            

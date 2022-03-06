@@ -7,8 +7,9 @@ using System;
 using MouseAttack.World;
 using MouseAttack.Misc;
 using MouseAttack.Entity.Player;
+using MouseAttack.Constants;
 
-namespace MouseAttack.System
+namespace MouseAttack.PlayerSystem
 {
     public class Interaction : ObservableNode
     {
@@ -61,7 +62,7 @@ namespace MouseAttack.System
             float cooldownReduction = Action.CooldownTimeout * _stage.PlayerEntity.Character.CooldownReducion.Value;
             float cooldownTimeout = Action.CooldownTimeout - cooldownReduction;
 
-            await ToSignal(GetTree().CreateTimer(cooldownTimeout), Signals.Timer.Timeout);
+            await ToSignal(GetTree().CreateTimer(cooldownTimeout), Signals.Timeout);
 
             Action.StopCooldown();
         }

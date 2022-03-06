@@ -1,4 +1,5 @@
 ﻿using Godot;
+using MouseAttack.Constants;
 using MouseAttack.Entity.Player;
 using System;
 using System.Collections.Generic;
@@ -30,8 +31,8 @@ namespace MouseAttack.Entity.Monster
 
         public override void _EnterTree()
         {
-            Connect(Signals.Area2D.AreaEntered, this, nameof(OnAreaEntered));
-            Connect(Signals.Area2D.AreaExited, this, nameof(OnAreaExited));
+            Connect(Signals.AreaEntered, this, nameof(OnAreaEntered));
+            Connect(Signals.AreaExited, this, nameof(OnAreaExited));
         }
 
         private void OnAreaEntered(Area2D area)

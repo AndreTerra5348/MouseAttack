@@ -1,4 +1,4 @@
-[gd_scene load_steps=9 format=2]
+[gd_scene load_steps=11 format=2]
 
 [ext_resource path="res://MouseAttack/Characteristic/ResourcePool.cs" type="Script" id=1]
 [ext_resource path="res://MouseAttack/Entity/Player/PlayerEntity.cs" type="Script" id=2]
@@ -7,6 +7,8 @@
 [ext_resource path="res://MouseAttack/Entity/Player/mangrove_1.png" type="Texture" id=5]
 [ext_resource path="res://MouseAttack/Characteristic/System/ResourceRegenerator.cs" type="Script" id=6]
 [ext_resource path="res://MouseAttack/Entity/UI/ResourceFloatingTextBinder.tscn" type="PackedScene" id=7]
+[ext_resource path="res://MouseAttack/Entity/UI/ResourceBar.tscn" type="PackedScene" id=8]
+[ext_resource path="res://MouseAttack/Entity/UI/BigResourceBar.tscn" type="PackedScene" id=9]
 
 [sub_resource type="CircleShape2D" id=1]
 radius = 16.0
@@ -22,6 +24,7 @@ script = ExtResource( 4 )
 
 [node name="Health" type="Node" parent="PlayerCharacter"]
 script = ExtResource( 1 )
+Points = 100
 
 [node name="ResourceRegenerator" type="Timer" parent="PlayerCharacter/Health"]
 script = ExtResource( 6 )
@@ -35,6 +38,7 @@ script = ExtResource( 3 )
 
 [node name="Mana" type="Node" parent="PlayerCharacter"]
 script = ExtResource( 1 )
+Points = 50
 
 [node name="ResourceRegenerator" type="Timer" parent="PlayerCharacter/Mana"]
 script = ExtResource( 6 )
@@ -61,8 +65,6 @@ Points = 0
 texture = ExtResource( 5 )
 
 [node name="GUI" type="Control" parent="."]
-margin_right = 40.0
-margin_bottom = 40.0
 __meta__ = {
 "_edit_use_anchors_": false
 }
@@ -74,3 +76,11 @@ _resourcePath = NodePath("../../PlayerCharacter/Mana")
 
 [node name="HealthFloatingTextBinder" parent="GUI" instance=ExtResource( 7 )]
 _resourcePath = NodePath("../../PlayerCharacter/Health")
+
+[node name="HealthResourceBar" parent="GUI" instance=ExtResource( 8 )]
+_resourcePath = NodePath("../../PlayerCharacter/Health")
+
+[node name="DefaultPosition" type="Node" parent="GUI"]
+
+[node name="ManaResourceBar" parent="GUI/DefaultPosition" instance=ExtResource( 9 )]
+_resourcePath = NodePath("../../../PlayerCharacter/Mana")

@@ -1,5 +1,6 @@
 using Godot;
 using MouseAttack.Characteristic;
+using MouseAttack.Constants;
 using System;
 
 namespace MouseAttack.Characteristic.System
@@ -13,7 +14,7 @@ namespace MouseAttack.Characteristic.System
 
         public override void _EnterTree()
         {
-            Connect(Signals.Timer.Timeout, this, nameof(Regenerate));
+            Connect(Signals.Timeout, this, nameof(Regenerate));
         }
 
         public override void _Ready()

@@ -3,6 +3,7 @@ using MouseAttack.Action;
 using MouseAttack.Action.Module;
 using MouseAttack.Action.Monster;
 using MouseAttack.Action.WorldEffect;
+using MouseAttack.Constants;
 using MouseAttack.Extensions;
 using MouseAttack.World;
 using System;
@@ -27,7 +28,7 @@ namespace MouseAttack.Entity.Monster
             _stage = this.GetStage();
             _monsterEntity = GetParent<MonsterEntity>();
             AddChild(_attackTimer = new Timer());
-            _attackTimer.Connect(Signals.Timer.Timeout, this, nameof(OnAttackTimerTimeout));
+            _attackTimer.Connect(Signals.Timeout, this, nameof(OnAttackTimerTimeout));
             _attackTimer.WaitTime = _action.CooldownTimeout;
             _monsterEntity.Initialized += OnMonsterEntityInitialized;
         }

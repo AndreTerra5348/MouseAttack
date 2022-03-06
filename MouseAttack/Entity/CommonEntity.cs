@@ -1,4 +1,5 @@
 ﻿using Godot;
+using MouseAttack.Constants;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -18,8 +19,8 @@ namespace MouseAttack.Entity
 
         public override void _EnterTree()
         {
-            Connect(Signals.CollisionObject2D.MouseEntered, this, nameof(OnMouseEntered));
-            Connect(Signals.CollisionObject2D.MouseExited, this, nameof(OnMouseExited));
+            Connect(Signals.MouseEntered, this, nameof(OnMouseEntered));
+            Connect(Signals.MouseExited, this, nameof(OnMouseExited));
         }
         public override void _Ready()
         {

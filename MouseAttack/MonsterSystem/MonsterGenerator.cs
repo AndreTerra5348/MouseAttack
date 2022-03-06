@@ -8,6 +8,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using MouseAttack.Constants;
 
 namespace MouseAttack.MonsterSystem
 {
@@ -37,7 +38,7 @@ namespace MouseAttack.MonsterSystem
             _spawnPoint = GetNode<SpawnPoint>(nameof(SpawnPoint));
             timer = GetNode<Timer>(nameof(Timer));
 
-            timer.Connect(Signals.Timer.Timeout, this, nameof(Spawn));
+            timer.Connect(Signals.Timeout, this, nameof(Spawn));
             timer.Start();
             _stage.Initialized += (object sender, EventArgs e) => Spawn();
         }

@@ -1,7 +1,7 @@
 using Godot;
 using System;
 
-namespace MouseAttack.System
+namespace MouseAttack.PlayerSystem
 {
     public class Controller : Node
     {

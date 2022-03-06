@@ -1,4 +1,5 @@
 using Godot;
+using MouseAttack.Constants;
 using MouseAttack.Entity;
 using MouseAttack.Extensions;
 using MouseAttack.World;
@@ -15,7 +16,7 @@ namespace MouseAttack.Action.WorldEffect
             var area2d = GetNode<Area2D>(nameof(Area2D));
             var shape = area2d.ShapeOwnerGetShape(0, 0) as CircleShape2D;            
             shape.Radius = Action.Radius;
-            area2d.Connect(Signals.Area2D.AreaEntered, this, nameof(OnAreaEntered));
+            area2d.Connect(Signals.AreaEntered, this, nameof(OnAreaEntered));
             area2d.CollisionLayer = Action.CollisionLayer;
             area2d.CollisionMask = Action.CollisionMask;            
         }

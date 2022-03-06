@@ -8,7 +8,7 @@
 script = ExtResource( 1 )
 WorldEffectScene = ExtResource( 2 )
 TargetEffectScene = ExtResource( 3 )
-Cost = 0.0
+Cost = 2.0
 CooldownTimeout = 0.1
 Radius = 10.0
 CollisionLayer = 8

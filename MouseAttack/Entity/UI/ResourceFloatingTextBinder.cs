@@ -18,8 +18,8 @@ namespace MouseAttack.Entity.UI
         [Export]
         Color _decreaseColor = Colors.Red;
         [Export]
-        NodePath _resourcePath;
-        FloatingTextSpawner _textSpawner = null;
+        NodePath _resourcePath = null;
+        FloatingTextSpawner _textSpawner;
 
         public override void _Ready()
         {

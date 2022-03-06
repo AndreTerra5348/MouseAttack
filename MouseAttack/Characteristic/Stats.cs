@@ -29,7 +29,7 @@ namespace MouseAttack.Characteristic
         [Export]
         public float ValuePerPoint 
         { 
-            private set
+            set
             {
                 if (_valuePerPoint == value)
                     return;
@@ -43,7 +43,7 @@ namespace MouseAttack.Characteristic
         [Export]
         public int Points
         { 
-            private set
+            set
             {
                 if (_points == value)
                     return;

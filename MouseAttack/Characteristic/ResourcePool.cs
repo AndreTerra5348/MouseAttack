@@ -34,9 +34,7 @@ namespace MouseAttack.Characteristic
         }
         public float MaxValue { get => Value; }
         public bool IsDepleted { get => CurrentValue <= 0; }
-        public bool IsFull { get => CurrentValue == Value; }
-
-        
+        public bool IsFull { get => CurrentValue == Value; }        
 
         public override void _Ready()
         {

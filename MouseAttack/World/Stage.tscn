@@ -1,10 +1,7 @@
-[gd_scene load_steps=11 format=2]
+[gd_scene load_steps=8 format=2]
 
-[ext_resource path="res://MouseAttack/System/Controller.cs" type="Script" id=1]
-[ext_resource path="res://MouseAttack/System/Interaction.cs" type="Script" id=2]
 [ext_resource path="res://MouseAttack/MonsterSystem/Pool/Level1.tres" type="Resource" id=3]
 [ext_resource path="res://MouseAttack/Entity/Player/PlayerEntity.tscn" type="PackedScene" id=4]
-[ext_resource path="res://MouseAttack/Action/Player/MainAttack/MainAttack.tres" type="Resource" id=5]
 [ext_resource path="res://MouseAttack/MonsterSystem/MonsterGenerator.cs" type="Script" id=8]
 [ext_resource path="res://MouseAttack/MonsterSystem/SpawnPoint.cs" type="Script" id=10]
 [ext_resource path="res://MouseAttack/World/Stage.cs" type="Script" id=11]
@@ -33,13 +30,6 @@ position = Vector2( -32, -32 )
 
 [node name="MonsterProgressor" type="Node" parent="."]
 script = ExtResource( 18 )
-
-[node name="Interaction" type="Node" parent="."]
-script = ExtResource( 2 )
-SlottedActions = [ ExtResource( 5 ), null, null, null ]
-
-[node name="Controller" type="Node" parent="Interaction"]
-script = ExtResource( 1 )
 
 [node name="PlayerEntity" parent="." instance=ExtResource( 4 )]
 position = Vector2( 320, 224 )

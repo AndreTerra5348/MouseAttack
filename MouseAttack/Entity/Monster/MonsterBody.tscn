@@ -1,4 +1,4 @@
-[gd_scene load_steps=13 format=2]
+[gd_scene load_steps=14 format=2]
 
 [ext_resource path="res://MouseAttack/Action/Monster/MainAttack/MainAttack.tres" type="Resource" id=1]
 [ext_resource path="res://MouseAttack/Entity/Monster/MonsterBody.cs" type="Script" id=2]
@@ -9,6 +9,7 @@
 [ext_resource path="res://MouseAttack/Characteristic/Stats.cs" type="Script" id=7]
 [ext_resource path="res://MouseAttack/Entity/Monster/MonsterCharacter.cs" type="Script" id=8]
 [ext_resource path="res://MouseAttack/Entity/UI/ResourceFloatingTextBinder.tscn" type="PackedScene" id=9]
+[ext_resource path="res://MouseAttack/Entity/UI/ResourceBar.tscn" type="PackedScene" id=10]
 
 [sub_resource type="CircleShape2D" id=3]
 radius = 8.0
@@ -73,4 +74,7 @@ __meta__ = {
 }
 
 [node name="HealthFloatingTextBinder" parent="MonsterEntity/UI" instance=ExtResource( 9 )]
+_resourcePath = NodePath("../../MonsterCharacter/Health")
+
+[node name="ResourceBar" parent="MonsterEntity/UI" instance=ExtResource( 10 )]
 _resourcePath = NodePath("../../MonsterCharacter/Health")

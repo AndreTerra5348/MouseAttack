@@ -5,6 +5,7 @@ using MouseAttack.Entity.Monster;
 using MouseAttack.Extensions;
 using MouseAttack.World;
 using System;
+using MouseAttack.Constants;
 
 namespace MouseAttack.Action.WorldEffect
 {
@@ -40,7 +41,7 @@ namespace MouseAttack.Action.WorldEffect
 
                 if (Action.DamageTimeout == 0)
                     return;
-                await ToSignal(GetTree().CreateTimer(Action.DamageTimeout), Signals.Timer.Timeout);
+                await ToSignal(GetTree().CreateTimer(Action.DamageTimeout), Signals.Timeout);
             }
         }
     }
