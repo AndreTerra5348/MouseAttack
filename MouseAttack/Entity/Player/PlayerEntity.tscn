@@ -84,12 +84,12 @@ __meta__ = {
 }
 
 [node name="HealthResourceBar" parent="GUI" instance=ExtResource( 8 )]
-_propertyOwnerPath = NodePath("../../PlayerCharacter/Health")
+_sourcePath = NodePath("../../PlayerCharacter/Health")
 
 [node name="WorldPosition" type="Node" parent="GUI"]
 
 [node name="ManaResourceBar" parent="GUI/WorldPosition" instance=ExtResource( 9 )]
-_propertyOwnerPath = NodePath("../../../PlayerCharacter/Mana")
+_sourcePath = NodePath("../../../PlayerCharacter/Mana")
 
 [node name="ExperienceBar" parent="GUI/WorldPosition" instance=ExtResource( 7 )]
-_propertyOwnerPath = NodePath("../../../PlayerCharacter")
+_sourcePath = NodePath("../../../PlayerCharacter")

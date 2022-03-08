@@ -11,39 +11,47 @@ namespace MouseAttack.Misc.UI
 {
     public abstract class ObserverProgressBar<T> : Control where T : ObservableNode
     {
-
         [Export]
-        NodePath _propertyOwnerPath = "";
-        protected T _propertyOwner;
-        ProgressBar _bar;
-        protected abstract string PropertyName { get; }
-        protected abstract float MaxValue { get; }
-        protected abstract float StartingValue { get; }
+        NodePath _sourcePath = "";
+        protected T Source { get; private set; }
+        protected ProgressBar ProgressBar;
+        protected abstract List<PropertyBinding> Bindings { get; }
+
         public override void _Ready()
         {
-            _propertyOwner = GetNode<T>(_propertyOwnerPath);
-            _propertyOwner.PropertyChanged += OnObservableNodePropertyChanged;
+            Source = GetNode<T>(_sourcePath);
+            Source.PropertyChanged += OnObservableNodePropertyChanged;
 
-            _bar = GetNode<ProgressBar>(nameof(ProgressBar));
-            _bar.MaxValue = MaxValue;
-            _bar.Value = StartingValue;
+            ProgressBar = GetNode<ProgressBar>(nameof(ProgressBar));
+            foreach (PropertyBinding binding in Bindings)
+            {
+                SetProperty(binding);
+            }
         }
 
         private void OnObservableNodePropertyChanged(object sender, PropertyChangedEventArgs e)
         {
-            if (e.PropertyName != PropertyName)
-                return;
-
-            PropertyInfo propertyInfo = _propertyOwner.GetType().GetProperty(PropertyName);
-            object propertyValue = propertyInfo.GetValue(_propertyOwner);
-            if (propertyValue.GetType() != typeof(float))
-                return;
-
-            float value = (float)propertyValue;
-            _bar.Value = value;
-            OnValueUpdated(value);
+            foreach(PropertyBinding binding in Bindings)
+            {
+                if (e.PropertyName != binding.SourcePropertyName)
+                    continue;
+                SetProperty(binding);
+            }
         }
 
-        protected virtual void OnValueUpdated(float value) { }
+        private void SetProperty(PropertyBinding binding)
+        {
+            // Get Source's Property value
+            object propertyValue = Source
+                .GetType()
+                .GetProperty(binding.SourcePropertyName)
+                .GetValue(Source);
+
+            // Set Progress Bar's Property value
+            ProgressBar
+                .GetType()
+                .GetProperty(binding.TargetPropertyName)
+                .SetValue(ProgressBar, propertyValue);
+        }
     }
 }

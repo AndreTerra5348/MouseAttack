@@ -11,8 +11,10 @@ namespace MouseAttack.Entity.Player.UI
 {
     public class ExperienceBar : ObserverProgressBar<PlayerCharacter>
     {
-        protected override string PropertyName => nameof(_propertyOwner.Experience);
-        protected override float MaxValue => 100.0f;
-        protected override float StartingValue => 0.0f;
+        protected override List<PropertyBinding> Bindings => new List<PropertyBinding>()
+        {
+            new PropertyBinding(nameof(ProgressBar.Value), nameof(Source.Experience)),
+            new PropertyBinding(nameof(ProgressBar.MaxValue), nameof(Source.NextLevelExperience)),
+        };
     }
 }

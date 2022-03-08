@@ -5,6 +5,9 @@
 
 [node name="Rat" instance=ExtResource( 1 )]
 
+[node name="MonsterCharacter" parent="MonsterEntity" index="3"]
+Experience = 10.0
+
 [node name="Health" parent="MonsterEntity/MonsterCharacter" index="0"]
 Points = 30
 

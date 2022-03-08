@@ -73,4 +73,4 @@ __meta__ = {
 }
 
 [node name="ResourceBar" parent="MonsterEntity/UI" instance=ExtResource( 10 )]
-_propertyOwnerPath = NodePath("../../MonsterCharacter/Health")
+_sourcePath = NodePath("../../MonsterCharacter/Health")

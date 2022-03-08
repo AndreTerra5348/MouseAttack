@@ -13,8 +13,10 @@ namespace MouseAttack.Entity.UI
 {
     public class ResourceBar : ObserverProgressBar<ResourcePool>
     {
-        protected override string PropertyName => nameof(_propertyOwner.CurrentValue);
-        protected override float MaxValue => _propertyOwner.Value;
-        protected override float StartingValue => MaxValue;
+        protected override List<PropertyBinding> Bindings => new List<PropertyBinding>()
+        {
+            new PropertyBinding(nameof(ProgressBar.Value), nameof(Source.CurrentValue)),
+            new PropertyBinding(nameof(ProgressBar.MaxValue), nameof(Source.Value)),
+        };
     }
 }

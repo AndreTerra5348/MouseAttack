@@ -95,9 +95,7 @@ namespace MouseAttack.Characteristic
         public void AddAlteredValue(float value) => _alteredValue += value;
         public void RemoveAlteredValue(float value) => _alteredValue -= value;
         public void SetAlteredPercentage(float value) => _alteredPercentage = value;
-        public void ResetAlteredPercentage() => _alteredPercentage = 0;
-        public void AddPoint(int value = 1) => Points += value;
-        public void RemovePoint(int value = 1) => Points -= value;       
+        public void ResetAlteredPercentage() => _alteredPercentage = 0;    
 
     }
 }

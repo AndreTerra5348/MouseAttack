@@ -3,9 +3,6 @@ using MouseAttack.Characteristic;
 using MouseAttack.Misc;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace MouseAttack.Entity
 {
@@ -16,7 +13,35 @@ namespace MouseAttack.Entity
     {
         public event EventHandler Dead;
 
-        float _experience = 1;
+        float _nextLevelExperience = 100;
+        public float NextLevelExperience
+        {
+            get => _nextLevelExperience;
+            set
+            {
+                if (value == _nextLevelExperience)
+                    return;
+                _nextLevelExperience = value;
+                OnPropertyChanged();
+            }
+        }
+        float _level = 1;
+        public float Level
+        {
+            get => _level;
+            set
+            {
+                if (value == _level)
+                    return;
+                _level = value;
+                OnPropertyChanged();
+                OnLevelRaised();
+                NextLevelExperience += NextLevelExperience*(Level / 2.0f);
+                Experience = 0;
+            }
+        }
+
+        float _experience = 0;
         [Export]
         public float Experience
         {
@@ -27,8 +52,11 @@ namespace MouseAttack.Entity
                     return;
                 _experience = value;
                 OnPropertyChanged();
+
+                if (value >= NextLevelExperience)
+                    Level++;
             }
-        }
+        }        
 
         public ResourcePool Health => StatsMap[StatsType.Health] as ResourcePool;
         public Stats Damage => StatsMap[StatsType.Damage];
@@ -62,5 +90,7 @@ namespace MouseAttack.Entity
         {
             Health.Use(damage);
         }
+
+        protected virtual void OnLevelRaised() { }
     }
 }

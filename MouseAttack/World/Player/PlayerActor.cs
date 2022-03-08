@@ -71,6 +71,7 @@ namespace MouseAttack.World.Player
             var controller = GetNode<PlayerController>(_controllerPath);
             controller.LMBPressed += OnLMBPressed;
             controller.HotkeyPressed += HotkeyPressed;
+
             SlotAction(_actionDB.GetMainAttack(), _selectSlot);
         }
 
