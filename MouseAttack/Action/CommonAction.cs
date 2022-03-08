@@ -1,7 +1,6 @@
 using Godot;
 using MouseAttack.Action.WorldEffect;
-using MouseAttack.Entity;
-using MouseAttack.World;
+using MouseAttack.Characteristic;
 
 namespace MouseAttack.Action
 {
@@ -30,6 +29,9 @@ namespace MouseAttack.Action
         public virtual void Use() => StartCooldown();
         protected void StartCooldown() => _cooldown = true;
         public void StopCooldown() => _cooldown = false;
+        public float CalculateCooldownTimeout(Stats cooldownReduction) =>
+            CooldownTimeout - CooldownTimeout * cooldownReduction.Percentage;
+
     }
 }
 

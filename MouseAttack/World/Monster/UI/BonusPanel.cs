@@ -11,7 +11,7 @@ namespace MouseAttack.World.Monster.UI
     public class BonusPanel : Control
     {
         [Export]
-        NodePath _labelContainerPath = null;
+        NodePath _labelContainerPath = "";
         VBoxContainer _labelContainer;
 
         MonsterProgressor _monsterProgressor;
@@ -51,6 +51,6 @@ namespace MouseAttack.World.Monster.UI
             }
         }
 
-        private string GetLabelText(StatsType type, float value) => $"{StatsNaming.Map[type]}: {value.ToString("0.00")}";
+        private string GetLabelText(StatsType type, float value) => $"{StatsConstants.NamingMap[type]}: {(value / 100.0f).ToString("0%")}";
     }
 }

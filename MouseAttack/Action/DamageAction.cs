@@ -13,7 +13,6 @@ namespace MouseAttack.Action
         [Export]
         public float DamageTimeout { get; private set; } = 0;
 
-
         public float GetDamage(Character attacker, Character defender)
         {
             bool isCritical = attacker.IsCritical;

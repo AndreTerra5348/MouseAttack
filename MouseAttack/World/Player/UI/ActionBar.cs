@@ -12,7 +12,7 @@ namespace MouseAttack.World.Player.UI
     public class ActionBar : Control
     {
         [Export]
-        NodePath _slotContainerPath;
+        NodePath _slotContainerPath = "";
         HBoxContainer _slotContainer;
         PlayerActor _playerActor;
         public override void _Ready()

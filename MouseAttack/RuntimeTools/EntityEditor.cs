@@ -10,7 +10,7 @@ namespace MouseAttack.RuntimeTools
     public class EntityEditor : Control
     {
         [Export]
-        NodePath _tabNodePath = null;
+        NodePath _tabNodePath = "";
         [Export(PropertyHint.File, "*.tscn")]
         string _playerScenePath = "";
         [Export(PropertyHint.Dir)]

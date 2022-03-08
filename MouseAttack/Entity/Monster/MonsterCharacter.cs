@@ -10,6 +10,5 @@ namespace MouseAttack.Entity.Monster
     public class MonsterCharacter : Character
     {
         public Stats MovementSpeed => StatsMap[StatsType.MovementSpeed];
-        public bool IsDead => Health.IsDepleted;
     }
 }

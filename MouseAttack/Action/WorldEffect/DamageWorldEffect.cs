@@ -32,6 +32,8 @@ namespace MouseAttack.Action.WorldEffect
                 float damage = Action.GetDamage(User, target.Character);
                 target.Character.Hit(damage);
                 OnActionApplied(target, damage);
+                if (target.Character.IsDead)
+                    User.Experience += target.Character.Experience;
                 if (Action.DamageTimeout == 0)
                     return;
                 await ToSignal(GetTree().CreateTimer(Action.DamageTimeout), Signals.Timeout);

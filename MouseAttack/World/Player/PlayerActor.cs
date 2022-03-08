@@ -8,6 +8,7 @@ using MouseAttack.World;
 using MouseAttack.Misc;
 using MouseAttack.Entity.Player;
 using MouseAttack.Constants;
+using static MouseAttack.World.Player.PlayerController;
 
 namespace MouseAttack.World.Player
 {
@@ -41,7 +42,7 @@ namespace MouseAttack.World.Player
         [Export]
         public ActionDB _actionDB;
         [Export]
-        NodePath _controllerPath = null;
+        NodePath _controllerPath = "";
 
         CommonAction[] _slottedActions = new CommonAction[5];
 
@@ -60,7 +61,6 @@ namespace MouseAttack.World.Player
 
         bool IsSelectedSlotNull => _slottedActions[SelectedSlot] == null;
         PlayerCharacter PlayerCharacter => _stage.PlayerEntity.Character;
-        float PlayerCooldownReduction => PlayerCharacter.CooldownReducion.Value;
 
         Stage _stage;
 
@@ -96,9 +96,7 @@ namespace MouseAttack.World.Player
             _stage.AddChild(effectInstance);
             action.Use();
 
-
-            float cooldownReduction = action.CooldownTimeout * PlayerCooldownReduction;
-            float cooldownTimeout = action.CooldownTimeout - cooldownReduction;
+            float cooldownTimeout = action.CalculateCooldownTimeout(PlayerCharacter.CooldownReducion);
 
             ActionUsed?.Invoke(this, new ActionUsedEventArgs(SelectedSlot, cooldownTimeout));
 
@@ -107,7 +105,7 @@ namespace MouseAttack.World.Player
             action.StopCooldown();
         }
 
-        private void HotkeyPressed(object sender, PlayerController.HotkeyPressedEventArgs e)
+        private void HotkeyPressed(object sender, HotkeyPressedEventArgs e)
         {
             var hotkey = e.Hotkey;
             if (hotkey >= _slottedActions.Length)

@@ -1,5 +1,6 @@
 ﻿using Godot;
 using MouseAttack.Characteristic;
+using MouseAttack.Misc;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,16 +12,31 @@ namespace MouseAttack.Entity
     /// <summary>
     /// Base class for PlayerCharacter and MonsterCharacter
     /// </summary>
-    public abstract class Character : Node
+    public abstract class Character : ObservableNode
     {
         public event EventHandler Dead;
+
+        float _experience = 1;
+        [Export]
+        public float Experience
+        {
+            get => _experience;
+            set
+            {
+                if (value == _experience)
+                    return;
+                _experience = value;
+                OnPropertyChanged();
+            }
+        }
 
         public ResourcePool Health => StatsMap[StatsType.Health] as ResourcePool;
         public Stats Damage => StatsMap[StatsType.Damage];
         public Stats Defense => StatsMap[StatsType.Defense];
         public Stats CriticalRate => StatsMap[StatsType.CriticalRate];
         public Stats CriticalDamage => StatsMap[StatsType.CriticalDamage];
-        public bool IsCritical => CriticalRate.Value <= _random.Next(100);
+        public bool IsCritical => CriticalRate.Percentage <= _random.NextDouble();
+        public bool IsDead => Health.IsDepleted;
         Random _random = new Random();
         public Dictionary<StatsType, Stats> StatsMap { get; private set; } = new Dictionary<StatsType, Stats>();
 

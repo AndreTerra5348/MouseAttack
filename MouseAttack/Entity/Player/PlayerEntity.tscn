@@ -1,4 +1,4 @@
-[gd_scene load_steps=10 format=2]
+[gd_scene load_steps=11 format=2]
 
 [ext_resource path="res://MouseAttack/Characteristic/ResourcePool.cs" type="Script" id=1]
 [ext_resource path="res://MouseAttack/Entity/Player/PlayerEntity.cs" type="Script" id=2]
@@ -6,8 +6,9 @@
 [ext_resource path="res://MouseAttack/Entity/Player/PlayerCharacter.cs" type="Script" id=4]
 [ext_resource path="res://MouseAttack/Entity/Player/mangrove_1.png" type="Texture" id=5]
 [ext_resource path="res://MouseAttack/Characteristic/System/ResourceRegenerator.cs" type="Script" id=6]
+[ext_resource path="res://MouseAttack/Entity/Player/UI/ExperienceBar.tscn" type="PackedScene" id=7]
 [ext_resource path="res://MouseAttack/Entity/UI/ResourceBar.tscn" type="PackedScene" id=8]
-[ext_resource path="res://MouseAttack/Entity/UI/BigResourceBar.tscn" type="PackedScene" id=9]
+[ext_resource path="res://MouseAttack/Entity/Player/UI/ManaBar.tscn" type="PackedScene" id=9]
 
 [sub_resource type="CircleShape2D" id=1]
 radius = 16.0
@@ -83,9 +84,12 @@ __meta__ = {
 }
 
 [node name="HealthResourceBar" parent="GUI" instance=ExtResource( 8 )]
-_resourcePath = NodePath("../../PlayerCharacter/Health")
+_propertyOwnerPath = NodePath("../../PlayerCharacter/Health")
 
 [node name="WorldPosition" type="Node" parent="GUI"]
 
 [node name="ManaResourceBar" parent="GUI/WorldPosition" instance=ExtResource( 9 )]
-_resourcePath = NodePath("../../../PlayerCharacter/Mana")
+_propertyOwnerPath = NodePath("../../../PlayerCharacter/Mana")
+
+[node name="ExperienceBar" parent="GUI/WorldPosition" instance=ExtResource( 7 )]
+_propertyOwnerPath = NodePath("../../../PlayerCharacter")

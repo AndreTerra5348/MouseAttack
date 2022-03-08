@@ -18,12 +18,12 @@ namespace MouseAttack.World.Monster
         Dictionary<StatsType, float> _baseBonus = new Dictionary<StatsType, float>()
         {
             // Percentage
-            { StatsType.Health, 0.01f },
-            { StatsType.Damage, 0.01f },
-            { StatsType.Defense, 0.01f },
-            { StatsType.CriticalRate, 0.01f },
-            { StatsType.CriticalDamage, 0.01f },
-            { StatsType.MovementSpeed, 0.01f }
+            { StatsType.Health, 1 },
+            { StatsType.Damage, 1 },
+            { StatsType.Defense, 1 },
+            { StatsType.CriticalRate, 1 },
+            { StatsType.CriticalDamage, 1 },
+            { StatsType.MovementSpeed, 1 }
         };
         Random _random = new Random();
         Stage _stage;

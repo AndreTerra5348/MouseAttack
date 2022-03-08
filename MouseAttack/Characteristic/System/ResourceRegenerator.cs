@@ -8,7 +8,7 @@ namespace MouseAttack.Characteristic.System
     public class ResourceRegenerator : Timer
     {
         [Export]
-        NodePath _regenPath = null;        
+        NodePath _regenPath = "";        
         ResourcePool _resource;
         Stats _regen;
 

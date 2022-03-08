@@ -1,7 +1,5 @@
 using Godot;
-using MouseAttack.Action.Monster;
 using MouseAttack.Constants;
-using MouseAttack.Entity.UI;
 using MouseAttack.Extensions;
 using MouseAttack.Misc;
 using MouseAttack.World;
@@ -13,7 +11,6 @@ namespace MouseAttack.Entity.Monster
     {
         public event EventHandler Initialized;
         public event EventHandler Freed;
-
         protected override string CharacterName => nameof(MonsterCharacter);
         public PlayerAttacker PlayerAttacker { get; private set; }
         public PlayerDetector PlayerDetector { get; private set; }

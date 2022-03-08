@@ -22,9 +22,9 @@ namespace MouseAttack.Characteristic
         CooldownReducion,
     }
 
-    public class StatsNaming
+    public class StatsConstants
     {
-        public static Dictionary<StatsType, string> Map = new Dictionary<StatsType, string>()
+        public static Dictionary<StatsType, string> NamingMap = new Dictionary<StatsType, string>()
         {
             { StatsType.CriticalRate, "Crit Rate" },
             { StatsType.CriticalDamage, "Crit Dmg" },
@@ -41,10 +41,7 @@ namespace MouseAttack.Characteristic
 
     public class Stats : ObservableNode
     {
-        
-
         public StatsType Type { get; private set; } = StatsType.None;
-
         float _valuePerPoint = 1.0f;
         [Export]
         public float ValuePerPoint 
@@ -78,9 +75,12 @@ namespace MouseAttack.Characteristic
             get
             {
                 var value = Points * ValuePerPoint + _alteredValue;
-                return value + (value * _alteredPercentage);
+                return value + value * (_alteredPercentage / 100.0f);
+
             }
         }
+        public float Percentage => Value / 100;
+
         private float _alteredValue = 0;
         private float _alteredPercentage = 0;
 
