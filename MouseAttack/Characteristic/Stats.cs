@@ -1,6 +1,7 @@
 using Godot;
 using MouseAttack.Misc;
 using System;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 
@@ -21,8 +22,27 @@ namespace MouseAttack.Characteristic
         CooldownReducion,
     }
 
+    public class StatsNaming
+    {
+        public static Dictionary<StatsType, string> Map = new Dictionary<StatsType, string>()
+        {
+            { StatsType.CriticalRate, "Crit Rate" },
+            { StatsType.CriticalDamage, "Crit Dmg" },
+            { StatsType.Damage, "Dmg" },
+            { StatsType.Defense, "Def" },
+            { StatsType.MovementSpeed, "Mv Spd" },
+            { StatsType.Health, "HP" },
+            { StatsType.Mana, "MP" },
+            { StatsType.HealthRegen, "HP Regen" },
+            { StatsType.ManaRegen, "MP Regen" },
+            { StatsType.CooldownReducion, "Cooldown Reduction" },
+        };
+    }
+
     public class Stats : ObservableNode
     {
+        
+
         public StatsType Type { get; private set; } = StatsType.None;
 
         float _valuePerPoint = 1.0f;

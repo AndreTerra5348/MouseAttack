@@ -1,0 +1,24 @@
+[gd_scene load_steps=5 format=2]
+
+[ext_resource path="res://MouseAttack/World/Monster/MonsterGenerator.cs" type="Script" id=1]
+[ext_resource path="res://MouseAttack/World/Monster/SpawnPoint.cs" type="Script" id=2]
+[ext_resource path="res://MouseAttack/World/Monster/Pool/Level1.tres" type="Resource" id=4]
+
+[sub_resource type="Curve2D" id=1]
+_data = {
+"points": PoolVector2Array( 0, 0, 0, 0, -32, -32, 0, 0, 0, 0, 672, -32, 0, 0, 0, 0, 672, 480, 0, 0, 0, 0, -32, 480, 0, 0, 0, 0, -32, -32 )
+}
+
+[node name="MonsterGenerator" type="Node"]
+script = ExtResource( 1 )
+_pool = [ ExtResource( 4 ) ]
+
+[node name="SpawnPoint" type="Path2D" parent="."]
+curve = SubResource( 1 )
+script = ExtResource( 2 )
+
+[node name="PathFollow2D" type="PathFollow2D" parent="SpawnPoint"]
+position = Vector2( -32, -32 )
+
+[node name="Timer" type="Timer" parent="."]
+wait_time = 2.0

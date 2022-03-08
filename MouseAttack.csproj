@@ -2,8 +2,4 @@
   <PropertyGroup>
     <TargetFramework>net472</TargetFramework>
   </PropertyGroup>
-  <ItemGroup>
-    <Folder Include="MouseAttack\Action\TargetEffects\" />
-    <Folder Include="MouseAttack\Action\Player\" />
-  </ItemGroup>
 </Project>

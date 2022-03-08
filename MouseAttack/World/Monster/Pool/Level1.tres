@@ -1,0 +1,8 @@
+[gd_resource type="Resource" load_steps=3 format=2]
+
+[ext_resource path="res://MouseAttack/Entity/Monster/Database/Rat/Rat.tscn" type="PackedScene" id=1]
+[ext_resource path="res://MouseAttack/World/Monster/MonsterPool.cs" type="Script" id=2]
+
+[resource]
+script = ExtResource( 2 )
+Monsters = [ ExtResource( 1 ) ]

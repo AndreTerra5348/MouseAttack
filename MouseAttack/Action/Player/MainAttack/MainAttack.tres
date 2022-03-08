@@ -2,15 +2,16 @@
 
 [ext_resource path="res://MouseAttack/Action/DamageAction.cs" type="Script" id=1]
 [ext_resource path="res://MouseAttack/Action/Player/MainAttack/WorldEffect.tscn" type="PackedScene" id=2]
-[ext_resource path="res://MouseAttack/Action/TargetEffects/Blood/BloodTargetEffect.tscn" type="PackedScene" id=3]
+[ext_resource path="res://MouseAttack/Action/Player/MainAttack/flame_0.png" type="Texture" id=3]
 
 [resource]
 script = ExtResource( 1 )
 WorldEffectScene = ExtResource( 2 )
-TargetEffectScene = ExtResource( 3 )
+Icon = ExtResource( 3 )
 Cost = 0.1
-CooldownTimeout = 0.1
-Radius = 10.0
+CooldownTimeout = 0.3
+IsUnlocked = true
+Radius = 5.0
 CollisionLayer = 8
 CollisionMask = 2
 Damage = 1.0

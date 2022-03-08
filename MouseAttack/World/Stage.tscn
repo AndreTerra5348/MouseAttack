@@ -1,45 +1,25 @@
-[gd_scene load_steps=11 format=2]
+[gd_scene load_steps=8 format=2]
 
-[ext_resource path="res://MouseAttack/PlayerSystem/Controller.cs" type="Script" id=1]
-[ext_resource path="res://MouseAttack/PlayerSystem/Interaction.cs" type="Script" id=2]
-[ext_resource path="res://MouseAttack/MonsterSystem/Pool/Level1.tres" type="Resource" id=3]
+[ext_resource path="res://MouseAttack/World/Player/PlayerActor.tscn" type="PackedScene" id=1]
+[ext_resource path="res://MouseAttack/World/Player/PlayerController.tscn" type="PackedScene" id=2]
+[ext_resource path="res://MouseAttack/World/Monster/MonsterGenerator.tscn" type="PackedScene" id=3]
 [ext_resource path="res://MouseAttack/Entity/Player/PlayerEntity.tscn" type="PackedScene" id=4]
-[ext_resource path="res://MouseAttack/Action/Player/MainAttack/MainAttack.tres" type="Resource" id=5]
-[ext_resource path="res://MouseAttack/MonsterSystem/MonsterGenerator.cs" type="Script" id=8]
-[ext_resource path="res://MouseAttack/MonsterSystem/SpawnPoint.cs" type="Script" id=10]
+[ext_resource path="res://MouseAttack/Action/Player/ActionDB.tres" type="Resource" id=5]
+[ext_resource path="res://MouseAttack/World/Monster/MonsterProgressor.tscn" type="PackedScene" id=6]
 [ext_resource path="res://MouseAttack/World/Stage.cs" type="Script" id=11]
-[ext_resource path="res://MouseAttack/MonsterSystem/MonsterProgressor.cs" type="Script" id=18]
-
-[sub_resource type="Curve2D" id=1]
-_data = {
-"points": PoolVector2Array( 0, 0, 0, 0, -32, -32, 0, 0, 0, 0, 672, -32, 0, 0, 0, 0, 672, 480, 0, 0, 0, 0, -32, 480, 0, 0, 0, 0, -32, -32 )
-}
 
 [node name="Stage" type="Node2D"]
 script = ExtResource( 11 )
 
-[node name="MonsterGenerator" type="Node" parent="."]
-script = ExtResource( 8 )
-_pool = [ ExtResource( 3 ) ]
+[node name="MonsterGenerator" parent="." instance=ExtResource( 3 )]
 
-[node name="SpawnPoint" type="Path2D" parent="MonsterGenerator"]
-curve = SubResource( 1 )
-script = ExtResource( 10 )
-
-[node name="PathFollow2D" type="PathFollow2D" parent="MonsterGenerator/SpawnPoint"]
-position = Vector2( -32, -32 )
-
-[node name="Timer" type="Timer" parent="MonsterGenerator"]
-
-[node name="MonsterProgressor" type="Node" parent="."]
-script = ExtResource( 18 )
+[node name="MonsterProgressor" parent="." instance=ExtResource( 6 )]
 
 [node name="PlayerEntity" parent="." instance=ExtResource( 4 )]
 position = Vector2( 320, 224 )
 
-[node name="Interaction" type="Node" parent="."]
-script = ExtResource( 2 )
-SlottedActions = [ ExtResource( 5 ), null, null, null, null ]
+[node name="PlayerActor" parent="." instance=ExtResource( 1 )]
+_actionDB = ExtResource( 5 )
+_controllerPath = NodePath("../PlayerController")
 
-[node name="Controller" type="Node" parent="Interaction"]
-script = ExtResource( 1 )
+[node name="PlayerController" parent="." instance=ExtResource( 2 )]

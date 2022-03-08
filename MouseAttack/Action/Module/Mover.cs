@@ -12,12 +12,12 @@ namespace MouseAttack.Action.Module
     {
         readonly IMonsterAction _action;
         readonly Vector2 _target;
-        DamageEffect _effect;
+        DamageWorldEffect _effect;
 
         public override void _Ready()
         {
             base._Ready();
-            _effect = GetParent<DamageEffect>();
+            _effect = GetParent<DamageWorldEffect>();
         }
 
         public Mover()

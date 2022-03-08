@@ -1,7 +1,7 @@
 using Godot;
 using MouseAttack.Entity.Player;
 using MouseAttack.Misc;
-using MouseAttack.MonsterSystem;
+using MouseAttack.World.Monster;
 using System;
 
 namespace MouseAttack.World

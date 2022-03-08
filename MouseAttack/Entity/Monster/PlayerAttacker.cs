@@ -45,7 +45,7 @@ namespace MouseAttack.Entity.Monster
             if (!_monsterEntity.PlayerDetector.IsInRange)
                 return;
 
-            var effectInstance = _action.GetWorldEffectInstance<CollidableEffect>();
+            var effectInstance = _action.GetWorldEffectInstance<CollidableWorldEffect>();
             effectInstance.Action = _action;
             effectInstance.User = _monsterEntity.Character;
             effectInstance.GlobalPosition = _monsterEntity.GlobalPosition;

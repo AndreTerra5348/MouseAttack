@@ -7,6 +7,7 @@ bg_color = Color( 0, 1, 1, 1 )
 
 [sub_resource type="StyleBoxFlat" id=2]
 bg_color = Color( 0.392157, 0.392157, 0.392157, 1 )
+border_color = Color( 1, 1, 1, 1 )
 
 [node name="BigResourceBar" type="Control"]
 script = ExtResource( 1 )
