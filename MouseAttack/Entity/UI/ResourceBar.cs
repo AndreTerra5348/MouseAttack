@@ -1,7 +1,9 @@
 ﻿using Godot;
 using MouseAttack.Characteristic;
 using MouseAttack.Constants;
-using MouseAttack.Misc.UI;
+using MouseAttack.Entity.Player.UI;
+using MouseAttack.Extensions;
+using MouseAttack.Misc;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -11,12 +13,15 @@ using System.Threading.Tasks;
 
 namespace MouseAttack.Entity.UI
 {
-    public class ResourceBar : ObserverProgressBar<ResourcePool>
+    public class ResourceBar : ProgressBarController<ResourcePool>
     {
-        protected override List<PropertyBinding> Bindings => new List<PropertyBinding>()
+        public override void _Ready()
         {
-            new PropertyBinding(nameof(ProgressBar.Value), nameof(Source.CurrentValue)),
-            new PropertyBinding(nameof(ProgressBar.MaxValue), nameof(Source.Value)),
-        };
+            base._Ready();
+            DataBindings.Add(new Binding(Source, nameof(Source.CurrentValue), ProgressBar, nameof(ProgressBar.Value)));
+            DataBindings.Add(new Binding(Source, nameof(Source.Value), ProgressBar, nameof(ProgressBar.MaxValue)));
+
+            Initialize();
+        }
     }
 }

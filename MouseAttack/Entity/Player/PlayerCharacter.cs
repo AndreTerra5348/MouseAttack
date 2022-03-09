@@ -46,7 +46,7 @@ namespace MouseAttack.Entity.Player
             AttributePoints--;
         }
 
-        public void RemovePoint(Stats stats)
+        public void RemoveAttributePoint(Stats stats)
         {
             if (stats.Points == 0)
                 return;

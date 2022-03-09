@@ -2,6 +2,7 @@
 using System;
 using MouseAttack.Misc;
 using MouseAttack.World;
+using System.ComponentModel;
 
 namespace MouseAttack.Extensions
 {
@@ -17,6 +18,6 @@ namespace MouseAttack.Extensions
         }
 
         public static Stage GetStage(this Node node) =>
-            node.GetNode<Stage>(StagePath);
+            node.GetNode<Stage>(StagePath);        
     }
 }

@@ -1,4 +1,4 @@
-[gd_scene load_steps=11 format=2]
+[gd_scene load_steps=12 format=2]
 
 [ext_resource path="res://MouseAttack/Characteristic/ResourcePool.cs" type="Script" id=1]
 [ext_resource path="res://MouseAttack/Entity/Player/PlayerEntity.cs" type="Script" id=2]
@@ -9,6 +9,7 @@
 [ext_resource path="res://MouseAttack/Entity/Player/UI/ExperienceBar.tscn" type="PackedScene" id=7]
 [ext_resource path="res://MouseAttack/Entity/UI/ResourceBar.tscn" type="PackedScene" id=8]
 [ext_resource path="res://MouseAttack/Entity/Player/UI/ManaBar.tscn" type="PackedScene" id=9]
+[ext_resource path="res://MouseAttack/Entity/Player/UI/AttributeDistributionPanel.tscn" type="PackedScene" id=10]
 
 [sub_resource type="CircleShape2D" id=1]
 radius = 16.0
@@ -93,3 +94,6 @@ _sourcePath = NodePath("../../../PlayerCharacter/Mana")
 
 [node name="ExperienceBar" parent="GUI/WorldPosition" instance=ExtResource( 7 )]
 _sourcePath = NodePath("../../../PlayerCharacter")
+
+[node name="AttributeDistributionPanel" parent="GUI/WorldPosition" instance=ExtResource( 10 )]
+_characterPath = NodePath("../../../PlayerCharacter")

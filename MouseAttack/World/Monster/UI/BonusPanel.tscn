@@ -30,7 +30,7 @@ _labelContainerPath = NodePath("MarginContainer/PanelContainer/VBoxContainer/Lab
 [node name="MarginContainer" type="MarginContainer" parent="."]
 margin_left = 544.0
 margin_right = 640.0
-margin_bottom = 160.0
+margin_bottom = 41.0
 custom_constants/margin_right = 5
 custom_constants/margin_top = 5
 custom_constants/margin_left = 5

@@ -14,13 +14,12 @@ namespace MouseAttack.World.Player
         public EventHandler LMBPressed;
         public EventHandler<HotkeyPressedEventArgs> HotkeyPressed;
 
+        private bool _lmbPressed = false;
         readonly string[] _hotkeys = { "hk1", "hk2", "hk3", "hk4", "hk5" };
 
         public override void _Process(float delta)
         {
-            // Disable Process when opening menus
-            // Re enable Process when closing menus
-            if (Input.IsActionPressed("LMB"))
+            if (_lmbPressed)
                 LMBPressed?.Invoke(this, new EventArgs());
         }
 
@@ -31,11 +30,22 @@ namespace MouseAttack.World.Player
                 if (@event.IsActionPressed(_hotkeys[i]))
                     HotkeyPressed?.Invoke(this, new HotkeyPressedEventArgs(i));
             }
-            base._UnhandledKeyInput(@event);
+            
+        }
+
+        public override void _UnhandledInput(InputEvent @event)
+        {
+            // Pressed only when there is no UI
+            if (@event.IsActionPressed("LMB"))
+                _lmbPressed = true;
         }
 
         public override void _Input(InputEvent @event)
         {
+            // Release every where
+            if (@event.IsActionReleased("LMB"))
+                _lmbPressed = false;
+
             // Open Inventory
 
             // Open Skill Menu

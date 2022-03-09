@@ -13,6 +13,7 @@ script = ExtResource( 1 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
+_levelLabelPath = NodePath("LevelLabel")
 
 [node name="ProgressBar" type="ProgressBar" parent="."]
 margin_left = 32.0
@@ -26,3 +27,12 @@ percent_visible = false
 __meta__ = {
 "_edit_use_anchors_": false
 }
+
+[node name="LevelLabel" type="Label" parent="."]
+margin_left = 288.0
+margin_top = 352.0
+margin_right = 352.0
+margin_bottom = 384.0
+text = "Level 1"
+align = 1
+valign = 1

@@ -66,6 +66,8 @@ namespace MouseAttack.Characteristic
                     return;
                 _points = value;
                 OnPropertyChanged();
+                OnPropertyChanged(nameof(Value));
+                Value++;
             }
             get => _points;
         }
@@ -76,8 +78,8 @@ namespace MouseAttack.Characteristic
             {
                 var value = Points * ValuePerPoint + _alteredValue;
                 return value + value * (_alteredPercentage / 100.0f);
-
             }
+            set => OnPropertyChanged();
         }
         public float Percentage => Value / 100;
 
