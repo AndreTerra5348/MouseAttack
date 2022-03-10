@@ -3,7 +3,7 @@ using MouseAttack.Misc;
 
 namespace MouseAttack.Entity.Player.UI
 {
-    public abstract class ProgressBarController<T> : ObserverNode where T : ObservableNode
+    public abstract class ProgressBarController<T> : Control where T : ObservableNode
     {
         [Export]
         NodePath _sourcePath = "";

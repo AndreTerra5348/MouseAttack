@@ -96,4 +96,5 @@ _sourcePath = NodePath("../../../PlayerCharacter/Mana")
 _sourcePath = NodePath("../../../PlayerCharacter")
 
 [node name="AttributeDistributionPanel" parent="GUI/WorldPosition" instance=ExtResource( 10 )]
+visible = false
 _characterPath = NodePath("../../../PlayerCharacter")

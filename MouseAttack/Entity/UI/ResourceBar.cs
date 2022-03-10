@@ -18,10 +18,8 @@ namespace MouseAttack.Entity.UI
         public override void _Ready()
         {
             base._Ready();
-            DataBindings.Add(new Binding(Source, nameof(Source.CurrentValue), ProgressBar, nameof(ProgressBar.Value)));
-            DataBindings.Add(new Binding(Source, nameof(Source.Value), ProgressBar, nameof(ProgressBar.MaxValue)));
-
-            Initialize();
+            Source.Bind(nameof(Source.CurrentValue), ProgressBar, nameof(ProgressBar.Value));
+            Source.Bind(nameof(Source.Value), ProgressBar, nameof(ProgressBar.MaxValue));
         }
     }
 }

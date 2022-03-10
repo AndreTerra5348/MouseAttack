@@ -17,6 +17,12 @@ namespace MouseAttack.World.Player
         private bool _lmbPressed = false;
         readonly string[] _hotkeys = { "hk1", "hk2", "hk3", "hk4", "hk5" };
 
+        public override void _Notification(int what)
+        {
+            if(what == NotificationPaused)
+                _lmbPressed = false;
+        }
+
         public override void _Process(float delta)
         {
             if (_lmbPressed)
