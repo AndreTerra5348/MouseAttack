@@ -22,6 +22,15 @@ namespace MouseAttack.Action
         [Export]
         public bool IsUnlocked { get; private set; }
 
+        public virtual string Tooltip
+        {
+            get
+            {
+                return 
+                    $"Mana Cost: {Cost.ToString("0.0")}\n" +
+                    $"Cooldown: {CooldownTimeout.ToString("0.0")}";
+            }
+        }
         bool _cooldown = false;
         public bool OnCooldown => _cooldown;
 
@@ -32,6 +41,7 @@ namespace MouseAttack.Action
         public float CalculateCooldownTimeout(Stats cooldownReduction) =>
             CooldownTimeout - CooldownTimeout * cooldownReduction.Percentage;
 
+        
     }
 }
 

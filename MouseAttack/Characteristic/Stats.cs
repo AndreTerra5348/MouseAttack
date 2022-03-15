@@ -35,7 +35,7 @@ namespace MouseAttack.Characteristic
             { StatsType.Mana, "MP" },
             { StatsType.HealthRegen, "HP Regen" },
             { StatsType.ManaRegen, "MP Regen" },
-            { StatsType.CooldownReducion, "Cooldown Reduction" },
+            { StatsType.CooldownReducion, "Cooldown" },
         };
     }
 
@@ -71,6 +71,9 @@ namespace MouseAttack.Characteristic
             }
             get => _points;
         }
+
+        [Export]
+        public bool Editable { get; private set; } = false;
 
         public float Value 
         { 

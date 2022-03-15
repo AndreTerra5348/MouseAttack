@@ -1,4 +1,4 @@
-﻿using Godot;
+using Godot;
 using MouseAttack.Characteristic;
 using MouseAttack.Constants;
 using MouseAttack.Extensions;
@@ -11,17 +11,22 @@ using System.Threading.Tasks;
 
 namespace MouseAttack.Entity.Player.UI
 {
-    public class AttributeDistributionPanel : Control
+    public class AttributeDistributionPanel : PanelContainer
     {
         const string RemainingPointsTextFormat = "Remaining points: {0}";
+
         [Export]
-        NodePath _characterPath = "";
+        NodePath _characterPath = "";        
         [Export]
         NodePath _gridPath = "";
         [Export]
         NodePath _remainingPointsLabelPath = "";
         [Export]
         NodePath _closeButtonPath = "";
+        [Export]
+        PackedScene _plusButtonScene = null;
+        [Export]
+        PackedScene _minusButtonScene = null;
 
         List<StatsType> _stats = new List<StatsType>()
         {
@@ -46,58 +51,69 @@ namespace MouseAttack.Entity.Player.UI
         public override void _Ready()
         {
             base._Ready();
+            // Get References
             PlayerCharacter character = GetNode<PlayerCharacter>(_characterPath);
             GridContainer grid = GetNode<GridContainer>(_gridPath);
             Label remainingPointsLabel = GetNode<Label>(_remainingPointsLabelPath);
-            Button closeButton = GetNode<Button>(_closeButtonPath);            
+            Button closeButton = GetNode<Button>(_closeButtonPath);
 
-            foreach (StatsType type in _stats)
+            var statsList = character
+                            .GetChildren()
+                            .Cast<Stats>()
+                            .OrderBy(x => !x.Editable);
+            
+            foreach (Stats stats in statsList)
             {
-                // Get character stats
-                string statsName = Enum.GetName(typeof(StatsType), type);
-                Stats stats = character.GetNode<Stats>(statsName);
 
                 // Set Name label
                 Label nameLabel = new Label();
-                nameLabel.Text = StatsConstants.NamingMap[type];
+                nameLabel.Text = StatsConstants.NamingMap[stats.Type];
                 grid.AddChild(nameLabel);
 
                 // Bind Value Label
                 Label valueLabel = new Label();
-                stats.Bind(nameof(Stats.Value), valueLabel, nameof(Label.Text), propertyConvertor: (object value) => ((float)value).ToString("0.0"));
-                grid.AddChild(valueLabel);           
+                stats.Bind(nameof(Stats.Value), valueLabel, nameof(Label.Text), 
+                    propertyConvertor: (object value) => ((float)value).ToString("0.0"));
+                grid.AddChild(valueLabel);
+
+                if (!stats.Editable)
+                {
+
+                    grid.AddChild(new Control());
+                    grid.AddChild(new Control());
+                    continue;
+                }
 
                 // Connect Plus Button
-                Button plusButton = new Button();
-                plusButton.Text = "+";
-                plusButton.RectMinSize = new Vector2(25, 25);
+                Button plusButton = _plusButtonScene.Instance<Button>();
                 plusButton.Disabled = true;
                 plusButton.SizeFlagsHorizontal = (int)(SizeFlags.ShrinkEnd | SizeFlags.Expand);
 
                 plusButton.Connect(Signals.Pressed, character, nameof(PlayerCharacter.AddAttributePoint),
                     new Godot.Collections.Array { stats });
                 character.Listen(nameof(PlayerCharacter.AttributePoints),
-                    callback: () => plusButton.Disabled = character.AttributePoints == 0);
+                    onChanged: () => plusButton.Disabled = character.AttributePoints == 0);
 
                 grid.AddChild(plusButton);
 
                 // Connect Minus Button
-                Button minusButton = new Button();
-                minusButton.Text = "-";
-                minusButton.RectMinSize = new Vector2(25, 25);
+                Button minusButton = _minusButtonScene.Instance<Button>();
 
                 minusButton.Connect(Signals.Pressed, character, nameof(PlayerCharacter.RemoveAttributePoint),
                     new Godot.Collections.Array { stats });
-                stats.Listen(nameof(Stats.Points), callback: () => minusButton.Disabled = stats.Points == 0);
+                stats.Listen(nameof(Stats.Points), 
+                    onChanged: () => minusButton.Disabled = stats.Points == 0);
                 grid.AddChild(minusButton);
             }
 
+            // Bind Attribute Points
             character.Bind(nameof(PlayerCharacter.AttributePoints), remainingPointsLabel, nameof(Label.Text),
                 propertyConvertor: (object value) => String.Format(RemainingPointsTextFormat, value));
 
             closeButton.Connect(Signals.Pressed, this, nameof(OnCloseButtonPressed));
 
-            character.Listen(nameof(Character.Level), callback: () => { Visible = true; });
+            // Bind Level change to Visibility
+            character.Listen(nameof(character.Level), onChanged: () => { Visible = true; });
         }
 
         public override void _UnhandledKeyInput(InputEventKey @event)
@@ -106,7 +122,8 @@ namespace MouseAttack.Entity.Player.UI
                 Visible = !Visible;
         }
 
-        private void OnCloseButtonPressed() => Visible = false;
+        private void OnCloseButtonPressed() => 
+            Visible = false;
 
         
     }

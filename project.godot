@@ -101,7 +101,7 @@ AttributePanel={
 
 2d_physics/layer_1="PlayerEntity"
 2d_physics/layer_2="MonsterEntity"
-2d_physics/layer_3="PlayerDetector"
+2d_physics/layer_3="MonsterActionController"
 2d_physics/layer_4="Skill"
 2d_physics/layer_5="MonsterBody"
 

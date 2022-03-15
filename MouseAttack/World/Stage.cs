@@ -11,6 +11,15 @@ namespace MouseAttack.World
         public event EventHandler LevelFinished;
         public event EventHandler Initialized;
 
+        [Export]
+        NodePath _playerEntityPath = "";
+        [Export]
+        NodePath _monsterGeneratorPath = "";
+        [Export]
+        NodePath _monsterProgressorPath = "";
+        [Export]
+        NodePath _ySortPath = "";
+        YSort _ySort;
         public MonsterGenerator MonsterGenerator { get;  private set; }
         public MonsterProgressor MonsterProgressor { get; private set; }
         public PlayerEntity PlayerEntity { get; private set; }
@@ -22,9 +31,10 @@ namespace MouseAttack.World
         public override void _Ready()
         {
             base._Ready();
-            PlayerEntity = GetNode<PlayerEntity>(nameof(PlayerEntity));
-            MonsterGenerator = GetNode<MonsterGenerator>(nameof(MonsterGenerator));
-            MonsterProgressor = GetNode<MonsterProgressor>(nameof(MonsterProgressor));
+            PlayerEntity = GetNode<PlayerEntity>(_playerEntityPath);
+            MonsterGenerator = GetNode<MonsterGenerator>(_monsterGeneratorPath);
+            MonsterProgressor = GetNode<MonsterProgressor>(_monsterProgressorPath);
+            _ySort = GetNode<YSort>(_ySortPath);
             Initialized?.Invoke(this, EventArgs.Empty);
         }
 
@@ -35,14 +45,18 @@ namespace MouseAttack.World
             {
                 LevelFinished?.Invoke(this, EventArgs.Empty);
                 NextLevel();
-            }
-                
+            }                
         }
 
         public void NextLevel()
         {
             Level++;
             Wave = 0;
+        }
+
+        public new void AddChild(Node node, bool legibleUniqueName = false)
+        {
+            _ySort.AddChild(node);
         }
     }
 }

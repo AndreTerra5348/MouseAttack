@@ -1,12 +1,12 @@
 using Godot;
 using MouseAttack.Action.WorldEffect;
 using MouseAttack.Extensions;
+using MouseAttack.Misc;
 using MouseAttack.World;
 using System;
 
 namespace MouseAttack.Action.TargetEffect
-{    
-
+{
     public abstract class TargetEffectBinder<T> : Node where T : Node
     {        
         [Export]

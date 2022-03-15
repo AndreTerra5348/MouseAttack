@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace MouseAttack.World.Player.UI
+namespace MouseAttack.Entity.Player.UI
 {
     public class CooldownTextureProgress : TextureProgress
     {

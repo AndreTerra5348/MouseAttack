@@ -6,4 +6,8 @@
 [node name="MonsterProgressor" type="Node"]
 script = ExtResource( 2 )
 
-[node name="BonusPanel" parent="." instance=ExtResource( 1 )]
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="BonusPanel" parent="CanvasLayer" instance=ExtResource( 1 )]
+margin_bottom = 43.0
+_monsterProgressorPath = NodePath("../..")

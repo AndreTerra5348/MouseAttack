@@ -1,5 +1,6 @@
 ﻿using Godot;
 using MouseAttack.Extensions;
+using MouseAttack.Misc;
 using MouseAttack.World;
 using System;
 using System.Collections.Generic;
@@ -12,21 +13,26 @@ namespace MouseAttack.Entity.Monster
     public class MonsterBody : KinematicBody2D
     {
         public MonsterEntity Entity { get; private set; }
+
+        [Export]
+        NodePath _monsterActionControllerPath = "";
         Stage _stage;
         Vector2 _playerPosition;
 
         public override void _Ready()
         {
             base._Ready();
+            //ZIndex = ZOrder.WorldEffect;
             Entity = GetNode<MonsterEntity>(nameof(MonsterEntity));
+            Entity.Freed += (s, e) => QueueFree();
+
             _stage = this.GetStage();
             _playerPosition = _stage.PlayerEntity.Position;
 
             // Stop moving when castle is in range
-            Entity.PlayerDetector.Detected += (object sender, PlayerDetectedEventArgs e) => SetPhysicsProcess(false);
-            Entity.PlayerDetector.Lost += (object sender, EventArgs e) => SetPhysicsProcess(true);
-
-            Entity.Freed += (object sender, EventArgs e) => QueueFree();
+            MonsterActionController monsterActionController = GetNode<MonsterActionController>(_monsterActionControllerPath);
+            monsterActionController.Detected += (s, e) => SetPhysicsProcess(false);
+            monsterActionController.Lost += (s, e) => SetPhysicsProcess(true);
         }
 
         public override void _PhysicsProcess(float delta)

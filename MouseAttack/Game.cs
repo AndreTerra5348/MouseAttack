@@ -1,13 +1,20 @@
 using Godot;
+using MouseAttack.World;
 
 namespace MouseAttack
 {
     public class Game : Node
     {
-        public override void _Ready()
-        {
-        }
-    
+        //[Export]
+        //PackedScene _stageScene;
+        //public static Stage Stage { get; private set; }
+
+        //public override void _Ready()
+        //{
+        //    Stage = _stageScene.Instance<Stage>();
+        //    AddChild(Stage);
+        //}
+
     }
 }
 

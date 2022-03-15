@@ -6,12 +6,12 @@ namespace MouseAttack.Extensions
 {
     public static class INotifyPropertyChangedExtensions
     {
-        public static void Listen(this INotifyPropertyChanged source, string propertyName, System.Action callback)
+        public static void Listen(this INotifyPropertyChanged source, string propertyName, System.Action onChanged)
         {
             source.PropertyChanged += (s, e) =>
             {
                 if (e.PropertyName == propertyName)
-                    callback();
+                    onChanged();
             };
         }
 
@@ -29,8 +29,7 @@ namespace MouseAttack.Extensions
                     .GetType()
                     .GetProperty(sourcePropertyName)
                     .GetValue(source);
-                
-                
+
                 // Set Target's Property value
                 PropertyInfo targetPropertyInfo = target
                     .GetType()

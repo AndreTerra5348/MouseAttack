@@ -1,4 +1,4 @@
-[gd_scene load_steps=12 format=2]
+[gd_scene load_steps=15 format=2]
 
 [ext_resource path="res://MouseAttack/Characteristic/ResourcePool.cs" type="Script" id=1]
 [ext_resource path="res://MouseAttack/Entity/Player/PlayerEntity.cs" type="Script" id=2]
@@ -6,10 +6,13 @@
 [ext_resource path="res://MouseAttack/Entity/Player/PlayerCharacter.cs" type="Script" id=4]
 [ext_resource path="res://MouseAttack/Entity/Player/mangrove_1.png" type="Texture" id=5]
 [ext_resource path="res://MouseAttack/Characteristic/System/ResourceRegenerator.cs" type="Script" id=6]
-[ext_resource path="res://MouseAttack/Entity/Player/UI/ExperienceBar.tscn" type="PackedScene" id=7]
-[ext_resource path="res://MouseAttack/Entity/UI/ResourceBar.tscn" type="PackedScene" id=8]
+[ext_resource path="res://MouseAttack/Entity/Player/UI/LevelPanel.tscn" type="PackedScene" id=7]
+[ext_resource path="res://MouseAttack/Entity/UI/HealthBar.tscn" type="PackedScene" id=8]
 [ext_resource path="res://MouseAttack/Entity/Player/UI/ManaBar.tscn" type="PackedScene" id=9]
 [ext_resource path="res://MouseAttack/Entity/Player/UI/AttributeDistributionPanel.tscn" type="PackedScene" id=10]
+[ext_resource path="res://MouseAttack/Entity/Player/PlayerActionController.cs" type="Script" id=11]
+[ext_resource path="res://MouseAttack/Entity/Player/UI/ActionBar.tscn" type="PackedScene" id=12]
+[ext_resource path="res://MouseAttack/Action/Player/ActionDB.tres" type="Resource" id=14]
 
 [sub_resource type="CircleShape2D" id=1]
 radius = 16.0
@@ -27,6 +30,7 @@ script = ExtResource( 4 )
 script = ExtResource( 1 )
 ValuePerPoint = 5.0
 Points = 10
+Editable = true
 
 [node name="ResourceRegenerator" type="Timer" parent="PlayerCharacter/Health"]
 script = ExtResource( 6 )
@@ -41,11 +45,13 @@ Points = 10
 script = ExtResource( 3 )
 ValuePerPoint = 2.0
 Points = 5
+Editable = true
 
 [node name="Mana" type="Node" parent="PlayerCharacter"]
 script = ExtResource( 1 )
 ValuePerPoint = 5.0
 Points = 5
+Editable = true
 
 [node name="ResourceRegenerator" type="Timer" parent="PlayerCharacter/Mana"]
 script = ExtResource( 6 )
@@ -60,41 +66,94 @@ Points = 5
 script = ExtResource( 3 )
 ValuePerPoint = 3.0
 Points = 2
+Editable = true
 
 [node name="CriticalRate" type="Node" parent="PlayerCharacter"]
 script = ExtResource( 3 )
 ValuePerPoint = 0.1
 Points = 30
+Editable = true
 
 [node name="CriticalDamage" type="Node" parent="PlayerCharacter"]
 script = ExtResource( 3 )
 ValuePerPoint = 0.5
 Points = 15
+Editable = true
 
 [node name="CooldownReducion" type="Node" parent="PlayerCharacter"]
 script = ExtResource( 3 )
 ValuePerPoint = 0.1
 Points = 0
 
+[node name="PlayerActionController" type="Node" parent="."]
+script = ExtResource( 11 )
+ActionDB = ExtResource( 14 )
+
 [node name="Sprite" type="Sprite" parent="."]
 texture = ExtResource( 5 )
 
-[node name="GUI" type="Control" parent="."]
+[node name="HealthBar" parent="." instance=ExtResource( 8 )]
+
+[node name="ProgressBar" parent="HealthBar" index="0"]
+_resourcePath = NodePath("../../PlayerCharacter/Health")
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="ManaBar" parent="CanvasLayer" instance=ExtResource( 9 )]
+_resourcePath = NodePath("../../PlayerCharacter/Mana")
+
+[node name="AttributeDistributionPanel" parent="CanvasLayer" instance=ExtResource( 10 )]
+pause_mode = 2
+visible = false
+margin_top = 32.0
+margin_right = 144.0
+margin_bottom = 112.0
+size_flags_horizontal = 4
+size_flags_vertical = 4
+_characterPath = NodePath("../../PlayerCharacter")
+
+[node name="MarginContainer" type="MarginContainer" parent="CanvasLayer"]
+margin_top = 382.0
+margin_right = 640.0
+margin_bottom = 448.0
+mouse_filter = 1
+custom_constants/margin_right = 40
+custom_constants/margin_top = 5
+custom_constants/margin_left = 40
+custom_constants/margin_bottom = 5
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="HealthResourceBar" parent="GUI" instance=ExtResource( 8 )]
-_sourcePath = NodePath("../../PlayerCharacter/Health")
+[node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer/MarginContainer"]
+margin_left = 40.0
+margin_top = 5.0
+margin_right = 600.0
+margin_bottom = 61.0
+custom_constants/separation = 0
+alignment = 2
+__meta__ = {
+"_edit_use_anchors_": false
+}
 
-[node name="WorldPosition" type="Node" parent="GUI"]
+[node name="ActionBar" parent="CanvasLayer/MarginContainer/VBoxContainer" instance=ExtResource( 12 )]
+margin_left = 182.0
+margin_right = 378.0
+_playerActionControllerPath = NodePath("../../../../PlayerActionController")
 
-[node name="ManaResourceBar" parent="GUI/WorldPosition" instance=ExtResource( 9 )]
-_sourcePath = NodePath("../../../PlayerCharacter/Mana")
+[node name="LevelPanel" parent="CanvasLayer/MarginContainer/VBoxContainer" instance=ExtResource( 7 )]
+margin_left = 0.0
+margin_top = 36.0
+margin_right = 560.0
+margin_bottom = 56.0
 
-[node name="ExperienceBar" parent="GUI/WorldPosition" instance=ExtResource( 7 )]
-_sourcePath = NodePath("../../../PlayerCharacter")
+[node name="LevelLabel" parent="CanvasLayer/MarginContainer/VBoxContainer/LevelPanel" index="0"]
+margin_right = 560.0
+_characterPath = NodePath("../../../../../PlayerCharacter")
 
-[node name="AttributeDistributionPanel" parent="GUI/WorldPosition" instance=ExtResource( 10 )]
-visible = false
-_characterPath = NodePath("../../../PlayerCharacter")
+[node name="ExpBar" parent="CanvasLayer/MarginContainer/VBoxContainer/LevelPanel" index="1"]
+margin_right = 560.0
+_characterPath = NodePath("../../../../../PlayerCharacter")
+
+[editable path="HealthBar"]
+[editable path="CanvasLayer/MarginContainer/VBoxContainer/LevelPanel"]

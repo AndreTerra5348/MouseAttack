@@ -1,5 +1,6 @@
 using Godot;
 using MouseAttack.Entity;
+using MouseAttack.Misc;
 using System;
 
 namespace MouseAttack.Action.WorldEffect
@@ -26,6 +27,7 @@ namespace MouseAttack.Action.WorldEffect
         protected Timer QueueFreeTimer { get; private set; }
         public override void _Ready()
         {
+            ZIndex = ZOrder.WorldEffect;
             base._Ready();
             QueueFreeTimer = GetNode<Timer>(nameof(QueueFreeTimer));
             QueueFreeTimer.Autostart = QueueFreeTimerStarter == QueueFreeTimerStarter.AutoStart;

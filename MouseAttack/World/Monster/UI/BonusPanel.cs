@@ -14,12 +14,14 @@ namespace MouseAttack.World.Monster.UI
         NodePath _labelContainerPath = "";
         VBoxContainer _labelContainer;
 
+        [Export]
+        NodePath _monsterProgressorPath;
         MonsterProgressor _monsterProgressor;
         Dictionary<StatsType, Label> _labels = new Dictionary<StatsType, Label>();
         
         public override void _Ready()
         {
-            _monsterProgressor = GetParent<MonsterProgressor>();
+            _monsterProgressor = GetNode<MonsterProgressor>(_monsterProgressorPath);
             _monsterProgressor.ApplicableBonuschanged += OnApplicableBonusChanged;
             _labelContainer = GetNode<VBoxContainer>(_labelContainerPath);
             Hide();

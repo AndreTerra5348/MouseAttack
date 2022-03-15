@@ -80,6 +80,9 @@ namespace MouseAttack.Entity
             Health.Depleted += OnResourceDepleted;
         }
 
+        public bool HasStats(StatsType type) =>
+            StatsMap.ContainsKey(type);
+
         private void OnResourceDepleted(object sender, EventArgs e)
         {
             Health.Depleted -= OnResourceDepleted;

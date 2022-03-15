@@ -1,5 +1,6 @@
 ﻿using Godot;
 using MouseAttack.Constants;
+using MouseAttack.Misc;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -17,16 +18,17 @@ namespace MouseAttack.Entity
         public Character Character { get; private set; }
         protected abstract string CharacterName { get; }
 
+        public override void _Ready()
+        {
+            Character = GetNode<Character>(CharacterName);
+            Character.Dead += OnDeath;
+            ZIndex = ZOrder.Entity;
+        }
+
         public override void _EnterTree()
         {
             Connect(Signals.MouseEntered, this, nameof(OnMouseEntered));
             Connect(Signals.MouseExited, this, nameof(OnMouseExited));
-        }
-        public override void _Ready()
-        {
-            base._Ready();
-            Character = GetNode<Character>(CharacterName);
-            Character.Dead += OnDeath;
         }
         protected abstract void OnDeath(object sender, EventArgs e);
         protected abstract void OnMouseEntered();

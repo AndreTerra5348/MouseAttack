@@ -11,3 +11,6 @@ wait_time = 0.2
 
 [node name="Sprite" parent="." index="1"]
 texture = ExtResource( 2 )
+
+[node name="Area2D" parent="." index="2"]
+collision_layer = 8

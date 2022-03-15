@@ -12,8 +12,6 @@ namespace MouseAttack.Entity.Monster
         public event EventHandler Initialized;
         public event EventHandler Freed;
         protected override string CharacterName => nameof(MonsterCharacter);
-        public PlayerAttacker PlayerAttacker { get; private set; }
-        public PlayerDetector PlayerDetector { get; private set; }
         public bool IsDead => Character.IsDead;
 
         Stage _stage;
@@ -23,12 +21,11 @@ namespace MouseAttack.Entity.Monster
         {            
             base._Ready();
             _stage = this.GetStage();
-            PlayerDetector = GetNode<PlayerDetector>(nameof(PlayerDetector));
-            PlayerAttacker = GetNode<PlayerAttacker>(nameof(PlayerAttacker));
+
             Initialized?.Invoke(this, EventArgs.Empty);
 
+            // Flip Sprite to face player
             await ToSignal(GetTree().CreateTimer(0.5f), Signals.Timeout);
-
             var sprite = GetNode<Sprite>(nameof(Sprite));
             sprite.FlipH = GlobalPosition.DirectionTo(_stage.PlayerEntity.GlobalPosition).x > 0;            
         }

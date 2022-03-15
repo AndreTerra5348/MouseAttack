@@ -10,7 +10,13 @@ namespace MouseAttack.Entity.Player
 {
     public class PlayerEntity : SpecializedEntity<PlayerCharacter>
     {
-        protected override string CharacterName => nameof(PlayerCharacter);   
+        protected override string CharacterName => nameof(PlayerCharacter);
+
+        public override void _Ready()
+        {
+            base._Ready();
+            
+        }
 
         public override void _InputEvent(Godot.Object viewport, InputEvent @event, int shapeIdx)
         {

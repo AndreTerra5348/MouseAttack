@@ -23,6 +23,8 @@ namespace MouseAttack.Constants
         public static readonly string ValueChanged = "value_changed";
 
         public static readonly string Pressed = "pressed";
+
+        public static readonly string Ready = "ready";
     }
     
 }
