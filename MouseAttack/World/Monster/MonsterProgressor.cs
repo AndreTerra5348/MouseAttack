@@ -2,6 +2,7 @@
 using MouseAttack.Characteristic;
 using MouseAttack.Entity.Monster;
 using MouseAttack.Extensions;
+using MouseAttack.Misc;
 using MouseAttack.World;
 using System;
 using System.Collections.Generic;
@@ -26,20 +27,13 @@ namespace MouseAttack.World.Monster
             { StatsType.MovementSpeed, 1 }
         };
         Random _random = new Random();
-        Stage _stage;
+        
         int _monsterCount = 0;
 
         public override void _Ready()
         {
-            _stage = this.GetStage();
-            _stage.Initialized += OnStageInitialized;            
-        }
-
-        private void OnStageInitialized(object sender, EventArgs e)
-        {
-            MonsterGenerator monsterGenerator = _stage.MonsterGenerator;
+            MonsterGenerator monsterGenerator = TreeSharer.GetNode<MonsterGenerator>();
             monsterGenerator.MonsterSpawned += OnMonsterSpawned;
-            _stage.LevelFinished += OnLevelFinished;
         }
 
         private void OnMonsterSpawned(object sender, MonsterSpawnedEventArgs e)
@@ -48,7 +42,7 @@ namespace MouseAttack.World.Monster
             MonsterCharacter monsterCharacter = monsterEntity.Character;
             foreach (var item in ApplicableBonuses)
             {
-                Stats stats = monsterCharacter.StatsMap[item.Key];
+                Stats stats = monsterCharacter.GetStats(item.Key);
                 stats.SetAlteredPercentage(item.Value);
             }
             _monsterCount++;
@@ -56,10 +50,6 @@ namespace MouseAttack.World.Monster
                 AddApplicableBonuses();
         }
 
-        private void OnLevelFinished(object sender, EventArgs e)
-        {
-            AddApplicableBonuses();
-        }
         private void AddApplicableBonuses()
         {
             Array keys = _baseBonus.Keys.ToArray();

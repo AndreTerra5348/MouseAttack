@@ -6,7 +6,7 @@ namespace MouseAttack.Extensions
 {
     public static class INotifyPropertyChangedExtensions
     {
-        public static void Listen(this INotifyPropertyChanged source, string propertyName, System.Action onChanged)
+        public static void Listen(this INotifyPropertyChanged source, string propertyName, Action onChanged)
         {
             source.PropertyChanged += (s, e) =>
             {

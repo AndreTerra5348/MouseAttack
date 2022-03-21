@@ -63,10 +63,10 @@ namespace MouseAttack.Entity
         public Stats Defense => StatsMap[StatsType.Defense];
         public Stats CriticalRate => StatsMap[StatsType.CriticalRate];
         public Stats CriticalDamage => StatsMap[StatsType.CriticalDamage];
+        Random _random = new Random();
         public bool IsCritical => CriticalRate.Percentage <= _random.NextDouble();
         public bool IsDead => Health.IsDepleted;
-        Random _random = new Random();
-        public Dictionary<StatsType, Stats> StatsMap { get; private set; } = new Dictionary<StatsType, Stats>();
+        protected Dictionary<StatsType, Stats> StatsMap { get; private set; } = new Dictionary<StatsType, Stats>();
 
         public override void _Ready()
         {
@@ -82,6 +82,9 @@ namespace MouseAttack.Entity
 
         public bool HasStats(StatsType type) =>
             StatsMap.ContainsKey(type);
+
+        public Stats GetStats(StatsType type) =>
+            StatsMap[type];
 
         private void OnResourceDepleted(object sender, EventArgs e)
         {

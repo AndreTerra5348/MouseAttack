@@ -3,21 +3,20 @@ using System;
 using MouseAttack.Misc;
 using MouseAttack.World;
 using System.ComponentModel;
+using MouseAttack.Entity.Player;
+using System.Reflection;
+using System.Linq;
+using MouseAttack.Constants;
+using System.Threading.Tasks;
 
 namespace MouseAttack.Extensions
 {
     public static class NodeExtensions
     {
-        const string RootPathFormat = "/root/{0}";
-        const string StagePath = "/root/Game/Stage";
+        public static SignalAwaiter CreateTimer(this Node caller, float timeout) =>
+            caller.ToSignal(caller.GetTree().CreateTimer(timeout), Signals.Timeout);
 
-        public static T GetAutoload<T>(this Node node) where T : Node
-        {
-            string path = String.Format(RootPathFormat, typeof(T).Name);
-            return node.GetNode<T>(path);
-        }
-
-        public static Stage GetStage(this Node node) =>
-            node.GetNode<Stage>(StagePath);        
+        public static SignalAwaiter SkipNextFrame(this Node caller) =>
+            caller.ToSignal(caller.GetTree(), Signals.IdleFrame);
     }
 }

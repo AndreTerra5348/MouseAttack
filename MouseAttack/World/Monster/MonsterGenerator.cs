@@ -23,33 +23,44 @@ namespace MouseAttack.World.Monster
     {
         public event EventHandler<MonsterSpawnedEventArgs> MonsterSpawned;
 
+        public static readonly int MonsterSpawnTile = 1;
+
         [Export]
         List<MonsterPool> _pool = new List<MonsterPool>();
 
-        Stage _stage;
-        SpawnPoint _spawnPoint;
         int _dbIndex = 0;
+        List<Vector2> _monsterSpawnPoints;
+        Random _random = new Random();
+        GridController GridController => TreeSharer.GetNode<GridController>();
+
+        public MonsterGenerator() => TreeSharer.RegistryNode(this);     
+        
 
         public override void _Ready()
         {
             base._Ready();
-            _stage = this.GetStage();
-            _spawnPoint = GetNode<SpawnPoint>(nameof(SpawnPoint));
-            Timer timer = GetNode<Timer>(nameof(Timer));
+            _monsterSpawnPoints = GridController
+                .GetUsedCellsById(MonsterSpawnTile)
+                .Cast<Vector2>()
+                .Select(x => GridController.MapToWorld(x))
+                .ToList();
 
-            timer.Connect(Signals.Timeout, this, nameof(Spawn));
-            timer.Start();
-            _stage.Initialized += (object sender, EventArgs e) => Spawn();
+            GridController.Initialized += (s, e) => Spawn();
+            GridController.RoundFinished += (s, e) => Spawn();
         }
+
+        Vector2 GetRandomPosition() =>
+            _monsterSpawnPoints[_random.Next(_monsterSpawnPoints.Count)];
 
         void Spawn()
         {
-            MonsterBody monasterBody = _pool[_dbIndex].GetRandomMonster();
-            _stage.AddChild(monasterBody);
-            MonsterCharacter monsterCharacter = monasterBody.Entity.Character;
-            monasterBody.Position = _spawnPoint.GetRandomPosition();
-            MonsterSpawned?.Invoke(this, new MonsterSpawnedEventArgs(monasterBody.Entity));
-                     
+            Vector2 position = GetRandomPosition();
+            if (!GridController.IsCellAvailable(position))
+                return;
+            MonsterEntity monsterEntity = _pool[_dbIndex].GetRandomMonster();
+            GridController.AddChild(monsterEntity);
+            monsterEntity.Position = position;
+            MonsterSpawned?.Invoke(this, new MonsterSpawnedEventArgs(monsterEntity));                     
         }
     }
 }

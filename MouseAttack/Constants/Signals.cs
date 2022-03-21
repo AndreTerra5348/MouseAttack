@@ -25,6 +25,13 @@ namespace MouseAttack.Constants
         public static readonly string Pressed = "pressed";
 
         public static readonly string Ready = "ready";
+
+        public static readonly string IdleFrame = "idle_frame";
+
+        public static readonly string TweenAllCompleted = "tween_all_completed";
+
+
+
     }
     
 }

@@ -1,0 +1,20 @@
+[gd_resource type="Resource" load_steps=4 format=2]
+
+[ext_resource path="res://MouseAttack/Skill/Monster/MonsterDamage.cs" type="Script" id=1]
+[ext_resource path="res://MouseAttack/Skill/Monster/MainAttack/WorldEffect.tscn" type="PackedScene" id=2]
+[ext_resource path="res://MouseAttack/Skill/TargetEffect/UI/FloatingLabelSpaner.tres" type="Resource" id=3]
+
+[resource]
+script = ExtResource( 1 )
+WorldEffectScene = ExtResource( 2 )
+TargetEffectSpaners = [ ExtResource( 3 ) ]
+Cost = 1
+Duration = 1
+Cooldown = 1
+IsUnlocked = false
+Area = 1
+CollisionLayer = 8
+CollisionMask = 1
+Damage = 1
+Hits = 1
+Range = 0

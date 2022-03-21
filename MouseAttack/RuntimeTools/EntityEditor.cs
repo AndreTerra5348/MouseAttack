@@ -19,7 +19,7 @@ namespace MouseAttack.RuntimeTools
         TabContainer _tab;
 
         const string PlayerCharacterNodePathFormat = "PlayerCharacter/{0}";
-        const string MonsterCharacterNodePathFormat = "MonsterEntity/MonsterCharacter/{0}";
+        const string MonsterCharacterNodePathFormat = "MonsterCharacter/{0}";
         public override void _Ready()
         {
             _tab = GetNode<TabContainer>(_tabNodePath);
@@ -41,6 +41,7 @@ namespace MouseAttack.RuntimeTools
                     if (sceneFile == String.Empty)
                         continue;
                     string scenePath = directoryPath + "/" + sceneFile;
+                    Console.WriteLine(scenePath); Console.WriteLine(filename);
                     BuildGrid(filename, scenePath, MonsterCharacterNodePathFormat);
 
                 }

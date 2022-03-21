@@ -15,7 +15,7 @@ namespace MouseAttack.World.Monster.UI
         VBoxContainer _labelContainer;
 
         [Export]
-        NodePath _monsterProgressorPath;
+        NodePath _monsterProgressorPath = "";
         MonsterProgressor _monsterProgressor;
         Dictionary<StatsType, Label> _labels = new Dictionary<StatsType, Label>();
         

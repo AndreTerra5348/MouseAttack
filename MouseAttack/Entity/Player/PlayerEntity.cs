@@ -3,6 +3,7 @@ using MouseAttack.Characteristic;
 using MouseAttack.Entity.Monster;
 using MouseAttack.Extensions;
 using MouseAttack.Misc;
+using MouseAttack.World;
 using System;
 using System.Collections.Generic;
 
@@ -12,11 +13,7 @@ namespace MouseAttack.Entity.Player
     {
         protected override string CharacterName => nameof(PlayerCharacter);
 
-        public override void _Ready()
-        {
-            base._Ready();
-            
-        }
+        public PlayerEntity() => TreeSharer.RegistryNode(this);
 
         public override void _InputEvent(Godot.Object viewport, InputEvent @event, int shapeIdx)
         {
@@ -42,6 +39,11 @@ namespace MouseAttack.Entity.Player
         protected override void OnMouseExited()
         {
             // Toggle Hover Feedback
+        }
+
+        public override SignalAwaiter Act()
+        {
+            return null;
         }
     }
 }

@@ -1,9 +1,0 @@
-[gd_scene format=2]
-
-[node name="SpriteTargetEffect" type="Sprite"]
-
-[node name="QueueFreeTimer" type="Timer" parent="."]
-wait_time = 0.5
-autostart = true
-
-[connection signal="timeout" from="QueueFreeTimer" to="." method="queue_free"]

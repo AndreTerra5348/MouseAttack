@@ -14,6 +14,6 @@ namespace MouseAttack.World.Monster
         public List<PackedScene> Monsters { get; private set; }
 
         Random _random = new Random();
-        public MonsterBody GetRandomMonster() => Monsters[_random.Next(Monsters.Count)].Instance<MonsterBody>();
+        public MonsterEntity GetRandomMonster() => Monsters[_random.Next(Monsters.Count)].Instance<MonsterEntity>();
     }
 }

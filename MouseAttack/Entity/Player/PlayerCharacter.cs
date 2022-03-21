@@ -23,7 +23,6 @@ namespace MouseAttack.Entity.Player
         public ResourcePool Mana => StatsMap[StatsType.Mana] as ResourcePool;
         public Stats ManaRegen => StatsMap[StatsType.ManaRegen];
         public Stats HealthRegen => StatsMap[StatsType.HealthRegen];
-        public Stats CooldownReducion => StatsMap[StatsType.CooldownReducion];
 
         public override void _Ready()
         {
