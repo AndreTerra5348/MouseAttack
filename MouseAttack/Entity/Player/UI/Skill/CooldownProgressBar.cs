@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace MouseAttack.Entity.Player.UI.Skill
 {
-    public class CooldownTextureProgress : TextureProgress
+    public class CooldownProgressBar : ProgressBar
     {
         Label _label;
 

@@ -31,7 +31,7 @@ namespace MouseAttack.Entity.Monster
         GridController GridController => TreeSharer.GetNode<GridController>();
 
         Tween _tween = new Tween();
-        float TweenSpeed { get; set; } = 0.2f;
+        float TweenSpeed { get; set; } = 0.1f;
 
         const string TweenProperty = "global_position";
         public override void _Ready()
@@ -73,7 +73,7 @@ namespace MouseAttack.Entity.Monster
         async private void UseSkill()
         {
             await this.CreateTimer(TweenSpeed);
-            CommonWorldEffect worldEffect = _skill.GetWorldEffectInstance();
+            CommonWorldEffect worldEffect = _skill.NewWorldEffect;
             worldEffect.Skill = _skill;
             worldEffect.User = _monsterEntity;
             worldEffect.GlobalPosition = PlayerEntity.GlobalPosition;

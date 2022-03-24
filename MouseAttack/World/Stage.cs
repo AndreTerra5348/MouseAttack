@@ -8,7 +8,7 @@ using System.Collections.Generic;
 
 namespace MouseAttack.World
 {
-    public class Stage : Node2D, IInitializable
+    public class Stage : Node2D, IInitializable, ISharable
     {
         public event EventHandler LevelFinished;
         public event EventHandler Initialized;

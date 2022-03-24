@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/ui_big_pieces.png-6cec57b963fe086fed8b6d9a61c10fb0.stex"
+path="res://.import/gold_pile_3.png-3fcdaafd41157450beba04363f003612.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://MouseAttack/GUI/ui_big_pieces.png"
-dest_files=[ "res://.import/ui_big_pieces.png-6cec57b963fe086fed8b6d9a61c10fb0.stex" ]
+source_file="res://MouseAttack/Item/Currency/gold_pile_3.png"
+dest_files=[ "res://.import/gold_pile_3.png-3fcdaafd41157450beba04363f003612.stex" ]
 
 [params]
 

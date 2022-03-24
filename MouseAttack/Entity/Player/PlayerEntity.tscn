@@ -1,4 +1,4 @@
-[gd_scene load_steps=20 format=2]
+[gd_scene load_steps=22 format=2]
 
 [ext_resource path="res://MouseAttack/Characteristic/ResourcePool.cs" type="Script" id=1]
 [ext_resource path="res://MouseAttack/Entity/Player/PlayerEntity.cs" type="Script" id=2]
@@ -12,9 +12,11 @@
 [ext_resource path="res://MouseAttack/Entity/Player/UI/AttributeDistribution/AttributeDistributionPanel.tscn" type="PackedScene" id=10]
 [ext_resource path="res://MouseAttack/Entity/Player/PlayerSkillController.cs" type="Script" id=11]
 [ext_resource path="res://MouseAttack/Entity/Player/UI/Skill/SkillBar.tscn" type="PackedScene" id=12]
-[ext_resource path="res://MouseAttack/Skill/Player/SkillDB.tres" type="Resource" id=13]
+[ext_resource path="res://MouseAttack/Skill/Player/MainAttack/MainAttack.tres" type="Resource" id=13]
+[ext_resource path="res://MouseAttack/Entity/Player/PlayerInventory.cs" type="Script" id=14]
 [ext_resource path="res://MouseAttack/Entity/Player/UI/LevelLabel.cs" type="Script" id=15]
 [ext_resource path="res://MouseAttack/Entity/Player/UI/ExpBar.cs" type="Script" id=16]
+[ext_resource path="res://MouseAttack/Item/Currency/Gold.tres" type="Resource" id=17]
 
 [sub_resource type="RectangleShape2D" id=1]
 extents = Vector2( 14, 14 )
@@ -96,7 +98,12 @@ Editable = true
 
 [node name="PlayerSkillController" type="Node" parent="."]
 script = ExtResource( 11 )
-SkillDB = ExtResource( 13 )
+_inventoryPath = NodePath("../PlayerInventory")
+
+[node name="PlayerInventory" type="Node" parent="."]
+script = ExtResource( 14 )
+Skills = [ ExtResource( 13 ) ]
+Gold = ExtResource( 17 )
 
 [node name="Sprite" type="Sprite" parent="."]
 texture = ExtResource( 5 )
@@ -184,9 +191,10 @@ valign = 2
 script = ExtResource( 15 )
 _characterPath = NodePath("../../../../../PlayerCharacter")
 
-[node name="ActionBar" parent="CanvasLayer/BottomContainer/VBoxContainer/HBoxContainer" instance=ExtResource( 12 )]
+[node name="SkillBar" parent="CanvasLayer/BottomContainer/VBoxContainer/HBoxContainer" instance=ExtResource( 12 )]
 margin_left = 26.0
 margin_right = 652.0
+margin_bottom = 32.0
 size_flags_horizontal = 3
 size_flags_vertical = 0
 _playerSkillControllerPath = NodePath("../../../../../PlayerSkillController")

@@ -11,7 +11,7 @@ namespace MouseAttack.Entity.Monster
     public class MonsterEntity : SpecializedEntity<MonsterCharacter>, IInitializable
     {
         public event EventHandler Initialized;
-        public event EventHandler Freed;
+        public event EventHandler Dead;
         protected override string CharacterName => nameof(MonsterCharacter);
         public bool IsDead => Character.IsDead;
 
@@ -21,7 +21,7 @@ namespace MouseAttack.Entity.Monster
         NodePath _spritePath = "";
         Sprite _sprite;
 
-        float _movementDelay = 0.1f;
+        float MovementDelay { get; set; } = 0.1f;
 
         async public override void _Ready()
         {
@@ -41,7 +41,7 @@ namespace MouseAttack.Entity.Monster
         protected override void OnDeath(object sender, EventArgs e)
         {
             GridController.SetCellAsEmpty(Position);
-            Freed?.Invoke(this, EventArgs.Empty);
+            Dead?.Invoke(this, EventArgs.Empty);
             QueueFree();
         }
 
@@ -59,7 +59,7 @@ namespace MouseAttack.Entity.Monster
         {
             Vector2[] availablePath = GridController.GetAvailablePath(Position, PlayerEntity.Position);
             if (availablePath.Length == 0)
-                return this.CreateTimer(_movementDelay);
+                return this.CreateTimer(MovementDelay);
             if (availablePath.Length <= MonsterSkillController.AttackRange)            
                 return MonsterSkillController.Attack();
             return Move(availablePath);
@@ -73,7 +73,7 @@ namespace MouseAttack.Entity.Monster
             GridController.SetCellAsTaken(nextPoint);
             Position = nextPoint;
             _sprite.FlipH = GlobalPosition.DirectionTo(PlayerEntity.GlobalPosition).x > 0;
-            return this.CreateTimer(_movementDelay);
+            return this.CreateTimer(MovementDelay);
         }
     }
 }

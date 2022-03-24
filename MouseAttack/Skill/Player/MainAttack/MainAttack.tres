@@ -2,16 +2,18 @@
 
 [ext_resource path="res://MouseAttack/Skill/Data/DamageSkill.cs" type="Script" id=1]
 [ext_resource path="res://MouseAttack/Skill/Player/MainAttack/WorldEffect.tscn" type="PackedScene" id=2]
-[ext_resource path="res://MouseAttack/Skill/Player/MainAttack/flame_0.png" type="Texture" id=3]
+[ext_resource path="res://MouseAttack/Skill/Player/MainAttack/Icon.tscn" type="PackedScene" id=3]
 [ext_resource path="res://MouseAttack/Skill/TargetEffect/UI/FloatingLabelSpaner.tres" type="Resource" id=4]
 [ext_resource path="res://MouseAttack/Skill/TargetEffect/World/Blood/BloodSpawner.tres" type="Resource" id=5]
 
 [resource]
 script = ExtResource( 1 )
+IconScene = ExtResource( 3 )
+Count = 0
 WorldEffectScene = ExtResource( 2 )
 TargetEffectSpaners = [ ExtResource( 4 ), ExtResource( 5 ) ]
-Icon = ExtResource( 3 )
-Cost = 1
+Price = 1
+ManaCost = 1
 Duration = 0
 Cooldown = 1
 IsUnlocked = true

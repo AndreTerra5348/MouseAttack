@@ -6,9 +6,11 @@
 
 [resource]
 script = ExtResource( 1 )
+Count = 0
 WorldEffectScene = ExtResource( 2 )
 TargetEffectSpaners = [ ExtResource( 3 ) ]
-Cost = 1
+Price = 1
+ManaCost = 1
 Duration = 1
 Cooldown = 1
 IsUnlocked = false

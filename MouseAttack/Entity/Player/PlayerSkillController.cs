@@ -28,13 +28,13 @@ namespace MouseAttack.Entity.Player
         public event EventHandler<CooldownStartedEventArgs> CooldownStarted;
 
         [Export]
-        public SkillDB SkillDB { get; private set; }
-
-        bool IsSelectedSlotEmpty => _slottedSkills[SelectedSlotIndex] == null;
+        NodePath _inventoryPath = "";
+        PlayerInventory _inventory;
+        
         GridController GridController => TreeSharer.GetNode<GridController>();
         PlayArea PlayArea => TreeSharer.GetNode<PlayArea>();
         PlayerEntity PlayerEntity => TreeSharer.GetNode<PlayerEntity>();
-        PlayerCharacter PlayerCharacter => PlayerEntity.Character;
+        PlayerCharacter PlayerCharacter => PlayerEntity.Character;        
 
         readonly CommonSkill[] _slottedSkills = new CommonSkill[5];
         int _selectSlotIndex = 0;
@@ -50,13 +50,20 @@ namespace MouseAttack.Entity.Player
             }
             get => _selectSlotIndex;
         }
+        public CommonSkill SelectedSkill
+        {
+            get => _slottedSkills[SelectedSlotIndex];
+            set => _slottedSkills[SelectedSlotIndex] = value;
+        }
+        public bool IsSelectedSlotEmpty => SelectedSkill == null;
 
         public override void _Ready()
         {
+            _inventory = GetNode<PlayerInventory>(_inventoryPath);
 
             GridController.RoundFinished += (s, e) =>
             {
-                foreach (CommonSkill skill in SkillDB.Skills)
+                foreach (CommonSkill skill in _inventory.Skills)
                 {
                     if (!skill.IsUnlocked)
                         continue;
@@ -69,6 +76,8 @@ namespace MouseAttack.Entity.Player
 
                 SetProcessInput(true);
             };
+
+            SelectedSkill = _inventory.Skills.First();
 
             AddChild(new SkillCursor());
         }
@@ -104,33 +113,27 @@ namespace MouseAttack.Entity.Player
         public void SetSkill(CommonSkill skill, int slot) =>
             _slottedSkills[slot] = skill;
 
-
         private void UseSkill()
         {            
-            
             if (IsSelectedSlotEmpty)
                 return;
 
-            CommonSkill skill = _slottedSkills[SelectedSlotIndex];
-
-            if (skill.OnCooldown)
+            if (SelectedSkill.OnCooldown)
                 return;
 
-            if (!PlayerCharacter.HasEnoughMana(skill.Cost))
+            if (!PlayerCharacter.HasEnoughMana(SelectedSkill.ManaCost))
                 return;
 
+            PlayerCharacter.UseMana(SelectedSkill.ManaCost);
 
-            PlayerCharacter.UseMana(skill.Cost);
+            SelectedSkill.StartCooldown();
 
-            
-            skill.StartCooldown();
-
-            CommonWorldEffect worldEffect = skill.GetWorldEffectInstance();            
-            worldEffect.Skill = skill;
+            CommonWorldEffect worldEffect = SelectedSkill.NewWorldEffect;
+            worldEffect.Skill = SelectedSkill;
             worldEffect.User = PlayerEntity;
             worldEffect.Position = GetViewport().GetSnappedMousePosition(Values.CellSize);
             GridController.AddChild(worldEffect);
-            CooldownStarted?.Invoke(this, new CooldownStartedEventArgs(SelectedSlotIndex, skill.Cooldown));            
+            CooldownStarted?.Invoke(this, new CooldownStartedEventArgs(SelectedSlotIndex, SelectedSkill.Cooldown));            
             ElapseTurn();
         }
 

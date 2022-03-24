@@ -3,6 +3,10 @@
     <TargetFramework>net472</TargetFramework>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Remove="MouseAttack\Item\Gold\**" />
+    <EmbeddedResource Remove="MouseAttack\Item\Gold\**" />
+  </ItemGroup>
+  <ItemGroup>
     <Folder Include="MouseAttack\Skill\TargetEffect\World\" />
   </ItemGroup>
 </Project>

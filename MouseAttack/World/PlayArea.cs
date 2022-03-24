@@ -1,5 +1,6 @@
 ﻿using Godot;
 using MouseAttack.Constants;
+using MouseAttack.Extensions;
 using MouseAttack.Misc;
 using System;
 using System.Collections.Generic;
@@ -9,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace MouseAttack.World
 {
-    public class PlayArea : Control
+    public class PlayArea : Control, ISharable
     {
 
         public event EventHandler PlayAreaEntered;
@@ -22,7 +23,10 @@ namespace MouseAttack.World
             Connect(Signals.MouseEntered, this, nameof(OnMouseEntered));
             Connect(Signals.MouseExited, this, nameof(OnMouseExited));
         }
-
+        public override void _Ready()
+        {
+            this.SkipNextFrame();
+        }
         private void OnMouseEntered()
         {
             OnPlayArea = true;

@@ -1,0 +1,9 @@
+[gd_resource type="Resource" load_steps=3 format=2]
+
+[ext_resource path="res://MouseAttack/Item/Data/CommonItem.cs" type="Script" id=1]
+[ext_resource path="res://MouseAttack/Item/Currency/Icon.tscn" type="PackedScene" id=2]
+
+[resource]
+script = ExtResource( 1 )
+IconScene = ExtResource( 2 )
+Count = 0

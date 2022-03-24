@@ -1,7 +1,6 @@
-[gd_scene load_steps=6 format=2]
+[gd_scene load_steps=5 format=2]
 
 [ext_resource path="res://MouseAttack/Theme/Fonts/Roboto10.tres" type="DynamicFont" id=1]
-[ext_resource path="res://MouseAttack/Theme/MainTheme.tres" type="Theme" id=2]
 [ext_resource path="res://MouseAttack/World/Monster/UI/BonusPanel.cs" type="Script" id=3]
 
 [sub_resource type="Theme" id=2]
@@ -14,7 +13,6 @@ color = Color( 0.764706, 0.556863, 0.356863, 1 )
 margin_left = 544.0
 margin_right = 640.0
 margin_bottom = 35.0
-theme = ExtResource( 2 )
 custom_constants/margin_right = 3
 custom_constants/margin_top = 3
 custom_constants/margin_left = 3

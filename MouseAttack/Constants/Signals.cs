@@ -10,6 +10,7 @@ namespace MouseAttack.Constants
     {
         public static readonly string MouseEntered = "mouse_entered";
         public static readonly string MouseExited = "mouse_exited";
+        public static readonly string GuiInput = "gui_input";
 
         public static readonly string AreaEntered = "area_entered";
         public static readonly string AreaExited = "area_exited";

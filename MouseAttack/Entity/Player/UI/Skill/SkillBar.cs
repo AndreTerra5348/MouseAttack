@@ -38,16 +38,18 @@ namespace MouseAttack.Entity.Player.UI.Skill
                 SkillSlot slot = child as SkillSlot;
                 int index = slot.GetIndex();
 
-                slot.Listen(nameof(SkillSlot.Skill),
-                    onChanged: () => _playerSkillController.SetSkill(slot.Skill, index));
+                slot.Listen(nameof(SkillSlot.Item),
+                    onChanged: () => _playerSkillController.SetSkill(slot.Item, index));
 
                 slot.Connect(Signals.Pressed, this, nameof(OnSkillSlotSelected),
                     new Godot.Collections.Array { index });
             }
 
+            if (_playerSkillController.IsSelectedSlotEmpty)
+                return;
+
             SkillSlot slotZero = GetChild<SkillSlot>(0);
-            var mainAttack = _playerSkillController.SkillDB.GetMainAttack();
-            slotZero.SetSkill(mainAttack);
+            slotZero.Item = _playerSkillController.SelectedSkill;
         }
 
         private void OnSkillSlotSelected(int selectedSlotIndex) =>

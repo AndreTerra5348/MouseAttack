@@ -3,6 +3,7 @@ using MouseAttack.Characteristic;
 using MouseAttack.Constants;
 using MouseAttack.Extensions;
 using MouseAttack.Misc;
+using MouseAttack.World;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -21,8 +22,6 @@ namespace MouseAttack.Entity.Player.UI.AttributeDistribution
         NodePath _gridPath = "";
         [Export]
         NodePath _remainingPointsLabelPath = "";
-        [Export]
-        NodePath _closeButtonPath = "";
         [Export]
         PackedScene _plusButtonScene = null;
         [Export]
@@ -55,7 +54,6 @@ namespace MouseAttack.Entity.Player.UI.AttributeDistribution
             PlayerCharacter character = GetNode<PlayerCharacter>(_characterPath);
             GridContainer grid = GetNode<GridContainer>(_gridPath);
             Label remainingPointsLabel = GetNode<Label>(_remainingPointsLabelPath);
-            Button closeButton = GetNode<Button>(_closeButtonPath);
 
             var statsList = character
                             .GetChildren()
@@ -110,10 +108,8 @@ namespace MouseAttack.Entity.Player.UI.AttributeDistribution
             character.Bind(nameof(PlayerCharacter.AttributePoints), remainingPointsLabel, nameof(Label.Text),
                 propertyConvertor: (value) => string.Format(RemainingPointsTextFormat, value));
 
-            closeButton.Connect(Signals.Pressed, this, nameof(OnCloseButtonPressed));
-
             // Bind Level change to Visibility
-            character.Listen(nameof(character.Level), onChanged: () => { Visible = true; });
+            character.Listen(nameof(character.Level), onChanged: Show);
         }
 
         public override void _UnhandledKeyInput(InputEventKey @event)
@@ -122,9 +118,10 @@ namespace MouseAttack.Entity.Player.UI.AttributeDistribution
                 Visible = !Visible;
         }
 
-        private void OnCloseButtonPressed() =>
+        public new void Show() =>
+            Visible = true;
+
+        public new void Hide() =>
             Visible = false;
-
-
     }
 }

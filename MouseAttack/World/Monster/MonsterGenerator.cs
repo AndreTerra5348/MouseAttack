@@ -19,7 +19,7 @@ namespace MouseAttack.World.Monster
         public MonsterSpawnedEventArgs(MonsterEntity entity) => Entity = entity;
     }
 
-    public class MonsterGenerator : Node
+    public class MonsterGenerator : Node, ISharable
     {
         public event EventHandler<MonsterSpawnedEventArgs> MonsterSpawned;
 

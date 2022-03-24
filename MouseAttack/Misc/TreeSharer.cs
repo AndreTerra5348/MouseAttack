@@ -11,16 +11,20 @@ using System.Threading.Tasks;
 
 namespace MouseAttack.Misc
 {
+    public interface ISharable
+    {
+
+    }
     public class TreeSharer
     {
         static TreeSharer _instance;
         public static TreeSharer Instance => _instance ?? (_instance = new TreeSharer());
 
-        Dictionary<Type, Node> _nodeMap = new Dictionary<Type, Node>();
+        Dictionary<Type, ISharable> _nodeMap = new Dictionary<Type, ISharable>();
 
-        public static T GetNode<T>() where T : Node =>
+        public static T GetNode<T>() where T : Node, ISharable =>
             Instance._nodeMap[typeof(T)] as T;
-        public static void RegistryNode(Node node) =>
-            Instance._nodeMap.Add(node.GetType(), node);      
+        public static void RegistryNode(ISharable sharable) =>
+            Instance._nodeMap.Add(sharable.GetType(), sharable);
     }
 }

@@ -7,6 +7,7 @@ using MouseAttack.World;
 using System.Collections.Generic;
 using System;
 using MouseAttack.Skill.TargetEffect;
+using MouseAttack.Item.Data;
 
 namespace MouseAttack.Skill.Data
 {
@@ -17,21 +18,24 @@ namespace MouseAttack.Skill.Data
         public CommonSkillInfo(CommonEntity target) => 
             Target = target;
     }
+
     /// <summary>
     /// Base class for all Skills
     /// </summary>
-    public abstract class CommonSkill : Resource
+    public abstract class CommonSkill : CommonItem, ISellable
     {
         [Export]
-        public PackedScene WorldEffectScene { get; private set; }
+        PackedScene WorldEffectScene { get; set; }
+        /// <summary>
+        /// Instantiate World Effect
+        /// </summary>
+        public CommonWorldEffect NewWorldEffect => WorldEffectScene.Instance<CommonWorldEffect>();       
         [Export]
-        public List<CommonTargetEffectSpawner> TargetEffectSpaners { get; private set; }
+        protected List<CommonTargetEffectSpawner> TargetEffectSpaners { get; private set; }        
         [Export]
-        public PackedScene ItemScene { get; private set; }
+        public int Price { get; private set; } = 1;
         [Export]
-        public Texture Icon { get; private set; }
-        [Export]
-        public int Cost { get; private set; } = 1;
+        public int ManaCost { get; private set; } = 1;
         [Export]
         public int Duration { get; private set; } = 1;
         [Export]
@@ -39,15 +43,13 @@ namespace MouseAttack.Skill.Data
         [Export]
         public bool IsUnlocked { get; private set; } = false;
 
-        public event EventHandler SkillUsed;
-
         int _cooldown = 0;
-        public virtual string Tooltip
+        public override string Tooltip
         {
             get
             {
                 return
-                    $"Cost: {Cost}\n" +
+                    $"Mana Cost: {ManaCost}\n" +
                     $"Cooldown: {Cooldown}";
             }
         }
@@ -57,9 +59,6 @@ namespace MouseAttack.Skill.Data
         public void StartCooldown() => _cooldown = Cooldown;
         public void ElapseCooldown() => _cooldown--;
         public abstract void Use(CommonEntity user, CommonEntity target);
-
-        protected void OnSkillUsed(EventArgs e) =>
-            SkillUsed?.Invoke(this, e);
 
 
     }

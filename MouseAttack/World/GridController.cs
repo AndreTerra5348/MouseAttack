@@ -14,7 +14,7 @@ using MouseAttack.World.Monster;
 
 namespace MouseAttack.World
 {
-    public class GridController : TileMap, IInitializable
+    public class GridController : TileMap, IInitializable, ISharable
     {
         public event EventHandler Initialized;
         public event EventHandler RoundFinished;
