@@ -37,8 +37,7 @@ namespace MouseAttack.World
         AStar2D _aStar = new AStar2D();
 
         public const float TurnDelay = 0.3f;
-
-        PlayArea PlayArea => TreeSharer.GetNode<PlayArea>();
+        
         public GridController() => TreeSharer.RegistryNode(this);
 
         public override void _Ready()
@@ -129,9 +128,6 @@ namespace MouseAttack.World
         private int GetIdFromWorldPosition(Vector2 worldPosition) =>
             GetIdFromMapPosition(WorldToMap(worldPosition));
 
-
-
-
         async public void ElapseTurn()
         {
             await this.CreateTimer(TurnDelay);
@@ -145,7 +141,5 @@ namespace MouseAttack.World
             }
             RoundFinished?.Invoke(this, EventArgs.Empty);
         }
-
-
     }
 }

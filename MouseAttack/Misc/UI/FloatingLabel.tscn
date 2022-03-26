@@ -1,6 +1,13 @@
-[gd_scene load_steps=4 format=2]
+[gd_scene load_steps=6 format=2]
 
-[ext_resource path="res://MouseAttack/Skill/TargetEffect/UI/FloatingLabel.cs" type="Script" id=1]
+[ext_resource path="res://MouseAttack/Misc/UI/FloatingLabel.cs" type="Script" id=1]
+[ext_resource path="res://MouseAttack/Theme/Fonts/Roboto-Regular.ttf" type="DynamicFontData" id=2]
+
+[sub_resource type="DynamicFont" id=3]
+resource_local_to_scene = true
+size = 15
+use_filter = true
+font_data = ExtResource( 2 )
 
 [sub_resource type="Animation" id=1]
 length = 0.001
@@ -46,7 +53,7 @@ tracks/1/keys = {
 } ]
 }
 
-[node name="FloatingText" type="CanvasLayer"]
+[node name="FloatingLabel" type="CanvasLayer"]
 script = ExtResource( 1 )
 _containerPath = NodePath("Container")
 _labelPath = NodePath("Container/Label")
@@ -58,8 +65,9 @@ __meta__ = {
 
 [node name="Label" type="Label" parent="Container"]
 margin_right = 32.0
-margin_bottom = 14.0
+margin_bottom = 18.0
 mouse_filter = 1
+custom_fonts/font = SubResource( 3 )
 text = "0"
 align = 1
 __meta__ = {

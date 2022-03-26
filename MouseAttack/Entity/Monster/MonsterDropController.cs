@@ -1,8 +1,8 @@
 ﻿using Godot;
+using MouseAttack.Extensions;
 using MouseAttack.Item.Data;
-using MouseAttack.Item.Drop;
-using MouseAttack.Item.Gold;
 using MouseAttack.Misc;
+using MouseAttack.Skill.TargetEffect;
 using MouseAttack.World;
 using System;
 using System.Collections.Generic;
@@ -15,24 +15,25 @@ namespace MouseAttack.Entity.Monster
     public class MonsterDropController : Node
     {
         [Export]
-        int _maxGold;
+        CommonItem Gold = null;
         [Export]
-        int _minGold;
+        int _maxGold = 1;
+        [Export]
+        int _minGold = 1;
 
         Random _random = new Random();
 
         GridController GridController => TreeSharer.GetNode<GridController>();
-
         public override void _Ready()
         {
-            GetParent<MonsterEntity>().Dead += (s, e) =>
+            MonsterEntity monsterEntity = GetParent<MonsterEntity>();
+            monsterEntity.Dead += (s, e) =>
             {
-                CommonItem gold = new CommonItem();
-                if (gold.DropRate > _random.Next(100))
+                if (Gold.DropRate < _random.Next(100))
                     return;
-                gold.Count = _random.Next(_minGold, _maxGold);
-                GoldDrop drop = gold.GetDropInstance<GoldDrop>();
-                GridController.AddChild(drop);
+                int count = _random.Next(_minGold, _maxGold);
+                Gold.Count += count;
+                monsterEntity.QueueFloatingLabel(Gold.GetFloatingDropLabel(monsterEntity.Position, count));           
             };
         }
     }

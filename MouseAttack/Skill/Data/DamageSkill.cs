@@ -1,30 +1,30 @@
 using Godot;
 using MouseAttack.Entity;
+using MouseAttack.Misc.UI;
 using MouseAttack.Skill.TargetEffect;
 using System;
+using System.Collections.Generic;
 
 namespace MouseAttack.Skill.Data
 {
-    public class DamageSkillInfo : CommonSkillInfo
-    {
-        public readonly float Damage;
-        public DamageSkillInfo(CommonEntity target, float damage)
-            : base(target) => Damage = damage;
-
-    }
     public class DamageSkill : CollidableSkill
     {
         [Export]
         public int Damage { get; private set; } = 1;
         [Export]
         public int Hits { get; private set; } = 1;
+        [Export]
+        PackedScene _normalFloatingLabelScene = null;
+        [Export]
+        PackedScene _criticalFloatingLabelScene = null;
 
         public override string Tooltip =>
             $"Damage: {Damage}\n" + base.Tooltip;
 
-        private float CalculateDamage(Character attacker, Character defender)
+
+        private float CalculateDamage(Character attacker, Character defender, out bool isCritical)
         {
-            bool isCritical = attacker.IsCritical;
+            isCritical = attacker.IsCritical;
             float attackerDamage = attacker.Damage.Value;
             float attackerCriticalDamage = attacker.CriticalDamage.Value;
             if (isCritical)
@@ -34,16 +34,16 @@ namespace MouseAttack.Skill.Data
             return finalDamage < 0 ? 0 : finalDamage;
         }
 
-        public override void Use(CommonEntity user, CommonEntity target)
+        public override void Apply(CommonEntity user, CommonEntity target)
         {
-            float damage = CalculateDamage(user.Character, target.Character);
+            float damage = CalculateDamage(user.Character, target.Character, out bool isCritical);
+            PackedScene floatingLabelScene = isCritical ? _criticalFloatingLabelScene : _normalFloatingLabelScene;
+            OnApplied(new FloatingLabelEventArgs(floatingLabelScene, damage.ToString("0.0"), target.Position));
+            SpawnTargetEffects(target);
             target.Character.Hit(damage);
 
             if (target.Character.IsDead)
-                user.Character.Experience += target.Character.Experience;
-
-            TargetEffectSpaners.ForEach(tf => tf.SkillUsed(new DamageSkillInfo(target, damage)));
-
+                user.Character.Experience += target.Character.Experience;            
         }
     }
 }

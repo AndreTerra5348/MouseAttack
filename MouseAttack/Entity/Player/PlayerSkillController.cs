@@ -30,6 +30,8 @@ namespace MouseAttack.Entity.Player
         [Export]
         NodePath _inventoryPath = "";
         PlayerInventory _inventory;
+
+        bool _isPlayerTurn = true;
         
         GridController GridController => TreeSharer.GetNode<GridController>();
         PlayArea PlayArea => TreeSharer.GetNode<PlayArea>();
@@ -65,21 +67,17 @@ namespace MouseAttack.Entity.Player
             {
                 foreach (CommonSkill skill in _inventory.Skills)
                 {
-                    if (!skill.IsUnlocked)
-                        continue;
-
                     if (!skill.OnCooldown)
                         continue;
 
                     skill.ElapseCooldown();
                 }
 
+                _isPlayerTurn = true;
                 SetProcessInput(true);
             };
 
             SelectedSkill = _inventory.Skills.First();
-
-            AddChild(new SkillCursor());
         }
 
 
@@ -87,8 +85,8 @@ namespace MouseAttack.Entity.Player
         {
             if (what == NotificationPaused)
                 SetProcessInput(false);
-            else if(what == NotificationUnparented)
-                SetProcessInput(true);
+            else if(what == NotificationUnpaused)
+                SetProcessInput(_isPlayerTurn);
         }
 
         public override void _Input(InputEvent @event)
@@ -96,7 +94,7 @@ namespace MouseAttack.Entity.Player
             if (@event.IsActionPressed(InputAction.LMB) && PlayArea.OnPlayArea)
                 UseSkill();
             else if (@event.IsActionPressed(InputAction.ElapseTurn))
-                ElapseTurn();
+                EndTurn();
             else
             {
                 for (int i = 0; i < _slottedSkills.Length; i++)
@@ -128,17 +126,16 @@ namespace MouseAttack.Entity.Player
 
             SelectedSkill.StartCooldown();
 
-            CommonWorldEffect worldEffect = SelectedSkill.NewWorldEffect;
-            worldEffect.Skill = SelectedSkill;
-            worldEffect.User = PlayerEntity;
-            worldEffect.Position = GetViewport().GetSnappedMousePosition(Values.CellSize);
+            Vector2 spawnPosition = GetViewport().GetSnappedMousePosition(Values.CellSize);
+            CommonWorldEffect worldEffect = SelectedSkill.GetWorldEffect(PlayerEntity, spawnPosition);
             GridController.AddChild(worldEffect);
             CooldownStarted?.Invoke(this, new CooldownStartedEventArgs(SelectedSlotIndex, SelectedSkill.Cooldown));            
-            ElapseTurn();
+            EndTurn();
         }
 
-        private void ElapseTurn()
+        private void EndTurn()
         {
+            _isPlayerTurn = false;
             SetProcessInput(false);
             GridController.ElapseTurn();
         }

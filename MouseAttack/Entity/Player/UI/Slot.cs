@@ -48,7 +48,7 @@ namespace MouseAttack.Entity.Player.UI
                     return;
 
                 // Set new Icon and tooltip
-                _iconContainer.AddChild(_currentIcon = _item.NewIcon);
+                _iconContainer.AddChild(_currentIcon = _item.GetIconInstance<Control>());
                 HintTooltip = _item.Tooltip;
             }
         }
@@ -63,7 +63,7 @@ namespace MouseAttack.Entity.Player.UI
 
         public override object GetDragData(Vector2 position)
         {
-            SetDragPreview(new DragPreview(Item.NewIcon));
+            SetDragPreview(new DragPreview(Item.GetIconInstance<Control>()));
             var data = Item;
             if(RemoveOnDrag)
                 RemoveItem();

@@ -64,7 +64,7 @@ namespace MouseAttack.Entity
         public Stats CriticalRate => StatsMap[StatsType.CriticalRate];
         public Stats CriticalDamage => StatsMap[StatsType.CriticalDamage];
         Random _random = new Random();
-        public bool IsCritical => CriticalRate.Percentage <= _random.NextDouble();
+        public bool IsCritical => CriticalRate.Percentage >= _random.NextDouble();
         public bool IsDead => Health.IsDepleted;
         protected Dictionary<StatsType, Stats> StatsMap { get; private set; } = new Dictionary<StatsType, Stats>();
 

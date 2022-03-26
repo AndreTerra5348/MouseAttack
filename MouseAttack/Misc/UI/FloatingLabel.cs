@@ -2,7 +2,7 @@ using Godot;
 using System;
 using MouseAttack.Constants;
 
-namespace MouseAttack.Skill.TargetEffect.UI
+namespace MouseAttack.Misc.UI
 {
     public class FloatingLabel : CanvasLayer
     {
@@ -12,13 +12,15 @@ namespace MouseAttack.Skill.TargetEffect.UI
         NodePath _labelPath = "";
 
         public string Text { get; set; } = "";
-        public Color Color { get; set; } = Colors.White;
         public Vector2 Position { get; set; }
+        public AnimationPlayer AnimationPlayer { get; private set; }
+        public float AnimationPosition => AnimationPlayer.CurrentAnimationPosition;
+
         public override void _Ready()
         {
+            AnimationPlayer = GetNode<AnimationPlayer>(nameof(AnimationPlayer));
             Label label = GetNode<Label>(_labelPath);
             label.Text = Text;
-            label.AddColorOverride(Overrides.FontColor, Color);
             Control container = GetNode<Control>(_containerPath);
             container.RectGlobalPosition = Position;
         }

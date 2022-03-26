@@ -33,7 +33,6 @@ namespace MouseAttack.Entity.Monster
         Tween _tween = new Tween();
         float TweenSpeed { get; set; } = 0.1f;
 
-        const string TweenProperty = "global_position";
         public override void _Ready()
         {
             _monsterEntity = GetParent<MonsterEntity>();
@@ -46,14 +45,14 @@ namespace MouseAttack.Entity.Monster
         {
             if (_skill.Range == 0)
                 return StartApproachAnimation();
-            return this.CreateTimer(0.2f);
+            return this.CreateTimer(_monsterEntity.MovementDelay);
         }
 
         private SignalAwaiter StartApproachAnimation()
         {
             Vector2 currentPosition = _graphics.GlobalPosition;
             _tween.InterpolateProperty(_graphics,
-                TweenProperty,
+                GodotProperties.GlobalPosition,
                 _graphics.GlobalPosition,
                 PlayerEntity.GlobalPosition,
                 TweenSpeed);
@@ -61,7 +60,7 @@ namespace MouseAttack.Entity.Monster
             UseSkill();
 
             _tween.InterpolateProperty(_graphics,
-                TweenProperty,
+                GodotProperties.GlobalPosition,
                 PlayerEntity.GlobalPosition,
                 currentPosition,
                 TweenSpeed, Tween.TransitionType.Linear, Tween.EaseType.InOut, TweenSpeed);
@@ -73,10 +72,7 @@ namespace MouseAttack.Entity.Monster
         async private void UseSkill()
         {
             await this.CreateTimer(TweenSpeed);
-            CommonWorldEffect worldEffect = _skill.NewWorldEffect;
-            worldEffect.Skill = _skill;
-            worldEffect.User = _monsterEntity;
-            worldEffect.GlobalPosition = PlayerEntity.GlobalPosition;
+            CommonWorldEffect worldEffect = _skill.GetWorldEffect(_monsterEntity, PlayerEntity.GlobalPosition);
             GridController.AddChild(worldEffect);
         }
 

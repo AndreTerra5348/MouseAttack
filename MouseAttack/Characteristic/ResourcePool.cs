@@ -13,10 +13,18 @@ namespace MouseAttack.Characteristic
             Increased = increased;
         }
     }
+
+    public class ResourceUsedEventArgs : EventArgs
+    {
+        public readonly float Value;
+
+        public ResourceUsedEventArgs(float value) =>
+            Value = value;
+    }
     public class ResourcePool : Stats
     {
         public event EventHandler Depleted;
-        public event EventHandler Used;
+        public event EventHandler<ResourceUsedEventArgs> Used;
         public event EventHandler<ResourceChangedEventArgs> Changed;
 
         float _currentValue = 0.0f;
@@ -47,7 +55,7 @@ namespace MouseAttack.Characteristic
         public void Use(float value = 1.0f)
         {
             CurrentValue -= value;
-            Used?.Invoke(this, EventArgs.Empty);
+            Used?.Invoke(this, new ResourceUsedEventArgs(value));
             Changed?.Invoke(this, new ResourceChangedEventArgs(value, false));
             if (CurrentValue > 0)
                 return;

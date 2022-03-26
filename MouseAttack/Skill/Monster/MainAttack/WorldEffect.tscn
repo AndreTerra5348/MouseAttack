@@ -5,8 +5,5 @@
 
 [node name="MainAttack" instance=ExtResource( 1 )]
 
-[node name="Area2D" parent="." index="0"]
-collision_layer = 8
-
-[node name="Sprite" parent="." index="1"]
+[node name="Sprite" parent="." index="2"]
 texture = ExtResource( 2 )

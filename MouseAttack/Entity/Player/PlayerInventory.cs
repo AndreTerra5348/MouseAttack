@@ -1,4 +1,5 @@
 ﻿using Godot;
+using MouseAttack.Constants;
 using MouseAttack.Item.Data;
 using MouseAttack.Misc;
 using MouseAttack.Skill.Data;

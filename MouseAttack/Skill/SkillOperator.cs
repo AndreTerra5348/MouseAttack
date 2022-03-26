@@ -4,6 +4,7 @@ using MouseAttack.Entity;
 using MouseAttack.Misc;
 using MouseAttack.World;
 using System;
+using MouseAttack.Misc.UI;
 
 namespace MouseAttack.Skill
 {
@@ -21,7 +22,9 @@ namespace MouseAttack.Skill
             _user = user;
             _skill = skill;
             _duration = _skill.Duration;
+            _skill.Applied += OnSkillApplied;
         }
+        
 
         public override void _Ready()
         {
@@ -29,20 +32,28 @@ namespace MouseAttack.Skill
             TreeSharer.GetNode<GridController>().RoundFinished += OnRoundFinished;
             Operate();
         }
+        private void OnSkillApplied(object sender, EventArgs e)
+        {
+            var floatingLabelEventArgs = e as FloatingLabelEventArgs;
+            if (floatingLabelEventArgs == null)
+                return;
+            _target.QueueFloatingLabel(floatingLabelEventArgs.FloatingLabel);
+        }
 
         private void OnRoundFinished(object sender, EventArgs e) =>
             Operate();
 
         private void Operate()
         {
-            _skill.Use(_user, _target);
-
+            _skill.Apply(_user, _target);
+            
             _duration--;
 
             if (_duration > 0)
                 return;
 
             TreeSharer.GetNode<GridController>().RoundFinished -= OnRoundFinished;
+            _skill.Applied -= OnSkillApplied;
             QueueFree();
         }
     }

@@ -16,28 +16,17 @@ namespace MouseAttack.Entity.Player
 
         public PlayerEntity() => TreeSharer.RegistryNode(this);
 
-        public override void _InputEvent(Godot.Object viewport, InputEvent @event, int shapeIdx)
-        {
-            if (@event.IsActionPressed("RMB"))
-                OnRightMouseButtonClicked();
-        }
-
-        private void OnRightMouseButtonClicked()
-        {
-            // Menu
-        }
-
-        protected override void OnDeath(object sender, EventArgs e)
+        protected override void OnDeath()
         {
             // Game Over
         }
 
-        protected override void OnMouseEntered()
+        public override void OnCursorEntered()
         {
             // Toggle Hover Feedback
         }
 
-        protected override void OnMouseExited()
+        public override void OnCursorExited()
         {
             // Toggle Hover Feedback
         }

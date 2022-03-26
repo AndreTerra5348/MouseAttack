@@ -5,6 +5,7 @@ using MouseAttack.Extensions;
 using MouseAttack.Misc;
 using MouseAttack.World;
 using System;
+using System.Threading.Tasks;
 
 namespace MouseAttack.Entity.Monster
 {
@@ -13,7 +14,6 @@ namespace MouseAttack.Entity.Monster
         public event EventHandler Initialized;
         public event EventHandler Dead;
         protected override string CharacterName => nameof(MonsterCharacter);
-        public bool IsDead => Character.IsDead;
 
         PlayerEntity PlayerEntity => TreeSharer.GetNode<PlayerEntity>();
         MonsterSkillController MonsterSkillController { get; set; }
@@ -21,7 +21,7 @@ namespace MouseAttack.Entity.Monster
         NodePath _spritePath = "";
         Sprite _sprite;
 
-        float MovementDelay { get; set; } = 0.1f;
+        public float MovementDelay { get; private set; } = 0.1f;
 
         async public override void _Ready()
         {
@@ -38,21 +38,19 @@ namespace MouseAttack.Entity.Monster
             GridController.SetCellAsTaken(Position);
         }
 
-        protected override void OnDeath(object sender, EventArgs e)
+        protected override void OnDeath()
         {
             GridController.SetCellAsEmpty(Position);
             Dead?.Invoke(this, EventArgs.Empty);
             QueueFree();
         }
 
-        protected override void OnMouseEntered()
+        public override void OnCursorEntered()
         {
-
         }
 
-        protected override void OnMouseExited()
+        public override void OnCursorExited()
         {
-
         }
 
         public override SignalAwaiter Act()

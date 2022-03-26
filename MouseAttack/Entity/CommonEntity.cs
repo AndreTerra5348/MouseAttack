@@ -2,6 +2,7 @@
 using MouseAttack.Constants;
 using MouseAttack.Extensions;
 using MouseAttack.Misc;
+using MouseAttack.Misc.UI;
 using MouseAttack.World;
 using System;
 using System.Collections.Generic;
@@ -15,27 +16,27 @@ namespace MouseAttack.Entity
     /// <summary>
     /// Base class for PlayerEntity and MonsterEntity
     /// </summary>
-    public abstract class CommonEntity : Area2D
+    public abstract class CommonEntity : Area2D, ICursorHoverable
     {
         public Character Character { get; private set; }
         protected abstract string CharacterName { get; }
+        protected FloatingLabelSpawner FloatingLabelSpawner { get; private set; }
         protected GridController GridController => TreeSharer.GetNode<GridController>();
+
         public override void _Ready()
         {
+            FloatingLabelSpawner = GetNode<FloatingLabelSpawner>(nameof(FloatingLabelSpawner));
             Character = GetNode<Character>(CharacterName);
-            Character.Dead += OnDeath;
+            Character.Dead += (s, e) => OnDeath();
             ZIndex = ZOrder.Entity;
         }
 
-        public override void _EnterTree()
-        {
-            Connect(Signals.MouseEntered, this, nameof(OnMouseEntered));
-            Connect(Signals.MouseExited, this, nameof(OnMouseExited));
-        }
-        protected abstract void OnDeath(object sender, EventArgs e);
-        protected abstract void OnMouseEntered();
-        protected abstract void OnMouseExited();
-        public abstract SignalAwaiter Act();
+        public void QueueFloatingLabel(FloatingLabel floatingLabel) =>
+            FloatingLabelSpawner.QueueFloatingLabel(floatingLabel);
 
+        protected abstract void OnDeath();
+        public abstract void OnCursorEntered();
+        public abstract void OnCursorExited();
+        public abstract SignalAwaiter Act();
     }
 }

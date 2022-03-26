@@ -1,4 +1,4 @@
-[gd_scene load_steps=11 format=2]
+[gd_scene load_steps=14 format=2]
 
 [ext_resource path="res://MouseAttack/Entity/UI/HealthBar.tscn" type="PackedScene" id=1]
 [ext_resource path="res://MouseAttack/Entity/Monster/Database/Rat/rat.png" type="Texture" id=2]
@@ -9,12 +9,16 @@
 [ext_resource path="res://MouseAttack/Entity/Monster/MonsterSkillController.cs" type="Script" id=7]
 [ext_resource path="res://MouseAttack/Skill/Monster/MainAttack/MainAttack.tres" type="Resource" id=8]
 [ext_resource path="res://MouseAttack/Theme/Fonts/Roboto10.tres" type="DynamicFont" id=9]
+[ext_resource path="res://MouseAttack/Entity/Monster/MonsterDropController.cs" type="Script" id=10]
+[ext_resource path="res://MouseAttack/Item/Currency/Gold.tres" type="Resource" id=11]
+[ext_resource path="res://MouseAttack/Misc/UI/FloatingLabelSpawner.cs" type="Script" id=12]
 
 [sub_resource type="RectangleShape2D" id=1]
 extents = Vector2( 14, 14 )
 
 [node name="MonsterEntity" type="Area2D"]
 collision_layer = 2
+collision_mask = 2
 script = ExtResource( 4 )
 _spritePath = NodePath("Graphics/Sprite")
 
@@ -46,6 +50,14 @@ script = ExtResource( 7 )
 _skill = ExtResource( 8 )
 _graphicsPath = NodePath("../Graphics")
 
+[node name="MonsterDropController" type="Node" parent="."]
+script = ExtResource( 10 )
+Gold = ExtResource( 11 )
+_maxGold = 5
+
+[node name="FloatingLabelSpawner" type="Node" parent="."]
+script = ExtResource( 12 )
+
 [node name="Graphics" type="Node2D" parent="."]
 
 [node name="Sprite" type="Sprite" parent="Graphics"]
@@ -53,10 +65,11 @@ texture = ExtResource( 2 )
 centered = false
 
 [node name="HealthBar" parent="Graphics" instance=ExtResource( 1 )]
-position = Vector2( 0, -12 )
-
-[node name="ProgressBar" parent="Graphics/HealthBar" index="0"]
-_resourcePath = NodePath("../../../MonsterCharacter/Health")
+margin_left = 1.0
+margin_top = -12.0
+margin_right = 31.0
+margin_bottom = -7.0
+_resourcePath = NodePath("../../MonsterCharacter/Health")
 
 [node name="NameLabel" type="Label" parent="."]
 margin_top = -30.0

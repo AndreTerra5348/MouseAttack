@@ -1,4 +1,4 @@
-[gd_scene load_steps=13 format=2]
+[gd_scene load_steps=15 format=2]
 
 [ext_resource path="res://MouseAttack/World/Tiles/grass.png" type="Texture" id=1]
 [ext_resource path="res://MouseAttack/World/Tiles/grass-spawn.png" type="Texture" id=2]
@@ -6,7 +6,9 @@
 [ext_resource path="res://MouseAttack/Entity/Player/PlayerEntity.tscn" type="PackedScene" id=4]
 [ext_resource path="res://MouseAttack/World/GridController.cs" type="Script" id=5]
 [ext_resource path="res://MouseAttack/World/Monster/Pool/Level1.tres" type="Resource" id=6]
+[ext_resource path="res://MouseAttack/World/PlayerCursor.tscn" type="PackedScene" id=7]
 [ext_resource path="res://MouseAttack/World/PlayArea.cs" type="Script" id=8]
+[ext_resource path="res://MouseAttack/World/PlayerCursor.cs" type="Script" id=9]
 [ext_resource path="res://MouseAttack/World/Stage.cs" type="Script" id=11]
 
 [sub_resource type="TileSet" id=1]
@@ -79,6 +81,11 @@ script = ExtResource( 5 )
 
 [node name="PlayerEntity" parent="GridController" instance=ExtResource( 4 )]
 position = Vector2( 320, 224 )
+
+[node name="PlayerCursor" parent="." instance=ExtResource( 7 )]
+collision_layer = 16
+collision_mask = 7
+script = ExtResource( 9 )
 
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 

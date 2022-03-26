@@ -1,4 +1,5 @@
 ﻿using Godot;
+using MouseAttack.Extensions;
 using MouseAttack.World;
 using System;
 using System.Collections.Generic;
@@ -11,20 +12,30 @@ namespace MouseAttack.Misc
     public class QueueFreer : Node
     {
         [Export]
-        int _duration = 2;
-        int _turns = 0;
+        int _duration = 1;
+        [Export]
+        float _queueFreeDelay = 0.3f;
 
         public override void _Ready()
         {
             TreeSharer.GetNode<GridController>().RoundFinished += OnRoundFinished;
+            ElapseTurn();
         }
 
-        private void OnRoundFinished(object sender, EventArgs e)
+        private void OnRoundFinished(object sender, EventArgs e) =>
+            ElapseTurn();
+
+        async private void ElapseTurn()
         {
-            _turns++;
-            if (_turns < _duration)
+            _duration -= 1;
+
+            if (_duration > 0)
                 return;
+
             TreeSharer.GetNode<GridController>().RoundFinished -= OnRoundFinished;
+
+            await this.CreateTimer(_queueFreeDelay);
+
             GetParent().QueueFree();
         }
     }

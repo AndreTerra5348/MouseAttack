@@ -8,18 +8,31 @@
 Experience = 10.0
 
 [node name="Health" parent="MonsterCharacter" index="0"]
+ValuePerPoint = 1.0
 Points = 10
+Editable = false
 
 [node name="Damage" parent="MonsterCharacter" index="1"]
-Points = 5
+ValuePerPoint = 1.0
+Points = 7
+Editable = false
 
 [node name="Defense" parent="MonsterCharacter" index="2"]
+ValuePerPoint = 1.0
 Points = 5
+Editable = false
 
 [node name="CriticalRate" parent="MonsterCharacter" index="3"]
+ValuePerPoint = 1.0
 Points = 10
+Editable = false
 
 [node name="CriticalDamage" parent="MonsterCharacter" index="4"]
+ValuePerPoint = 1.0
 Points = 10
+Editable = false
+
+[node name="MonsterDropController" parent="." index="3"]
+_minGold = 1
 
 [editable path="Graphics/HealthBar"]

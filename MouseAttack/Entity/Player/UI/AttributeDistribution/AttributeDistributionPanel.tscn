@@ -17,7 +17,6 @@ __meta__ = {
 }
 _gridPath = NodePath("MarginContainer/VBoxContainer/MarginContainer/GridContainer")
 _remainingPointsLabelPath = NodePath("MarginContainer/VBoxContainer/RemainingPointsLabel")
-_closeButtonPath = NodePath("MarginContainer/VBoxContainer/HeaderPanel/MarginContainer/VBoxContainer/HBoxContainer/CloseButton")
 _plusButtonScene = ExtResource( 4 )
 _minusButtonScene = ExtResource( 3 )
 
@@ -90,6 +89,6 @@ align = 1
 [node name="MovableControl" type="Node" parent="."]
 script = ExtResource( 6 )
 
-[connection signal="pressed" from="MarginContainer/VBoxContainer/HeaderPanel/MarginContainer/VBoxContainer/HBoxContainer/CloseButton" to="." method="hide"]
+[connection signal="pressed" from="MarginContainer/VBoxContainer/HeaderPanel/MarginContainer/VBoxContainer/HBoxContainer/CloseButton" to="." method="Hide"]
 
 [editable path="MarginContainer/VBoxContainer/HeaderPanel"]
