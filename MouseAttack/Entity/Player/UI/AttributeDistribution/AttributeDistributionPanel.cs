@@ -12,7 +12,7 @@ using System.Threading.Tasks;
 
 namespace MouseAttack.Entity.Player.UI.AttributeDistribution
 {
-    public class AttributeDistributionPanel : PanelContainer
+    public class AttributeDistributionPanel : PanelBase
     {
         const string RemainingPointsTextFormat = "Remaining points: {0}";
 
@@ -37,15 +37,7 @@ namespace MouseAttack.Entity.Player.UI.AttributeDistribution
             StatsType.CriticalDamage
         };
 
-        public new bool Visible
-        {
-            get => base.Visible;
-            set
-            {
-                base.Visible = value;
-                GetTree().Paused = Visible;
-            }
-        }
+        protected override string OpenInputAction => InputAction.AttributePanel;
 
         public override void _Ready()
         {
@@ -111,17 +103,5 @@ namespace MouseAttack.Entity.Player.UI.AttributeDistribution
             // Bind Level change to Visibility
             character.Listen(nameof(character.Level), onChanged: Show);
         }
-
-        public override void _UnhandledKeyInput(InputEventKey @event)
-        {
-            if (@event.IsActionPressed(InputAction.AttributePanel))
-                Visible = !Visible;
-        }
-
-        public new void Show() =>
-            Visible = true;
-
-        public new void Hide() =>
-            Visible = false;
     }
 }

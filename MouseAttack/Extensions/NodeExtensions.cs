@@ -19,5 +19,10 @@ namespace MouseAttack.Extensions
         public static SignalAwaiter SkipNextFrame(this Node caller) =>
             caller.ToSignal(caller.GetTree(), Signals.IdleFrame);
 
+        async public static void OnReady(this Node node, Action action)
+        {
+            await node.ToSignal(node, Signals.Ready);
+            action();
+        }
     }
 }

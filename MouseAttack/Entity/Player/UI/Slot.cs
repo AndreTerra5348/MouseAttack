@@ -1,7 +1,10 @@
 ﻿using Godot;
+using MouseAttack.Entity.Player.UI.Inventory;
 using MouseAttack.Entity.Player.UI.Skill;
 using MouseAttack.Extensions;
 using MouseAttack.Item.Data;
+using MouseAttack.Misc;
+using MouseAttack.World;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -12,7 +15,19 @@ using System.Threading.Tasks;
 
 namespace MouseAttack.Entity.Player.UI
 {
-    public abstract class Slot<T> : Button, INotifyPropertyChanged where T : CommonItem
+    public class SlotDragData : Godot.Object
+    {
+        public readonly CommonItem Item;
+        public readonly Slot SlotOrigin;
+
+        public SlotDragData(CommonItem item, Slot slotOrigin)
+        {
+            Item = item;
+            SlotOrigin = slotOrigin;
+        }
+    }
+
+    public abstract class Slot : Button, INotifyPropertyChanged
     {
         public event PropertyChangedEventHandler PropertyChanged;
         protected void OnPropertyChanged([CallerMemberName] string name = null) =>
@@ -23,11 +38,11 @@ namespace MouseAttack.Entity.Player.UI
         CenterContainer _iconContainer;
         Control _currentIcon;
 
-        [Export]
-        protected bool RemoveOnDrag { get; set; } = false;
+        DragPreviewParent DragPreviewParent => TreeSharer.GetNode<DragPreviewParent>();        
+        public bool IsEmpty => Item == null;
 
-        T _item;
-        public T Item
+        CommonItem _item;
+        public CommonItem Item
         {
             get => _item;
             set
@@ -56,25 +71,61 @@ namespace MouseAttack.Entity.Player.UI
             _iconContainer = GetNode<CenterContainer>(_iconContainerPath);        
 
         public override bool CanDropData(Vector2 position, object data) =>
-            data is T;
+            CanDropData(data as SlotDragData);
 
-        public override void DropData(Vector2 position, object data) =>
-            Item = data as T;
+        public virtual bool CanDropData(SlotDragData data) =>
+            data?.Item is CommonItem;
+
+        public override void DropData(Vector2 position, object data)
+        {
+            SlotDragData slotDragData = data as SlotDragData;
+            ItemDropped(slotDragData.Item);
+            Item = slotDragData.Item;
+            Item.IsSlotted = true;
+            slotDragData.SlotOrigin.ItemDroppedAtAnotherSlot(this);
+        }
+            
 
         public override object GetDragData(Vector2 position)
         {
-            SetDragPreview(new DragPreview(Item.GetIconInstance<Control>()));
-            var data = Item;
-            if(RemoveOnDrag)
-                RemoveItem();
+            if (Item == null)
+                return null;
+            DragPreviewParent.SetDragPreview(new DragPreview(Item.GetIconInstance<Control>()));
+            var data = new SlotDragData(Item, this);
+            ItemDragged();
             return data;
         }
-
         public override Control _MakeCustomTooltip(string forText) =>
             this.MakeCustomTooltip(forText);
+
+        protected virtual void ItemDragged() {}
+
+        // Called before the item is asssigned
+        protected virtual void ItemDropped(CommonItem item) { }
+
+        /// <summary>
+        /// Called by the slot that received the item dragged from this slot
+        /// </summary>
+        /// <param name="receiver">the receiver slot</param>
+        public virtual void ItemDroppedAtAnotherSlot(Slot receiver) { }
+        protected virtual void OnRightClick() { }
+
+        
 
         protected void RemoveItem() =>
             Item = null;
 
+        public override void _GuiInput(InputEvent @event)
+        {
+            InputEventMouseButton inputEvent = @event as InputEventMouseButton;
+            if (inputEvent == null)
+                return;
+            if (inputEvent.ButtonIndex != (int)ButtonList.Right)
+                return;
+
+            OnRightClick();
+        }
+
+        
     }
 }

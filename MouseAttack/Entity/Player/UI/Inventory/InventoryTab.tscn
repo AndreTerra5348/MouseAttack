@@ -1,0 +1,49 @@
+[gd_scene load_steps=3 format=2]
+
+[ext_resource path="res://MouseAttack/Entity/Player/UI/Inventory/InventoryGrid.cs" type="Script" id=1]
+[ext_resource path="res://MouseAttack/Entity/Player/UI/Inventory/InventorySlot.tscn" type="PackedScene" id=2]
+
+[node name="InventoryTab" type="MarginContainer"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_top = 20.0
+mouse_filter = 1
+custom_constants/margin_right = 2
+custom_constants/margin_top = 2
+custom_constants/margin_left = 2
+custom_constants/margin_bottom = 2
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="ScrollContainer" type="ScrollContainer" parent="."]
+margin_left = 2.0
+margin_top = 2.0
+margin_right = 670.0
+margin_bottom = 458.0
+mouse_filter = 1
+scroll_horizontal_enabled = false
+
+[node name="MarginContainer" type="MarginContainer" parent="ScrollContainer"]
+margin_right = 668.0
+margin_bottom = 456.0
+mouse_filter = 1
+size_flags_horizontal = 3
+size_flags_vertical = 3
+custom_constants/margin_right = 2
+custom_constants/margin_top = 2
+custom_constants/margin_left = 2
+custom_constants/margin_bottom = 2
+
+[node name="InventoryGrid" type="GridContainer" parent="ScrollContainer/MarginContainer"]
+margin_left = 334.0
+margin_top = 228.0
+margin_right = 334.0
+margin_bottom = 228.0
+size_flags_horizontal = 6
+size_flags_vertical = 6
+custom_constants/vseparation = 5
+custom_constants/hseparation = 5
+columns = 5
+script = ExtResource( 1 )
+_slotScene = ExtResource( 2 )

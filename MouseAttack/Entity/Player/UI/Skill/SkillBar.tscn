@@ -30,7 +30,6 @@ margin_right = 42.0
 margin_bottom = 34.0
 size_flags_horizontal = 4
 size_flags_vertical = 4
-pressed = true
 shortcut = SubResource( 2 )
 group = SubResource( 3 )
 

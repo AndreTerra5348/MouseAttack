@@ -1,4 +1,4 @@
-[gd_scene load_steps=23 format=2]
+[gd_scene load_steps=24 format=2]
 
 [ext_resource path="res://MouseAttack/Characteristic/ResourcePool.cs" type="Script" id=1]
 [ext_resource path="res://MouseAttack/Entity/Player/PlayerEntity.cs" type="Script" id=2]
@@ -12,12 +12,13 @@
 [ext_resource path="res://MouseAttack/Entity/Player/UI/AttributeDistribution/AttributeDistributionPanel.tscn" type="PackedScene" id=10]
 [ext_resource path="res://MouseAttack/Entity/Player/PlayerSkillController.cs" type="Script" id=11]
 [ext_resource path="res://MouseAttack/Entity/Player/UI/Skill/SkillBar.tscn" type="PackedScene" id=12]
-[ext_resource path="res://MouseAttack/Skill/Player/MainAttack/MainAttack.tres" type="Resource" id=13]
+[ext_resource path="res://MouseAttack/Entity/Player/UI/Inventory/InventoryPanel.tscn" type="PackedScene" id=13]
 [ext_resource path="res://MouseAttack/Entity/Player/PlayerInventory.cs" type="Script" id=14]
 [ext_resource path="res://MouseAttack/Entity/Player/UI/LevelLabel.cs" type="Script" id=15]
 [ext_resource path="res://MouseAttack/Entity/Player/UI/ExpBar.cs" type="Script" id=16]
 [ext_resource path="res://MouseAttack/Item/Currency/Gold.tres" type="Resource" id=17]
 [ext_resource path="res://MouseAttack/Misc/UI/FloatingLabelSpawner.cs" type="Script" id=18]
+[ext_resource path="res://MouseAttack/Skill/Player/MainAttack/MainAttack.tres" type="Resource" id=19]
 
 [sub_resource type="RectangleShape2D" id=1]
 extents = Vector2( 14, 14 )
@@ -42,7 +43,6 @@ shape = SubResource( 1 )
 
 [node name="PlayerCharacter" type="Node" parent="."]
 script = ExtResource( 4 )
-Experience = 0.0
 
 [node name="Health" type="Node" parent="PlayerCharacter"]
 script = ExtResource( 1 )
@@ -58,7 +58,6 @@ _regenPath = NodePath("../../HealthRegen")
 script = ExtResource( 3 )
 ValuePerPoint = 0.5
 Points = 10
-Editable = false
 
 [node name="Defense" type="Node" parent="PlayerCharacter"]
 script = ExtResource( 3 )
@@ -80,7 +79,6 @@ _regenPath = NodePath("../../ManaRegen")
 script = ExtResource( 3 )
 ValuePerPoint = 0.1
 Points = 5
-Editable = false
 
 [node name="Damage" type="Node" parent="PlayerCharacter"]
 script = ExtResource( 3 )
@@ -106,8 +104,7 @@ _inventoryPath = NodePath("../PlayerInventory")
 
 [node name="PlayerInventory" type="Node" parent="."]
 script = ExtResource( 14 )
-Items = [  ]
-Skills = [ ExtResource( 13 ) ]
+MainAttack = ExtResource( 19 )
 Gold = ExtResource( 17 )
 
 [node name="FloatingLabelSpawner" type="Node" parent="."]
@@ -154,12 +151,20 @@ _resourcePath = NodePath("../../../../PlayerCharacter/Mana")
 [node name="AttributeDistributionPanel" parent="Graphics/CanvasLayer" instance=ExtResource( 10 )]
 pause_mode = 2
 visible = false
-margin_top = 32.0
-margin_right = 144.0
-margin_bottom = 112.0
+margin_left = 32.0
+margin_top = 64.0
+margin_right = 176.0
+margin_bottom = 144.0
 size_flags_horizontal = 4
 size_flags_vertical = 4
 _characterPath = NodePath("../../../PlayerCharacter")
+
+[node name="InventoryPanel" parent="Graphics/CanvasLayer" instance=ExtResource( 13 )]
+visible = false
+margin_left = 32.0
+margin_top = 64.0
+margin_right = 224.0
+margin_bottom = 320.0
 
 [node name="BottomContainer" type="MarginContainer" parent="Graphics/CanvasLayer"]
 margin_top = 416.0
@@ -203,6 +208,7 @@ script = ExtResource( 15 )
 _characterPath = NodePath("../../../../../../PlayerCharacter")
 
 [node name="SkillBar" parent="Graphics/CanvasLayer/BottomContainer/VBoxContainer/HBoxContainer" instance=ExtResource( 12 )]
+pause_mode = 2
 margin_left = 26.0
 margin_right = 652.0
 margin_bottom = 32.0

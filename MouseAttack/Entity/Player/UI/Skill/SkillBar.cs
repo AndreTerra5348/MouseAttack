@@ -8,6 +8,7 @@ using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using MouseAttack.Skill.Data;
 
 namespace MouseAttack.Entity.Player.UI.Skill
 {
@@ -39,7 +40,7 @@ namespace MouseAttack.Entity.Player.UI.Skill
                 int index = slot.GetIndex();
 
                 slot.Listen(nameof(SkillSlot.Item),
-                    onChanged: () => _playerSkillController.SetSkill(slot.Item, index));
+                    onChanged: () => _playerSkillController.SetSkill(slot.Item as CommonSkill, index));
 
                 slot.Connect(Signals.Pressed, this, nameof(OnSkillSlotSelected),
                     new Godot.Collections.Array { index });

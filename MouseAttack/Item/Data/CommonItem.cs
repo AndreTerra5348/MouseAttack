@@ -1,4 +1,5 @@
 ﻿using Godot;
+using MouseAttack.Entity.Player.UI;
 using MouseAttack.Misc;
 using MouseAttack.Misc.UI;
 using System;
@@ -26,6 +27,19 @@ namespace MouseAttack.Item.Data
         [Export]
         PackedScene IconScene { get; set; }
 
+        bool _isSlotted = false;
+        public bool IsSlotted 
+        {
+            get => _isSlotted;
+            set
+            {
+                if (value == _isSlotted)
+                    return;
+
+                _isSlotted = value;
+                OnPropertyChanged();
+            }
+        }
         int _count = 0;
         [Export]
         public int Count 

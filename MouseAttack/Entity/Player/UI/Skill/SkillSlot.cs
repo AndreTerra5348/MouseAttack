@@ -8,14 +8,19 @@ using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
+using MouseAttack.Entity.Player.UI.Inventory;
+using MouseAttack.Item.Data;
+using MouseAttack.Misc;
 
 namespace MouseAttack.Entity.Player.UI.Skill
 {
-    public class SkillSlot : Slot<CommonSkill>
+    public class SkillSlot : Slot
     {
         [Export]
         NodePath _cooldownPath = "";
         CooldownProgressBar _cooldown;
+
+        PlayerInventory PlayerInventory => TreeSharer.GetNode<PlayerInventory>();
 
         public override void _Ready()
         {
@@ -26,5 +31,27 @@ namespace MouseAttack.Entity.Player.UI.Skill
 
         public void Use(int cooldown) =>
             _cooldown.StartCooldown(cooldown);
+
+        public override bool CanDropData(SlotDragData data) =>
+            data?.Item is CommonSkill;
+
+        protected override void ItemDragged()
+        {
+            Item.IsSlotted = false;
+            RemoveItem();
+        }
+
+        protected override void ItemDropped(CommonItem item)
+        {
+            GetParent()
+                .GetChildren()
+                .Cast<SkillSlot>()
+                .FirstOrDefault(x => x.Item?.GetInstanceId() == item.GetInstanceId())
+                ?.RemoveItem();
+        }
+
+        protected override void OnRightClick()
+        {
+        }
     }
 }

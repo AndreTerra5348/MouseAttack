@@ -9,12 +9,14 @@
 
 [node name="SkillSlot" instance=ExtResource( 1 )]
 rect_min_size = Vector2( 32, 32 )
+mouse_filter = 1
+custom_styles/hover = ExtResource( 3 )
 custom_styles/pressed = ExtResource( 3 )
 custom_styles/disabled = ExtResource( 2 )
 custom_styles/normal = ExtResource( 5 )
 script = ExtResource( 4 )
-RemoveOnDrag = true
 _iconContainerPath = NodePath("MarginContainer/IconContainer")
 _cooldownPath = NodePath("CooldownProgressBar")
 
 [node name="CooldownProgressBar" parent="." index="1" instance=ExtResource( 6 )]
+mouse_filter = 1

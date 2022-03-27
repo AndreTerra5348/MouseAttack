@@ -65,7 +65,7 @@ namespace MouseAttack.Entity.Player
 
             GridController.RoundFinished += (s, e) =>
             {
-                foreach (CommonSkill skill in _inventory.Skills)
+                foreach (CommonSkill skill in _inventory.Items.OfType<CommonSkill>())
                 {
                     if (!skill.OnCooldown)
                         continue;
@@ -77,7 +77,7 @@ namespace MouseAttack.Entity.Player
                 SetProcessInput(true);
             };
 
-            SelectedSkill = _inventory.Skills.First();
+            SelectedSkill = _inventory.MainAttack;
         }
 
 
