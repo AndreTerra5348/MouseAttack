@@ -38,5 +38,20 @@ namespace MouseAttack.World
             OnPlayArea = false;
             PlayAreaExited?.Invoke(this, EventArgs.Empty);
         }
+
+        public Vector2 ClampPosition(Vector2 position, Vector2 size)
+        {
+            if (position.x < RectGlobalPosition.x)
+                position.x = RectGlobalPosition.x;
+            else if (position.x + size.x > RectGlobalPosition.x + RectSize.x)
+                position.x = RectGlobalPosition.x + RectSize.x - size.x;
+
+            if (position.y < RectGlobalPosition.y)
+                position.y = RectGlobalPosition.y;
+            else if (position.y + size.y > RectGlobalPosition.y + RectSize.y)
+                position.y = RectGlobalPosition.y + RectSize.y - size.y;
+
+            return position;
+        }
     }
 }

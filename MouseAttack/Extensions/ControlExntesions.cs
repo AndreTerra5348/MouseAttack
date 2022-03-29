@@ -15,11 +15,11 @@ namespace MouseAttack.Extensions
             CanvasLayer canvasLayer = new CanvasLayer();
             Label label = new Label();
 
-            ctrl.AddChild(canvasLayer);
-            canvasLayer.AddChild(label);
+            //ctrl.AddChild(canvasLayer);
+            //canvasLayer.AddChild(label);
 
             label.Text = forText;
-            return ctrl;
+            return label;
         }
     }
 }

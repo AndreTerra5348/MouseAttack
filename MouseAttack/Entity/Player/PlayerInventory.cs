@@ -20,7 +20,6 @@ namespace MouseAttack.Entity.Player
         [Export]
         public CommonItem Gold { get; private set; }
 
-
         public PlayerInventory() =>
             TreeSharer.RegistryNode(this);
 

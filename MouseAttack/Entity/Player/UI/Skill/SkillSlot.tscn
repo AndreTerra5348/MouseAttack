@@ -1,4 +1,4 @@
-[gd_scene load_steps=7 format=2]
+[gd_scene load_steps=8 format=2]
 
 [ext_resource path="res://MouseAttack/Entity/Player/UI/Slot.tscn" type="PackedScene" id=1]
 [ext_resource path="res://MouseAttack/Theme/Button/DisabledStyle.tres" type="StyleBox" id=2]
@@ -6,6 +6,7 @@
 [ext_resource path="res://MouseAttack/Entity/Player/UI/Skill/SkillSlot.cs" type="Script" id=4]
 [ext_resource path="res://MouseAttack/Theme/Button/NormalStyle.tres" type="StyleBox" id=5]
 [ext_resource path="res://MouseAttack/Entity/Player/UI/Skill/CooldownProgressBar.tscn" type="PackedScene" id=6]
+[ext_resource path="res://MouseAttack/GUI/TooltipPanel.tscn" type="PackedScene" id=7]
 
 [node name="SkillSlot" instance=ExtResource( 1 )]
 rect_min_size = Vector2( 32, 32 )
@@ -16,6 +17,7 @@ custom_styles/disabled = ExtResource( 2 )
 custom_styles/normal = ExtResource( 5 )
 script = ExtResource( 4 )
 _iconContainerPath = NodePath("MarginContainer/IconContainer")
+_tooltipPanel = ExtResource( 7 )
 _cooldownPath = NodePath("CooldownProgressBar")
 
 [node name="CooldownProgressBar" parent="." index="1" instance=ExtResource( 6 )]

@@ -14,14 +14,7 @@ namespace MouseAttack.Skill.Data
         [Export(PropertyHint.Layers2dPhysics)]
         public uint CollisionMask { get; private set; }
 
-        public override string Tooltip
-        {
-            get
-            {
-                return
-                    $"Area {Area}\n" +
-                    base.Tooltip;
-            }
-        }
+        public override string Tooltip =>
+            $"Area: {Area}\n{base.Tooltip}";
     }
 }

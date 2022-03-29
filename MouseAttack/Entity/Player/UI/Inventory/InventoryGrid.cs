@@ -25,7 +25,7 @@ namespace MouseAttack.Entity.Player.UI.Inventory
         [Export]
         int _startSlotCount = 25;
         [Export]
-        GridType _gridType;
+        GridType _gridType = GridType.All;
 
         readonly Dictionary<GridType, Type> _typeMap = new Dictionary<GridType, Type>()
         {
@@ -46,11 +46,13 @@ namespace MouseAttack.Entity.Player.UI.Inventory
             {
                 if (e.Action != NotifyCollectionChangedAction.Add)
                     return;
-                e.NewItems
-                    .OfType<CommonItem>()
-                    .Where(item => !_typeMap[_gridType].IsAssignableFrom(item.GetType()))
-                    .ToList()
-                    .ForEach(item => Add(item));
+
+                foreach (CommonItem item in e.NewItems.OfType<CommonItem>())
+                {
+                    if (!_typeMap[_gridType].IsAssignableFrom(item.GetType()))
+                        continue;
+                    Add(item);
+                }
             };
         }
 

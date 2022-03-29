@@ -17,7 +17,7 @@ namespace MouseAttack.Misc.UI
         {
             SetProcess(false);
             _parent = GetParent<Control>();
-            _parent.Connect(Signals.GuiInput, this, nameof(GuiInput));
+            _parent.Connect(Signals.GuiInput, this, nameof(ParentGuiInput));
         }
 
         public override void _Process(float delta)
@@ -25,40 +25,32 @@ namespace MouseAttack.Misc.UI
             var newPosition = _parent.RectGlobalPosition.LinearInterpolate(_nextPosition, delta * _speed);
             _parent.RectGlobalPosition = newPosition;
         }
-        public void GuiInput(InputEvent @event)
+
+        public void ParentGuiInput(InputEvent @event)
         {
             if (@event.IsActionPressed(InputAction.LMB))
             {
-                _mousePressedOffset = _parent.RectGlobalPosition - (@event as InputEventMouseButton).GlobalPosition;
-                CalculateNextPosition((@event as InputEventMouseButton).GlobalPosition);
+                InputEventMouseButton buttonEvent = @event as InputEventMouseButton;
+                _mousePressedOffset = _parent.RectGlobalPosition - buttonEvent.GlobalPosition;
+                _nextPosition = CalculateNextPosition(buttonEvent.GlobalPosition);
                 SetProcess(true);
                 return;
             }
             else if (@event.IsActionReleased(InputAction.LMB))
                 SetProcess(false);
 
-            if (!(@event is InputEventMouseMotion))
-                return;
-
             if (!IsProcessing())
                 return;
-            CalculateNextPosition((@event as InputEventMouseMotion).GlobalPosition);
+
+            InputEventMouseMotion motionEvent = @event as InputEventMouseMotion;
+            if (motionEvent == null)
+                return;
+            
+            _nextPosition = CalculateNextPosition(motionEvent.GlobalPosition);
         }
 
-        private void CalculateNextPosition(Vector2 mousePosition)
-        {
-            _nextPosition = mousePosition + _mousePressedOffset;
-
-            if (_nextPosition.x < PlayArea.RectGlobalPosition.x)
-                _nextPosition.x = PlayArea.RectGlobalPosition.x;
-            else if (_nextPosition.x + _parent.RectSize.x > PlayArea.RectGlobalPosition.x + PlayArea.RectSize.x)
-                _nextPosition.x = PlayArea.RectGlobalPosition.x + PlayArea.RectSize.x - _parent.RectSize.x;
-
-            if (_nextPosition.y < PlayArea.RectGlobalPosition.y)
-                _nextPosition.y = PlayArea.RectGlobalPosition.y;
-            else if (_nextPosition.y + _parent.RectSize.y > PlayArea.RectGlobalPosition.y + PlayArea.RectSize.y)
-                _nextPosition.y = PlayArea.RectGlobalPosition.y + PlayArea.RectSize.y - _parent.RectSize.y;
-        }
+        private Vector2 CalculateNextPosition(Vector2 mousePosition) =>
+            PlayArea.ClampPosition(mousePosition + _mousePressedOffset, _parent.RectSize);
     }
 }
 

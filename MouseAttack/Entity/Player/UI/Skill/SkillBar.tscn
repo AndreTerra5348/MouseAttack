@@ -1,14 +1,7 @@
-[gd_scene load_steps=6 format=2]
+[gd_scene load_steps=4 format=2]
 
 [ext_resource path="res://MouseAttack/Entity/Player/UI/Skill/SkillSlot.tscn" type="PackedScene" id=1]
 [ext_resource path="res://MouseAttack/Entity/Player/UI/Skill/SkillBar.cs" type="Script" id=2]
-
-[sub_resource type="InputEventKey" id=1]
-pressed = true
-unicode = 81
-
-[sub_resource type="ShortCut" id=2]
-shortcut = SubResource( 1 )
 
 [sub_resource type="ButtonGroup" id=3]
 
@@ -30,7 +23,6 @@ margin_right = 42.0
 margin_bottom = 34.0
 size_flags_horizontal = 4
 size_flags_vertical = 4
-shortcut = SubResource( 2 )
 group = SubResource( 3 )
 
 [node name="SkillSlot2" parent="." instance=ExtResource( 1 )]

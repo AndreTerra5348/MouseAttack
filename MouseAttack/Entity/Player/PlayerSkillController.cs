@@ -126,8 +126,9 @@ namespace MouseAttack.Entity.Player
 
             SelectedSkill.StartCooldown();
 
-            Vector2 spawnPosition = GetViewport().GetSnappedMousePosition(Values.CellSize);
-            CommonWorldEffect worldEffect = SelectedSkill.GetWorldEffect(PlayerEntity, spawnPosition);
+            CommonWorldEffect worldEffect = SelectedSkill.GetWorldEffect();
+            worldEffect.User = PlayerEntity;
+            worldEffect.Position = GetViewport().GetSnappedMousePosition(Values.CellSize);
             GridController.AddChild(worldEffect);
             CooldownStarted?.Invoke(this, new CooldownStartedEventArgs(SelectedSlotIndex, SelectedSkill.Cooldown));            
             EndTurn();

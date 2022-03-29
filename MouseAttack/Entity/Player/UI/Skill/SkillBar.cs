@@ -34,9 +34,8 @@ namespace MouseAttack.Entity.Player.UI.Skill
             _playerSkillController.Listen(nameof(PlayerSkillController.SelectedSlotIndex),
                 onChanged: () => GetChild<SkillSlot>(SelectedSlotIndex).Pressed = true);
 
-            foreach (var child in GetChildren())
+            foreach (SkillSlot slot in GetChildren().OfType<SkillSlot>())
             {
-                SkillSlot slot = child as SkillSlot;
                 int index = slot.GetIndex();
 
                 slot.Listen(nameof(SkillSlot.Item),
@@ -51,6 +50,7 @@ namespace MouseAttack.Entity.Player.UI.Skill
 
             SkillSlot slotZero = GetChild<SkillSlot>(0);
             slotZero.Item = _playerSkillController.SelectedSkill;
+            slotZero.Item.IsSlotted = true;
         }
 
         private void OnSkillSlotSelected(int selectedSlotIndex) =>

@@ -15,15 +15,11 @@ namespace MouseAttack.Skill.Data
     /// <summary>
     /// Base class for all Skills
     /// </summary>
-    public abstract class CommonSkill : CommonItem, ISellable
+    public abstract class CommonSkill : CommonItem
     {
         public event EventHandler Applied;
         [Export]
         PackedScene WorldEffectScene { get; set; }
-        [Export]
-        List<TargetEffectSpawner> TargetEffectSpawners { get; set; } = new List<TargetEffectSpawner>();
-        [Export]
-        public int Price { get; private set; } = 1;
         [Export]
         public int ManaCost { get; private set; } = 1;
         [Export]
@@ -32,23 +28,15 @@ namespace MouseAttack.Skill.Data
         public int Cooldown { get; private set; } = 1;
 
         int _cooldown = 0;
-        public override string Tooltip
-        {
-            get
-            {
-                return
-                    $"Mana Cost: {ManaCost}\n" +
-                    $"Cooldown: {Cooldown}";
-            }
-        }
+        public override string Tooltip =>
+            $"Mana Cost: {ManaCost}\nCooldown: {Cooldown}\n{base.Tooltip}";
+
         public bool OnCooldown => _cooldown > 0;
 
-        public CommonWorldEffect GetWorldEffect(CommonEntity user, Vector2 globalPosition)
+        public CommonWorldEffect GetWorldEffect()
         {
             CommonWorldEffect instance = WorldEffectScene.Instance<CommonWorldEffect>();
             instance.Skill = this;
-            instance.User = user;
-            instance.GlobalPosition = globalPosition;
             return instance;
         }
             
@@ -57,8 +45,6 @@ namespace MouseAttack.Skill.Data
         public abstract void Apply(CommonEntity user, CommonEntity target);
         protected void OnApplied(EventArgs e) =>
             Applied?.Invoke(this, e);
-        protected void SpawnTargetEffects(CommonEntity target) =>
-            TargetEffectSpawners.ForEach(spawner => spawner.Spawn(target));
     }
 }
 

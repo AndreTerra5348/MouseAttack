@@ -4,40 +4,36 @@ using MouseAttack.Entity;
 using MouseAttack.Misc;
 using MouseAttack.World;
 using System;
-using MouseAttack.Misc.UI;
+using MouseAttack.Skill.WorldEffect;
 
 namespace MouseAttack.Skill
 {
     public class SkillOperator : Node
     {
-        CommonEntity _user = null;
-        CommonEntity _target = null;
-        CommonSkill _skill = null;
+        protected CommonEntity User { get; private set; } = null;
+        protected CommonEntity Target { get; private set; } = null;
+        protected CommonSkill Skill { get; private set; } = null;
         int _duration = 0;
 
         public SkillOperator() { }
 
         public SkillOperator(CommonEntity user, CommonSkill skill)
         {
-            _user = user;
-            _skill = skill;
-            _duration = _skill.Duration;
-            _skill.Applied += OnSkillApplied;
+            User = user;
+            Skill = skill;
+            _duration = skill.Duration;            
         }
         
 
         public override void _Ready()
         {
-            _target = GetParent<CommonEntity>();
+            Target = GetParent<CommonEntity>();
             TreeSharer.GetNode<GridController>().RoundFinished += OnRoundFinished;
+            Skill.Applied += OnSkillApplied;
             Operate();
         }
-        private void OnSkillApplied(object sender, EventArgs e)
+        protected virtual void OnSkillApplied(object sender, EventArgs e)
         {
-            var floatingLabelEventArgs = e as FloatingLabelEventArgs;
-            if (floatingLabelEventArgs == null)
-                return;
-            _target.QueueFloatingLabel(floatingLabelEventArgs.FloatingLabel);
         }
 
         private void OnRoundFinished(object sender, EventArgs e) =>
@@ -45,7 +41,7 @@ namespace MouseAttack.Skill
 
         private void Operate()
         {
-            _skill.Apply(_user, _target);
+            Skill.Apply(User, Target);
             
             _duration--;
 
@@ -53,7 +49,7 @@ namespace MouseAttack.Skill
                 return;
 
             TreeSharer.GetNode<GridController>().RoundFinished -= OnRoundFinished;
-            _skill.Applied -= OnSkillApplied;
+            Skill.Applied -= OnSkillApplied;
             QueueFree();
         }
     }

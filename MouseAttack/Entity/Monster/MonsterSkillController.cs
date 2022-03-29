@@ -72,7 +72,9 @@ namespace MouseAttack.Entity.Monster
         async private void UseSkill()
         {
             await this.CreateTimer(TweenSpeed);
-            CommonWorldEffect worldEffect = _skill.GetWorldEffect(_monsterEntity, PlayerEntity.GlobalPosition);
+            CommonWorldEffect worldEffect = _skill.GetWorldEffect();
+            worldEffect.User = _monsterEntity;
+            worldEffect.Position = PlayerEntity.GlobalPosition;
             GridController.AddChild(worldEffect);
         }
 

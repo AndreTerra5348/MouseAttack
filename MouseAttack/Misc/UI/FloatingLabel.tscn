@@ -12,7 +12,7 @@ font_data = ExtResource( 2 )
 [sub_resource type="Animation" id=1]
 length = 0.001
 tracks/0/type = "value"
-tracks/0/path = NodePath("Container/Label:rect_position")
+tracks/0/path = NodePath("Control/HBoxContainer:rect_position")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/imported = false
@@ -27,7 +27,7 @@ tracks/0/keys = {
 [sub_resource type="Animation" id=2]
 resource_name = "lbl"
 tracks/0/type = "value"
-tracks/0/path = NodePath("Container/Label:rect_position")
+tracks/0/path = NodePath("Control/HBoxContainer:rect_position")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/imported = false
@@ -55,21 +55,32 @@ tracks/1/keys = {
 
 [node name="FloatingLabel" type="CanvasLayer"]
 script = ExtResource( 1 )
-_containerPath = NodePath("Container")
-_labelPath = NodePath("Container/Label")
+_controlPath = NodePath("Control")
+_containerPath = NodePath("Control/HBoxContainer")
+_labelPath = NodePath("Control/HBoxContainer/Label")
 
-[node name="Container" type="Control" parent="."]
+[node name="Control" type="Control" parent="."]
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="Label" type="Label" parent="Container"]
-margin_right = 32.0
+[node name="HBoxContainer" type="HBoxContainer" parent="Control"]
+margin_right = 40.0
+margin_bottom = 18.0
+alignment = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Label" type="Label" parent="Control/HBoxContainer"]
+margin_left = 16.0
+margin_right = 24.0
 margin_bottom = 18.0
 mouse_filter = 1
 custom_fonts/font = SubResource( 3 )
 text = "0"
 align = 1
+valign = 1
 __meta__ = {
 "_edit_use_anchors_": false
 }

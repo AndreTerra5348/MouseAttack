@@ -2,6 +2,7 @@
 using MouseAttack.Entity.Player.UI.Inventory;
 using MouseAttack.Entity.Player.UI.Skill;
 using MouseAttack.Extensions;
+using MouseAttack.GUI;
 using MouseAttack.Item.Data;
 using MouseAttack.Misc;
 using MouseAttack.World;
@@ -36,6 +37,9 @@ namespace MouseAttack.Entity.Player.UI
         [Export]
         NodePath _iconContainerPath = "";
         CenterContainer _iconContainer;
+        [Export]
+        PackedScene _tooltipPanel = null;
+
         Control _currentIcon;
 
         DragPreviewParent DragPreviewParent => TreeSharer.GetNode<DragPreviewParent>();        
@@ -58,13 +62,13 @@ namespace MouseAttack.Entity.Player.UI
                     _iconContainer.RemoveChild(_currentIcon);
                     _currentIcon = null;
                 }
+                HintTooltip = _item?.Tooltip;
 
                 if (_item == null)
                     return;
 
-                // Set new Icon and tooltip
-                _iconContainer.AddChild(_currentIcon = _item.GetIconInstance<Control>());
-                HintTooltip = _item.Tooltip;
+                // Set new Icon
+                _iconContainer.AddChild(_currentIcon = _item.GetIcon());
             }
         }
         public override void _Ready() =>
@@ -90,13 +94,20 @@ namespace MouseAttack.Entity.Player.UI
         {
             if (Item == null)
                 return null;
-            DragPreviewParent.SetDragPreview(new DragPreview(Item.GetIconInstance<Control>()));
+            DragPreviewParent.SetDragPreview(new DragPreview(Item.GetIcon()));
             var data = new SlotDragData(Item, this);
             ItemDragged();
             return data;
         }
-        public override Control _MakeCustomTooltip(string forText) =>
-            this.MakeCustomTooltip(forText);
+        public override Control _MakeCustomTooltip(string forText)
+        {
+            TooltipPanel tooltipPanel = _tooltipPanel.Instance<TooltipPanel>();
+            tooltipPanel.ItemName = Item.Name;
+            tooltipPanel.ItemStats = forText;
+            tooltipPanel.Icon = Item.GetIcon();
+            return tooltipPanel;
+        }
+            
 
         protected virtual void ItemDragged() {}
 

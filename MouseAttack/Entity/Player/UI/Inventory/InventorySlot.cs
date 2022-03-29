@@ -1,9 +1,11 @@
-﻿using MouseAttack.Item.Data;
+﻿using Godot;
+using MouseAttack.Item.Data;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using MouseAttack.Extensions;
 
 namespace MouseAttack.Entity.Player.UI.Inventory
 {
@@ -16,5 +18,9 @@ namespace MouseAttack.Entity.Player.UI.Inventory
         {
             base.OnRightClick();
         }
+
+        // Show comparision with slloted item when item is equip
+        public override Control _MakeCustomTooltip(string forText) =>
+            base._MakeCustomTooltip(forText);
     }
 }

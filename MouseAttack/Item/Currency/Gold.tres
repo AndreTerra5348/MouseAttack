@@ -2,12 +2,13 @@
 
 [ext_resource path="res://MouseAttack/Item/Data/CommonItem.cs" type="Script" id=1]
 [ext_resource path="res://MouseAttack/Item/Currency/Icon.tscn" type="PackedScene" id=2]
-[ext_resource path="res://MouseAttack/Item/Currency/GoldFloatingLabel.tscn" type="PackedScene" id=3]
+[ext_resource path="res://MouseAttack/Misc/UI/FloatingLabel.tscn" type="PackedScene" id=3]
 
 [resource]
 script = ExtResource( 1 )
-FloatingLabelDropScene = ExtResource( 3 )
-DropRate = 90
 Name = "Gold"
-IconScene = ExtResource( 2 )
+Value = 0
+DropRate = 90
 Count = 0
+FloatingLabelDropScene = ExtResource( 3 )
+IconScene = ExtResource( 2 )

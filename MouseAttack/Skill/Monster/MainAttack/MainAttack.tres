@@ -1,18 +1,15 @@
-[gd_resource type="Resource" load_steps=5 format=2]
+[gd_resource type="Resource" load_steps=3 format=2]
 
 [ext_resource path="res://MouseAttack/Skill/Monster/MonsterDamage.cs" type="Script" id=1]
 [ext_resource path="res://MouseAttack/Skill/Monster/MainAttack/WorldEffect.tscn" type="PackedScene" id=2]
-[ext_resource path="res://MouseAttack/Skill/Common/CriticalDamageFloatingText.tscn" type="PackedScene" id=3]
-[ext_resource path="res://MouseAttack/Skill/Common/NormalDamageFloatingText.tscn" type="PackedScene" id=4]
 
 [resource]
 script = ExtResource( 1 )
-DropRate = 0
 Name = ""
+Value = 0
+DropRate = 0
 Count = 0
 WorldEffectScene = ExtResource( 2 )
-TargetEffectSpawners = [  ]
-Price = 1
 ManaCost = 1
 Duration = 0
 Cooldown = 1
@@ -21,6 +18,4 @@ CollisionLayer = 8
 CollisionMask = 1
 Damage = 1
 Hits = 1
-_normalFloatingLabelScene = ExtResource( 4 )
-_criticalFloatingLabelScene = ExtResource( 3 )
 Range = 0

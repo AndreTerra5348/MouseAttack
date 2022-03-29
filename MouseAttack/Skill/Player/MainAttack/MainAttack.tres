@@ -1,21 +1,17 @@
-[gd_resource type="Resource" load_steps=7 format=2]
+[gd_resource type="Resource" load_steps=4 format=2]
 
 [ext_resource path="res://MouseAttack/Skill/Data/DamageSkill.cs" type="Script" id=1]
 [ext_resource path="res://MouseAttack/Skill/Player/MainAttack/WorldEffect.tscn" type="PackedScene" id=2]
 [ext_resource path="res://MouseAttack/Skill/Player/MainAttack/Icon.tscn" type="PackedScene" id=3]
-[ext_resource path="res://MouseAttack/Skill/TargetEffect/World/Blood/Blood.tres" type="Resource" id=4]
-[ext_resource path="res://MouseAttack/Skill/Common/CriticalDamageFloatingText.tscn" type="PackedScene" id=5]
-[ext_resource path="res://MouseAttack/Skill/Common/NormalDamageFloatingText.tscn" type="PackedScene" id=6]
 
 [resource]
 script = ExtResource( 1 )
+Name = "Fire Spark"
+Value = 0
 DropRate = 0
-Name = null
-IconScene = ExtResource( 3 )
 Count = 0
+IconScene = ExtResource( 3 )
 WorldEffectScene = ExtResource( 2 )
-TargetEffectSpawners = [ ExtResource( 4 ) ]
-Price = 1
 ManaCost = 1
 Duration = 0
 Cooldown = 1
@@ -24,5 +20,3 @@ CollisionLayer = 8
 CollisionMask = 2
 Damage = 1
 Hits = 1
-_normalFloatingLabelScene = ExtResource( 6 )
-_criticalFloatingLabelScene = ExtResource( 5 )

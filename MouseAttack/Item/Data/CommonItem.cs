@@ -10,20 +10,30 @@ using System.Threading.Tasks;
 
 namespace MouseAttack.Item.Data
 {
-    public interface ISellable
-    {
-        int Price { get; }
-    }
-
     public class CommonItem : ObservableResource
     {
-        const string DropLabelFormat = "+{0} {1}";
-        [Export]
-        PackedScene FloatingLabelDropScene { get; set; }
-        [Export]
-        public virtual int DropRate { get; protected set; }
         [Export]
         public virtual string Name { get; protected set; }
+        [Export]
+        public virtual int Value { get; protected set; }
+        [Export]
+        public virtual int DropRate { get; protected set; }
+        int _count = 0;
+        [Export]
+        public int Count
+        {
+            get => _count;
+            set
+            {
+                if (_count == value)
+                    return;
+                _count = value;
+                OnPropertyChanged();
+            }
+        }
+
+        [Export]
+        PackedScene FloatingLabelDropScene { get; set; }        
         [Export]
         PackedScene IconScene { get; set; }
 
@@ -40,33 +50,16 @@ namespace MouseAttack.Item.Data
                 OnPropertyChanged();
             }
         }
-        int _count = 0;
-        [Export]
-        public int Count 
-        { 
-            get => _count; 
-            set
-            {
-                if (_count == value)
-                    return;
-                _count = value;
-                OnPropertyChanged();
-            }
-        }
-        
-        public virtual string Tooltip { get; }
 
-        public void Add(int count = 1) => Count += count;
-        public void Remove(int count = 1) => Count -= count;
+        public virtual string Tooltip => $"Value: {Value}";
 
-        public T GetIconInstance<T>() where T : Control
-            => IconScene.Instance<T>();
+        public virtual Control GetIcon()
+            => IconScene.Instance<Control>();
 
-        public FloatingLabel GetFloatingDropLabel(Vector2 position, int count = 1)
+        public FloatingLabel GetFloatingDropLabel()
         {
             FloatingLabel floatingLabel = FloatingLabelDropScene.Instance<FloatingLabel>();
-            floatingLabel.Text = String.Format(DropLabelFormat, count, Name);
-            floatingLabel.Position = position;
+            floatingLabel.Icon = GetIcon();
             return floatingLabel;
         }
     }
