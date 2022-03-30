@@ -3,16 +3,16 @@
 [ext_resource path="res://MouseAttack/Misc/UI/FloatingLabel.cs" type="Script" id=1]
 [ext_resource path="res://MouseAttack/Theme/Fonts/Roboto-Regular.ttf" type="DynamicFontData" id=2]
 
-[sub_resource type="DynamicFont" id=3]
+[sub_resource type="DynamicFont" id=6]
 resource_local_to_scene = true
 size = 15
 use_filter = true
 font_data = ExtResource( 2 )
 
-[sub_resource type="Animation" id=1]
+[sub_resource type="Animation" id=4]
 length = 0.001
 tracks/0/type = "value"
-tracks/0/path = NodePath("Control/HBoxContainer:rect_position")
+tracks/0/path = NodePath("HBoxContainer:rect_position")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/imported = false
@@ -24,10 +24,10 @@ tracks/0/keys = {
 "values": [ Vector2( 0, 0 ) ]
 }
 
-[sub_resource type="Animation" id=2]
-resource_name = "lbl"
+[sub_resource type="Animation" id=5]
+resource_name = "Rise"
 tracks/0/type = "value"
-tracks/0/path = NodePath("Control/HBoxContainer:rect_position")
+tracks/0/path = NodePath("HBoxContainer:rect_position")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/imported = false
@@ -38,46 +38,29 @@ tracks/0/keys = {
 "update": 0,
 "values": [ Vector2( 0, 0 ), Vector2( 0, -30 ) ]
 }
-tracks/1/type = "method"
-tracks/1/path = NodePath(".")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/keys = {
-"times": PoolRealArray( 1 ),
-"transitions": PoolRealArray( 1 ),
-"values": [ {
-"args": [  ],
-"method": "queue_free"
-} ]
-}
 
-[node name="FloatingLabel" type="CanvasLayer"]
+[node name="FloatingLabel" type="Control"]
 script = ExtResource( 1 )
-_controlPath = NodePath("Control")
-_containerPath = NodePath("Control/HBoxContainer")
-_labelPath = NodePath("Control/HBoxContainer/Label")
-
-[node name="Control" type="Control" parent="."]
 __meta__ = {
 "_edit_use_anchors_": false
 }
+_containerPath = NodePath("HBoxContainer")
+_labelPath = NodePath("HBoxContainer/Label")
 
-[node name="HBoxContainer" type="HBoxContainer" parent="Control"]
-margin_right = 40.0
+[node name="HBoxContainer" type="HBoxContainer" parent="."]
+margin_right = 32.0
 margin_bottom = 18.0
 alignment = 1
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="Label" type="Label" parent="Control/HBoxContainer"]
-margin_left = 16.0
-margin_right = 24.0
+[node name="Label" type="Label" parent="HBoxContainer"]
+margin_left = 12.0
+margin_right = 20.0
 margin_bottom = 18.0
 mouse_filter = 1
-custom_fonts/font = SubResource( 3 )
+custom_fonts/font = SubResource( 6 )
 text = "0"
 align = 1
 valign = 1
@@ -86,6 +69,6 @@ __meta__ = {
 }
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
-autoplay = "lbl"
-anims/RESET = SubResource( 1 )
-anims/lbl = SubResource( 2 )
+autoplay = "Rise"
+anims/RESET = SubResource( 4 )
+anims/Rise = SubResource( 5 )

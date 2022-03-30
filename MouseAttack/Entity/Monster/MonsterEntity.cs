@@ -14,12 +14,17 @@ namespace MouseAttack.Entity.Monster
         public event EventHandler Initialized;
         public event EventHandler Dead;
         protected override string CharacterName => nameof(MonsterCharacter);
-
+        
         PlayerEntity PlayerEntity => TreeSharer.GetNode<PlayerEntity>();
         MonsterSkillController MonsterSkillController { get; set; }
         [Export]
+        public int Level { get; private set; } = 1;
+
+        [Export]
         NodePath _spritePath = "";
         Sprite _sprite;
+        [Export]
+        NodePath _nameLabelPath = "";
 
         public float MovementDelay { get; private set; } = 0.1f;
 
@@ -29,6 +34,10 @@ namespace MouseAttack.Entity.Monster
             MonsterSkillController = GetNode<MonsterSkillController>(nameof(MonsterSkillController));
             _sprite = GetNode<Sprite>(_spritePath);
             Initialized?.Invoke(this, EventArgs.Empty);
+
+            Label nameLabel = GetNode<Label>(_nameLabelPath);
+            nameLabel.Text += $" Lv:{Level}";
+
 
             // Skip a frame to update it's position
             await this.SkipNextFrame();

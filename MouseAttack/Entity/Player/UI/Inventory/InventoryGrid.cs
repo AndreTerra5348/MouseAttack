@@ -1,4 +1,5 @@
 ﻿using Godot;
+using MouseAttack.Equip.Data;
 using MouseAttack.Extensions;
 using MouseAttack.Item.Data;
 using MouseAttack.Misc;
@@ -30,7 +31,7 @@ namespace MouseAttack.Entity.Player.UI.Inventory
         readonly Dictionary<GridType, Type> _typeMap = new Dictionary<GridType, Type>()
         {
             { GridType.All, typeof(CommonItem) },
-            { GridType.Equip, typeof(CommonItem) },
+            { GridType.Equip, typeof(CommonEquip) },
             { GridType.Skill, typeof(CommonSkill) }
         };
 

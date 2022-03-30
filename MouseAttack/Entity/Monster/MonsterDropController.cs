@@ -17,27 +17,23 @@ namespace MouseAttack.Entity.Monster
     public class MonsterDropController : Node
     {
         [Export]
-        int _maxGold = 1;
-        [Export]
-        int _minGold = 1;
-
-        Random _random = new Random();
-
-        CommonItem PlayerGold => TreeSharer.GetNode<PlayerInventory>().Gold;
+        List<CommonItem> _dropList = new List<CommonItem>();
 
         public override void _Ready()
         {
             MonsterEntity monsterEntity = GetParent<MonsterEntity>();
             monsterEntity.Dead += (s, e) =>
-            {                
-                if (PlayerGold.DropRate < _random.Next(100))
-                    return;
-                int count = _random.Next(_minGold, _maxGold);
-                PlayerGold.Count += count;
-                FloatingLabel floatingLabel = PlayerGold.GetFloatingDropLabel();
-                floatingLabel.Position = monsterEntity.Position;
-                floatingLabel.Text = count.ToString();
-                monsterEntity.QueueFloatingLabel(floatingLabel);           
+            {
+                foreach(CommonItem item in _dropList)
+                {
+                    if (!item.Dropped)
+                        continue;
+
+                    item.ItemDropped(monsterEntity.Level);
+                    FloatingLabel floatingLabel = item.GetFloatingDropLabel();
+                    floatingLabel.Position = monsterEntity.Position;
+                    monsterEntity.QueueFloatingLabel(floatingLabel);
+                }
             };
         }
     }

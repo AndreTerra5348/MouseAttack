@@ -10,14 +10,14 @@ using System.Threading.Tasks;
 
 namespace MouseAttack.Item.Data
 {
-    public class CommonItem : ObservableResource
+    public abstract class CommonItem : ObservableResource
     {
         [Export]
         public virtual string Name { get; protected set; }
         [Export]
         public virtual int Value { get; protected set; }
         [Export]
-        public virtual int DropRate { get; protected set; }
+        protected virtual int DropRate { get; set; }
         int _count = 0;
         [Export]
         public int Count
@@ -33,9 +33,12 @@ namespace MouseAttack.Item.Data
         }
 
         [Export]
-        PackedScene FloatingLabelDropScene { get; set; }        
+        protected PackedScene FloatingLabelDropScene { get; set; }        
+        protected virtual string DropText => Name;
+        protected Random Random { get; private set; } = new Random();
+        public virtual bool Dropped => DropRate > Random.Next(100);
         [Export]
-        PackedScene IconScene { get; set; }
+        protected PackedScene IconScene { get; set; }        
 
         bool _isSlotted = false;
         public bool IsSlotted 
@@ -51,15 +54,18 @@ namespace MouseAttack.Item.Data
             }
         }
 
+        public abstract void ItemDropped(int monsterLevel);
+
         public virtual string Tooltip => $"Value: {Value}";
 
         public virtual Control GetIcon()
-            => IconScene.Instance<Control>();
+            => IconScene.Instance<Control>();        
 
-        public FloatingLabel GetFloatingDropLabel()
+        public virtual FloatingLabel GetFloatingDropLabel()
         {
             FloatingLabel floatingLabel = FloatingLabelDropScene.Instance<FloatingLabel>();
             floatingLabel.Icon = GetIcon();
+            floatingLabel.Text = DropText;
             return floatingLabel;
         }
     }

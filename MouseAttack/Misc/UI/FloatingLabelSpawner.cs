@@ -14,22 +14,9 @@ using System.Threading.Tasks;
 
 namespace MouseAttack.Misc.UI
 {
-    public class FloatingLabelEventArgs : EventArgs
-    {
-        public FloatingLabel FloatingLabel { get; private set; }
-
-        public FloatingLabelEventArgs(PackedScene floatingLabelScene, string text, Vector2 position)
-        {
-            FloatingLabel = floatingLabelScene.Instance<FloatingLabel>();
-            FloatingLabel.Text = text;
-            FloatingLabel.Position = position;
-        }
-    }
-
     public class FloatingLabelSpawner : Node
     {
-        GridController GridController => TreeSharer.GetNode<GridController>();
-
+        FloatingLabelLayer FloatingLabelLayer => TreeSharer.GetNode<FloatingLabelLayer>();
         FloatingLabel _instance;
         float _animationPositionThreashold = 0.5f;
         Queue<FloatingLabel> _spawnRequests = new Queue<FloatingLabel>();
@@ -47,14 +34,12 @@ namespace MouseAttack.Misc.UI
             monsterEntity.Initialized += (s, e) =>
             {
                 monsterEntity.RemoveChild(this);
-                GridController.AddChild(this);
+                FloatingLabelLayer.AddChild(this);
             };
             monsterEntity.Dead += async (s, e) =>
             {
-                if (IsProcessing())
-                {                    
-                    await ToSignal(this, nameof(ProcessDisabled));
-                }
+                if (IsProcessing())              
+                    await ToSignal(this, nameof(ProcessDisabled));                
                 QueueFree();
             };
 
@@ -65,7 +50,7 @@ namespace MouseAttack.Misc.UI
             if (IsInstanceValid(_instance) && _instance.AnimationPosition <= _animationPositionThreashold)
                 return;
             _instance = _spawnRequests.Dequeue();
-            GridController.AddChild(_instance);
+            FloatingLabelLayer.AddChild(_instance);
 
             if (_spawnRequests.Count == 0)
             {

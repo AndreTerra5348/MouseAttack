@@ -2,14 +2,4 @@
   <PropertyGroup>
     <TargetFramework>net472</TargetFramework>
   </PropertyGroup>
-  <ItemGroup>
-    <Compile Remove="MouseAttack\Item\Drop\**" />
-    <Compile Remove="MouseAttack\Item\Gold\**" />
-    <EmbeddedResource Remove="MouseAttack\Item\Drop\**" />
-    <EmbeddedResource Remove="MouseAttack\Item\Gold\**" />
-  </ItemGroup>
-  <ItemGroup>
-    <Folder Include="MouseAttack\Item\Currency\" />
-    <Folder Include="MouseAttack\Skill\TargetEffect\World\" />
-  </ItemGroup>
 </Project>

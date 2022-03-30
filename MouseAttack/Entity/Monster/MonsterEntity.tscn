@@ -10,7 +10,7 @@
 [ext_resource path="res://MouseAttack/Skill/Monster/MainAttack/MainAttack.tres" type="Resource" id=8]
 [ext_resource path="res://MouseAttack/Theme/Fonts/Roboto10.tres" type="DynamicFont" id=9]
 [ext_resource path="res://MouseAttack/Entity/Monster/MonsterDropController.cs" type="Script" id=10]
-[ext_resource path="res://MouseAttack/Item/Currency/Gold.tres" type="Resource" id=11]
+[ext_resource path="res://MouseAttack/Equip/Weapon/Staff.tres" type="Resource" id=11]
 [ext_resource path="res://MouseAttack/Misc/UI/FloatingLabelSpawner.cs" type="Script" id=12]
 
 [sub_resource type="RectangleShape2D" id=1]
@@ -21,6 +21,7 @@ collision_layer = 2
 collision_mask = 2
 script = ExtResource( 4 )
 _spritePath = NodePath("Graphics/Sprite")
+_nameLabelPath = NodePath("NameLabel")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2( 16, 16 )
@@ -52,8 +53,7 @@ _graphicsPath = NodePath("../Graphics")
 
 [node name="MonsterDropController" type="Node" parent="."]
 script = ExtResource( 10 )
-Gold = ExtResource( 11 )
-_maxGold = 5
+_dropList = [ ExtResource( 11 ) ]
 
 [node name="FloatingLabelSpawner" type="Node" parent="."]
 script = ExtResource( 12 )

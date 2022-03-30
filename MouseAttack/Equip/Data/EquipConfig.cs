@@ -21,17 +21,16 @@ namespace MouseAttack.Equip.Data
 
     public class EquipConfig
     {
-        public static Dictionary<EquipTier, int> TierDropRate { get; private set; } = new Dictionary<EquipTier, int>()
+        public static Dictionary<EquipTier, int> EquipTierDropRate { get; private set; } = new Dictionary<EquipTier, int>()
         {
-            { EquipTier.Common, 50 },
-            { EquipTier.Rare, 30 },
-            { EquipTier.Epic, 10 },
+            { EquipTier.Rare, 10 },
+            { EquipTier.Epic, 5 },
         };
         public static Dictionary<EquipType, int> EquipTypeDropRate { get; private set; } = new Dictionary<EquipType, int>()
         {
             { EquipType.Weapon, 50 },
-            { EquipType.Armor, 30 },
-            { EquipType.Jewelry, 10 },
+            { EquipType.Armor, 25 },
+            { EquipType.Jewelry, 5 },
         };
 
         public static Dictionary<StatsType, IntegerRange> StatsTypeBasePercentage { get; private set; }  = new Dictionary<StatsType, IntegerRange>()

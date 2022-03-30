@@ -1,4 +1,4 @@
-[gd_scene load_steps=16 format=2]
+[gd_scene load_steps=17 format=2]
 
 [ext_resource path="res://MouseAttack/World/Tiles/grass.png" type="Texture" id=1]
 [ext_resource path="res://MouseAttack/World/Tiles/grass-spawn.png" type="Texture" id=2]
@@ -11,6 +11,7 @@
 [ext_resource path="res://MouseAttack/World/PlayerCursor.cs" type="Script" id=9]
 [ext_resource path="res://MouseAttack/World/DragPreviewParent.cs" type="Script" id=10]
 [ext_resource path="res://MouseAttack/World/Stage.cs" type="Script" id=11]
+[ext_resource path="res://MouseAttack/Misc/UI/FloatingLabelLayer.cs" type="Script" id=12]
 
 [sub_resource type="TileSet" id=1]
 0/name = "grass.png 0"
@@ -88,9 +89,9 @@ collision_layer = 16
 collision_mask = 7
 script = ExtResource( 9 )
 
-[node name="CanvasLayer" type="CanvasLayer" parent="."]
+[node name="HudLayer" type="CanvasLayer" parent="."]
 
-[node name="Border" type="PanelContainer" parent="CanvasLayer"]
+[node name="Border" type="PanelContainer" parent="HudLayer"]
 anchor_right = 1.0
 anchor_bottom = 1.0
 mouse_filter = 1
@@ -99,20 +100,20 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer/Border"]
+[node name="VBoxContainer" type="VBoxContainer" parent="HudLayer/Border"]
 margin_left = 3.0
 margin_top = 3.0
 margin_right = 669.0
 margin_bottom = 477.0
 
-[node name="TopPanel" type="PanelContainer" parent="CanvasLayer/Border/VBoxContainer"]
+[node name="TopPanel" type="PanelContainer" parent="HudLayer/Border/VBoxContainer"]
 margin_right = 666.0
 margin_bottom = 29.0
 rect_min_size = Vector2( 0, 29 )
 mouse_filter = 1
 custom_styles/panel = SubResource( 3 )
 
-[node name="BottomPanel" type="PanelContainer" parent="CanvasLayer/Border/VBoxContainer"]
+[node name="BottomPanel" type="PanelContainer" parent="HudLayer/Border/VBoxContainer"]
 margin_top = 413.0
 margin_right = 666.0
 margin_bottom = 474.0
@@ -121,7 +122,7 @@ mouse_filter = 1
 size_flags_vertical = 10
 custom_styles/panel = SubResource( 4 )
 
-[node name="PlayArea" type="Control" parent="CanvasLayer"]
+[node name="PlayArea" type="Control" parent="HudLayer"]
 margin_left = 6.0
 margin_top = 32.0
 margin_right = 666.0
@@ -132,6 +133,10 @@ script = ExtResource( 8 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
+
+[node name="FloatingLabelLayer" type="CanvasLayer" parent="."]
+layer = 2
+script = ExtResource( 12 )
 
 [node name="DragPreviewRig" type="CanvasLayer" parent="."]
 layer = 3

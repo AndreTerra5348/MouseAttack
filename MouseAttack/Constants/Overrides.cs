@@ -14,5 +14,6 @@ namespace MouseAttack.Constants
         public static readonly string CustomStyleBackground = "custom_styles/bg";
 
         public static readonly string CustomConstantsHSeparation = "custom_constants/hseparation";
+        public static readonly string CustomStylesPanel = "custom_styles/panel";
     }
 }

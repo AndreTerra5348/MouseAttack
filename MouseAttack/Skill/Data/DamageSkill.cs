@@ -50,6 +50,11 @@ namespace MouseAttack.Skill.Data
             if (target.Character.IsDead)
                 user.Character.Experience += target.Character.Experience;            
         }
+
+        public override void ItemDropped(int monsterLevel)
+        {
+
+        }
     }
 }
 
