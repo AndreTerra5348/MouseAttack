@@ -19,12 +19,12 @@ namespace MouseAttack.Skill.TargetEffect
         int _spawnChance = 100;
         [Export]
         bool _behindeParent = true;
-        Random _random = new Random();
+        Stage Stage => TreeSharer.GetNode<Stage>();
 
         GridController GridController => TreeSharer.GetNode<GridController>();
         public void Spawn(CommonEntity target)
         {
-            if (_spawnChance < _random.Next(100))
+            if (_spawnChance < Stage.Random.Next(100))
                 return;
             var instance = _scene.Instance<Node2D>();
             instance.ZIndex = _behindeParent ? target.ZIndex - 1 : target.ZIndex + 1;

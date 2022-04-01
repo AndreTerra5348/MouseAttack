@@ -46,7 +46,7 @@ namespace MouseAttack.Entity.Player.UI.Skill
             GetParent()
                 .GetChildren()
                 .Cast<SkillSlot>()
-                .FirstOrDefault(x => x.Item?.GetInstanceId() == item.GetInstanceId())
+                .FirstOrDefault(x => x.Item == item)
                 ?.RemoveItem();
         }
 

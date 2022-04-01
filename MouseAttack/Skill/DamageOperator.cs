@@ -17,7 +17,7 @@ namespace MouseAttack.Skill
 
         public DamageOperator() { }
 
-        public DamageOperator(CommonEntity user, CommonSkill skill, DamageWorldEffect damageWorldEffect) 
+        public DamageOperator(CommonEntity user, DamageSkill skill, DamageWorldEffect damageWorldEffect) 
             : base(user, skill) 
         {
             _normalFloatingLabelScene = damageWorldEffect.NormalFloatingLabelScene;

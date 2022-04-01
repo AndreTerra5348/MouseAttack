@@ -1,4 +1,6 @@
 ﻿using Godot;
+using MouseAttack.Misc;
+using MouseAttack.World;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,10 +11,10 @@ namespace MouseAttack.Skill.Module
 {
     public class Rotator : Node
     {
-        Random _random = new Random();
+        Stage Stage => TreeSharer.GetNode<Stage>();
         public override void _Ready()
         {
-            GetParent<Node2D>().Rotation = _random.Next();
+            GetParent<Node2D>().Rotation = Stage.Random.Next();
         }
     }
 }

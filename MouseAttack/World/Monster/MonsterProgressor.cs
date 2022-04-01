@@ -26,7 +26,7 @@ namespace MouseAttack.World.Monster
             { StatsType.CriticalDamage, 1 },
             { StatsType.MovementSpeed, 1 }
         };
-        Random _random = new Random();
+        Stage Stage => TreeSharer.GetNode<Stage>();
         
         int _monsterCount = 0;
 
@@ -53,7 +53,7 @@ namespace MouseAttack.World.Monster
         private void AddApplicableBonuses()
         {
             Array keys = _baseBonus.Keys.ToArray();
-            var stats = (StatsType)keys.GetValue(_random.Next(keys.Length));
+            var stats = (StatsType)keys.GetValue(Stage.Random.Next(keys.Length));
             var value = _baseBonus[stats] * _monsterCount / 5;
             ApplicableBonuses[stats] = value;
             ApplicableBonuschanged?.Invoke(this, EventArgs.Empty);

@@ -1,6 +1,7 @@
 ﻿using Godot;
 using MouseAttack.Characteristic;
 using MouseAttack.Misc;
+using MouseAttack.World;
 using System;
 using System.Collections.Generic;
 
@@ -63,11 +64,12 @@ namespace MouseAttack.Entity
         public Stats Defense => StatsMap[StatsType.Defense];
         public Stats CriticalRate => StatsMap[StatsType.CriticalRate];
         public Stats CriticalDamage => StatsMap[StatsType.CriticalDamage];
-        Random _random = new Random();
-        public bool IsCritical => CriticalRate.Percentage >= _random.NextDouble();
+        
+        public bool IsCritical => CriticalRate.Percentage >= Stage.Random.NextDouble();
         public bool IsDead => Health.IsDepleted;
         protected Dictionary<StatsType, Stats> StatsMap { get; private set; } = new Dictionary<StatsType, Stats>();
 
+        Stage Stage => TreeSharer.GetNode<Stage>();
         public override void _Ready()
         {
             for(int i = 0; i < GetChildCount(); i++)

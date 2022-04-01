@@ -16,19 +16,20 @@ namespace MouseAttack.Entity.Monster
 {
     public class MonsterDropController : Node
     {
-        [Export]
-        List<CommonItem> _dropList = new List<CommonItem>();
-
+        IEnumerable<CommonItemFactory> GetDropList() =>
+            GetChildren().OfType<CommonItemFactory>();
         public override void _Ready()
         {
             MonsterEntity monsterEntity = GetParent<MonsterEntity>();
+            IEnumerable<CommonItemFactory> dropList = GetDropList();
             monsterEntity.Dead += (s, e) =>
             {
-                foreach(CommonItem item in _dropList)
+                foreach (CommonItemFactory itemFactory in dropList)
                 {
-                    if (!item.Dropped)
+                    if (!itemFactory.Dropped)
                         continue;
 
+                    var item = itemFactory.CreateItem<CommonItem>();
                     item.ItemDropped(monsterEntity.Level);
                     FloatingLabel floatingLabel = item.GetFloatingDropLabel();
                     floatingLabel.Position = monsterEntity.Position;

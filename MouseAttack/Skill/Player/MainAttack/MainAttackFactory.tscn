@@ -1,0 +1,17 @@
+[gd_scene load_steps=6 format=2]
+
+[ext_resource path="res://MouseAttack/Skill/Data/DamageSkillFactory.cs" type="Script" id=1]
+[ext_resource path="res://MouseAttack/GUI/TooltipPanel.tscn" type="PackedScene" id=2]
+[ext_resource path="res://MouseAttack/Skill/Player/MainAttack/WorldEffect.tscn" type="PackedScene" id=3]
+[ext_resource path="res://MouseAttack/Skill/Player/MainAttack/flame_0.png" type="Texture" id=4]
+[ext_resource path="res://MouseAttack/Item/Icon.tscn" type="PackedScene" id=5]
+
+[node name="MainAttackFactory" type="Node"]
+script = ExtResource( 1 )
+ItemName = "Fire Spark"
+IconScene = ExtResource( 5 )
+IconTexture = ExtResource( 4 )
+TooltipScene = ExtResource( 2 )
+WorldEffectScene = ExtResource( 3 )
+CollisionLayer = 8
+CollisionMask = 2

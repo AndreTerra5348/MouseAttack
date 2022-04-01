@@ -18,20 +18,16 @@ namespace MouseAttack.Skill.Data
     public abstract class CommonSkill : CommonItem
     {
         public event EventHandler Applied;
-        [Export]
-        PackedScene WorldEffectScene { get; set; }
-        [Export]
+        public PackedScene WorldEffectScene { get; private set; }
         public int ManaCost { get; private set; } = 1;
-        [Export]
         public int Duration { get; private set; } = 0;
-        [Export]
         public int Cooldown { get; private set; } = 1;
 
         int _cooldown = 0;
+        public bool OnCooldown => _cooldown > 0;
         public override string Tooltip =>
             $"Mana Cost: {ManaCost}\nCooldown: {Cooldown}\n{base.Tooltip}";
 
-        public bool OnCooldown => _cooldown > 0;
 
         public CommonWorldEffect GetWorldEffect()
         {

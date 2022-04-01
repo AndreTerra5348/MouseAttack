@@ -68,7 +68,7 @@ namespace MouseAttack.Entity.Player.UI
                     return;
 
                 // Set new Icon
-                _iconContainer.AddChild(_currentIcon = _item.GetIcon());
+                _iconContainer.AddChild(_currentIcon = _item.GetSlotIcon());
             }
         }
         public override void _Ready() =>
@@ -94,20 +94,14 @@ namespace MouseAttack.Entity.Player.UI
         {
             if (Item == null)
                 return null;
-            DragPreviewParent.SetDragPreview(new DragPreview(Item.GetIcon()));
+            DragPreviewParent.SetDragPreview(new DragPreview(Item.GetSlotIcon()));
             var data = new SlotDragData(Item, this);
             ItemDragged();
             return data;
         }
-        public override Control _MakeCustomTooltip(string forText)
-        {
-            TooltipPanel tooltipPanel = _tooltipPanel.Instance<TooltipPanel>();
-            tooltipPanel.ItemName = Item.Name;
-            tooltipPanel.ItemStats = forText;
-            tooltipPanel.Icon = Item.GetIcon();
-            return tooltipPanel;
-        }
-            
+        public override Control _MakeCustomTooltip(string forText) =>
+            Item.GetTooltip();
+
 
         protected virtual void ItemDragged() {}
 

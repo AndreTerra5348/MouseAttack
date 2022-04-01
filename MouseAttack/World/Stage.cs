@@ -17,7 +17,8 @@ namespace MouseAttack.World
         public int Level { get; private set; } = 1;
 
         int _wavesPerLevel = 10;
-
+        const int SEED = 1;
+        public Random Random { get; private set; } = new Random(SEED);
         public Stage() => TreeSharer.RegistryNode(this);
 
         public override void _Ready()

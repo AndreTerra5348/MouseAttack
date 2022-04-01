@@ -12,18 +12,27 @@ namespace MouseAttack.Item.Currency
 {
     public class Gold : CommonItem
     {
-        [Export]
-        int _minBaseValue = 1;
-        [Export]
-        int _maxBaseValue = 3;
-
+        public int MinBaseValue { get; private set; } = 1;
+        public int MaxBaseValue { get; private set; } = 3;
+        int _count = 0;
+        public int Count
+        {
+            get => _count;
+            set
+            {
+                if (_count == value)
+                    return;
+                _count = value;
+                OnPropertyChanged();
+            }
+        }
         protected override string DropText => Count.ToString();
 
         PlayerInventory PlayerInventory => TreeSharer.GetNode<PlayerInventory>();
 
         public override void ItemDropped(int monsterLevel)
         {
-            Count = Random.Next(_minBaseValue * monsterLevel, _maxBaseValue * monsterLevel);
+            Count = Random.Next(MinBaseValue * monsterLevel, MaxBaseValue * monsterLevel);
             PlayerInventory.Gold.Count += Count;
         }
     }

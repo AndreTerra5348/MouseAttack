@@ -1,4 +1,4 @@
-[gd_scene load_steps=24 format=2]
+[gd_scene load_steps=23 format=2]
 
 [ext_resource path="res://MouseAttack/Characteristic/ResourcePool.cs" type="Script" id=1]
 [ext_resource path="res://MouseAttack/Entity/Player/PlayerEntity.cs" type="Script" id=2]
@@ -16,9 +16,8 @@
 [ext_resource path="res://MouseAttack/Entity/Player/PlayerInventory.cs" type="Script" id=14]
 [ext_resource path="res://MouseAttack/Entity/Player/UI/LevelLabel.cs" type="Script" id=15]
 [ext_resource path="res://MouseAttack/Entity/Player/UI/ExpBar.cs" type="Script" id=16]
-[ext_resource path="res://MouseAttack/Item/Currency/Gold.tres" type="Resource" id=17]
+[ext_resource path="res://MouseAttack/Skill/Player/MainAttack/MainAttackFactory.tscn" type="PackedScene" id=17]
 [ext_resource path="res://MouseAttack/Misc/UI/FloatingLabelSpawner.cs" type="Script" id=18]
-[ext_resource path="res://MouseAttack/Skill/Player/MainAttack/MainAttack.tres" type="Resource" id=19]
 
 [sub_resource type="RectangleShape2D" id=1]
 extents = Vector2( 14, 14 )
@@ -100,12 +99,13 @@ Editable = true
 
 [node name="PlayerSkillController" type="Node" parent="."]
 script = ExtResource( 11 )
-_inventoryPath = NodePath("../PlayerInventory")
+InventoryPath = NodePath("../PlayerInventory")
 
 [node name="PlayerInventory" type="Node" parent="."]
 script = ExtResource( 14 )
-MainAttack = ExtResource( 19 )
-Gold = ExtResource( 17 )
+MainAttackFactoryPath = NodePath("MainAttackFactory")
+
+[node name="MainAttackFactory" parent="PlayerInventory" instance=ExtResource( 17 )]
 
 [node name="FloatingLabelSpawner" type="Node" parent="."]
 script = ExtResource( 18 )

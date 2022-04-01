@@ -15,7 +15,7 @@ namespace MouseAttack.GUI
     {
         [Export]
         NodePath _iconContainerPath = "";
-        CenterContainer _iconContainer;
+        Control _iconContainer;
         [Export]
         NodePath _nameLabelPath = "";
         Label _nameLabel;
@@ -29,17 +29,18 @@ namespace MouseAttack.GUI
 
         async public override void _Ready()
         {
-            _iconContainer = GetNode<CenterContainer>(_iconContainerPath);
+            _iconContainer = GetNode<Control>(_iconContainerPath);
             _iconContainer.AddChild(Icon);
             _nameLabel = GetNode<Label>(_nameLabelPath);
             _nameLabel.Text = ItemName;
             _statsLabel = GetNode<Label>(_statsLabelPath);
             _statsLabel.Text = ItemStats;
-
+            Hide();
             await this.SkipNextFrame();
             RectGlobalPosition = TreeSharer
                 .GetNode<PlayArea>()
                 .ClampPosition(RectGlobalPosition, RectSize);
+            Show();
         }
     }
 }

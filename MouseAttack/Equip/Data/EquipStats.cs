@@ -1,12 +1,13 @@
-﻿using MouseAttack.Characteristic;
+﻿using Godot;
+using MouseAttack.Characteristic;
 using System;
 
 namespace MouseAttack.Equip.Data
 {
     public class EquipStats
     {
-        public readonly StatsType Type;
-        public readonly float Percentage;
+        public StatsType Type { get; private set; }
+        public float Percentage { get; private set; }
 
         public EquipStats(StatsType type, float percentage)
         {

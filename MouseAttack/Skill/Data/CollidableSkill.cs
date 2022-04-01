@@ -1,4 +1,5 @@
 using Godot;
+using MouseAttack.Item.Data;
 
 namespace MouseAttack.Skill.Data
 {
@@ -7,14 +8,11 @@ namespace MouseAttack.Skill.Data
     /// </summary>
     public abstract class CollidableSkill : CommonSkill
     {
-        [Export]
-        public int Area { get; private set; } = 1;
-        [Export(PropertyHint.Layers2dPhysics)]
+        public Vector2 Area { get; private set; }
         public uint CollisionLayer { get; private set; }
-        [Export(PropertyHint.Layers2dPhysics)]
         public uint CollisionMask { get; private set; }
 
         public override string Tooltip =>
-            $"Area: {Area}\n{base.Tooltip}";
+            $"Area: {Area.x.ToString("0")}x{Area.y.ToString("0")}\n{base.Tooltip}";
     }
 }

@@ -17,3 +17,15 @@ custom_styles/normal = ExtResource( 2 )
 script = ExtResource( 4 )
 _iconContainerPath = NodePath("MarginContainer/IconContainer")
 _tooltipPanel = ExtResource( 6 )
+
+[node name="MarginContainer" parent="." index="0"]
+custom_constants/margin_right = 1
+custom_constants/margin_top = 1
+custom_constants/margin_left = 1
+custom_constants/margin_bottom = 1
+
+[node name="IconContainer" parent="MarginContainer" index="0"]
+margin_left = 1.0
+margin_top = 1.0
+margin_right = 31.0
+margin_bottom = 31.0

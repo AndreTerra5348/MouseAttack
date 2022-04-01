@@ -1,44 +1,30 @@
 ﻿using Godot;
 using MouseAttack.Entity.Player.UI;
+using MouseAttack.GUI;
 using MouseAttack.Misc;
 using MouseAttack.Misc.UI;
+using MouseAttack.World;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace MouseAttack.Item.Data
 {
-    public abstract class CommonItem : ObservableResource
+    public abstract class CommonItem : Observable
     {
-        [Export]
         public virtual string Name { get; protected set; }
-        [Export]
         public virtual int Value { get; protected set; }
-        [Export]
-        protected virtual int DropRate { get; set; }
-        int _count = 0;
-        [Export]
-        public int Count
-        {
-            get => _count;
-            set
-            {
-                if (_count == value)
-                    return;
-                _count = value;
-                OnPropertyChanged();
-            }
-        }
+        public PackedScene FloatingLabelDropScene { get; private set; }
+        public PackedScene IconScene { get; private set; }
+        public PackedScene TooltipScene { get; private set; }
+        public Texture IconTexture { get; private set; }
 
-        [Export]
-        protected PackedScene FloatingLabelDropScene { get; set; }        
         protected virtual string DropText => Name;
-        protected Random Random { get; private set; } = new Random();
-        public virtual bool Dropped => DropRate > Random.Next(100);
-        [Export]
-        protected PackedScene IconScene { get; set; }        
+        protected Random Random => TreeSharer.GetNode<Stage>().Random;
 
         bool _isSlotted = false;
         public bool IsSlotted 
@@ -53,18 +39,39 @@ namespace MouseAttack.Item.Data
                 OnPropertyChanged();
             }
         }
-
-        public abstract void ItemDropped(int monsterLevel);
-
         public virtual string Tooltip => $"Value: {Value}";
 
-        public virtual Control GetIcon()
-            => IconScene.Instance<Control>();        
+        public virtual void ItemDropped(int monsterLevel) { }
+
+        public virtual Icon GetSlotIcon()
+        {
+            Icon icon = IconScene.Instance<Icon>();
+            icon.Texture = IconTexture;
+            return icon;
+        }
+
+        public virtual Icon GetDropIcon()
+        {
+            Icon icon = GetSlotIcon();
+            icon.BorderColor = Colors.Transparent;
+            icon.BgColor = Colors.Transparent;
+            return icon;
+        }
+
+        public virtual TooltipPanel GetTooltip()
+        {
+            TooltipPanel tooltipPanel = TooltipScene.Instance<TooltipPanel>();
+            tooltipPanel.ItemName = Name;
+            tooltipPanel.ItemStats = Tooltip;
+            tooltipPanel.Icon = GetSlotIcon();
+            return tooltipPanel;
+        }
+
 
         public virtual FloatingLabel GetFloatingDropLabel()
         {
-            FloatingLabel floatingLabel = FloatingLabelDropScene.Instance<FloatingLabel>();
-            floatingLabel.Icon = GetIcon();
+            FloatingLabel floatingLabel = FloatingLabelDropScene.Instance<FloatingLabel>();            
+            floatingLabel.Icon = GetDropIcon();
             floatingLabel.Text = DropText;
             return floatingLabel;
         }

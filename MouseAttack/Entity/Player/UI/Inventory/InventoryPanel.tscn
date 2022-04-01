@@ -84,6 +84,7 @@ tab_align = 0
 drag_to_rearrange_enabled = true
 
 [node name="All" parent="VBoxContainer/TabContainer" instance=ExtResource( 6 )]
+margin_top = 16.0
 
 [node name="ScrollContainer" parent="VBoxContainer/TabContainer/All" index="0"]
 margin_right = 180.0

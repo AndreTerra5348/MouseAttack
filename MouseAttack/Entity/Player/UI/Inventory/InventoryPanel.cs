@@ -1,6 +1,7 @@
 ﻿using Godot;
 using MouseAttack.Constants;
 using MouseAttack.Extensions;
+using MouseAttack.Item.Currency;
 using MouseAttack.Item.Data;
 using MouseAttack.Misc;
 using MouseAttack.Skill.Data;
@@ -25,8 +26,7 @@ namespace MouseAttack.Entity.Player.UI.Inventory
         public override void _Ready()
         {
             Label goldLabel = GetNode<Label>(_goldLabelPath);
-            PlayerInventory.Gold.Bind(nameof(CommonItem.Count), goldLabel, nameof(Label.Text), setImmediate: true);
-            PlayerInventory.AddMainAttack();
+            PlayerInventory.Gold.Bind(nameof(Gold.Count), goldLabel, nameof(Label.Text), setImmediate: true);
         }
     }
 }

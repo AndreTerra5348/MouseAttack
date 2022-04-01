@@ -1,6 +1,4 @@
 ﻿using Godot;
-using MouseAttack.Skill.Module;
-using MouseAttack.Skill.Monster;
 using MouseAttack.Skill.WorldEffect;
 using MouseAttack.Constants;
 using MouseAttack.Entity.Player;
@@ -12,21 +10,24 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using MouseAttack.Misc;
+using MouseAttack.Skill.Data;
 
 namespace MouseAttack.Entity.Monster
 {
     public class MonsterSkillController : Node
     {
         [Export]
-        MonsterDamage _skill = null;
+        NodePath MainAttackFactoryPath { get; set; } = "";
+        DamageSkill _skill;
         [Export]
-        NodePath _graphicsPath = "";
+        NodePath GraphicsPath { get; set; } = "";
         Node2D _graphics;
+        [Export]
+        int Range { get; set; } = 0;
 
         MonsterEntity _monsterEntity;
-
         int _minAttackRange = 2;
-        public int AttackRange => _skill.Range + _minAttackRange;
+        public int AttackRange => Range + _minAttackRange;
         PlayerEntity PlayerEntity => TreeSharer.GetNode<PlayerEntity>();
         GridController GridController => TreeSharer.GetNode<GridController>();
 
@@ -36,14 +37,14 @@ namespace MouseAttack.Entity.Monster
         public override void _Ready()
         {
             _monsterEntity = GetParent<MonsterEntity>();
-            _graphics = GetNode<Node2D>(_graphicsPath);
+            _graphics = GetNode<Node2D>(GraphicsPath);
+            _skill = GetNode<DamageSkillFactory>(MainAttackFactoryPath).CreateItem<DamageSkill>();
             AddChild(_tween);
-            
         }
 
         public SignalAwaiter Attack()
         {
-            if (_skill.Range == 0)
+            if (Range == 0)
                 return StartApproachAnimation();
             return this.CreateTimer(_monsterEntity.MovementDelay);
         }

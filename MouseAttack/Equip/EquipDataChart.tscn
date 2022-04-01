@@ -1,0 +1,28 @@
+[gd_scene load_steps=2 format=2]
+
+[ext_resource path="res://MouseAttack/Equip/Data/EquipDataChart.cs" type="Script" id=1]
+
+[node name="EquipDataChart" type="Node"]
+script = ExtResource( 1 )
+RareDropRate = 10
+EpicDropRate = 5
+WeaponDropRate = 50
+ArmorDropRate = 25
+JewelryDropRate = 5
+Damage = Vector2( 1, 3 )
+Defense = Vector2( 1, 3 )
+CriticalDamage = Vector2( 1, 3 )
+CriticalRate = Vector2( 1, 3 )
+Health = Vector2( 1, 3 )
+HealthRegen = Vector2( 1, 3 )
+Mana = Vector2( 1, 3 )
+ManaRegen = Vector2( 1, 3 )
+CommonColor = Color( 0.658824, 0.658824, 0.658824, 1 )
+RareColor = Color( 0, 0.54902, 0.54902, 1 )
+EpicColor = Color( 0.580392, 0, 0.831373, 1 )
+WeaponPrimaryStats = 5
+WeaponSecundaryStats = [ 8, 7 ]
+ArmorPrimaryStats = 6
+ArmosSecundaryStats = [ 1, 3 ]
+JewelryPrimaryStats = 6
+JewelrySecundaryStats = [ 1, 2, 3, 4, 7, 8 ]

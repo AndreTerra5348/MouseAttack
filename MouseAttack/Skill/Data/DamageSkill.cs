@@ -21,13 +21,10 @@ namespace MouseAttack.Skill.Data
 
     public class DamageSkill : CollidableSkill
     {
-        [Export]
-        public int Damage { get; private set; } = 1;
-        [Export]
-        public int Hits { get; private set; } = 1;
+        public int Damage { get; private set; }
+        public int Hits { get; private set; }
         public override string Tooltip =>
             $"Damage: {Damage}\n{base.Tooltip}";
-
 
         private float CalculateDamage(Character attacker, Character defender, out bool isCritical)
         {

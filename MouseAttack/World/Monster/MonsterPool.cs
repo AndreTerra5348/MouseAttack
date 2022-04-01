@@ -1,5 +1,6 @@
 ﻿using Godot;
 using MouseAttack.Entity.Monster;
+using MouseAttack.Misc;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,8 +13,7 @@ namespace MouseAttack.World.Monster
     {
         [Export]
         public List<PackedScene> Monsters { get; private set; }
-
-        Random _random = new Random();
-        public MonsterEntity GetRandomMonster() => Monsters[_random.Next(Monsters.Count)].Instance<MonsterEntity>();
+        Stage Stage => TreeSharer.GetNode<Stage>();
+        public MonsterEntity GetRandomMonster() => Monsters[Stage.Random.Next(Monsters.Count)].Instance<MonsterEntity>();
     }
 }

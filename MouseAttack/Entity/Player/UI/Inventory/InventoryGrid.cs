@@ -43,18 +43,25 @@ namespace MouseAttack.Entity.Player.UI.Inventory
             {
                 AddNewSlot(null);
             }
+
+            AddItems(PlayerInventory.Items);
+
             PlayerInventory.Items.CollectionChanged += (s, e) =>
             {
                 if (e.Action != NotifyCollectionChangedAction.Add)
                     return;
-
-                foreach (CommonItem item in e.NewItems.OfType<CommonItem>())
-                {
-                    if (!_typeMap[_gridType].IsAssignableFrom(item.GetType()))
-                        continue;
-                    Add(item);
-                }
+                AddItems(e.NewItems.OfType<CommonItem>());
             };
+        }
+
+        private void AddItems(IEnumerable<CommonItem> items)
+        {
+            foreach (CommonItem item in items)
+            {
+                if (!_typeMap[_gridType].IsAssignableFrom(item.GetType()))
+                    continue;
+                Add(item);
+            }
         }
 
         public void Add(CommonItem item)

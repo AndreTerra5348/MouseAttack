@@ -28,7 +28,7 @@ namespace MouseAttack.Entity.Player
         public event EventHandler<CooldownStartedEventArgs> CooldownStarted;
 
         [Export]
-        NodePath _inventoryPath = "";
+        NodePath InventoryPath { get; set; } = "";
         PlayerInventory _inventory;
 
         bool _isPlayerTurn = true;
@@ -61,7 +61,7 @@ namespace MouseAttack.Entity.Player
 
         public override void _Ready()
         {
-            _inventory = GetNode<PlayerInventory>(_inventoryPath);
+            _inventory = GetNode<PlayerInventory>(InventoryPath);
 
             GridController.RoundFinished += (s, e) =>
             {
@@ -76,8 +76,7 @@ namespace MouseAttack.Entity.Player
                 _isPlayerTurn = true;
                 SetProcessInput(true);
             };
-
-            SelectedSkill = _inventory.MainAttack;
+            _inventory.Initialized += (s, e) => SelectedSkill = _inventory.MainAttack;
         }
 
 

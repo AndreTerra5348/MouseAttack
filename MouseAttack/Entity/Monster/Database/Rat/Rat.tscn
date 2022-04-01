@@ -1,6 +1,9 @@
-[gd_scene load_steps=2 format=2]
+[gd_scene load_steps=5 format=2]
 
 [ext_resource path="res://MouseAttack/Entity/Monster/MonsterEntity.tscn" type="PackedScene" id=1]
+[ext_resource path="res://MouseAttack/Skill/Monster/MainAttack/MainAttackFactory.tscn" type="PackedScene" id=2]
+[ext_resource path="res://MouseAttack/Item/Currency/GoldFactory.tscn" type="PackedScene" id=3]
+[ext_resource path="res://MouseAttack/Equip/Weapon/StaffFactory.tscn" type="PackedScene" id=4]
 
 [node name="Rat" instance=ExtResource( 1 )]
 
@@ -8,31 +11,28 @@
 Experience = 10.0
 
 [node name="Health" parent="MonsterCharacter" index="0"]
-ValuePerPoint = 1.0
 Points = 10
-Editable = false
 
 [node name="Damage" parent="MonsterCharacter" index="1"]
-ValuePerPoint = 1.0
 Points = 7
-Editable = false
 
 [node name="Defense" parent="MonsterCharacter" index="2"]
-ValuePerPoint = 1.0
 Points = 5
-Editable = false
 
 [node name="CriticalRate" parent="MonsterCharacter" index="3"]
-ValuePerPoint = 1.0
 Points = 10
-Editable = false
 
 [node name="CriticalDamage" parent="MonsterCharacter" index="4"]
-ValuePerPoint = 1.0
 Points = 10
-Editable = false
 
-[node name="MonsterDropController" parent="." index="3"]
-_minGold = 1
+[node name="MonsterSkillController" parent="." index="2"]
+MainAttackFactoryPath = NodePath("MainAttackFactory")
+
+[node name="MainAttackFactory" parent="MonsterSkillController" index="0" instance=ExtResource( 2 )]
+
+[node name="GoldFactory" parent="MonsterDropController" index="0" instance=ExtResource( 3 )]
+DropRate = 70
+
+[node name="StaffFactory" parent="MonsterDropController" index="1" instance=ExtResource( 4 )]
 
 [editable path="Graphics/HealthBar"]

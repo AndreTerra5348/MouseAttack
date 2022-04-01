@@ -30,7 +30,7 @@ namespace MouseAttack.World.Monster
 
         int _dbIndex = 0;
         List<Vector2> _monsterSpawnPoints;
-        Random _random = new Random();
+        Stage Stage => TreeSharer.GetNode<Stage>();
         GridController GridController => TreeSharer.GetNode<GridController>();
 
         public MonsterGenerator() => TreeSharer.RegistryNode(this);     
@@ -50,7 +50,7 @@ namespace MouseAttack.World.Monster
         }
 
         Vector2 GetRandomPosition() =>
-            _monsterSpawnPoints[_random.Next(_monsterSpawnPoints.Count)];
+            _monsterSpawnPoints[Stage.Random.Next(_monsterSpawnPoints.Count)];
 
         void Spawn()
         {
