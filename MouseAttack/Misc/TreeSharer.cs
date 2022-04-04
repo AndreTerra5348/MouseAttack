@@ -12,8 +12,7 @@ using System.Threading.Tasks;
 namespace MouseAttack.Misc
 {
     public interface ISharable
-    {
-
+    {        
     }
     public class TreeSharer
     {

@@ -1,0 +1,38 @@
+[gd_scene load_steps=6 format=2]
+
+[ext_resource path="res://MouseAttack/Theme/Fonts/Roboto10.tres" type="DynamicFont" id=1]
+[ext_resource path="res://MouseAttack/Item/Icon/CommonIcon.tscn" type="PackedScene" id=2]
+[ext_resource path="res://MouseAttack/Item/Icon/ConsumableIcon.cs" type="Script" id=3]
+[ext_resource path="res://MouseAttack/Item/Currency/gold_pile_3.png" type="Texture" id=4]
+
+[sub_resource type="StyleBoxFlat" id=1]
+resource_local_to_scene = true
+bg_color = Color( 0.392157, 0.392157, 0.392157, 0.498039 )
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color( 0.658824, 0.658824, 0.658824, 0.498039 )
+
+[node name="ConsumableIcon" instance=ExtResource( 2 )]
+custom_styles/panel = SubResource( 1 )
+script = ExtResource( 3 )
+CountLabelPath = NodePath("CountLabel")
+
+[node name="TextureRect" parent="." index="0"]
+texture = ExtResource( 4 )
+
+[node name="CountLabel" type="Label" parent="." index="1"]
+margin_left = 2.0
+margin_top = 2.0
+margin_right = 26.0
+margin_bottom = 26.0
+mouse_filter = 1
+size_flags_horizontal = 3
+size_flags_vertical = 3
+custom_colors/font_color = Color( 1, 1, 1, 1 )
+custom_fonts/font = ExtResource( 1 )
+text = "0"
+align = 2
+valign = 2
+clip_text = true

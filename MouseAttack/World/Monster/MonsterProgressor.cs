@@ -43,7 +43,7 @@ namespace MouseAttack.World.Monster
             foreach (var item in ApplicableBonuses)
             {
                 Stats stats = monsterCharacter.GetStats(item.Key);
-                stats.SetAlteredPercentage(item.Value);
+                stats.AlteredPercentage = item.Value;
             }
             _monsterCount++;
             if (_monsterCount % 5 == 0)

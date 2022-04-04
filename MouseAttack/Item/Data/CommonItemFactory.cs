@@ -2,6 +2,7 @@
 using MouseAttack.Misc;
 using MouseAttack.World;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 
@@ -14,29 +15,19 @@ namespace MouseAttack.Item.Data
         public string ItemName { get; private set; }
         [AssignTo(nameof(CommonItem.Value))]
         [Export]
-        public int Value { get; private set; }
+        public int Value { get; protected set; }
         [Export]
         public int DropRate { get; private set; }
-        [AssignTo(nameof(CommonItem.FloatingLabelDropScene))]
-        [Export]
-        public PackedScene FloatingLabelDropScene { get; private set; }
-        [AssignTo(nameof(CommonItem.IconScene))]
-        [Export]
-        public PackedScene IconScene { get; private set; }
         [AssignTo(nameof(CommonItem.IconTexture))]
         [Export]
-        public Texture IconTexture { get; private set; }
-        [AssignTo(nameof(CommonItem.TooltipScene))]
-        [Export]
-        public PackedScene TooltipScene { get; private set; }
-        
+        public List<Texture> IconTexture { get; private set; }      
 
         protected Random Random => TreeSharer.GetNode<Stage>().Random;
         public virtual bool Dropped => DropRate > Random.Next(100);
 
         protected abstract CommonItem GetNewItem();
 
-        public T CreateItem<T>() where T : CommonItem
+        public virtual T CreateItem<T>() where T : CommonItem
         {
             CommonItem instance = GetNewItem();
 

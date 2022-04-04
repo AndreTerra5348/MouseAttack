@@ -14,7 +14,14 @@ namespace MouseAttack.Entity.Player
     {
         protected override string CharacterName => nameof(PlayerCharacter);
 
-        public PlayerEntity() => TreeSharer.RegistryNode(this);
+        public PlayerEntity() => 
+            TreeSharer.RegistryNode(this);
+
+        public override void _Ready()
+        {
+            base._Ready();
+            OnEntityInitialized();
+        }
 
         protected override void OnDeath()
         {

@@ -1,5 +1,6 @@
 using Godot;
 using MouseAttack.Entity;
+using MouseAttack.Item.Tooltip;
 using MouseAttack.Misc.UI;
 using MouseAttack.Skill.TargetEffect;
 using System;
@@ -23,8 +24,16 @@ namespace MouseAttack.Skill.Data
     {
         public int Damage { get; private set; }
         public int Hits { get; private set; }
-        public override string Tooltip =>
-            $"Damage: {Damage}\n{base.Tooltip}";
+
+        public override Color Color => Colors.Red;
+
+        public override Stack<TooltipInfo> GetTooltipInfo()
+        {
+            Stack<TooltipInfo> tooltipinfo = base.GetTooltipInfo();
+            tooltipinfo.Push(new TooltipInfo($"Hits: {Hits}", Colors.MediumVioletRed));
+            tooltipinfo.Push(new TooltipInfo($"Damage: {Damage}", Colors.Red));
+            return tooltipinfo;
+        }
 
         private float CalculateDamage(Character attacker, Character defender, out bool isCritical)
         {

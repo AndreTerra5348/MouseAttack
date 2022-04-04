@@ -2,8 +2,9 @@
 using MouseAttack.Entity.Player.UI.Inventory;
 using MouseAttack.Entity.Player.UI.Skill;
 using MouseAttack.Extensions;
-using MouseAttack.GUI;
 using MouseAttack.Item.Data;
+using MouseAttack.Item.Icon;
+using MouseAttack.Item.Provider;
 using MouseAttack.Misc;
 using MouseAttack.World;
 using System;
@@ -26,6 +27,10 @@ namespace MouseAttack.Entity.Player.UI
             Item = item;
             SlotOrigin = slotOrigin;
         }
+
+        public T GetItem<T>() where T : CommonItem =>
+            Item as T;
+
     }
 
     public abstract class Slot : Button, INotifyPropertyChanged
@@ -37,12 +42,13 @@ namespace MouseAttack.Entity.Player.UI
         [Export]
         NodePath _iconContainerPath = "";
         CenterContainer _iconContainer;
-        [Export]
-        PackedScene _tooltipPanel = null;
 
         Control _currentIcon;
 
-        DragPreviewParent DragPreviewParent => TreeSharer.GetNode<DragPreviewParent>();        
+        DragPreviewParent DragPreviewParent => TreeSharer.GetNode<DragPreviewParent>();
+        IconProvider IconProvider => TreeSharer.GetNode<IconProvider>();
+        TooltipProvider TooltipProvider => TreeSharer.GetNode<TooltipProvider>();
+
         public bool IsEmpty => Item == null;
 
         CommonItem _item;
@@ -62,13 +68,13 @@ namespace MouseAttack.Entity.Player.UI
                     _iconContainer.RemoveChild(_currentIcon);
                     _currentIcon = null;
                 }
-                HintTooltip = _item?.Tooltip;
+                HintTooltip = "-";
 
                 if (_item == null)
                     return;
 
                 // Set new Icon
-                _iconContainer.AddChild(_currentIcon = _item.GetSlotIcon());
+                _iconContainer.AddChild(_currentIcon = GetSlotIcon(_item));
             }
         }
         public override void _Ready() =>
@@ -82,6 +88,8 @@ namespace MouseAttack.Entity.Player.UI
 
         public override void DropData(Vector2 position, object data)
         {
+            if (Item != null)
+                Item.IsSlotted = false;
             SlotDragData slotDragData = data as SlotDragData;
             ItemDropped(slotDragData.Item);
             Item = slotDragData.Item;
@@ -92,16 +100,20 @@ namespace MouseAttack.Entity.Player.UI
 
         public override object GetDragData(Vector2 position)
         {
-            if (Item == null)
+            if (Item == null )
                 return null;
-            DragPreviewParent.SetDragPreview(new DragPreview(Item.GetSlotIcon()));
+
+            DragPreviewParent.SetDragPreview(new DragPreview(GetSlotIcon(Item)));
             var data = new SlotDragData(Item, this);
             ItemDragged();
             return data;
         }
-        public override Control _MakeCustomTooltip(string forText) =>
-            Item.GetTooltip();
 
+        private CommonIcon GetSlotIcon(CommonItem item) =>
+            IconProvider.GetSlotIcon(item);
+
+        public override Control _MakeCustomTooltip(string forText) =>
+            TooltipProvider.GetTooltip(Item) as Control;
 
         protected virtual void ItemDragged() {}
 

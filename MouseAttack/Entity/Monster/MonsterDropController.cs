@@ -2,6 +2,7 @@
 using MouseAttack.Entity.Player;
 using MouseAttack.Extensions;
 using MouseAttack.Item.Data;
+using MouseAttack.Item.Provider;
 using MouseAttack.Misc;
 using MouseAttack.Misc.UI;
 using MouseAttack.Skill.TargetEffect;
@@ -18,6 +19,9 @@ namespace MouseAttack.Entity.Monster
     {
         IEnumerable<CommonItemFactory> GetDropList() =>
             GetChildren().OfType<CommonItemFactory>();
+
+        DropLabelProvider DropLabelProvider => TreeSharer.GetNode<DropLabelProvider>();
+
         public override void _Ready()
         {
             MonsterEntity monsterEntity = GetParent<MonsterEntity>();
@@ -31,7 +35,7 @@ namespace MouseAttack.Entity.Monster
 
                     var item = itemFactory.CreateItem<CommonItem>();
                     item.ItemDropped(monsterEntity.Level);
-                    FloatingLabel floatingLabel = item.GetFloatingDropLabel();
+                    FloatingLabel floatingLabel = DropLabelProvider.GetDropLabel(item);
                     floatingLabel.Position = monsterEntity.Position;
                     monsterEntity.QueueFloatingLabel(floatingLabel);
                 }

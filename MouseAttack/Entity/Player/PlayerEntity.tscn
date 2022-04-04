@@ -4,15 +4,15 @@
 [ext_resource path="res://MouseAttack/Entity/Player/PlayerEntity.cs" type="Script" id=2]
 [ext_resource path="res://MouseAttack/Characteristic/Stats.cs" type="Script" id=3]
 [ext_resource path="res://MouseAttack/Entity/Player/PlayerCharacter.cs" type="Script" id=4]
-[ext_resource path="res://MouseAttack/Entity/Player/mangrove_1.png" type="Texture" id=5]
+[ext_resource path="res://MouseAttack/Entity/Player/player.png" type="Texture" id=5]
 [ext_resource path="res://MouseAttack/Characteristic/System/ResourceRegenerator.cs" type="Script" id=6]
 [ext_resource path="res://MouseAttack/Theme/Fonts/Roboto-Regular.ttf" type="DynamicFontData" id=7]
 [ext_resource path="res://MouseAttack/Entity/UI/HealthBar.tscn" type="PackedScene" id=8]
 [ext_resource path="res://MouseAttack/Entity/Player/UI/ManaBar.tscn" type="PackedScene" id=9]
-[ext_resource path="res://MouseAttack/Entity/Player/UI/AttributeDistribution/AttributeDistributionPanel.tscn" type="PackedScene" id=10]
+[ext_resource path="res://MouseAttack/Entity/Player/UI/Character/CharacterPanel.tscn" type="PackedScene" id=10]
 [ext_resource path="res://MouseAttack/Entity/Player/PlayerSkillController.cs" type="Script" id=11]
 [ext_resource path="res://MouseAttack/Entity/Player/UI/Skill/SkillBar.tscn" type="PackedScene" id=12]
-[ext_resource path="res://MouseAttack/Entity/Player/UI/Inventory/InventoryPanel.tscn" type="PackedScene" id=13]
+[ext_resource path="res://MouseAttack/Item/Currency/GoldFactory.tscn" type="PackedScene" id=13]
 [ext_resource path="res://MouseAttack/Entity/Player/PlayerInventory.cs" type="Script" id=14]
 [ext_resource path="res://MouseAttack/Entity/Player/UI/LevelLabel.cs" type="Script" id=15]
 [ext_resource path="res://MouseAttack/Entity/Player/UI/ExpBar.cs" type="Script" id=16]
@@ -104,8 +104,11 @@ InventoryPath = NodePath("../PlayerInventory")
 [node name="PlayerInventory" type="Node" parent="."]
 script = ExtResource( 14 )
 MainAttackFactoryPath = NodePath("MainAttackFactory")
+GoldFactoryPath = NodePath("GoldFactory")
 
 [node name="MainAttackFactory" parent="PlayerInventory" instance=ExtResource( 17 )]
+
+[node name="GoldFactory" parent="PlayerInventory" instance=ExtResource( 13 )]
 
 [node name="FloatingLabelSpawner" type="Node" parent="."]
 script = ExtResource( 18 )
@@ -123,10 +126,10 @@ margin_right = 31.0
 margin_bottom = -7.0
 _resourcePath = NodePath("../../PlayerCharacter/Health")
 
-[node name="CanvasLayer" type="CanvasLayer" parent="Graphics"]
+[node name="HudLayer" type="CanvasLayer" parent="Graphics"]
 layer = 2
 
-[node name="TopContainer" type="MarginContainer" parent="Graphics/CanvasLayer"]
+[node name="TopContainer" type="MarginContainer" parent="Graphics/HudLayer"]
 margin_right = 672.0
 margin_bottom = 32.0
 size_flags_horizontal = 3
@@ -138,7 +141,7 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="ManaBar" parent="Graphics/CanvasLayer/TopContainer" instance=ExtResource( 9 )]
+[node name="ManaBar" parent="Graphics/HudLayer/TopContainer" instance=ExtResource( 9 )]
 margin_left = 208.0
 margin_top = 11.0
 margin_right = 464.0
@@ -148,25 +151,7 @@ size_flags_horizontal = 4
 size_flags_vertical = 4
 _resourcePath = NodePath("../../../../PlayerCharacter/Mana")
 
-[node name="AttributeDistributionPanel" parent="Graphics/CanvasLayer" instance=ExtResource( 10 )]
-pause_mode = 2
-visible = false
-margin_left = 32.0
-margin_top = 64.0
-margin_right = 176.0
-margin_bottom = 144.0
-size_flags_horizontal = 4
-size_flags_vertical = 4
-_characterPath = NodePath("../../../PlayerCharacter")
-
-[node name="InventoryPanel" parent="Graphics/CanvasLayer" instance=ExtResource( 13 )]
-visible = false
-margin_left = 32.0
-margin_top = 64.0
-margin_right = 224.0
-margin_bottom = 320.0
-
-[node name="BottomContainer" type="MarginContainer" parent="Graphics/CanvasLayer"]
+[node name="BottomContainer" type="MarginContainer" parent="Graphics/HudLayer"]
 margin_top = 416.0
 margin_right = 672.0
 margin_bottom = 480.0
@@ -178,7 +163,7 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="VBoxContainer" type="VBoxContainer" parent="Graphics/CanvasLayer/BottomContainer"]
+[node name="VBoxContainer" type="VBoxContainer" parent="Graphics/HudLayer/BottomContainer"]
 margin_left = 10.0
 margin_top = 10.0
 margin_right = 662.0
@@ -189,13 +174,13 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="HBoxContainer" type="HBoxContainer" parent="Graphics/CanvasLayer/BottomContainer/VBoxContainer"]
+[node name="HBoxContainer" type="HBoxContainer" parent="Graphics/HudLayer/BottomContainer/VBoxContainer"]
 margin_right = 652.0
 margin_bottom = 43.0
 size_flags_vertical = 3
 alignment = 1
 
-[node name="LevelLabel" type="Label" parent="Graphics/CanvasLayer/BottomContainer/VBoxContainer/HBoxContainer"]
+[node name="LevelLabel" type="Label" parent="Graphics/HudLayer/BottomContainer/VBoxContainer/HBoxContainer"]
 margin_top = 28.0
 margin_right = 22.0
 margin_bottom = 43.0
@@ -207,7 +192,7 @@ valign = 2
 script = ExtResource( 15 )
 _characterPath = NodePath("../../../../../../PlayerCharacter")
 
-[node name="SkillBar" parent="Graphics/CanvasLayer/BottomContainer/VBoxContainer/HBoxContainer" instance=ExtResource( 12 )]
+[node name="SkillBar" parent="Graphics/HudLayer/BottomContainer/VBoxContainer/HBoxContainer" instance=ExtResource( 12 )]
 pause_mode = 2
 margin_left = 26.0
 margin_right = 652.0
@@ -216,7 +201,7 @@ size_flags_horizontal = 3
 size_flags_vertical = 0
 _playerSkillControllerPath = NodePath("../../../../../../PlayerSkillController")
 
-[node name="ExpBar" type="ProgressBar" parent="Graphics/CanvasLayer/BottomContainer/VBoxContainer"]
+[node name="ExpBar" type="ProgressBar" parent="Graphics/HudLayer/BottomContainer/VBoxContainer"]
 margin_top = 43.0
 margin_right = 652.0
 margin_bottom = 44.0
@@ -231,5 +216,15 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 _characterPath = NodePath("../../../../../PlayerCharacter")
+
+[node name="MenuLayer" type="CanvasLayer" parent="Graphics"]
+layer = 5
+
+[node name="CharacterPanel" parent="Graphics/MenuLayer" instance=ExtResource( 10 )]
+visible = false
+margin_left = 138.0
+margin_top = 128.0
+margin_right = 497.0
+margin_bottom = 320.0
 
 [editable path="Graphics/HealthBar"]

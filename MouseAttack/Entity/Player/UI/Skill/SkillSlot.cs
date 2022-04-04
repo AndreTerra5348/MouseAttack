@@ -20,8 +20,6 @@ namespace MouseAttack.Entity.Player.UI.Skill
         NodePath _cooldownPath = "";
         CooldownProgressBar _cooldown;
 
-        PlayerInventory PlayerInventory => TreeSharer.GetNode<PlayerInventory>();
-
         public override void _Ready()
         {
             base._Ready();

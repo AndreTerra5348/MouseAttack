@@ -6,7 +6,7 @@ using MouseAttack.Extensions;
 
 namespace MouseAttack.Misc.UI
 {
-    public class FloatingLabel : Control
+    public class FloatingLabel : PanelContainer
     {
         [Export]
         NodePath _containerPath = "";
@@ -22,6 +22,7 @@ namespace MouseAttack.Misc.UI
         PlayArea PlayArea => TreeSharer.GetNode<PlayArea>();
         async public override void _Ready()
         {
+            Hide();
             AnimationPlayer = GetNode<AnimationPlayer>(nameof(AnimationPlayer));
             Label label = GetNode<Label>(_labelPath);
             label.Text = Text;
@@ -30,17 +31,13 @@ namespace MouseAttack.Misc.UI
             if (Icon != null)
                 container.AddChild(Icon);
             if (Color.a != 0.0f)
-                label.AddColorOverride(Overrides.FontColor, Color);
-
-            Hide();
+                label.AddColorOverride(Overrides.FontColor, Color);            
 
             await this.SkipNextFrame();
-
             RectGlobalPosition = PlayArea.ClampPosition(Position, container.RectSize);
             Show();
 
             await ToSignal(AnimationPlayer, Signals.AnimationFinished);
-
             QueueFree();
         }
     }

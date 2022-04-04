@@ -1,5 +1,7 @@
 using Godot;
 using MouseAttack.Item.Data;
+using MouseAttack.Item.Tooltip;
+using System.Collections.Generic;
 
 namespace MouseAttack.Skill.Data
 {
@@ -12,7 +14,11 @@ namespace MouseAttack.Skill.Data
         public uint CollisionLayer { get; private set; }
         public uint CollisionMask { get; private set; }
 
-        public override string Tooltip =>
-            $"Area: {Area.x.ToString("0")}x{Area.y.ToString("0")}\n{base.Tooltip}";
+        public override Stack<TooltipInfo> GetTooltipInfo()
+        {
+            Stack<TooltipInfo> tooltipInfo = base.GetTooltipInfo();
+            tooltipInfo.Push(new TooltipInfo($"Area: {Area.x.ToString("0")}x{Area.y.ToString("0")}", Colors.GreenYellow));
+            return tooltipInfo;
+        }
     }
 }

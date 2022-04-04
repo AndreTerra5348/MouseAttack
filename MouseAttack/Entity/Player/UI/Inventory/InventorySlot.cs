@@ -15,12 +15,7 @@ namespace MouseAttack.Entity.Player.UI.Inventory
             false;
 
         protected override void OnRightClick()
-        {
-            base.OnRightClick();
+        {            
         }
-
-        // Show comparision with slloted item when item is equip
-        public override Control _MakeCustomTooltip(string forText) =>
-            base._MakeCustomTooltip(forText);
     }
 }

@@ -1,20 +1,20 @@
-[gd_scene load_steps=6 format=2]
+[gd_scene load_steps=7 format=2]
 
-[ext_resource path="res://MouseAttack/Theme/Fonts/Roboto16.tres" type="DynamicFont" id=2]
+[ext_resource path="res://MouseAttack/Theme/HSeparetorStyle.tres" type="StyleBox" id=1]
+[ext_resource path="res://MouseAttack/Theme/Fonts/TitleFont.tres" type="DynamicFont" id=2]
 [ext_resource path="res://MouseAttack/Theme/Button/PressedStyle.tres" type="StyleBox" id=3]
 [ext_resource path="res://MouseAttack/Theme/Button/NormalStyle.tres" type="StyleBox" id=4]
+[ext_resource path="res://MouseAttack/Theme/DefaultFontTheme.tres" type="Theme" id=5]
 
 [sub_resource type="StyleBoxFlat" id=3]
 bg_color = Color( 0.341176, 0.341176, 0.341176, 1 )
-
-[sub_resource type="StyleBoxLine" id=4]
-color = Color( 0.509804, 0.415686, 0.0823529, 1 )
 
 [node name="HeaderPanel" type="PanelContainer"]
 margin_right = 180.0
 margin_bottom = 32.0
 mouse_filter = 1
 size_flags_vertical = 0
+theme = ExtResource( 5 )
 custom_styles/panel = SubResource( 3 )
 __meta__ = {
 "_edit_use_anchors_": false
@@ -44,8 +44,9 @@ __meta__ = {
 }
 
 [node name="TitleLabel" type="Label" parent="MarginContainer/VBoxContainer/HBoxContainer"]
+margin_top = 1.0
 margin_right = 150.0
-margin_bottom = 19.0
+margin_bottom = 18.0
 mouse_filter = 1
 size_flags_horizontal = 3
 custom_fonts/font = ExtResource( 2 )
@@ -69,4 +70,4 @@ text = "x"
 margin_top = 24.0
 margin_right = 174.0
 margin_bottom = 28.0
-custom_styles/separator = SubResource( 4 )
+custom_styles/separator = ExtResource( 1 )

@@ -1,13 +1,9 @@
 [gd_scene load_steps=6 format=2]
 
 [ext_resource path="res://MouseAttack/Misc/UI/FloatingLabel.cs" type="Script" id=1]
-[ext_resource path="res://MouseAttack/Theme/Fonts/Roboto-Regular.ttf" type="DynamicFontData" id=2]
+[ext_resource path="res://MouseAttack/Theme/DefaultFontTheme.tres" type="Theme" id=3]
 
-[sub_resource type="DynamicFont" id=6]
-resource_local_to_scene = true
-size = 15
-use_filter = true
-font_data = ExtResource( 2 )
+[sub_resource type="StyleBoxEmpty" id=7]
 
 [sub_resource type="Animation" id=4]
 length = 0.001
@@ -39,7 +35,10 @@ tracks/0/keys = {
 "values": [ Vector2( 0, 0 ), Vector2( 0, -30 ) ]
 }
 
-[node name="FloatingLabel" type="Control"]
+[node name="FloatingLabel" type="PanelContainer"]
+mouse_filter = 1
+theme = ExtResource( 3 )
+custom_styles/panel = SubResource( 7 )
 script = ExtResource( 1 )
 __meta__ = {
 "_edit_use_anchors_": false
@@ -48,19 +47,17 @@ _containerPath = NodePath("HBoxContainer")
 _labelPath = NodePath("HBoxContainer/Label")
 
 [node name="HBoxContainer" type="HBoxContainer" parent="."]
-margin_right = 32.0
-margin_bottom = 18.0
+margin_right = 6.0
+margin_bottom = 14.0
 alignment = 1
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
 [node name="Label" type="Label" parent="HBoxContainer"]
-margin_left = 12.0
-margin_right = 20.0
-margin_bottom = 18.0
+margin_right = 6.0
+margin_bottom = 14.0
 mouse_filter = 1
-custom_fonts/font = SubResource( 6 )
 text = "0"
 align = 1
 valign = 1

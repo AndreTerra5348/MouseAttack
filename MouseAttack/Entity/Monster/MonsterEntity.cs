@@ -9,9 +9,8 @@ using System.Threading.Tasks;
 
 namespace MouseAttack.Entity.Monster
 {
-    public class MonsterEntity : SpecializedEntity<MonsterCharacter>, IInitializable
+    public class MonsterEntity : SpecializedEntity<MonsterCharacter>
     {
-        public event EventHandler Initialized;
         public event EventHandler Dead;
         protected override string CharacterName => nameof(MonsterCharacter);
         
@@ -33,12 +32,10 @@ namespace MouseAttack.Entity.Monster
             base._Ready();
             MonsterSkillController = GetNode<MonsterSkillController>(nameof(MonsterSkillController));
             _sprite = GetNode<Sprite>(_spritePath);
-            Initialized?.Invoke(this, EventArgs.Empty);
-
             Label nameLabel = GetNode<Label>(_nameLabelPath);
             nameLabel.Text += $" Lv:{Level}";
 
-
+            OnEntityInitialized();
             // Skip a frame to update it's position
             await this.SkipNextFrame();
 

@@ -24,7 +24,7 @@ namespace MouseAttack.Characteristic
 
     public class StatsConstants
     {
-        public static Dictionary<StatsType, string> NamingMap = new Dictionary<StatsType, string>()
+        public static Dictionary<StatsType, string> NameMap = new Dictionary<StatsType, string>()
         {
             { StatsType.CriticalRate, "Crit Rate" },
             { StatsType.CriticalDamage, "Crit Dmg" },
@@ -36,6 +36,20 @@ namespace MouseAttack.Characteristic
             { StatsType.HealthRegen, "HP Regen" },
             { StatsType.ManaRegen, "MP Regen" },
             { StatsType.CooldownReducion, "Cooldown" },
+        };
+
+        public static Dictionary<StatsType, string> FullNameMap = new Dictionary<StatsType, string>()
+        {
+            { StatsType.CriticalRate, "Critical Rate" },
+            { StatsType.CriticalDamage, "Critical Damage" },
+            { StatsType.Damage, "Damage" },
+            { StatsType.Defense, "Defense" },
+            { StatsType.MovementSpeed, "Mv Spd" },
+            { StatsType.Health, "Health" },
+            { StatsType.Mana, "Mana" },
+            { StatsType.HealthRegen, "Health Regen" },
+            { StatsType.ManaRegen, "Mana Regen" },
+            { StatsType.CooldownReducion, "Cooldown Reduction" },
         };
     }
 
@@ -67,7 +81,6 @@ namespace MouseAttack.Characteristic
                 _points = value;
                 OnPropertyChanged();
                 OnPropertyChanged(nameof(Value));
-                Value++;
             }
             get => _points;
         }
@@ -79,28 +92,31 @@ namespace MouseAttack.Characteristic
         { 
             get
             {
-                var value = Points * ValuePerPoint + _alteredValue;
-                return value + value * (_alteredPercentage / 100.0f);
+                var value = Points * ValuePerPoint;
+                return value + value * (AlteredPercentage / 100.0f);
             }
-            set => OnPropertyChanged();
         }
         public float Percentage => Value / 100;
-
-        private float _alteredValue = 0;
-        private float _alteredPercentage = 0;
+        float _alteredPercentage = 0;
+        public float AlteredPercentage 
+        {
+            get => _alteredPercentage;
+            set
+            {
+                if (_alteredPercentage == value)
+                    return;
+                _alteredPercentage = value;
+                OnPropertyChanged();
+                OnPropertyChanged(nameof(Value));
+            }
+        }
 
         public override void _Ready()
         {
-            if (Enum.TryParse<StatsType>(Name, out StatsType type))
+            if (Enum.TryParse(Name, out StatsType type))
                 Type = type;
             else
-                GD.PrintErr($"Stats {Name} is not part of StatsType");
+                GD.PrintErr($"Stats {Name} is not part of {nameof(StatsType)}");
         }
-
-        public void AddAlteredValue(float value) => _alteredValue += value;
-        public void RemoveAlteredValue(float value) => _alteredValue -= value;
-        public void SetAlteredPercentage(float value) => _alteredPercentage = value;
-        public void ResetAlteredPercentage() => _alteredPercentage = 0;    
-
     }
 }

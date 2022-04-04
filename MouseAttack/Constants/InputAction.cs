@@ -14,7 +14,6 @@ namespace MouseAttack.Constants
 
         public static readonly string HotkeyFormat = "Hotkey {0}";
 
-        public static readonly string AttributePanel = "Attribute Panel";
-        internal static readonly string InventoryPanel = "Inventory Panel";
+        public static readonly string CharacterPanel = "Character Panel";
     }
 }

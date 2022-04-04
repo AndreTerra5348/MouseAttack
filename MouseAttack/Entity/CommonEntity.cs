@@ -16,20 +16,25 @@ namespace MouseAttack.Entity
     /// <summary>
     /// Base class for PlayerEntity and MonsterEntity
     /// </summary>
-    public abstract class CommonEntity : Area2D, ICursorHoverable
+    public abstract class CommonEntity : Area2D, ICursorHoverable, IInitializable
     {
+        public event EventHandler Initialized;
         public Character Character { get; private set; }
         protected abstract string CharacterName { get; }
         protected FloatingLabelSpawner FloatingLabelSpawner { get; private set; }
         protected GridController GridController => TreeSharer.GetNode<GridController>();
+
 
         public override void _Ready()
         {
             FloatingLabelSpawner = GetNode<FloatingLabelSpawner>(nameof(FloatingLabelSpawner));
             Character = GetNode<Character>(CharacterName);
             Character.Dead += (s, e) => OnDeath();
-            ZIndex = ZOrder.Entity;
+            ZIndex = ZOrder.Entity;            
         }
+
+        protected void OnEntityInitialized() =>
+            Initialized?.Invoke(this, EventArgs.Empty);
 
         public void QueueFloatingLabel(FloatingLabel floatingLabel) =>
             FloatingLabelSpawner.QueueFloatingLabel(floatingLabel);

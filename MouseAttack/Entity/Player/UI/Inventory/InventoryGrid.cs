@@ -39,7 +39,8 @@ namespace MouseAttack.Entity.Player.UI.Inventory
 
         public override void _Ready()
         {
-            for(int i = 0; i < _startSlotCount; i++)
+            int childCount = GetChildCount();
+            for (int i = 0; i < _startSlotCount - childCount; i++)
             {
                 AddNewSlot(null);
             }

@@ -8,6 +8,7 @@ using System.Collections.Generic;
 using System;
 using MouseAttack.Skill.TargetEffect;
 using MouseAttack.Item.Data;
+using MouseAttack.Item.Tooltip;
 
 namespace MouseAttack.Skill.Data
 {
@@ -23,10 +24,10 @@ namespace MouseAttack.Skill.Data
         public int Duration { get; private set; } = 0;
         public int Cooldown { get; private set; } = 1;
 
+        public override string TooltipType => "Skill";
+
         int _cooldown = 0;
         public bool OnCooldown => _cooldown > 0;
-        public override string Tooltip =>
-            $"Mana Cost: {ManaCost}\nCooldown: {Cooldown}\n{base.Tooltip}";
 
 
         public CommonWorldEffect GetWorldEffect()
@@ -35,7 +36,15 @@ namespace MouseAttack.Skill.Data
             instance.Skill = this;
             return instance;
         }
-            
+
+        public override Stack<TooltipInfo> GetTooltipInfo()
+        {
+            Stack<TooltipInfo> tooltipInfo = new Stack<TooltipInfo>();
+            tooltipInfo.Push(new TooltipInfo($"Mana Cost: {ManaCost}", Colors.Aqua));
+            tooltipInfo.Push(new TooltipInfo($"Cooldown: {Cooldown}", Colors.Aquamarine));
+            return tooltipInfo;
+        }
+
         public void StartCooldown() => _cooldown = Cooldown;
         public void ElapseCooldown() => _cooldown--;
         public abstract void Apply(CommonEntity user, CommonEntity target);

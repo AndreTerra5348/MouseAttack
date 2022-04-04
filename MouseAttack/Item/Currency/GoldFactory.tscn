@@ -1,16 +1,17 @@
 [gd_scene load_steps=6 format=2]
 
 [ext_resource path="res://MouseAttack/Misc/UI/FloatingLabel.tscn" type="PackedScene" id=1]
-[ext_resource path="res://MouseAttack/GUI/TooltipPanel.tscn" type="PackedScene" id=2]
-[ext_resource path="res://MouseAttack/Item/Currency/GoldFactory.cs" type="Script" id=3]
+[ext_resource path="res://MouseAttack/Item/Tooltip/ItemTooltipPanel.tscn" type="PackedScene" id=2]
+[ext_resource path="res://MouseAttack/Item/Data/ConsumableItemFactory.cs" type="Script" id=3]
 [ext_resource path="res://MouseAttack/Item/Currency/gold_pile_3.png" type="Texture" id=4]
-[ext_resource path="res://MouseAttack/Item/Icon.tscn" type="PackedScene" id=5]
+[ext_resource path="res://MouseAttack/Item/Icon/ConsumableIcon.tscn" type="PackedScene" id=5]
 
 [node name="GoldFactory" type="Node"]
 script = ExtResource( 3 )
 ItemName = "Gold"
+Value = 1
+DropRate = 70
 FloatingLabelDropScene = ExtResource( 1 )
 IconScene = ExtResource( 5 )
-IconTexture = ExtResource( 4 )
+IconTexture = [ ExtResource( 4 ) ]
 TooltipScene = ExtResource( 2 )
-MaxBaseValue = 5

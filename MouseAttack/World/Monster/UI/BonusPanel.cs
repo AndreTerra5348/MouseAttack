@@ -53,6 +53,6 @@ namespace MouseAttack.World.Monster.UI
             }
         }
 
-        private string GetLabelText(StatsType type, float value) => $"{StatsConstants.NamingMap[type]}: {(value / 100.0f).ToString("0%")}";
+        private string GetLabelText(StatsType type, float value) => $"{StatsConstants.NameMap[type]}: {(value / 100.0f).ToString("0%")}";
     }
 }

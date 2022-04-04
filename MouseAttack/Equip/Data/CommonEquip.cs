@@ -5,6 +5,8 @@ using MouseAttack.Entity.Player;
 using MouseAttack.Extensions;
 using MouseAttack.Item;
 using MouseAttack.Item.Data;
+using MouseAttack.Item.Icon;
+using MouseAttack.Item.Tooltip;
 using MouseAttack.Misc;
 using MouseAttack.Misc.UI;
 using System;
@@ -23,39 +25,101 @@ namespace MouseAttack.Equip.Data
         public Color TierColor { get; private set; }        
         public EquipTier Tier { get; private set; } = EquipTier.Common;
 
-        PlayerInventory PlayerInventory => TreeSharer.GetNode<PlayerInventory>();
-        EquipDataChart EquipDataChart => TreeSharer.GetNode<EquipDataChart>();
+        public override string TooltipType => 
+            Enum.GetName(typeof(EquipType), Type);
+        PlayerInventory PlayerInventory => 
+            TreeSharer.GetNode<PlayerInventory>();        
+        EquipDataChart EquipDataChart => 
+            TreeSharer.GetNode<EquipDataChart>();
 
-        public override string Tooltip
+        public Color GetStatsColor(EquipStats es1, EquipStats es2)
         {
-            get
-            {
-                string toolTip = $"{PrimaryStats.ToString()}\n";
+            if (es1.Percentage == es2.Percentage) return EquipStats.NormalColor;
+            else if (es1.Percentage > es2.Percentage) 
+                return IsSlotted ? EquipStats.LesserColor : EquipStats.GreaterColor;
+            return EquipStats.NormalColor;
+        }
 
-                foreach (EquipStats equipStats in SecondaryStats)
-                {
-                    toolTip += $"{equipStats.ToString()}\n";
-                }
-                return $"{toolTip}{base.Tooltip}";
+        public Stack<TooltipInfo> GetTooltipInfo(CommonEquip other)
+        {
+            if (other == null || other == this)
+                return GetTooltipInfo();
+
+            var tooltipInfo = base.GetTooltipInfo();
+
+            var sum = SecondaryStats.GroupBy(
+                stats => stats.Type,
+                (type, stats) => new EquipStats(type, stats.Sum(s => s.Percentage)));
+
+            var otherSum = other.SecondaryStats.GroupBy(
+                stats => stats.Type,
+                (type, stats) => new EquipStats(type, stats.Sum(s => s.Percentage)));
+
+            foreach(EquipStats stats in SecondaryStats)
+            {
+                var myStats = sum.Single(x => x.Type == stats.Type);
+                var otherStats = otherSum.SingleOrDefault(x => x.Type == stats.Type);
+                Color secondaryColor = Colors.White;
+                if (otherStats == null)
+                    secondaryColor = IsSlotted ? EquipStats.LesserColor : EquipStats.GreaterColor;
+                else 
+                    secondaryColor = GetStatsColor(myStats, otherStats);
+                tooltipInfo.Push(new TooltipInfo($"{stats}", secondaryColor));
             }
+
+            Color primaryColor = GetStatsColor(PrimaryStats, other.PrimaryStats);
+            tooltipInfo.Push(new TooltipInfo($"{PrimaryStats}", primaryColor));
+
+            return tooltipInfo;
+        }
+
+        public override Stack<TooltipInfo> GetTooltipInfo()
+        {
+            var tooltipInfo = base.GetTooltipInfo();            
+            foreach (EquipStats equipStats in SecondaryStats)
+            {
+                tooltipInfo.Push(new TooltipInfo($"{equipStats}", Colors.White));
+            }
+            tooltipInfo.Push(new TooltipInfo($"{PrimaryStats}", Colors.White));
+            return tooltipInfo;
         }        
+
+        public override void OnSlottedChanged(bool isSlotted)
+        {
+            PrimaryStats.OnSlottedChanged(isSlotted);
+            foreach (var stats in SecondaryStats)
+            {
+                stats.OnSlottedChanged(isSlotted);
+            }
+            PlayerInventory.EquipSlotStateChanged(this, isSlotted);
+        }
 
         public override void ItemDropped(int monsterLevel)
         {
+            MonsterLevel = monsterLevel;            
             Tier = GetRandomTier(monsterLevel);
-            PrimaryStats = GetEquipStats(EquipDataChart.EquipTypePrimaryStats[Type], monsterLevel);
-
             string tierName = Enum.GetName(typeof(EquipTier), Tier).Capitalize();
             Name = $"{tierName} {Name}";
 
-            TierColor = EquipDataChart.EquipTierColor[Tier];
+            // Set Primary Stats
+            PrimaryStats = GetEquipStats(EquipDataChart.EquipTypePrimaryStats[Type], monsterLevel);                        
 
+            // Set Secondary stats
             if (Tier != EquipTier.Common)
-                GenerateSecundaryStats(monsterLevel, Tier == EquipTier.Rare ? Random.Next(1, 2) : Random.Next(3, 4));
+                GenerateSecondaryStats(monsterLevel, Tier == EquipTier.Rare ? Random.Next(1, 2) : Random.Next(3, 4));
 
-            PlayerInventory.Items.Add(this);
+            // Set value
+            Value *= monsterLevel * ((int)Tier + 1) * (SecondaryStats.Count+1);
+
+            // Update colors
+            TierColor = EquipDataChart.EquipTierColor[Tier];
+            Color = TierColor;
+
+            // Add to inventory
+            PlayerInventory.Items.Add(this);            
         }
-        private void GenerateSecundaryStats(int monsterLevel, int secondaryStatsCount)
+
+        private void GenerateSecondaryStats(int monsterLevel, int secondaryStatsCount)
         {
             EquipStats biggest = new EquipStats(StatsType.None, 0);
             for (int i = 0; i < secondaryStatsCount; i++)
@@ -66,9 +130,8 @@ namespace MouseAttack.Equip.Data
                     biggest = equipStats;
                 SecondaryStats.Add(GetEquipStats(secundaryStats, monsterLevel));
             }
-
-            string statsName = Enum.GetName(typeof(StatsType), biggest.Type).Capitalize();
-
+            SecondaryStats = SecondaryStats.OrderBy(x => x.Type).ToList();
+            string statsName = StatsConstants.FullNameMap[biggest.Type];
             Name += $" Of {statsName}";
         }
         EquipStats GetEquipStats(StatsType type, int multiplier)
@@ -88,24 +151,6 @@ namespace MouseAttack.Equip.Data
             }
 
             return EquipTier.Common;
-        }
-
-
-        public override Icon GetSlotIcon()
-        {
-            Icon icon = base.GetSlotIcon();
-            icon.BorderColor = TierColor;
-            icon.BgColor = TierColor.Contrasted();
-            return icon;
-        }
-
-        public override FloatingLabel GetFloatingDropLabel()
-        {
-            FloatingLabel floatingLabel = base.GetFloatingDropLabel();
-            floatingLabel.Color = new Color(TierColor.r, TierColor.g, TierColor.b, 1.0f);
-            return floatingLabel;
-        }
-
-        
+        }        
     }
 }
