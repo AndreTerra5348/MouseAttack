@@ -56,9 +56,6 @@ script = ExtResource( 3 )
 _pool = [ ExtResource( 6 ) ]
 
 [node name="EquipDataChart" parent="." instance=ExtResource( 13 )]
-CommonColor = Color( 0.658824, 0.658824, 0.658824, 1 )
-RareColor = Color( 0, 0.54902, 0.54902, 1 )
-EpicColor = Color( 0.580392, 0, 0.831373, 1 )
 
 [node name="Providers" parent="." instance=ExtResource( 15 )]
 

@@ -1,6 +1,7 @@
 ﻿using Godot;
 using MouseAttack.Constants;
 using MouseAttack.Equip.Data;
+using MouseAttack.Extensions;
 using MouseAttack.Item.Data;
 using System;
 using System.Collections.Generic;
@@ -10,20 +11,19 @@ using System.Threading.Tasks;
 
 namespace MouseAttack.Item.Icon
 {
-    public class CommonIcon : PanelContainer
+    public class CommonIcon : PanelContainer, IItemView
     {
         TextureRect TextureRect => GetNode<TextureRect>(nameof(TextureRect));
-        StyleBoxFlat StyleBoxFlat => Get(Overrides.CustomStylesPanel) as StyleBoxFlat;
-        public CommonItem Item { get; set; }
-        public IconColorInfo ColorInfo { get; set; }
 
-        public override void _Ready()
+        const float ColorAlpha = 0.5f;
+        async virtual public void SetItem(CommonItem item)
         {
-            TextureRect.Texture = Item.GetIconTexture();
-            StyleBoxFlat styleBox = StyleBoxFlat;
-            styleBox.BorderColor = ColorInfo.Border;
-            styleBox.BgColor = ColorInfo.Background;
+            await ToSignal(this, Signals.Ready);
+
+            TextureRect.Texture = item.GetIconTexture();
+            StyleBoxFlat styleBox = Get(Overrides.CustomStylesPanel) as StyleBoxFlat;
+            styleBox.BorderColor = item.Color.WithAlpha(ColorAlpha);
+            styleBox.BgColor = item.Color.WithAlpha(ColorAlpha).Contrasted();
         }
-        
     }
 }

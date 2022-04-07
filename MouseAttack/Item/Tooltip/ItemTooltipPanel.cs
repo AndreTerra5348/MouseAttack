@@ -13,7 +13,7 @@ using System.Threading.Tasks;
 
 namespace MouseAttack.Item.Tooltip
 {
-    public class ItemTooltipPanel : PanelContainer, ITooltipPanel
+    public class ItemTooltipPanel : PanelContainer, IItemView
     {
         [Export]
         NodePath IconContainerPath { get; set; } = "";
@@ -37,7 +37,7 @@ namespace MouseAttack.Item.Tooltip
         {
             NameLabel.Text = item.Name;
             TypeLabel.Text = item.TooltipType;
-            IconContainer.AddChild(IconProvider.GetSlotIcon(item));
+            IconContainer.AddChild(IconProvider.GetIcon(item));
             NameLabel.AddColorOverride(Overrides.FontColor, item.Color);
         }
 

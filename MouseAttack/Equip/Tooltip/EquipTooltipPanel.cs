@@ -3,6 +3,7 @@ using MouseAttack.Constants;
 using MouseAttack.Entity.Player;
 using MouseAttack.Equip.Data;
 using MouseAttack.Extensions;
+using MouseAttack.Item;
 using MouseAttack.Item.Data;
 using MouseAttack.Item.Tooltip;
 using MouseAttack.Misc;
@@ -15,7 +16,7 @@ using System.Threading.Tasks;
 
 namespace MouseAttack.Equip.Tooltip
 {
-    public class EquipTooltipPanel : PanelContainer, ITooltipPanel
+    public class EquipTooltipPanel : PanelContainer, IItemView
     {
         [Export]
         NodePath ItemTooltipPanel1Path { get; set; }
@@ -25,7 +26,7 @@ namespace MouseAttack.Equip.Tooltip
         NodePath SeparatorPath { get; set; }
 
         PlayerInventory PlayerInventory => TreeSharer.GetNode<PlayerInventory>();
-
+        PlayerEquip PlayerEquip => TreeSharer.GetNode<PlayerEquip>();
         public void SetItem(CommonItem item) =>
             SetItem(item as CommonEquip);
 
@@ -35,7 +36,7 @@ namespace MouseAttack.Equip.Tooltip
             Hide();
 
             ItemTooltipPanel itemTooltipPanel1 = GetNode<ItemTooltipPanel>(ItemTooltipPanel1Path);
-            var equipedEquip = PlayerInventory.GetEquip(equip.Type);
+            var equipedEquip = PlayerEquip.GetEquip(equip.Type);
 
             itemTooltipPanel1.SetupItem(equip);
             itemTooltipPanel1.SetTooltipInfo(equip.GetTooltipInfo(equipedEquip));

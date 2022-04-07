@@ -39,7 +39,7 @@ namespace MouseAttack.Skill.Data
 
         public override Stack<TooltipInfo> GetTooltipInfo()
         {
-            Stack<TooltipInfo> tooltipInfo = new Stack<TooltipInfo>();
+            Stack<TooltipInfo> tooltipInfo = base.GetTooltipInfo();
             tooltipInfo.Push(new TooltipInfo($"Mana Cost: {ManaCost}", Colors.Aqua));
             tooltipInfo.Push(new TooltipInfo($"Cooldown: {Cooldown}", Colors.Aquamarine));
             return tooltipInfo;

@@ -13,14 +13,15 @@ namespace MouseAttack.Entity.Player.UI
 {
     public class ExpBar : ProgressBar
     {
-        [Export]
-        NodePath _characterPath = "";
+        PlayerEntity PlayerEntity => TreeSharer.GetNode<PlayerEntity>();
+        PlayerCharacter Character => PlayerEntity.Character;
         public override void _Ready()
         {
-            base._Ready();
-            PlayerCharacter character = GetNode<PlayerCharacter>(_characterPath);
-            character.Bind(nameof(character.Experience), this, nameof(ProgressBar.Value));
-            character.Bind(nameof(character.NextLevelExperience), this, nameof(ProgressBar.MaxValue));
+            PlayerEntity.Initialized += (s, e) =>
+            {
+                Character.Bind(nameof(PlayerCharacter.Experience), this, nameof(ProgressBar.Value));
+                Character.Bind(nameof(PlayerCharacter.NextLevelExperience), this, nameof(ProgressBar.MaxValue));
+            };
         }
     }
 }

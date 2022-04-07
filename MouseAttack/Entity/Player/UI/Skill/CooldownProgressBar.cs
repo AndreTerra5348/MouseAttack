@@ -24,7 +24,7 @@ namespace MouseAttack.Entity.Player.UI.Skill
                     Hide();
             };
         }
-        public void StartCooldown(int cooldown)
+        public void Start(int cooldown)
         {
             MaxValue = cooldown;
             Value = cooldown;

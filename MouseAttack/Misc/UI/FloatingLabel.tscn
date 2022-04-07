@@ -8,7 +8,7 @@
 [sub_resource type="Animation" id=4]
 length = 0.001
 tracks/0/type = "value"
-tracks/0/path = NodePath("HBoxContainer:rect_position")
+tracks/0/path = NodePath("LabelContainer:rect_position")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/imported = false
@@ -23,7 +23,7 @@ tracks/0/keys = {
 [sub_resource type="Animation" id=5]
 resource_name = "Rise"
 tracks/0/type = "value"
-tracks/0/path = NodePath("HBoxContainer:rect_position")
+tracks/0/path = NodePath("LabelContainer:rect_position")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/imported = false
@@ -43,18 +43,14 @@ script = ExtResource( 1 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
-_containerPath = NodePath("HBoxContainer")
-_labelPath = NodePath("HBoxContainer/Label")
+ContainerPath = NodePath("LabelContainer")
+LabelPath = NodePath("LabelContainer/Label")
 
-[node name="HBoxContainer" type="HBoxContainer" parent="."]
+[node name="LabelContainer" type="CenterContainer" parent="."]
 margin_right = 6.0
 margin_bottom = 14.0
-alignment = 1
-__meta__ = {
-"_edit_use_anchors_": false
-}
 
-[node name="Label" type="Label" parent="HBoxContainer"]
+[node name="Label" type="Label" parent="LabelContainer"]
 margin_right = 6.0
 margin_bottom = 14.0
 mouse_filter = 1

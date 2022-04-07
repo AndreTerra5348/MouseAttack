@@ -17,22 +17,6 @@ using System.Threading.Tasks;
 
 namespace MouseAttack.Entity.Player.UI
 {
-    public class SlotDragData : Godot.Object
-    {
-        public readonly CommonItem Item;
-        public readonly Slot SlotOrigin;
-
-        public SlotDragData(CommonItem item, Slot slotOrigin)
-        {
-            Item = item;
-            SlotOrigin = slotOrigin;
-        }
-
-        public T GetItem<T>() where T : CommonItem =>
-            Item as T;
-
-    }
-
     public abstract class Slot : Button, INotifyPropertyChanged
     {
         public event PropertyChangedEventHandler PropertyChanged;
@@ -43,13 +27,15 @@ namespace MouseAttack.Entity.Player.UI
         NodePath _iconContainerPath = "";
         CenterContainer _iconContainer;
 
-        Control _currentIcon;
+        const string TooltipPlaceholder = "placeholder";
 
         DragPreviewParent DragPreviewParent => TreeSharer.GetNode<DragPreviewParent>();
         IconProvider IconProvider => TreeSharer.GetNode<IconProvider>();
         TooltipProvider TooltipProvider => TreeSharer.GetNode<TooltipProvider>();
+        ActionMenuProvider ActionMenuProvider => TreeSharer.GetNode<ActionMenuProvider>();
 
         public bool IsEmpty => Item == null;
+        
 
         CommonItem _item;
         public CommonItem Item
@@ -63,74 +49,87 @@ namespace MouseAttack.Entity.Player.UI
                 OnPropertyChanged();
 
                 // Remove old Icon
-                if (_currentIcon != null)
-                {
-                    _iconContainer.RemoveChild(_currentIcon);
-                    _currentIcon = null;
+                if (_iconContainer.GetChildCount() > 0)
+                {                    
+                    foreach(Node child in _iconContainer.GetChildren())
+                    {
+                        child.QueueFree();
+                    }
                 }
-                HintTooltip = "-";
-
+                // Remove tooltip
+                HintTooltip = String.Empty;
                 if (_item == null)
                     return;
+                
+                HintTooltip = TooltipPlaceholder;
 
                 // Set new Icon
-                _iconContainer.AddChild(_currentIcon = GetSlotIcon(_item));
+                _iconContainer.AddChild(GetIcon(_item));
+                _iconContainer.AddChild(ActionMenuProvider.GetActionMenu(_item));
             }
         }
         public override void _Ready() =>
             _iconContainer = GetNode<CenterContainer>(_iconContainerPath);        
 
         public override bool CanDropData(Vector2 position, object data) =>
-            CanDropData(data as SlotDragData);
+            CanDropData(data as CommonItem);
 
-        public virtual bool CanDropData(SlotDragData data) =>
-            data?.Item is CommonItem;
+        public virtual bool CanDropData(CommonItem item) =>
+            item is CommonItem;
 
-        public override void DropData(Vector2 position, object data)
+        public override void DropData(Vector2 position, object data) =>
+            ItemDropped(data as CommonItem);
+
+        protected virtual void ItemDropped(CommonItem item)
         {
-            if (Item != null)
-                Item.IsSlotted = false;
-            SlotDragData slotDragData = data as SlotDragData;
-            ItemDropped(slotDragData.Item);
-            Item = slotDragData.Item;
-            Item.IsSlotted = true;
-            slotDragData.SlotOrigin.ItemDroppedAtAnotherSlot(this);
+            DuplicationCheck(item);
+            SlotItem(item);
+            SetItem(item);
         }
-            
+
 
         public override object GetDragData(Vector2 position)
         {
             if (Item == null )
                 return null;
 
-            DragPreviewParent.SetDragPreview(new DragPreview(GetSlotIcon(Item)));
-            var data = new SlotDragData(Item, this);
+            DragPreviewParent.SetDragPreview(new DragPreview(GetIcon(Item)));
+            var item = Item;            
             ItemDragged();
-            return data;
+            return item;
         }
 
-        private CommonIcon GetSlotIcon(CommonItem item) =>
-            IconProvider.GetSlotIcon(item);
+        protected virtual void ItemDragged() =>
+            UnslotItem();
+
+        protected void DuplicationCheck(CommonItem item)
+        {
+            GetParent()
+                .GetChildren()
+                .Cast<Slot>()
+                .FirstOrDefault(x => x.Item == item)
+                ?.UnsetItem();
+        }
+
+        protected void SetItem(CommonItem item) =>
+            Item = item;
+
+        protected void SlotItem(CommonItem item) =>
+            item.IsSlotted = true;        
+
+        protected void UnslotItem() =>
+            Item.IsSlotted = false;
+
+        public void UnsetItem() =>
+            Item = null;
+
+        private CommonIcon GetIcon(CommonItem item) =>
+            IconProvider.GetIcon(item);
 
         public override Control _MakeCustomTooltip(string forText) =>
             TooltipProvider.GetTooltip(Item) as Control;
-
-        protected virtual void ItemDragged() {}
-
-        // Called before the item is asssigned
-        protected virtual void ItemDropped(CommonItem item) { }
-
-        /// <summary>
-        /// Called by the slot that received the item dragged from this slot
-        /// </summary>
-        /// <param name="receiver">the receiver slot</param>
-        public virtual void ItemDroppedAtAnotherSlot(Slot receiver) { }
-        protected virtual void OnRightClick() { }
-
         
-
-        protected void RemoveItem() =>
-            Item = null;
+        protected virtual void OnRightClick() { }
 
         public override void _GuiInput(InputEvent @event)
         {

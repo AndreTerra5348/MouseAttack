@@ -29,6 +29,8 @@ namespace MouseAttack.World.Monster
         List<MonsterPool> _pool = new List<MonsterPool>();
 
         int _dbIndex = 0;
+        int _turnCount = 0;
+        int _divisor = 3;
         List<Vector2> _monsterSpawnPoints;
         Stage Stage => TreeSharer.GetNode<Stage>();
         GridController GridController => TreeSharer.GetNode<GridController>();
@@ -54,9 +56,14 @@ namespace MouseAttack.World.Monster
 
         void Spawn()
         {
+            _turnCount++;
+            if (_turnCount % _divisor != 0)
+                return;
+
             Vector2 position = GetRandomPosition();
             if (!GridController.IsCellAvailable(position))
                 return;
+
             MonsterEntity monsterEntity = _pool[_dbIndex].GetRandomMonster();
             GridController.AddChild(monsterEntity);
             monsterEntity.Position = position;

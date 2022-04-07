@@ -36,16 +36,19 @@ namespace MouseAttack.Item.Data
         }
 
         public override string TooltipType => Name;
-        public override string DropText => String.Empty;
+        public override string DropText => Count.ToString();
         public override bool IsDraggable => false;
-        PlayerInventory PlayerInventory => TreeSharer.GetNode<PlayerInventory>();
+        protected PlayerInventory PlayerInventory => TreeSharer.GetNode<PlayerInventory>();
+
+        protected int GetRandomValue(int monsterLevel) =>
+            Random.Next(MinBaseValue * monsterLevel, MaxBaseValue * monsterLevel);
 
         public override void ItemDropped(int monsterLevel)
         {
-            Count += Random.Next(MinBaseValue * monsterLevel, MaxBaseValue * monsterLevel);
-            var item = PlayerInventory.Items.OfType<ConsumableItem>().FirstOrDefault(i => i.Name == Name);
+            Count = GetRandomValue(monsterLevel);
+            var item = PlayerInventory.Consumables.FirstOrDefault(i => i.Name == Name);
             if (item == null)
-                PlayerInventory.Items.Add(this);
+                PlayerInventory.Add(this);
             else
                 item.Count += Count;
         }

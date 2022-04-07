@@ -8,9 +8,10 @@ using System.Threading.Tasks;
 
 namespace MouseAttack.Misc
 {
-    public class Observable : INotifyPropertyChanged
+    public class Observable : Godot.Object, INotifyPropertyChanged
     {
         public event PropertyChangedEventHandler PropertyChanged;
+
         protected void OnPropertyChanged([CallerMemberName] string name = null)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));

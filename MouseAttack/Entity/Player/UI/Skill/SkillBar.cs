@@ -9,29 +9,25 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using MouseAttack.Skill.Data;
+using MouseAttack.Misc;
 
 namespace MouseAttack.Entity.Player.UI.Skill
 {
     public class SkillBar : Control
     {
-        [Export]
-        NodePath _playerSkillControllerPath = "";
-        PlayerSkillController _playerSkillController;
-
+        PlayerSkill PlayerSkill => TreeSharer.GetNode<PlayerSkill>();
         int SelectedSlotIndex
         {
-            get => _playerSkillController.SelectedSlotIndex;
-            set => _playerSkillController.SelectedSlotIndex = value;
+            get => PlayerSkill.SelectedSlotIndex;
+            set => PlayerSkill.SelectedSlotIndex = value;
         }
 
         public override void _Ready()
         {
-            _playerSkillController = GetNode<PlayerSkillController>(_playerSkillControllerPath);
-
-            _playerSkillController.CooldownStarted += (s, e) =>
+            PlayerSkill.CooldownStarted += (s, e) =>
                 GetChild<SkillSlot>(e.Slot).Use(e.Cooldown);
 
-            _playerSkillController.Listen(nameof(PlayerSkillController.SelectedSlotIndex),
+            PlayerSkill.Listen(nameof(PlayerSkill.SelectedSlotIndex),
                 onChanged: () => GetChild<SkillSlot>(SelectedSlotIndex).Pressed = true);
 
             foreach (SkillSlot slot in GetChildren().OfType<SkillSlot>())
@@ -39,17 +35,17 @@ namespace MouseAttack.Entity.Player.UI.Skill
                 int index = slot.GetIndex();
 
                 slot.Listen(nameof(SkillSlot.Item),
-                    onChanged: () => _playerSkillController.SetSkill(slot.Item as CommonSkill, index));
+                    onChanged: () => PlayerSkill.SkillSelected(slot.Item as CommonSkill, index));
 
                 slot.Connect(Signals.Pressed, this, nameof(OnSkillSlotSelected),
                     new Godot.Collections.Array { index });
             }
 
-            if (_playerSkillController.IsSelectedSlotEmpty)
+            if (PlayerSkill.IsSelectedSlotEmpty)
                 return;
 
             SkillSlot slotZero = GetChild<SkillSlot>(0);
-            slotZero.Item = _playerSkillController.SelectedSkill;
+            slotZero.Item = PlayerSkill.SelectedSkill;
             slotZero.Item.IsSlotted = true;
         }
 

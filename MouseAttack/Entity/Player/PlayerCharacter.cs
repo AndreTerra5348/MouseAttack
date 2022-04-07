@@ -35,7 +35,12 @@ namespace MouseAttack.Entity.Player
         }
 
         public bool HasEnoughMana(float value) => Mana.CurrentValue >= value;
+
         public void UseMana(float value) => Mana.Use(value);
+
+        public void SetAlteredPercentage(StatsType type, float value) =>
+            GetStats(type).AlteredPercentage += value;
+
 
         public void AddAttributePoint(Stats stats)
         {

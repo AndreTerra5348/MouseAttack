@@ -8,6 +8,7 @@ using MouseAttack.World;
 using MouseAttack.Misc;
 using MouseAttack.Constants;
 using MouseAttack.Skill.Data;
+using MouseAttack.Item.Misc;
 
 namespace MouseAttack.Entity.Player
 {
@@ -23,20 +24,15 @@ namespace MouseAttack.Entity.Player
         }
     }
 
-    public class PlayerSkillController : ObservableNode
+    public class PlayerSkill : ObservableNode, ISharable
     {
         public event EventHandler<CooldownStartedEventArgs> CooldownStarted;
-
-        [Export]
-        NodePath InventoryPath { get; set; } = "";
-        PlayerInventory _inventory;
-
-        bool _isPlayerTurn = true;
         
         GridController GridController => TreeSharer.GetNode<GridController>();
         PlayArea PlayArea => TreeSharer.GetNode<PlayArea>();
         PlayerEntity PlayerEntity => TreeSharer.GetNode<PlayerEntity>();
-        PlayerCharacter PlayerCharacter => PlayerEntity.Character;        
+        PlayerCharacter Character => PlayerEntity.Character;
+        PlayerInventory PlayerInventory => TreeSharer.GetNode<PlayerInventory>();
 
         readonly CommonSkill[] _slottedSkills = new CommonSkill[5];
         int _selectSlotIndex = 0;
@@ -59,13 +55,15 @@ namespace MouseAttack.Entity.Player
         }
         public bool IsSelectedSlotEmpty => SelectedSkill == null;
 
+
+        public PlayerSkill() =>
+            TreeSharer.RegistryNode(this);
+
         public override void _Ready()
         {
-            _inventory = GetNode<PlayerInventory>(InventoryPath);
-
             GridController.RoundFinished += (s, e) =>
             {
-                foreach (CommonSkill skill in _inventory.Items.OfType<CommonSkill>())
+                foreach (CommonSkill skill in PlayerInventory.Skills)
                 {
                     if (!skill.OnCooldown)
                         continue;
@@ -73,19 +71,9 @@ namespace MouseAttack.Entity.Player
                     skill.ElapseCooldown();
                 }
 
-                _isPlayerTurn = true;
                 SetProcessInput(true);
             };
-            _inventory.Initialized += (s, e) => SelectedSkill = _inventory.MainAttack;
-        }
-
-
-        public override void _Notification(int what)
-        {
-            if (what == NotificationPaused)
-                SetProcessInput(false);
-            else if(what == NotificationUnpaused)
-                SetProcessInput(_isPlayerTurn);
+            PlayerInventory.Initialized += (s, e) => SelectedSkill = PlayerInventory.MainAttack;
         }
 
         public override void _Input(InputEvent @event)
@@ -107,7 +95,7 @@ namespace MouseAttack.Entity.Player
             }          
         }
 
-        public void SetSkill(CommonSkill skill, int slot) =>
+        public void SkillSelected(CommonSkill skill, int slot) =>
             _slottedSkills[slot] = skill;
 
         private void UseSkill()
@@ -118,10 +106,10 @@ namespace MouseAttack.Entity.Player
             if (SelectedSkill.OnCooldown)
                 return;
 
-            if (!PlayerCharacter.HasEnoughMana(SelectedSkill.ManaCost))
+            if (!Character.HasEnoughMana(SelectedSkill.ManaCost))
                 return;
 
-            PlayerCharacter.UseMana(SelectedSkill.ManaCost);
+            Character.UseMana(SelectedSkill.ManaCost);
 
             SelectedSkill.StartCooldown();
 
@@ -135,7 +123,6 @@ namespace MouseAttack.Entity.Player
 
         private void EndTurn()
         {
-            _isPlayerTurn = false;
             SetProcessInput(false);
             GridController.ElapseTurn();
         }

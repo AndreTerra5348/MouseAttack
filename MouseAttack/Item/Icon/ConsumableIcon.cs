@@ -15,15 +15,21 @@ namespace MouseAttack.Item.Icon
     {
         [Export]
         NodePath CountLabelPath { get; set; } = "";
-        Label CountLabel { get; set; }
-        new ConsumableItem Item => base.Item as ConsumableItem;
+        Label _countLabel;
+        ConsumableItem _item;
 
-        public override void _Ready()
+        public override void SetItem(CommonItem item)
         {
-            base._Ready();
-            CountLabel = GetNode<Label>(CountLabelPath);
+            base.SetItem(item);
+            SetItem(item as ConsumableItem);
+        }
+        public async void SetItem(ConsumableItem item)
+        {
+            await ToSignal(this, Signals.Ready);
+            _item = item;
+            _countLabel = GetNode<Label>(CountLabelPath);
             UpdateLabel();
-            Item.PropertyChanged += OnItemPropertyChanged;
+            _item.PropertyChanged += OnItemPropertyChanged;
         }
 
         private void OnItemPropertyChanged(object sender, PropertyChangedEventArgs e)
@@ -33,10 +39,10 @@ namespace MouseAttack.Item.Icon
         }
 
         private void UpdateLabel() =>
-            CountLabel.Text = Item.Count.ToString();
+            _countLabel.Text = _item.Count.ToString();
 
         public override void _ExitTree() =>
-            Item.PropertyChanged -= OnItemPropertyChanged;
+            _item.PropertyChanged -= OnItemPropertyChanged;
 
     }
 }

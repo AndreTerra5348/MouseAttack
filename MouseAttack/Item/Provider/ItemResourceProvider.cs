@@ -6,14 +6,11 @@ using System.Collections.Generic;
 
 namespace MouseAttack.Item.Provider
 {
-    public abstract class ItemResourceProvider : Node, ISharable
-    {
-        protected abstract Dictionary<Type, PackedScene> SceneMap { get; set; }
-        protected abstract PackedScene DefaultScene { get; }
-        protected PackedScene GetScene(CommonItem item) =>
-            SceneMap.ContainsKey(item.GetType()) ? SceneMap[item.GetType()] : DefaultScene;
-        public ItemResourceProvider() =>
-            TreeSharer.RegistryNode(this);
-       
+    public abstract class ItemResourceProvider<T> : SharableNode
+    {        
+        protected abstract Dictionary<Type, T> ResourceMap { get; set; }
+        protected abstract T DefaultResource { get; }
+        protected T GetResource(CommonItem item) =>
+            ResourceMap.ContainsKey(item.GetType()) ? ResourceMap[item.GetType()] : DefaultResource;
     }
 }

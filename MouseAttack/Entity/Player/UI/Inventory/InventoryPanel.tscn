@@ -257,12 +257,18 @@ alignment = 1
 [node name="EquipSlot" parent="VBoxContainer/HBoxContainer" instance=ExtResource( 2 )]
 margin_left = 44.0
 margin_right = 76.0
+margin_bottom = 32.0
+focus_mode = 0
 size_flags_vertical = 4
+enabled_focus_mode = 0
 
 [node name="EquipSlot2" parent="VBoxContainer/HBoxContainer" instance=ExtResource( 2 )]
 margin_left = 80.0
 margin_right = 112.0
+margin_bottom = 32.0
+focus_mode = 0
 size_flags_vertical = 4
+enabled_focus_mode = 0
 Type = 1
 
 [node name="SubIcon" parent="VBoxContainer/HBoxContainer/EquipSlot2/MarginContainer" index="0"]
@@ -271,7 +277,10 @@ texture = ExtResource( 5 )
 [node name="EquipSlot3" parent="VBoxContainer/HBoxContainer" instance=ExtResource( 2 )]
 margin_left = 116.0
 margin_right = 148.0
+margin_bottom = 32.0
+focus_mode = 0
 size_flags_vertical = 4
+enabled_focus_mode = 0
 Type = 2
 
 [node name="SubIcon" parent="VBoxContainer/HBoxContainer/EquipSlot3/MarginContainer" index="0"]

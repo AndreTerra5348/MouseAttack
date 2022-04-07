@@ -27,11 +27,5 @@ namespace MouseAttack.Equip.Data
         {
             return $"{StatsConstants.FullNameMap[Type]} +{Percentage}%";
         }
-
-        public void OnSlottedChanged(bool isSlotted)
-        {
-            Stats stats = PlayerCharacter.GetStats(Type);
-            stats.AlteredPercentage += isSlotted ? Percentage : -Percentage;
-        }
     }
 }

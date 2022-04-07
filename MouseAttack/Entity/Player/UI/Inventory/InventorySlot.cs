@@ -11,11 +11,11 @@ namespace MouseAttack.Entity.Player.UI.Inventory
 {
     public class InventorySlot : Slot
     {
-        public override bool CanDropData(SlotDragData data) =>
+        public override bool CanDropData(CommonItem data) =>
             false;
 
         protected override void OnRightClick()
-        {            
+        {
         }
     }
 }

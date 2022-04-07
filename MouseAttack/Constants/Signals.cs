@@ -32,6 +32,8 @@ namespace MouseAttack.Constants
         public static readonly string TweenAllCompleted = "tween_all_completed";
 
         public static readonly string AnimationFinished = "animation_finished";
+
+        public static readonly string IndexPressed = "index_pressed";
     }
     
 }

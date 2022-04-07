@@ -37,8 +37,11 @@ namespace MouseAttack.World
         AStar2D _aStar = new AStar2D();
 
         public const float TurnDelay = 0.3f;
-        
-        public GridController() => TreeSharer.RegistryNode(this);
+
+        public int MonsterCount => GetChildren().OfType<MonsterEntity>().Count();
+
+        public GridController() => 
+            TreeSharer.RegistryNode(this);
 
         public override void _Ready()
         {

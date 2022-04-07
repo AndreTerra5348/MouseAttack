@@ -8,4 +8,4 @@ script = ExtResource( 1 )
 ItemName = "Stone"
 WorldEffectScene = ExtResource( 3 )
 CollisionLayer = 8
-CollisionMask = 2
+CollisionMask = 1

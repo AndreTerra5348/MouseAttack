@@ -5,9 +5,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace MouseAttack.Item.Tooltip
+namespace MouseAttack.Item
 {
-    public interface ITooltipPanel
+    public interface IItemView
     {
         void SetItem(CommonItem item);
     }

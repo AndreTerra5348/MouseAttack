@@ -13,43 +13,35 @@ using System.Threading.Tasks;
 
 namespace MouseAttack.Item.Provider
 {
-    public class IconProvider : ItemResourceProvider
+    public class IconProvider : ItemResourceProvider<PackedScene>
     {
-        protected override Dictionary<Type, PackedScene> SceneMap { get; set; } = new Dictionary<Type, PackedScene>()
+        protected override Dictionary<Type, PackedScene> ResourceMap { get; set; } = new Dictionary<Type, PackedScene>()
         {
             { typeof(CommonItem), null },
             { typeof(ConsumableItem), null },
         };
-        protected override PackedScene DefaultScene => CommonIconScene;
 
-        const float SlotColorAlpha = 0.5f;
+        protected override PackedScene DefaultResource => CommonIconScene;
+        
         [Export]
         PackedScene CommonIconScene
         {
-            get => SceneMap[typeof(CommonItem)];
-            set => SceneMap[typeof(CommonItem)] = value;
+            get => ResourceMap[typeof(CommonItem)];
+            set => ResourceMap[typeof(CommonItem)] = value;
         }
-
         [Export]
         PackedScene ConsumableIconScene
         {
-            get => SceneMap[typeof(ConsumableItem)];
-            set => SceneMap[typeof(ConsumableItem)] = value;
-        }        
-
-        CommonIcon GetIcon(CommonItem item, IconColorInfo colorInfo)
-        {
-            PackedScene iconScene = GetScene(item);
-            CommonIcon icon = iconScene.Instance<CommonIcon>();
-            icon.Item = item;
-            icon.ColorInfo = colorInfo;
-            return icon;
+            get => ResourceMap[typeof(ConsumableItem)];
+            set => ResourceMap[typeof(ConsumableItem)] = value;
         }
 
-        public CommonIcon GetSlotIcon(CommonItem item) =>
-            GetIcon(item, new IconColorInfo(item.Color.WithAlpha(SlotColorAlpha), item.Color.WithAlpha(SlotColorAlpha).Contrasted()));
-
-        public CommonIcon GetDropIcon(CommonItem item) =>
-            GetIcon(item, new IconColorInfo(Colors.Transparent, Colors.Transparent));
+        public CommonIcon GetIcon(CommonItem item)
+        {
+            PackedScene iconScene = GetResource(item);
+            CommonIcon icon = iconScene.Instance<CommonIcon>();
+            icon.SetItem(item);
+            return icon;
+        }
     }
 }

@@ -19,33 +19,24 @@ namespace MouseAttack.Entity.Player.UI.Skill
         [Export]
         NodePath _cooldownPath = "";
         CooldownProgressBar _cooldown;
-
+        
         public override void _Ready()
         {
             base._Ready();
             _cooldown = GetNode<CooldownProgressBar>(_cooldownPath);
-            RemoveItem();
+            UnsetItem();
         }
 
         public void Use(int cooldown) =>
-            _cooldown.StartCooldown(cooldown);
+            _cooldown.Start(cooldown);
 
-        public override bool CanDropData(SlotDragData data) =>
-            data?.Item is CommonSkill;
+        public override bool CanDropData(CommonItem data) =>
+            data is CommonSkill;
 
         protected override void ItemDragged()
         {
-            Item.IsSlotted = false;
-            RemoveItem();
-        }
-
-        protected override void ItemDropped(CommonItem item)
-        {
-            GetParent()
-                .GetChildren()
-                .Cast<SkillSlot>()
-                .FirstOrDefault(x => x.Item == item)
-                ?.RemoveItem();
+            UnslotItem();
+            UnsetItem();
         }
 
         protected override void OnRightClick()

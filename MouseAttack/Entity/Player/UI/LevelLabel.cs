@@ -9,15 +9,16 @@ namespace MouseAttack.Entity.Player.UI
     public class LevelLabel : Label
     {
         const string LevelTextFormat = "Lv {0}";
-        [Export]
-        NodePath _characterPath = "";
+        PlayerEntity PlayerEntity => TreeSharer.GetNode<PlayerEntity>();
+        PlayerCharacter Character => PlayerEntity.Character;
 
         public override void _Ready()
         {
-            base._Ready();
-            PlayerCharacter character = GetNode<PlayerCharacter>(_characterPath);
-            character.Bind(nameof(character.Level), this, nameof(Label.Text),
-                propertyConvertor: (object value) => String.Format(LevelTextFormat, value));
+            PlayerEntity.Initialized += (s, e) =>
+            {
+                Character.Bind(nameof(PlayerCharacter.Level), this, nameof(Label.Text),
+                    propertyConvertor: (object value) => String.Format(LevelTextFormat, value));
+            };
         }
     }
 }

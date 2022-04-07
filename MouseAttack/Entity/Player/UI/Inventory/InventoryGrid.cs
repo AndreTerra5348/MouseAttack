@@ -45,33 +45,43 @@ namespace MouseAttack.Entity.Player.UI.Inventory
                 AddNewSlot(null);
             }
 
-            AddItems(PlayerInventory.Items);
-
-            PlayerInventory.Items.CollectionChanged += (s, e) =>
+            foreach (CommonItem item in PlayerInventory.Items)
             {
-                if (e.Action != NotifyCollectionChangedAction.Add)
-                    return;
-                AddItems(e.NewItems.OfType<CommonItem>());
-            };
+                AddItem(item);
+            }
+
+            PlayerInventory.Added += (s, e) => AddItem(e.Item);
+            PlayerInventory.Removed += (s, e) => RemoveItem(e.Item);
         }
 
-        private void AddItems(IEnumerable<CommonItem> items)
+        private bool IsItemValid(CommonItem item) =>
+            _typeMap[_gridType].IsAssignableFrom(item.GetType());
+
+        private void RemoveItem(CommonItem item)
         {
-            foreach (CommonItem item in items)
+            if (!IsItemValid(item))
+                return;
+            foreach (InventorySlot slot in GetChildren())
             {
-                if (!_typeMap[_gridType].IsAssignableFrom(item.GetType()))
+                if (slot.IsEmpty || slot.Item != item)
                     continue;
-                Add(item);
+                slot.UnsetItem();
+                if(slot.GetIndex() > _startSlotCount)
+                    slot.Hide();
+                break;
             }
         }
 
-        public void Add(CommonItem item)
+        public void AddItem(CommonItem item)
         {
+            if (!IsItemValid(item))
+                return;
             foreach (InventorySlot slot in GetChildren())
             {
                 if (!slot.IsEmpty)
                     continue;
                 slot.Item = item;
+                slot.Show();
                 item.Bind(nameof(CommonItem.IsSlotted), slot, nameof(Button.Disabled));
                 return;
             }

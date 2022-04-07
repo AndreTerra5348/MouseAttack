@@ -42,7 +42,6 @@ namespace MouseAttack.Misc.UI
                     await ToSignal(this, nameof(ProcessDisabled));                
                 QueueFree();
             };
-
         }
 
         public override void _Process(float delta)

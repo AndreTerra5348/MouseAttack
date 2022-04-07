@@ -32,12 +32,10 @@ namespace MouseAttack.Item.Data
 
                 _isSlotted = value;
                 OnPropertyChanged();
-                OnSlottedChanged(_isSlotted);
             }
         }        
 
         public virtual void ItemDropped(int monsterLevel) { }
-        public virtual void OnSlottedChanged(bool isSlotted) { }
         public virtual Stack<TooltipInfo> GetTooltipInfo()
         {
             Stack<TooltipInfo> tooltipInfo = new Stack<TooltipInfo>();

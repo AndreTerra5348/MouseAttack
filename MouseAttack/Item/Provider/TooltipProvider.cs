@@ -10,46 +10,35 @@ using System.Threading.Tasks;
 
 namespace MouseAttack.Item.Provider
 {
-    public class TooltipProvider : ItemResourceProvider
+    public class TooltipProvider : ItemResourceProvider<PackedScene>
     {
-        protected override Dictionary<Type, PackedScene> SceneMap { get; set; } = new Dictionary<Type, PackedScene>()
+        protected override Dictionary<Type, PackedScene> ResourceMap { get; set; } = new Dictionary<Type, PackedScene>()
         {
             { typeof(CommonItem), null },
             { typeof(CommonEquip), null },
         };
-        protected override PackedScene DefaultScene => ItemTooltipScene;
+
+        protected override PackedScene DefaultResource => ItemTooltipScene;
 
         [Export]
         PackedScene ItemTooltipScene
         {
-            get => SceneMap[typeof(CommonItem)];
-            set => SceneMap[typeof(CommonItem)] = value;
+            get => ResourceMap[typeof(CommonItem)];
+            set => ResourceMap[typeof(CommonItem)] = value;
         }
         [Export]
         PackedScene EquipTooltipScene
         {
-            get => SceneMap[typeof(CommonEquip)];
-            set => SceneMap[typeof(CommonEquip)] = value;
+            get => ResourceMap[typeof(CommonEquip)];
+            set => ResourceMap[typeof(CommonEquip)] = value;
         }
 
-        public ITooltipPanel GetTooltip(CommonItem item)
+        public IItemView GetTooltip(CommonItem item)
         {
-            PackedScene tooltipScene = GetScene(item);
-            ITooltipPanel tooltipPanel = tooltipScene.Instance<ITooltipPanel>();
+            PackedScene tooltipScene = GetResource(item);
+            IItemView tooltipPanel = tooltipScene.Instance<IItemView>();
             tooltipPanel.SetItem(item);
             return tooltipPanel;
         }
-
-        Stack<TooltipInfo> BuildTooltipInfo(CommonItem item)
-        {
-            Stack<TooltipInfo> info = new Stack<TooltipInfo>();
-
-            if (item is CommonItem)
-                info.Push(new TooltipInfo($"Value: {item.Value}", Colors.Yellow));           
-
-            return info;
-        }
-
-
     }
 }

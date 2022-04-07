@@ -82,16 +82,6 @@ namespace MouseAttack.Equip.Data
             }
             tooltipInfo.Push(new TooltipInfo($"{PrimaryStats}", Colors.White));
             return tooltipInfo;
-        }        
-
-        public override void OnSlottedChanged(bool isSlotted)
-        {
-            PrimaryStats.OnSlottedChanged(isSlotted);
-            foreach (var stats in SecondaryStats)
-            {
-                stats.OnSlottedChanged(isSlotted);
-            }
-            PlayerInventory.EquipSlotStateChanged(this, isSlotted);
         }
 
         public override void ItemDropped(int monsterLevel)
@@ -116,7 +106,7 @@ namespace MouseAttack.Equip.Data
             Color = TierColor;
 
             // Add to inventory
-            PlayerInventory.Items.Add(this);            
+            PlayerInventory.Add(this);
         }
 
         private void GenerateSecondaryStats(int monsterLevel, int secondaryStatsCount)
