@@ -8,13 +8,13 @@
 [node name="Rat" instance=ExtResource( 1 )]
 
 [node name="MonsterCharacter" parent="." index="1"]
-Experience = 10.0
+Experience = 70.0
 
 [node name="Health" parent="MonsterCharacter" index="0"]
-Points = 10
+Points = 20
 
 [node name="Damage" parent="MonsterCharacter" index="1"]
-Points = 7
+Points = 10
 
 [node name="Defense" parent="MonsterCharacter" index="2"]
 Points = 5
@@ -31,8 +31,9 @@ MainAttackFactoryPath = NodePath("MainAttackFactory")
 [node name="MainAttackFactory" parent="MonsterSkillController" index="0" instance=ExtResource( 2 )]
 
 [node name="StaffFactory" parent="MonsterDropController" index="0" instance=ExtResource( 4 )]
-DropRate = 90
 
 [node name="GoldFactory" parent="MonsterDropController" index="1" instance=ExtResource( 3 )]
+MinBaseValue = 2
+MaxBaseValue = 5
 
 [editable path="Graphics/HealthBar"]

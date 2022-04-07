@@ -58,12 +58,12 @@ _regenPath = NodePath("../../HealthRegen")
 [node name="HealthRegen" type="Node" parent="PlayerCharacter"]
 script = ExtResource( 3 )
 ValuePerPoint = 0.5
-Points = 10
+Points = 5
 
 [node name="Defense" type="Node" parent="PlayerCharacter"]
 script = ExtResource( 3 )
 ValuePerPoint = 2.0
-Points = 5
+Points = 3
 Editable = true
 
 [node name="Mana" type="Node" parent="PlayerCharacter"]

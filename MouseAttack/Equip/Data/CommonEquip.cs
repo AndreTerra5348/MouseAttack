@@ -92,7 +92,8 @@ namespace MouseAttack.Equip.Data
             Name = $"{tierName} {Name}";
 
             // Set Primary Stats
-            PrimaryStats = GetEquipStats(EquipDataChart.EquipTypePrimaryStats[Type], monsterLevel);                        
+            PrimaryStats = GetEquipStats(EquipDataChart.EquipTypePrimaryStats[Type], monsterLevel);
+            Value += monsterLevel * (int)PrimaryStats.Percentage;
 
             // Set Secondary stats
             if (Tier != EquipTier.Common)
@@ -100,7 +101,8 @@ namespace MouseAttack.Equip.Data
 
             // Set value
             Value *= monsterLevel * ((int)Tier + 1) * (SecondaryStats.Count+1);
-
+            
+            
             // Update colors
             TierColor = EquipDataChart.EquipTierColor[Tier];
             Color = TierColor;
@@ -118,7 +120,8 @@ namespace MouseAttack.Equip.Data
                 EquipStats equipStats = GetEquipStats(secundaryStats, monsterLevel);
                 if (equipStats.Percentage > biggest.Percentage)
                     biggest = equipStats;
-                SecondaryStats.Add(GetEquipStats(secundaryStats, monsterLevel));
+                SecondaryStats.Add(equipStats);
+                Value += monsterLevel * (int)equipStats.Percentage;
             }
             SecondaryStats = SecondaryStats.OrderBy(x => x.Type).ToList();
             string statsName = StatsConstants.FullNameMap[biggest.Type];

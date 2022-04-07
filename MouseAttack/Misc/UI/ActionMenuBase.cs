@@ -19,13 +19,8 @@ namespace MouseAttack.Misc.UI
     {
         List<Action> _actions = new List<Action>();
 
-        public override void _EnterTree()
-        {
+        public override void _EnterTree() =>
             GetPopup().Connect(Signals.IndexPressed, this, nameof(OnIndexPressed));
-            RectMinSize = new Vector2(30, 30);
-            ButtonMask = (int)ButtonList.MaskRight;
-            MouseFilter = MouseFilterEnum.Pass;
-        }
 
         public override void _Ready() =>
             AddAction();

@@ -13,20 +13,34 @@ using System.Threading.Tasks;
 
 namespace MouseAttack.Item.Provider
 {
-    public class ActionMenuProvider : ItemResourceProvider<Type>
+    public class ActionMenuProvider : ItemResourceProvider<PackedScene>
     {
-        protected override Dictionary<Type, Type> ResourceMap { get; set; } = new Dictionary<Type, Type>()
+        protected override Dictionary<Type, PackedScene> ResourceMap { get; set; } = new Dictionary<Type, PackedScene>()
         {
-            { typeof(CommonItem), typeof(ItemActionMenu) },
-            { typeof(CommonEquip), typeof(EquipActionMenu) },
+            { typeof(CommonItem), null },
+            { typeof(CommonEquip), null },
         };
 
-        protected override Type DefaultResource => typeof(ItemActionMenu);
+        protected override PackedScene DefaultResource => ItemActionMenu;
+
+        [Export]
+        PackedScene ItemActionMenu
+        {
+            get => ResourceMap[typeof(CommonItem)];
+            set => ResourceMap[typeof(CommonItem)] = value;
+        }
+
+        [Export]
+        PackedScene EquipActionMenu
+        {
+            get => ResourceMap[typeof(CommonEquip)];
+            set => ResourceMap[typeof(CommonEquip)] = value;
+        }
 
         public ItemActionMenu GetActionMenu(CommonItem item)
         {
-            Type type = GetResource(item);
-            ItemActionMenu itemActionMenu = (ItemActionMenu)Activator.CreateInstance(type);
+            PackedScene actionMenuScene = GetResource(item);
+            var itemActionMenu = actionMenuScene.Instance<ItemActionMenu>();
             itemActionMenu.Item = item;
             return itemActionMenu;
         }

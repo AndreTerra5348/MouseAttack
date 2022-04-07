@@ -1,5 +1,6 @@
 ﻿using Godot;
 using MouseAttack.Entity.Player;
+using MouseAttack.Equip.Data;
 using MouseAttack.Item.ActionMenu;
 using MouseAttack.Misc;
 using System;
@@ -39,8 +40,14 @@ namespace MouseAttack.Equip.ActionMenu
         public override void _ExitTree() =>
             PlayerEquip.SlotChanged -= OnSlotChanged;
 
-        private void ToggleEquip() =>
-            Item.IsSlotted = !Item.IsSlotted;
+        private void ToggleEquip()
+        {
+            var equip = Item as CommonEquip;
+            if (!equip.IsSlotted && PlayerEquip.IsTypeEquipped(equip.Type))
+                PlayerEquip.Unslot(equip.Type);
+            equip.IsSlotted = !equip.IsSlotted;
+        }
+            
 
         private void UpdateItemText() =>
             GetPopup().SetItemText(_itemIndex, Item.IsSlotted ? Unequip : Equip);

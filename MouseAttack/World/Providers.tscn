@@ -1,4 +1,4 @@
-[gd_scene load_steps=10 format=2]
+[gd_scene load_steps=12 format=2]
 
 [ext_resource path="res://MouseAttack/Item/Icon/ConsumableIcon.tscn" type="PackedScene" id=1]
 [ext_resource path="res://MouseAttack/Item/Icon/CommonIcon.tscn" type="PackedScene" id=2]
@@ -9,6 +9,8 @@
 [ext_resource path="res://MouseAttack/Item/Tooltip/ItemTooltipPanel.tscn" type="PackedScene" id=7]
 [ext_resource path="res://MouseAttack/Equip/Tooltip/EquipTooltipPanel.tscn" type="PackedScene" id=8]
 [ext_resource path="res://MouseAttack/Item/Provider/ActionMenuProvider.cs" type="Script" id=9]
+[ext_resource path="res://MouseAttack/Item/ActionMenu/ItemActionMenu.tscn" type="PackedScene" id=10]
+[ext_resource path="res://MouseAttack/Equip/ActionMenu/EquipActionMenu.tscn" type="PackedScene" id=11]
 
 [node name="Providers" type="Node"]
 
@@ -28,3 +30,5 @@ EquipTooltipScene = ExtResource( 8 )
 
 [node name="ActionMenuProvider" type="Node" parent="."]
 script = ExtResource( 9 )
+ItemActionMenu = ExtResource( 10 )
+EquipActionMenu = ExtResource( 11 )

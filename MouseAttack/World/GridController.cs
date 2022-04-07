@@ -37,8 +37,8 @@ namespace MouseAttack.World
         AStar2D _aStar = new AStar2D();
 
         public const float TurnDelay = 0.3f;
-
-        public int MonsterCount => GetChildren().OfType<MonsterEntity>().Count();
+        public int RoundCount { get; private set; } = 1;
+        public int MonsterCount { get; private set; } = 2;
 
         public GridController() => 
             TreeSharer.RegistryNode(this);
@@ -132,7 +132,7 @@ namespace MouseAttack.World
             GetIdFromMapPosition(WorldToMap(worldPosition));
 
         async public void ElapseTurn()
-        {
+        {            
             await this.CreateTimer(TurnDelay);
             foreach (Node node in GetChildren())
             {
@@ -143,6 +143,8 @@ namespace MouseAttack.World
                 await monster.Act();
             }
             RoundFinished?.Invoke(this, EventArgs.Empty);
+            RoundCount++;
+            MonsterCount = GetChildren().OfType<MonsterEntity>().Count();
         }
     }
 }

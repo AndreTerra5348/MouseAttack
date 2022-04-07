@@ -4,6 +4,7 @@ using MouseAttack.Equip.Data;
 using MouseAttack.Item.Data;
 using MouseAttack.Misc;
 using MouseAttack.Misc.UI;
+using MouseAttack.World;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -18,8 +19,13 @@ namespace MouseAttack.Item.ActionMenu
         PackedScene ConfirmationPanelScene { get; set; }
         [Export]
         PackedScene ConsumableSellPanelScene { get; set; }
+        [Export]
+        PackedScene DropLabelScene { get; set; }
+        [Export]
+        Texture GoldTexture;
+        DragPreviewParent DragPreviewParent => 
+            TreeSharer.GetNode<DragPreviewParent>();
 
-        
         public CommonItem Item { get; set; }
 
         const string SellTextFormat = "Sell: {0}g";
@@ -33,6 +39,7 @@ namespace MouseAttack.Item.ActionMenu
         void Sell()
         {
             PlayerInventory.Sold(Item);
+            SpawnFloatingLabel(Item.Value.ToString());
             //switch (Item.GetType().Name)
             //{
             //    case nameof(CommonItem):
@@ -45,6 +52,15 @@ namespace MouseAttack.Item.ActionMenu
             //        // Show Confirmation Panel if it is Epic
             //        break;
             //}            
+        }
+
+        void SpawnFloatingLabel(string text)
+        {
+            var dropLabel = DropLabelScene.Instance<DropLabel>();
+            dropLabel.IconTexture = GoldTexture;
+            dropLabel.Text = text;
+            dropLabel.Position = RectGlobalPosition;
+            DragPreviewParent.AddChild(dropLabel);
         }
             
 

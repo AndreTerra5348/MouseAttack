@@ -28,6 +28,8 @@ namespace MouseAttack.Entity.Player.UI.Character
                 if (e.Item.IsSlotted)
                 {
                     DuplicationCheck(e.Item);
+                    if(Item != null)
+                        UnslotItem();
                     SetItem(e.Item);
                 }
                 else if (Item == e.Item)                

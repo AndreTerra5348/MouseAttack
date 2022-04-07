@@ -29,8 +29,7 @@ namespace MouseAttack.World.Monster
         List<MonsterPool> _pool = new List<MonsterPool>();
 
         int _dbIndex = 0;
-        int _turnCount = 0;
-        int _divisor = 3;
+        int _divisor = 5;
         List<Vector2> _monsterSpawnPoints;
         Stage Stage => TreeSharer.GetNode<Stage>();
         GridController GridController => TreeSharer.GetNode<GridController>();
@@ -48,18 +47,28 @@ namespace MouseAttack.World.Monster
                 .ToList();
 
             GridController.Initialized += (s, e) => Spawn();
-            GridController.RoundFinished += (s, e) => Spawn();
+            GridController.RoundFinished += (s, e) =>
+            {
+                if (CanSpawn())
+                    Spawn();
+            };
         }
+
+        bool CanSpawn() =>
+            IsSpawnableRound() || 
+            HasZeroMonsters();
+
+        bool IsSpawnableRound() =>
+            GridController.RoundCount % _divisor == 0;
+
+        bool HasZeroMonsters() =>
+            GridController.MonsterCount <= 1;
 
         Vector2 GetRandomPosition() =>
             _monsterSpawnPoints[Stage.Random.Next(_monsterSpawnPoints.Count)];
 
         void Spawn()
         {
-            _turnCount++;
-            if (_turnCount % _divisor != 0)
-                return;
-
             Vector2 position = GetRandomPosition();
             if (!GridController.IsCellAvailable(position))
                 return;

@@ -91,7 +91,7 @@ namespace MouseAttack.Entity.Player.UI.Attributes
                 minusButton.Connect(Signals.Pressed, Character, nameof(PlayerCharacter.RemoveAttributePoint),
                     new Godot.Collections.Array { stats });
                 stats.Listen(nameof(Stats.Points),
-                    onChanged: () => minusButton.Disabled = stats.Points == 0);
+                    onChanged: () => minusButton.Disabled = stats.Points == Stats.MinPoints);
                 AddChild(minusButton);
             }
         }

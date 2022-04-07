@@ -56,6 +56,7 @@ namespace MouseAttack.Characteristic
     public class Stats : ObservableNode
     {
         public StatsType Type { get; private set; } = StatsType.None;
+        public const int MinPoints = 1;
         float _valuePerPoint = 1.0f;
         [Export]
         public float ValuePerPoint 

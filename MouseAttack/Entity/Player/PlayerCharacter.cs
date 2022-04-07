@@ -5,7 +5,7 @@ namespace MouseAttack.Entity.Player
 {
     public class PlayerCharacter : Character
     {
-        const int AttributesPerLevel = 5;
+        const int AttributesPerLevel = 1;
 
         int _attributePoints = 0;
         public int AttributePoints 

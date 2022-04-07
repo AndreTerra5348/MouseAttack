@@ -37,6 +37,12 @@ namespace MouseAttack.Entity.Player
         public CommonEquip GetEquip(EquipType type) =>
             _equipped[type];
 
+        public bool IsTypeEquipped(EquipType type) =>
+            _equipped[type] != null;
+
+        public void Unslot(EquipType type) =>
+            _equipped[type].IsSlotted = false;
+
         private void OnItemSlotChanged(CommonEquip equip)
         {
             if (equip == null)

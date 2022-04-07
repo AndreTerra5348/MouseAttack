@@ -25,7 +25,6 @@ namespace MouseAttack.Equip.Tooltip
         [Export]
         NodePath SeparatorPath { get; set; }
 
-        PlayerInventory PlayerInventory => TreeSharer.GetNode<PlayerInventory>();
         PlayerEquip PlayerEquip => TreeSharer.GetNode<PlayerEquip>();
         public void SetItem(CommonItem item) =>
             SetItem(item as CommonEquip);
