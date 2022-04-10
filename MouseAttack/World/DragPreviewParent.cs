@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 
 namespace MouseAttack.World
 {
+    // This needs to be a Control node to use SetDragPreview
     public class DragPreviewParent : Control, ISharable
     {
         public DragPreviewParent() =>

@@ -38,7 +38,11 @@ namespace MouseAttack.Equip.Tooltip
             var equipedEquip = PlayerEquip.GetEquip(equip.Type);
 
             itemTooltipPanel1.SetupItem(equip);
-            itemTooltipPanel1.SetTooltipInfo(equip.GetTooltipInfo(equipedEquip));
+            if (equip.IsKnown)
+                itemTooltipPanel1.SetTooltipInfo(equip.GetTooltipInfo(equipedEquip));
+            else
+                itemTooltipPanel1.SetUnknownInfo();
+
             if (equip.IsSlotted)
                 itemTooltipPanel1.SetAsEquiped();
 

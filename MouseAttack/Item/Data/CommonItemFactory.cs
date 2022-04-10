@@ -20,7 +20,10 @@ namespace MouseAttack.Item.Data
         public int DropRate { get; private set; }
         [AssignTo(nameof(CommonItem.IconTexture))]
         [Export]
-        public List<Texture> IconTexture { get; private set; }      
+        public List<Texture> IconTexture { get; private set; }
+        [AssignTo(nameof(CommonItem.IsKnown))]
+        [Export]
+        public bool IsKnown { get; set; } = true;
 
         protected Random Random => TreeSharer.GetNode<Stage>().Random;
         public virtual bool Dropped => DropRate > Random.Next(100);

@@ -49,6 +49,7 @@ LabelPath = NodePath("LabelContainer/Label")
 [node name="LabelContainer" type="CenterContainer" parent="."]
 margin_right = 6.0
 margin_bottom = 14.0
+mouse_filter = 1
 
 [node name="Label" type="Label" parent="LabelContainer"]
 margin_right = 6.0

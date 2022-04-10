@@ -1,5 +1,6 @@
 ﻿using Godot;
 using MouseAttack.Entity.Player;
+using MouseAttack.Entity.Player.Inventory;
 using MouseAttack.Extensions;
 using MouseAttack.Item.Data;
 using MouseAttack.Item.Provider;
@@ -20,7 +21,10 @@ namespace MouseAttack.Entity.Monster
         IEnumerable<CommonItemFactory> GetDropList() =>
             GetChildren().OfType<CommonItemFactory>();
 
-        DropLabelProvider DropLabelProvider => TreeSharer.GetNode<DropLabelProvider>();
+        DropLabelProvider DropLabelProvider => 
+            TreeSharer.GetNode<DropLabelProvider>();
+        PlayerInventory PlayerInventory =>
+            TreeSharer.GetNode<PlayerInventory>();
 
         public override void _Ready()
         {
@@ -35,6 +39,8 @@ namespace MouseAttack.Entity.Monster
 
                     var item = itemFactory.CreateItem<CommonItem>();
                     item.ItemDropped(monsterEntity.Level);
+                    if (item.IsStorable)
+                        PlayerInventory.Add(item);
                     FloatingLabel floatingLabel = DropLabelProvider.GetDropLabel(item);
                     floatingLabel.Position = monsterEntity.Position;
                     monsterEntity.QueueFloatingLabel(floatingLabel);

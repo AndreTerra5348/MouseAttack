@@ -16,6 +16,9 @@ namespace MouseAttack.World
         public event EventHandler PlayAreaEntered;
         public event EventHandler PlayAreaExited;
         public bool OnPlayArea { get; private set; } = false;
+
+        public Vector2 SnappedMousePosition =>
+             GetViewport().GetSnappedMousePosition(Values.CellSize);
         public PlayArea() => TreeSharer.RegistryNode(this);
 
         public override void _EnterTree()

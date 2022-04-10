@@ -6,14 +6,16 @@ using System.Threading.Tasks;
 
 namespace MouseAttack.Constants
 {
+    public enum MenuInputAction
+    {
+        CharacterPanel
+    }
     public class InputAction
     {
         public static readonly string LMB = "LMB";
         public static readonly string RMB = "RMB";
-        public static readonly string ElapseTurn = "Elapse Turn";
+        public static readonly string ElapseTurn = "ElapseTurn";
 
-        public static readonly string HotkeyFormat = "Hotkey {0}";
-
-        public static readonly string CharacterPanel = "Character Panel";
+        public static readonly string HotkeyFormat = "Hotkey{0}";
     }
 }

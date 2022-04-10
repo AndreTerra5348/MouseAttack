@@ -1,7 +1,7 @@
 ﻿using Godot;
 using MouseAttack.Characteristic;
 using MouseAttack.Constants;
-using MouseAttack.Entity.Player;
+using MouseAttack.Entity.Player.Inventory;
 using MouseAttack.Extensions;
 using MouseAttack.Item;
 using MouseAttack.Item.Data;
@@ -27,8 +27,7 @@ namespace MouseAttack.Equip.Data
 
         public override string TooltipType => 
             Enum.GetName(typeof(EquipType), Type);
-        PlayerInventory PlayerInventory => 
-            TreeSharer.GetNode<PlayerInventory>();        
+        
         EquipDataChart EquipDataChart => 
             TreeSharer.GetNode<EquipDataChart>();
 
@@ -106,9 +105,6 @@ namespace MouseAttack.Equip.Data
             // Update colors
             TierColor = EquipDataChart.EquipTierColor[Tier];
             Color = TierColor;
-
-            // Add to inventory
-            PlayerInventory.Add(this);
         }
 
         private void GenerateSecondaryStats(int monsterLevel, int secondaryStatsCount)

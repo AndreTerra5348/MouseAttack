@@ -9,6 +9,7 @@ using System;
 using MouseAttack.Skill.TargetEffect;
 using MouseAttack.Item.Data;
 using MouseAttack.Item.Tooltip;
+using MouseAttack.Entity.Player;
 
 namespace MouseAttack.Skill.Data
 {
@@ -23,12 +24,42 @@ namespace MouseAttack.Skill.Data
         public int ManaCost { get; private set; } = 1;
         public int Duration { get; private set; } = 0;
         public int Cooldown { get; private set; } = 1;
-
-        public override string TooltipType => "Skill";
-
         int _cooldown = 0;
         public bool OnCooldown => _cooldown > 0;
+        public bool CanUse
+        {
+            get
+            {
+                if (OnCooldown)
+                    return false;
 
+                if (!PlayArea.OnPlayArea)
+                    return false;
+
+                if (!Character.HasEnoughMana(ManaCost))
+                    return false;
+
+                return true;
+            }
+        }
+        public override string TooltipType => "Skill";
+
+        GridController GridController => TreeSharer.GetNode<GridController>();
+        PlayArea PlayArea => TreeSharer.GetNode<PlayArea>();
+        PlayerEntity PlayerEntity => TreeSharer.GetNode<PlayerEntity>();
+        PlayerCharacter Character => PlayerEntity.Character;
+
+        public void StartCooldown() => _cooldown = Cooldown;
+        public void ElapseCooldown() => _cooldown--;
+
+        public CommonSkill() =>
+            GridController.RoundFinished += OnRoundFinished;
+
+        ~CommonSkill() =>
+            GridController.RoundFinished -= OnRoundFinished;
+
+        private void OnRoundFinished(object sender, EventArgs e) =>
+            ElapseCooldown();
 
         public CommonWorldEffect GetWorldEffect()
         {
@@ -45,11 +76,23 @@ namespace MouseAttack.Skill.Data
             return tooltipInfo;
         }
 
-        public void StartCooldown() => _cooldown = Cooldown;
-        public void ElapseCooldown() => _cooldown--;
+        
         public abstract void Apply(CommonEntity user, CommonEntity target);
+
         protected void OnApplied(EventArgs e) =>
             Applied?.Invoke(this, e);
+
+        public void Use()
+        {
+            Character.UseMana(ManaCost);
+
+            StartCooldown();
+
+            CommonWorldEffect worldEffect = GetWorldEffect();
+            worldEffect.User = PlayerEntity;
+            worldEffect.Position = PlayArea.SnappedMousePosition;
+            GridController.AddChild(worldEffect);
+        }
     }
 }
 

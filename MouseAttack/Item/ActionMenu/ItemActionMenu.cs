@@ -1,5 +1,5 @@
 ﻿using Godot;
-using MouseAttack.Entity.Player;
+using MouseAttack.Entity.Player.Inventory;
 using MouseAttack.Equip.Data;
 using MouseAttack.Item.Data;
 using MouseAttack.Misc;
@@ -22,19 +22,23 @@ namespace MouseAttack.Item.ActionMenu
         [Export]
         PackedScene DropLabelScene { get; set; }
         [Export]
-        Texture GoldTexture;
+        Texture GoldTexture { get; set; }
+
         DragPreviewParent DragPreviewParent => 
             TreeSharer.GetNode<DragPreviewParent>();
+        PlayerInventory PlayerInventory =>
+            TreeSharer.GetNode<PlayerInventory>();
 
         public CommonItem Item { get; set; }
 
         const string SellTextFormat = "Sell: {0}g";
 
-        PlayerInventory PlayerInventory => 
-            TreeSharer.GetNode<PlayerInventory>();        
-
-        public override void AddAction() =>
+        public override void AddAction()
+        {
+            if (Item.Value == 0)
+                return;
             AddAction(String.Format(SellTextFormat, Item.Value), Sell);
+        }
 
         void Sell()
         {

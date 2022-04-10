@@ -16,11 +16,14 @@ namespace MouseAttack.Item.Icon
         TextureRect TextureRect => GetNode<TextureRect>(nameof(TextureRect));
 
         const float ColorAlpha = 0.5f;
+        [Export]
+        Texture UnknowTexture { get; set; }
+
         async virtual public void SetItem(CommonItem item)
         {
             await ToSignal(this, Signals.Ready);
 
-            TextureRect.Texture = item.GetIconTexture();
+            TextureRect.Texture = item.IsKnown ? item.GetIconTexture() : UnknowTexture;
             StyleBoxFlat styleBox = Get(Overrides.CustomStylesPanel) as StyleBoxFlat;
             styleBox.BorderColor = item.Color.WithAlpha(ColorAlpha);
             styleBox.BgColor = item.Color.WithAlpha(ColorAlpha).Contrasted();

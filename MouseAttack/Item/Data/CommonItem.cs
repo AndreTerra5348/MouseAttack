@@ -12,13 +12,15 @@ namespace MouseAttack.Item.Data
     public abstract class CommonItem : Observable
     {
         public string Name { get; protected set; }
-        public virtual int Value { get; protected set; }
+        public virtual int Value { get; set; }
         public List<Texture> IconTexture { get; private set; }
         public virtual Color Color { get; protected set; } = new Color("a8a8a8");
         public int MonsterLevel { get; protected set; } = 1;
         public virtual bool IsDraggable => true;
+        public virtual bool IsStorable => true;
         public virtual string DropText => Name;
         public virtual string TooltipType { get; protected set; } = "Misc";
+        public virtual bool IsKnown { get; set; } = true;
         protected Random Random => TreeSharer.GetNode<Stage>().Random;
 
         bool _isSlotted = false;
@@ -33,7 +35,7 @@ namespace MouseAttack.Item.Data
                 _isSlotted = value;
                 OnPropertyChanged();
             }
-        }        
+        }
 
         public virtual void ItemDropped(int monsterLevel) { }
         public virtual Stack<TooltipInfo> GetTooltipInfo()

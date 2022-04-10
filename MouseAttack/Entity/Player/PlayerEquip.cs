@@ -1,4 +1,5 @@
 ﻿using Godot;
+using MouseAttack.Entity.Player.Inventory;
 using MouseAttack.Equip.Data;
 using MouseAttack.Item.Data;
 using MouseAttack.Item.Misc;

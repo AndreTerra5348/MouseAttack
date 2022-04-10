@@ -33,9 +33,10 @@ namespace MouseAttack.Item.Tooltip
         Control InfoLabelContainer => GetNode<Control>(InfoLabelContainerPath);
         IconProvider IconProvider => TreeSharer.GetNode<IconProvider>();
 
+        const string UnknownLabel = "???";
         public void SetupItem(CommonItem item)
         {
-            NameLabel.Text = item.Name;
+            NameLabel.Text = item.IsKnown ? item.Name : UnknownLabel;
             TypeLabel.Text = item.TooltipType;
             IconContainer.AddChild(IconProvider.GetIcon(item));
             NameLabel.AddColorOverride(Overrides.FontColor, item.Color);
@@ -48,12 +49,20 @@ namespace MouseAttack.Item.Tooltip
         {
             foreach (TooltipInfo info in tooltipInfo)
             {
-                var label = new Label();
-                label.Text = info.Text;
-                label.AddColorOverride(Overrides.FontColor, info.Color);
-                InfoLabelContainer.AddChild(label);
+                AddInfoLabel(info.Text, info.Color);
             }
-        }       
+        }
+
+        public void SetUnknownInfo() =>
+            AddInfoLabel(UnknownLabel, Colors.White);
+
+        protected void AddInfoLabel(string text, Color color)
+        {
+            var label = new Label();
+            label.Text = text;
+            label.AddColorOverride(Overrides.FontColor, color);
+            InfoLabelContainer.AddChild(label);
+        }
 
         async public void SetItem(CommonItem item)
         {
@@ -61,7 +70,10 @@ namespace MouseAttack.Item.Tooltip
 
             Hide();
             SetupItem(item);
-            SetTooltipInfo(item.GetTooltipInfo());
+            if (item.IsKnown)
+                SetTooltipInfo(item.GetTooltipInfo());
+            else
+                SetUnknownInfo();
 
             // Update position
             await this.SkipNextFrame();
@@ -71,6 +83,7 @@ namespace MouseAttack.Item.Tooltip
                 .ClampPosition(RectGlobalPosition, RectSize);
             Show();
         }
+
             
     }
 }

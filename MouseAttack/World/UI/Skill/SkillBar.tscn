@@ -1,0 +1,62 @@
+[gd_scene load_steps=3 format=2]
+
+[ext_resource path="res://MouseAttack/World/UI/Skill/SkillSlot.tscn" type="PackedScene" id=1]
+
+[sub_resource type="ButtonGroup" id=3]
+
+[node name="SkillBar" type="HBoxContainer"]
+margin_right = 196.0
+margin_bottom = 36.0
+size_flags_horizontal = 4
+size_flags_vertical = 4
+alignment = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="SkillSlot1" parent="." instance=ExtResource( 1 )]
+margin_left = 10.0
+margin_top = 2.0
+margin_right = 42.0
+margin_bottom = 34.0
+size_flags_horizontal = 4
+size_flags_vertical = 4
+pressed = true
+group = SubResource( 3 )
+IsMainAttack = true
+
+[node name="SkillSlot2" parent="." instance=ExtResource( 1 )]
+margin_left = 46.0
+margin_top = 2.0
+margin_right = 78.0
+margin_bottom = 34.0
+size_flags_horizontal = 4
+size_flags_vertical = 4
+group = SubResource( 3 )
+
+[node name="SkillSlot3" parent="." instance=ExtResource( 1 )]
+margin_left = 82.0
+margin_top = 2.0
+margin_right = 114.0
+margin_bottom = 34.0
+size_flags_horizontal = 4
+size_flags_vertical = 4
+group = SubResource( 3 )
+
+[node name="SkillSlot4" parent="." instance=ExtResource( 1 )]
+margin_left = 118.0
+margin_top = 2.0
+margin_right = 150.0
+margin_bottom = 34.0
+size_flags_horizontal = 4
+size_flags_vertical = 4
+group = SubResource( 3 )
+
+[node name="SkillSlot5" parent="." instance=ExtResource( 1 )]
+margin_left = 154.0
+margin_top = 2.0
+margin_right = 186.0
+margin_bottom = 34.0
+size_flags_horizontal = 4
+size_flags_vertical = 4
+group = SubResource( 3 )
