@@ -27,8 +27,10 @@ namespace MouseAttack.Entity.Player.Inventory
 
         List<CommonItem> _items = new List<CommonItem>();
         public ReadOnlyCollection<CommonItem> Items { get; private set; }
-        public IEnumerable<CommonSkill> Skills => _items.OfType<CommonSkill>();
+
         public IEnumerable<ConsumableItem> Consumables => _items.OfType<ConsumableItem>();
+
+        public List<ConsumableItem> CreatedConsumables = new List<ConsumableItem>();
 
         [Export]
         NodePath MainAttackFactoryPath { get; set; } = "";
@@ -37,11 +39,11 @@ namespace MouseAttack.Entity.Player.Inventory
         public DamageSkill MainAttack { get; private set; }
         public Gold Gold { get; private set; }
 
-
         readonly Dictionary<Type, ICommand> _addCommandMap = new Dictionary<Type, ICommand>();
 
         public PlayerInventory() =>
             TreeSharer.RegistryNode(this);
+
 
         public override void _Ready()
         {
@@ -50,24 +52,22 @@ namespace MouseAttack.Entity.Player.Inventory
             Items = new ReadOnlyCollection<CommonItem>(_items);
             _addCommandMap.Add(typeof(CommonItem), new AddCommonItemCommand(this));
             _addCommandMap.Add(typeof(ConsumableItem), new AddConsumableItemCommand(this));
+
             Initialized?.Invoke(this, EventArgs.Empty);
         }
 
-        public void Add(CommonItem item)
+        public void Add(CommonItem item) =>
+            GetAddCommand(item.GetType()).Execute(item);
+
+        ICommand GetAddCommand(Type type)
         {
-            Type type = item.GetType();
-            ICommand addCommand = _addCommandMap.ContainsKey(type) ?
-                _addCommandMap[type] :
-                _addCommandMap[typeof(CommonItem)];
-            addCommand.Execute(item);
+            if (type == null)
+                return _addCommandMap[typeof(CommonItem)];
+            if (!_addCommandMap.ContainsKey(type))
+                return GetAddCommand(type.BaseType);
+            return _addCommandMap[type];
         }
 
-        private void OnItemPropertyChanged(object sender, PropertyChangedEventArgs e)
-        {
-            if (e.PropertyName != nameof(CommonItem.IsSlotted))
-                return;
-            SlotChanged?.Invoke(this, new CommonItemEventArgs(sender as CommonItem));
-        }
 
         // Called by the Iventory Add Command
         public void OnItemAdded(CommonItem item)
@@ -83,20 +83,13 @@ namespace MouseAttack.Entity.Player.Inventory
             item.PropertyChanged -= OnItemPropertyChanged;
             _items.Remove(item);
             Removed?.Invoke(this, new CommonItemEventArgs(item));
-        }
+        }       
 
-        public void Sold(CommonItem item)
+        private void OnItemPropertyChanged(object sender, PropertyChangedEventArgs e)
         {
-            Gold.Count += item.Value;
-            Remove(item);
+            if (e.PropertyName != nameof(CommonItem.IsSlotted))
+                return;
+            SlotChanged?.Invoke(this, new CommonItemEventArgs(sender as CommonItem));
         }
-
-        public void Bought(CommonItem item)
-        {
-            Gold.Count -= item.Value;
-            Add(item);
-        }
-
-        
     }
 }

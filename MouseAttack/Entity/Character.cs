@@ -88,6 +88,9 @@ namespace MouseAttack.Entity
         public Stats GetStats(StatsType type) =>
             StatsMap[type];
 
+        public ResourcePool GetResourcePool(StatsType type) =>
+            StatsMap[type] as ResourcePool;
+
         private void OnResourceDepleted(object sender, EventArgs e)
         {
             Health.Depleted -= OnResourceDepleted;

@@ -13,9 +13,6 @@ namespace MouseAttack.Skill.Data
         [AssignTo(nameof(DamageSkill.Damage))]
         [Export]
         public int Damage { get; private set; } = 1;
-        [AssignTo(nameof(DamageSkill.Hits))]
-        [Export]
-        public int Hits { get; private set; } = 1;
 
         protected override CommonItem GetNewItem() =>
             new DamageSkill();

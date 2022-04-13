@@ -39,7 +39,7 @@ namespace MouseAttack.Item.Provider
 
         public ItemActionMenu GetActionMenu(CommonItem item)
         {
-            PackedScene actionMenuScene = GetResource(item);
+            PackedScene actionMenuScene = GetResource(item.GetType());
             var itemActionMenu = actionMenuScene.Instance<ItemActionMenu>();
             itemActionMenu.Item = item;
             return itemActionMenu;

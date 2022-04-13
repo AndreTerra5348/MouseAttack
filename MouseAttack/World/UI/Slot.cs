@@ -11,7 +11,7 @@ using System.Runtime.CompilerServices;
 
 namespace MouseAttack.World.UI
 {
-    public abstract class Slot : Button, INotifyPropertyChanged
+    public abstract class Slot<T> : Button, INotifyPropertyChanged where T : CommonItem
     {
         public event PropertyChangedEventHandler PropertyChanged;
         protected void OnPropertyChanged([CallerMemberName] string name = null) =>
@@ -36,8 +36,8 @@ namespace MouseAttack.World.UI
         ItemActionMenu _actionMenu = null;
         CenterContainer _extraContainer = null;
 
-        CommonItem _item = null;
-        public CommonItem Item
+        T _item = null;
+        public T Item
         {
             get => _item;
             set
@@ -47,11 +47,11 @@ namespace MouseAttack.World.UI
 
                 // Subscribe to new item values if its not null
                 if (value != null)
-                    value.PropertyChanged += OnItemPropertyChanged;
+                    RegistryItemEvents(value);
 
                 // Unsubscribe from the old item values if its not null
                 if (_item != null)
-                    _item.PropertyChanged -= OnItemPropertyChanged;
+                    UnregistryItemEvents(_item);
 
                 _item = value;
                 OnPropertyChanged();
@@ -77,6 +77,11 @@ namespace MouseAttack.World.UI
             }
         }
 
+        protected virtual void RegistryItemEvents(T item) =>
+            item.PropertyChanged += OnItemPropertyChanged;
+        protected virtual void UnregistryItemEvents(T item) =>
+            item.PropertyChanged -= OnItemPropertyChanged;
+
         protected virtual void OnItemPropertyChanged(object sender, PropertyChangedEventArgs e) { }
         protected virtual void OnItemSet() { }
 
@@ -84,15 +89,15 @@ namespace MouseAttack.World.UI
             _extraContainer = GetNode<CenterContainer>(ExtraContainerPath);
 
         public override bool CanDropData(Vector2 position, object data) =>
-            CanDropData(data as CommonItem);
+            CanDropData(data as T);
 
-        public virtual bool CanDropData(CommonItem item) =>
-            item is CommonItem;
+        public virtual bool CanDropData(T item) =>
+            item is T;
 
         public override void DropData(Vector2 position, object data) =>
-            ItemDropped(data as CommonItem);
+            ItemDropped(data as T);
 
-        protected virtual void ItemDropped(CommonItem item)
+        protected virtual void ItemDropped(T item)
         {
             DuplicationCheck(item);
             SlotItem(item);
@@ -113,16 +118,16 @@ namespace MouseAttack.World.UI
         protected virtual void ItemDragged() =>
             UnslotItem();
 
-        protected void DuplicationCheck(CommonItem item)
+        protected void DuplicationCheck(T item)
         {
             GetParent()
                 .GetChildren()
-                .Cast<Slot>()
+                .Cast<Slot<T>>()
                 .FirstOrDefault(x => x.Item == item)
                 ?.UnsetItem();
         }
 
-        protected void SlotItem(CommonItem item) =>
+        protected void SlotItem(T item) =>
             item.IsSlotted = true;
 
         protected void UnslotItem() =>
@@ -131,7 +136,7 @@ namespace MouseAttack.World.UI
         public void UnsetItem() =>
             Item = null;
 
-        private CommonIcon GetIcon(CommonItem item) =>
+        private CommonIcon GetIcon(T item) =>
             IconProvider.GetIcon(item);
 
         public override Control _MakeCustomTooltip(string forText) =>

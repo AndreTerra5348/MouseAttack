@@ -1,5 +1,6 @@
 using Godot;
 using MouseAttack.Characteristic;
+using MouseAttack.Constants;
 using MouseAttack.Entity.Monster;
 using MouseAttack.Extensions;
 using MouseAttack.Item.Data;
@@ -21,6 +22,14 @@ namespace MouseAttack.Entity.Player
         {
             base._Ready();
             OnEntityInitialized();
+        }
+
+        public override void _Input(InputEvent @event)
+        {
+            if (GridController.IsTurnElapsing)
+                return;
+            if (@event.IsActionPressed(InputAction.ElapseTurn))
+                GridController.ElapseTurn();
         }
 
         protected override void OnDeath()

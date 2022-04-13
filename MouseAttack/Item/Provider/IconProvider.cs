@@ -38,8 +38,15 @@ namespace MouseAttack.Item.Provider
 
         public CommonIcon GetIcon(CommonItem item)
         {
-            PackedScene iconScene = GetResource(item);
+            PackedScene iconScene = GetResource(item.GetType());
             CommonIcon icon = iconScene.Instance<CommonIcon>();
+            icon.SetItem(item);
+            return icon;
+        }
+
+        public CommonIcon GetDefaultIcon(CommonItem item)
+        {
+            CommonIcon icon = DefaultResource.Instance<CommonIcon>();
             icon.SetItem(item);
             return icon;
         }

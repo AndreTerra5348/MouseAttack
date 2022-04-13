@@ -14,6 +14,6 @@ namespace MouseAttack.Item.Currency
         public override bool IsStorable => false;
 
         public override void ItemDropped(int monsterLevel) =>
-            PlayerInventory.Gold.Count += (Count = GetRandomValue(monsterLevel));
+            PlayerInventory.Gold.Count += (DroppedCount = GetRandomCount(monsterLevel));
     }
 }

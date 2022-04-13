@@ -22,8 +22,8 @@ namespace MouseAttack.Entity
         public Character Character { get; private set; }
         protected abstract string CharacterName { get; }
         protected FloatingLabelSpawner FloatingLabelSpawner { get; private set; }
-        protected GridController GridController => TreeSharer.GetNode<GridController>();
-
+        protected GridController GridController => 
+            TreeSharer.GetNode<GridController>();
 
         public override void _Ready()
         {

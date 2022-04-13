@@ -18,13 +18,13 @@ namespace MouseAttack.Entity.Monster
 {
     public class MonsterDropController : Node
     {
-        IEnumerable<CommonItemFactory> GetDropList() =>
-            GetChildren().OfType<CommonItemFactory>();
-
         DropLabelProvider DropLabelProvider => 
             TreeSharer.GetNode<DropLabelProvider>();
         PlayerInventory PlayerInventory =>
             TreeSharer.GetNode<PlayerInventory>();
+
+        IEnumerable<CommonItemFactory> GetDropList() =>
+            GetChildren().OfType<CommonItemFactory>();
 
         public override void _Ready()
         {

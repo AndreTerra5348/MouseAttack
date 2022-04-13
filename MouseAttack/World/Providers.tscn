@@ -1,4 +1,4 @@
-[gd_scene load_steps=12 format=2]
+[gd_scene load_steps=18 format=2]
 
 [ext_resource path="res://MouseAttack/Item/Icon/ConsumableIcon.tscn" type="PackedScene" id=1]
 [ext_resource path="res://MouseAttack/Item/Icon/CommonIcon.tscn" type="PackedScene" id=2]
@@ -11,6 +11,12 @@
 [ext_resource path="res://MouseAttack/Item/Provider/ActionMenuProvider.cs" type="Script" id=9]
 [ext_resource path="res://MouseAttack/Item/ActionMenu/ItemActionMenu.tscn" type="PackedScene" id=10]
 [ext_resource path="res://MouseAttack/Equip/ActionMenu/EquipActionMenu.tscn" type="PackedScene" id=11]
+[ext_resource path="res://MouseAttack/World/UI/Shop/ShopPopupProvider.cs" type="Script" id=12]
+[ext_resource path="res://MouseAttack/World/UI/Shop/EquipShopPopup.tscn" type="PackedScene" id=13]
+[ext_resource path="res://MouseAttack/World/UI/Shop/ConsumableShopPopup.tscn" type="PackedScene" id=14]
+[ext_resource path="res://MouseAttack/World/UI/Shop/CommonShopPopup.tscn" type="PackedScene" id=15]
+[ext_resource path="res://MouseAttack/Misc/UI/FloatingLabel.tscn" type="PackedScene" id=16]
+[ext_resource path="res://MouseAttack/Misc/UI/FloatingLabelProvider.cs" type="Script" id=17]
 
 [node name="Providers" type="Node"]
 
@@ -32,3 +38,13 @@ EquipTooltipScene = ExtResource( 8 )
 script = ExtResource( 9 )
 ItemActionMenu = ExtResource( 10 )
 EquipActionMenu = ExtResource( 11 )
+
+[node name="ShopPopupProvider" type="Node" parent="."]
+script = ExtResource( 12 )
+CommonPopupScene = ExtResource( 15 )
+EquipPopupScene = ExtResource( 13 )
+ConsumablePopupScene = ExtResource( 14 )
+
+[node name="FloatingLabelProvider" type="Node" parent="."]
+script = ExtResource( 17 )
+FloatingLabelScene = ExtResource( 16 )

@@ -11,6 +11,7 @@ rect_min_size = Vector2( 32, 32 )
 mouse_filter = 1
 theme = ExtResource( 6 )
 custom_styles/pressed = ExtResource( 4 )
+toggle_mode = false
 script = ExtResource( 7 )
 ExtraContainerPath = NodePath("ExtraContainer")
 CooldownProgressPath = NodePath("CooldownProgressBar")

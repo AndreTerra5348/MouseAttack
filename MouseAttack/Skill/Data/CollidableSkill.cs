@@ -1,4 +1,6 @@
 using Godot;
+using MouseAttack.Constants;
+using MouseAttack.Entity;
 using MouseAttack.Item.Data;
 using MouseAttack.Item.Tooltip;
 using System.Collections.Generic;
@@ -20,5 +22,7 @@ namespace MouseAttack.Skill.Data
             tooltipInfo.Push(new TooltipInfo($"Area: {Area.x.ToString("0")}x{Area.y.ToString("0")}", Colors.GreenYellow));
             return tooltipInfo;
         }
+
+        public abstract void Apply(CommonEntity user, CommonEntity target);
     }
 }

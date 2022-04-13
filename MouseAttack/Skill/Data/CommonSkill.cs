@@ -17,20 +17,18 @@ namespace MouseAttack.Skill.Data
     /// <summary>
     /// Base class for all Skills
     /// </summary>
-    public abstract class CommonSkill : CommonItem
+    public abstract class CommonSkill : UsableItem
     {
         public event EventHandler Applied;
+        const string TypeName = "Skill";
+
         public PackedScene WorldEffectScene { get; private set; }
         public int ManaCost { get; private set; } = 1;
-        public int Duration { get; private set; } = 0;
-        public int Cooldown { get; private set; } = 1;
-        int _cooldown = 0;
-        public bool OnCooldown => _cooldown > 0;
-        public bool CanUse
+        public override bool CanUse
         {
             get
             {
-                if (OnCooldown)
+                if (ElapsedCooldown > 0)
                     return false;
 
                 if (!PlayArea.OnPlayArea)
@@ -42,24 +40,11 @@ namespace MouseAttack.Skill.Data
                 return true;
             }
         }
-        public override string TooltipType => "Skill";
+        public override string TooltipType => TypeName;
 
-        GridController GridController => TreeSharer.GetNode<GridController>();
         PlayArea PlayArea => TreeSharer.GetNode<PlayArea>();
         PlayerEntity PlayerEntity => TreeSharer.GetNode<PlayerEntity>();
-        PlayerCharacter Character => PlayerEntity.Character;
-
-        public void StartCooldown() => _cooldown = Cooldown;
-        public void ElapseCooldown() => _cooldown--;
-
-        public CommonSkill() =>
-            GridController.RoundFinished += OnRoundFinished;
-
-        ~CommonSkill() =>
-            GridController.RoundFinished -= OnRoundFinished;
-
-        private void OnRoundFinished(object sender, EventArgs e) =>
-            ElapseCooldown();
+        PlayerCharacter Character => PlayerEntity.Character;        
 
         public CommonWorldEffect GetWorldEffect()
         {
@@ -72,21 +57,16 @@ namespace MouseAttack.Skill.Data
         {
             Stack<TooltipInfo> tooltipInfo = base.GetTooltipInfo();
             tooltipInfo.Push(new TooltipInfo($"Mana Cost: {ManaCost}", Colors.Aqua));
-            tooltipInfo.Push(new TooltipInfo($"Cooldown: {Cooldown}", Colors.Aquamarine));
             return tooltipInfo;
         }
-
-        
-        public abstract void Apply(CommonEntity user, CommonEntity target);
 
         protected void OnApplied(EventArgs e) =>
             Applied?.Invoke(this, e);
 
-        public void Use()
+        public override void Use()
         {
+            base.Use();
             Character.UseMana(ManaCost);
-
-            StartCooldown();
 
             CommonWorldEffect worldEffect = GetWorldEffect();
             worldEffect.User = PlayerEntity;

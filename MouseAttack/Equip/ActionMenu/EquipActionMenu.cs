@@ -15,7 +15,7 @@ namespace MouseAttack.Equip.ActionMenu
     {
         const string Unequip = "Unequip";
         const string Equip = "Equip";
-        int _itemIndex = 0;
+        int _actionIndex = 0;
         PlayerEquip PlayerEquip => TreeSharer.GetNode<PlayerEquip>();
 
         public override void AddAction()
@@ -25,7 +25,7 @@ namespace MouseAttack.Equip.ActionMenu
             else
                 AddAction(Equip, ToggleEquip);
 
-            _itemIndex = GetPopup().GetItemCount()-1;
+            _actionIndex = GetLastAddedActionIndex();
             base.AddAction();
             PlayerEquip.SlotChanged += OnSlotChanged;
         }
@@ -50,6 +50,6 @@ namespace MouseAttack.Equip.ActionMenu
             
 
         private void UpdateItemText() =>
-            GetPopup().SetItemText(_itemIndex, Item.IsSlotted ? Unequip : Equip);
+            GetPopup().SetItemText(_actionIndex, Item.IsSlotted ? Unequip : Equip);
     }
 }

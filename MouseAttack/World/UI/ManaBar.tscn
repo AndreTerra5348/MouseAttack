@@ -11,10 +11,8 @@ bg_color = Color( 0.270588, 0.270588, 0.270588, 1 )
 border_color = Color( 0.509804, 0.415686, 0.0823529, 1 )
 
 [node name="ManaBar" type="ProgressBar"]
-margin_left = 192.0
-margin_top = 8.0
-margin_right = 448.0
-margin_bottom = 24.0
+margin_right = 256.0
+margin_bottom = 16.0
 custom_styles/fg = SubResource( 1 )
 custom_styles/bg = SubResource( 2 )
 value = 50.0
@@ -23,3 +21,11 @@ script = ExtResource( 1 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
+LabelPath = NodePath("Label")
+
+[node name="Label" type="Label" parent="."]
+anchor_right = 1.0
+anchor_bottom = 1.0
+text = "100/100"
+align = 1
+valign = 1

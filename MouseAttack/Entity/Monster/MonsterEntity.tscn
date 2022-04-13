@@ -65,7 +65,7 @@ margin_left = 1.0
 margin_top = -12.0
 margin_right = 31.0
 margin_bottom = -7.0
-_resourcePath = NodePath("../../MonsterCharacter/Health")
+ResourcePath = NodePath("../../MonsterCharacter/Health")
 
 [node name="NameLabel" type="Label" parent="."]
 margin_top = -30.0

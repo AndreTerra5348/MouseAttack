@@ -1,0 +1,15 @@
+[gd_resource type="Theme" load_steps=5 format=2]
+
+[ext_resource path="res://MouseAttack/Theme/ConfirmationPopupStyle.tres" type="StyleBox" id=1]
+[ext_resource path="res://MouseAttack/Theme/Button/PressedStyle.tres" type="StyleBox" id=2]
+[ext_resource path="res://MouseAttack/Theme/Button/DisabledStyle.tres" type="StyleBox" id=3]
+[ext_resource path="res://MouseAttack/Theme/Button/NormalStyle.tres" type="StyleBox" id=4]
+
+[resource]
+Button/styles/disabled = null
+Button/styles/focus = ExtResource( 4 )
+Button/styles/hover = ExtResource( 2 )
+Button/styles/normal = ExtResource( 4 )
+Button/styles/pressed = ExtResource( 4 )
+LineEdit/styles/normal = ExtResource( 3 )
+WindowDialog/styles/panel = ExtResource( 1 )

@@ -10,7 +10,13 @@ namespace MouseAttack.Item.Provider
     {        
         protected abstract Dictionary<Type, T> ResourceMap { get; set; }
         protected abstract T DefaultResource { get; }
-        protected T GetResource(CommonItem item) =>
-            ResourceMap.ContainsKey(item.GetType()) ? ResourceMap[item.GetType()] : DefaultResource;
+        protected T GetResource(Type type)
+        {
+            if (type == null)
+                return DefaultResource;
+            if (!ResourceMap.ContainsKey(type))
+                return GetResource(type.BaseType);
+            return ResourceMap[type];
+        }
     }
 }

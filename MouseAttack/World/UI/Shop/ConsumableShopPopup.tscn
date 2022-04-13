@@ -1,0 +1,19 @@
+[gd_scene load_steps=3 format=2]
+
+[ext_resource path="res://MouseAttack/World/UI/Shop/ConsumableShopPopup.cs" type="Script" id=1]
+[ext_resource path="res://MouseAttack/World/UI/Shop/CommonShopPopup.tscn" type="PackedScene" id=2]
+
+[node name="ConsumableSellPopup" instance=ExtResource( 2 )]
+script = ExtResource( 1 )
+SpinBoxPath = NodePath("MarginContainer/VBoxContainer/ItemContainer/SpinBox")
+
+[node name="ItemLabel" parent="MarginContainer/VBoxContainer/ItemContainer" index="0"]
+margin_left = 24.0
+margin_right = 32.0
+
+[node name="SpinBox" type="SpinBox" parent="MarginContainer/VBoxContainer/ItemContainer" index="2"]
+margin_left = 68.0
+margin_right = 134.0
+margin_bottom = 28.0
+min_value = 1.0
+value = 1.0

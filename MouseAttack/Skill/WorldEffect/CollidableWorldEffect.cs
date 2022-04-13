@@ -16,8 +16,8 @@ namespace MouseAttack.Skill.WorldEffect
             base._Ready();
             var area2d = GetNode<Area2D>(nameof(Area2D));
             // Update collision shape and position            
-            //var shape = area2d.ShapeOwnerGetShape(0, 0) as RectangleShape2D;
-            //shape.Extents = Vector2.One * Skill.Area * 32;
+            var shape = area2d.ShapeOwnerGetShape(0, 0) as RectangleShape2D;
+            shape.Extents = Skill.Area * 14;
 
             area2d.Connect(Signals.AreaEntered, this, nameof(OnAreaEntered));
             area2d.CollisionLayer = Skill.CollisionLayer;
@@ -32,7 +32,8 @@ namespace MouseAttack.Skill.WorldEffect
             OnCollision(target);
         }
 
-        protected abstract void OnCollision(CommonEntity target);
+        protected virtual void OnCollision(CommonEntity target) =>
+            Skill.Apply(User, target);
 
     }
 }

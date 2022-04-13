@@ -1,4 +1,5 @@
 using Godot;
+using MouseAttack.Constants;
 using MouseAttack.Entity;
 using MouseAttack.Item.Tooltip;
 using MouseAttack.Misc.UI;
@@ -23,21 +24,19 @@ namespace MouseAttack.Skill.Data
     public class DamageSkill : CollidableSkill
     {
         public int Damage { get; private set; }
-        public int Hits { get; private set; }
 
         public override Color Color => Colors.Red;
 
         public override Stack<TooltipInfo> GetTooltipInfo()
         {
-            Stack<TooltipInfo> tooltipinfo = base.GetTooltipInfo();
-            tooltipinfo.Push(new TooltipInfo($"Hits: {Hits}", Colors.MediumVioletRed));
-            tooltipinfo.Push(new TooltipInfo($"Damage: {Damage}", Colors.Red));
-            return tooltipinfo;
+            Stack<TooltipInfo> tooltipInfo = base.GetTooltipInfo();
+            tooltipInfo.Push(new TooltipInfo($"Damage: {Damage}", Colors.Red));
+            return tooltipInfo;
         }
 
-        private float CalculateDamage(Character attacker, Character defender, out bool isCritical)
+        private float CalculateDamage(Character attacker, Character defender)
         {
-            isCritical = attacker.IsCritical;
+            bool isCritical = attacker.IsCritical;
             float attackerDamage = attacker.Damage.Value;
             float attackerCriticalDamage = attacker.CriticalDamage.Value;
             if (isCritical)
@@ -47,19 +46,27 @@ namespace MouseAttack.Skill.Data
             return finalDamage < 0 ? 0 : finalDamage;
         }
 
+        /// <summary>
+        /// Called by the WorldEffect when there's a collision with the target
+        /// </summary>
+        /// <param name="user"></param>
+        /// <param name="target"></param>
         public override void Apply(CommonEntity user, CommonEntity target)
         {
-            float damage = CalculateDamage(user.Character, target.Character, out bool isCritical);
-            OnApplied(new DamageAppliedEventArgs(damage, isCritical));
-            target.Character.Hit(damage);
+            ApplyAction = () =>
+            {
+                float damage = CalculateDamage(user.Character, target.Character);
+                target.Character.Hit(damage);
 
-            if (target.Character.IsDead)
-                user.Character.Experience += target.Character.Experience;            
-        }
+                SpawnFloatingLabel(target, damage.ToString("0.0"));
+                SpawnTargetEffects(target);
 
-        public override void ItemDropped(int monsterLevel)
-        {
+                if (target.Character.IsDead)
+                    user.Character.Experience += target.Character.Experience;
 
+            };
+
+            ApplyAction();
         }
     }
 }

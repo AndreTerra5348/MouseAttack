@@ -16,7 +16,9 @@ namespace MouseAttack.Misc.UI
 {
     public class FloatingLabelSpawner : Node
     {
-        FloatingLabelLayer FloatingLabelLayer => TreeSharer.GetNode<FloatingLabelLayer>();
+        FloatingLabelLayer FloatingLabelLayer => 
+            TreeSharer.GetNode<FloatingLabelLayer>();
+
         FloatingLabel _instance;
         float _animationPositionThreashold = 0.5f;
         Queue<FloatingLabel> _spawnRequests = new Queue<FloatingLabel>();

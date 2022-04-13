@@ -2,4 +2,10 @@
   <PropertyGroup>
     <TargetFramework>net472</TargetFramework>
   </PropertyGroup>
+  <ItemGroup>
+    <Compile Remove="MouseAttack\World\UI\Inventory\SellPopup\**" />
+    <Compile Remove="MouseAttack\World\UI\Inventory\Shop\**" />
+    <EmbeddedResource Remove="MouseAttack\World\UI\Inventory\SellPopup\**" />
+    <EmbeddedResource Remove="MouseAttack\World\UI\Inventory\Shop\**" />
+  </ItemGroup>
 </Project>

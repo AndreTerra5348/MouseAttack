@@ -1,4 +1,6 @@
 ﻿using Godot;
+using MouseAttack.Entity.Player.Inventory;
+using MouseAttack.Misc;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace MouseAttack.Item.Data
 {
-    public class ConsumableItemFactory : CommonItemFactory
+    public abstract class ConsumableItemFactory : UsableItemFactory
     {
         [AssignTo(nameof(ConsumableItem.MinBaseValue))]
         [Export]
@@ -18,7 +20,21 @@ namespace MouseAttack.Item.Data
         [AssignTo(nameof(ConsumableItem.Count))]
         [Export]
         public int Count { get; private set; } = 0;
-        protected override CommonItem GetNewItem() =>
-            new ConsumableItem();
+
+
+        PlayerInventory PlayerInventory =>
+            TreeSharer.GetNode<PlayerInventory>();
+
+        public override T CreateItem<T>()
+        {
+            var item = PlayerInventory.CreatedConsumables.FirstOrDefault(i => i.Name == ItemName);
+
+            if (item != null)
+                return item as T;
+
+            var createdItem = base.CreateItem<T>();
+            PlayerInventory.CreatedConsumables.Add(createdItem as ConsumableItem);
+            return createdItem;
+        }
     }
 }

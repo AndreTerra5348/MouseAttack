@@ -5,8 +5,10 @@ using MouseAttack.Item.Data;
 using MouseAttack.Misc;
 using MouseAttack.Misc.UI;
 using MouseAttack.World;
+using MouseAttack.World.UI.Shop;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -28,6 +30,8 @@ namespace MouseAttack.Item.ActionMenu
             TreeSharer.GetNode<DragPreviewParent>();
         PlayerInventory PlayerInventory =>
             TreeSharer.GetNode<PlayerInventory>();
+        ShopPopupProvider SellPopupProvider => 
+            TreeSharer.GetNode<ShopPopupProvider>();
 
         public CommonItem Item { get; set; }
 
@@ -42,20 +46,13 @@ namespace MouseAttack.Item.ActionMenu
 
         void Sell()
         {
-            PlayerInventory.Sold(Item);
-            SpawnFloatingLabel(Item.Value.ToString());
-            //switch (Item.GetType().Name)
-            //{
-            //    case nameof(CommonItem):
-            //        PlayerInventory.Sold(Item);
-            //        break;
-            //    case nameof(ConsumableItem):
-            //        // Show Consumable Sell Panel 
-            //        break;
-            //    case nameof(CommonEquip):
-            //        // Show Confirmation Panel if it is Epic
-            //        break;
-            //}            
+            CommonShopPopup sellPopup = SellPopupProvider.GetSellPopup(Item);
+            sellPopup.Item = Item;
+            sellPopup.ConfirmationAction = (value) =>
+                SpawnFloatingLabel(value.ToString());
+
+            AddChild(sellPopup);
+            sellPopup.Popup();       
         }
 
         void SpawnFloatingLabel(string text)

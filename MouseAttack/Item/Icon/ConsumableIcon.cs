@@ -34,8 +34,9 @@ namespace MouseAttack.Item.Icon
 
         private void OnItemPropertyChanged(object sender, PropertyChangedEventArgs e)
         {
-            if (e.PropertyName == nameof(ConsumableItem.Count))
-                UpdateLabel();
+            if (e.PropertyName != nameof(ConsumableItem.Count))
+                return;
+            UpdateLabel();
         }
 
         private void UpdateLabel() =>

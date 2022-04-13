@@ -20,8 +20,6 @@ namespace MouseAttack.Entity.Player.Inventory
             var invItem = _inventory.Consumables.FirstOrDefault(i => i.Name == item.Name);
             if (invItem == null)
                 _inventory.OnItemAdded(item);
-            else
-                invItem.Count += item.Count;
         }
     }
 }

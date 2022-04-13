@@ -12,7 +12,7 @@ using System.Threading.Tasks;
 
 namespace MouseAttack.World.UI.Inventory
 {
-    public class EquipSlot : Slot
+    public class EquipSlot : Slot<CommonEquip>
     {
         [Export]
         EquipType Type = EquipType.Offensive;
@@ -38,13 +38,13 @@ namespace MouseAttack.World.UI.Inventory
             };
         }
 
-        public override bool CanDropData(CommonItem data) =>
-            data is CommonEquip && IsType(data as CommonEquip);
+        public override bool CanDropData(CommonEquip data) =>
+            data != null && IsType(data);
 
         public bool IsType(CommonEquip item) =>
             item.Type == Type;
 
-        protected override void ItemDropped(CommonItem item)
+        protected override void ItemDropped(CommonEquip item)
         {
             DuplicationCheck(item);
             SlotItem(item);

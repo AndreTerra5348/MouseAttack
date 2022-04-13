@@ -42,5 +42,8 @@ namespace MouseAttack.Misc.UI
         protected void ClearOptions() =>
             GetPopup().Clear();
 
+        protected int GetLastAddedActionIndex() =>
+            GetPopup().GetItemCount() - 1;
+
     }
 }

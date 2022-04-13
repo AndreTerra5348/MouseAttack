@@ -1,44 +1,50 @@
 ﻿using Godot;
 using MouseAttack.Equip.Data;
 using MouseAttack.Item.Data;
-using MouseAttack.Item.Tooltip;
+using MouseAttack.Item.Provider;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace MouseAttack.Item.Provider
+namespace MouseAttack.World.UI.Shop
 {
-    public class TooltipProvider : ItemResourceProvider<PackedScene>
+    public class ShopPopupProvider : ItemResourceProvider<PackedScene>
     {
         protected override Dictionary<Type, PackedScene> ResourceMap { get; set; } = new Dictionary<Type, PackedScene>()
         {
             { typeof(CommonItem), null },
             { typeof(CommonEquip), null },
+            { typeof(ConsumableItem), null },
         };
 
-        protected override PackedScene DefaultResource => ItemTooltipScene;
+        protected override PackedScene DefaultResource => CommonPopupScene;
 
         [Export]
-        PackedScene ItemTooltipScene
+        PackedScene CommonPopupScene
         {
             get => ResourceMap[typeof(CommonItem)];
             set => ResourceMap[typeof(CommonItem)] = value;
         }
         [Export]
-        PackedScene EquipTooltipScene
+        PackedScene EquipPopupScene
         {
             get => ResourceMap[typeof(CommonEquip)];
             set => ResourceMap[typeof(CommonEquip)] = value;
         }
-
-        public IItemView GetTooltip(CommonItem item)
+        [Export]
+        PackedScene ConsumablePopupScene
         {
-            PackedScene tooltipScene = GetResource(item.GetType());
-            IItemView tooltipPanel = tooltipScene.Instance<IItemView>();
-            tooltipPanel.SetItem(item);
-            return tooltipPanel;
+            get => ResourceMap[typeof(ConsumableItem)];
+            set => ResourceMap[typeof(ConsumableItem)] = value;
         }
+
+        public CommonShopPopup GetSellPopup(CommonItem item)
+        {
+            PackedScene sellPopupScene = GetResource(item.GetType());
+            return sellPopupScene.Instance<CommonShopPopup>();
+        }
+
     }
 }

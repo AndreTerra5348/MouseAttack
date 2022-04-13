@@ -10,7 +10,7 @@ using System.ComponentModel;
 
 namespace MouseAttack.World.UI.Inventory
 {
-    public class InventorySlot : Slot
+    public class InventorySlot : Slot<CommonItem>
     {
         public override bool CanDropData(CommonItem data) =>
             false;

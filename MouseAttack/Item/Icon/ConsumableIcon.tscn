@@ -1,9 +1,10 @@
-[gd_scene load_steps=6 format=2]
+[gd_scene load_steps=7 format=2]
 
 [ext_resource path="res://MouseAttack/Theme/Fonts/Roboto10.tres" type="DynamicFont" id=1]
 [ext_resource path="res://MouseAttack/Item/Icon/CommonIcon.tscn" type="PackedScene" id=2]
 [ext_resource path="res://MouseAttack/Item/Icon/ConsumableIcon.cs" type="Script" id=3]
 [ext_resource path="res://MouseAttack/Item/Currency/gold_pile_3.png" type="Texture" id=4]
+[ext_resource path="res://MouseAttack/Item/Icon/unkown_item.png" type="Texture" id=5]
 
 [sub_resource type="StyleBoxFlat" id=1]
 resource_local_to_scene = true
@@ -17,6 +18,7 @@ border_color = Color( 0.658824, 0.658824, 0.658824, 0.498039 )
 [node name="ConsumableIcon" instance=ExtResource( 2 )]
 custom_styles/panel = SubResource( 1 )
 script = ExtResource( 3 )
+UnknowTexture = ExtResource( 5 )
 CountLabelPath = NodePath("CountLabel")
 
 [node name="TextureRect" parent="." index="0"]
