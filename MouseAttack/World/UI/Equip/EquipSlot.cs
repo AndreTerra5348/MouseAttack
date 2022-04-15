@@ -10,7 +10,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace MouseAttack.World.UI.Inventory
+namespace MouseAttack.World.UI.Equip
 {
     public class EquipSlot : Slot<CommonEquip>
     {

@@ -5,15 +5,19 @@
 
 [node name="ConsumableSellPopup" instance=ExtResource( 2 )]
 script = ExtResource( 1 )
-SpinBoxPath = NodePath("MarginContainer/VBoxContainer/ItemContainer/SpinBox")
+SpinBoxPath = NodePath("MarginContainer/VBoxContainer/HBoxContainer/SpinBox")
 
-[node name="ItemLabel" parent="MarginContainer/VBoxContainer/ItemContainer" index="0"]
-margin_left = 24.0
-margin_right = 32.0
+[node name="PriceLabel" parent="MarginContainer/VBoxContainer/HBoxContainer" index="0"]
+margin_left = 36.0
+margin_right = 44.0
 
-[node name="SpinBox" type="SpinBox" parent="MarginContainer/VBoxContainer/ItemContainer" index="2"]
-margin_left = 68.0
-margin_right = 134.0
+[node name="GoldIcon" parent="MarginContainer/VBoxContainer/HBoxContainer" index="1"]
+margin_left = 48.0
+margin_right = 76.0
+
+[node name="SpinBox" type="SpinBox" parent="MarginContainer/VBoxContainer/HBoxContainer" index="2"]
+margin_left = 80.0
+margin_right = 146.0
 margin_bottom = 28.0
 min_value = 1.0
 value = 1.0

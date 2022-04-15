@@ -1,59 +1,129 @@
-[gd_scene load_steps=5 format=2]
+[gd_scene load_steps=11 format=2]
 
-[ext_resource path="res://MouseAttack/Theme/PanelStyle.tres" type="StyleBox" id=1]
-[ext_resource path="res://MouseAttack/World/UI/Shop/ShopItemButton.tscn" type="PackedScene" id=2]
-[ext_resource path="res://MouseAttack/GUI/HeaderPanel.tscn" type="PackedScene" id=3]
-[ext_resource path="res://MouseAttack/Misc/UI/MovableControl.cs" type="Script" id=4]
+[ext_resource path="res://MouseAttack/Theme/TabbedPanelTheme.tres" type="Theme" id=1]
+[ext_resource path="res://MouseAttack/World/UI/Shop/ShopSlot.tscn" type="PackedScene" id=2]
+[ext_resource path="res://MouseAttack/Theme/HSeparetorStyle.tres" type="StyleBox" id=3]
+[ext_resource path="res://MouseAttack/GUI/SubHeader.tscn" type="PackedScene" id=4]
+[ext_resource path="res://MouseAttack/Equip/Offensive/Staff/StaffFactory.tscn" type="PackedScene" id=5]
+[ext_resource path="res://MouseAttack/Item/Consumable/Health/HealthPotionFactory.tscn" type="PackedScene" id=6]
+[ext_resource path="res://MouseAttack/World/UI/Skill/CooldownProgressBar.tscn" type="PackedScene" id=7]
+[ext_resource path="res://MouseAttack/World/UI/Shop/ShopPanel.cs" type="Script" id=8]
+
+[sub_resource type="StyleBoxEmpty" id=1]
+
+[sub_resource type="StyleBoxEmpty" id=2]
 
 [node name="ShopPanel" type="PanelContainer"]
-margin_right = 186.0
-margin_bottom = 80.0
-custom_styles/panel = ExtResource( 1 )
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="VBoxContainer" type="VBoxContainer" parent="."]
+pause_mode = 2
 margin_left = 5.0
 margin_top = 5.0
 margin_right = 181.0
 margin_bottom = 75.0
+mouse_filter = 1
+theme = ExtResource( 1 )
+custom_styles/panel = SubResource( 1 )
+script = ExtResource( 8 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+CooldownPath = NodePath("VBoxContainer/PanelContainer/CooldownProgressBar")
+SlotContainerPath = NodePath("VBoxContainer/PanelContainer/SlotContainer")
 
-[node name="HeaderPanel" parent="VBoxContainer" instance=ExtResource( 3 )]
-margin_right = 176.0
-margin_bottom = 34.0
-
-[node name="MarginContainer" parent="VBoxContainer/HeaderPanel" index="0"]
-margin_right = 176.0
-
-[node name="VBoxContainer" parent="VBoxContainer/HeaderPanel/MarginContainer" index="0"]
-margin_right = 173.0
-
-[node name="HBoxContainer" parent="VBoxContainer/HeaderPanel/MarginContainer/VBoxContainer" index="0"]
-margin_right = 170.0
-
-[node name="TitleLabel" parent="VBoxContainer/HeaderPanel/MarginContainer/VBoxContainer/HBoxContainer" index="0"]
-margin_right = 146.0
-text = "Shop"
-
-[node name="CloseButton" parent="VBoxContainer/HeaderPanel/MarginContainer/VBoxContainer/HBoxContainer" index="1"]
-margin_left = 150.0
-margin_right = 170.0
-
-[node name="HSeparator" parent="VBoxContainer/HeaderPanel/MarginContainer/VBoxContainer" index="1"]
-margin_right = 170.0
-
-[node name="ShopGrid" type="GridContainer" parent="VBoxContainer"]
-margin_top = 38.0
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
 margin_right = 176.0
 margin_bottom = 70.0
-columns = 5
 
-[node name="ShopItemButton" parent="VBoxContainer/ShopGrid" instance=ExtResource( 2 )]
+[node name="SubHeader" parent="VBoxContainer" instance=ExtResource( 4 )]
+margin_right = 176.0
+margin_bottom = 17.0
 
-[node name="MovableControl" type="Node" parent="."]
-script = ExtResource( 4 )
+[node name="Label" parent="VBoxContainer/SubHeader" index="0"]
+margin_top = 0.0
+margin_right = 29.0
+margin_bottom = 17.0
+text = "Shop"
 
-[connection signal="pressed" from="VBoxContainer/HeaderPanel/MarginContainer/VBoxContainer/HBoxContainer/CloseButton" to="." method="hide"]
+[node name="TextureRect" parent="VBoxContainer/SubHeader" index="1"]
+margin_left = 160.0
+margin_right = 176.0
+hint_tooltip = "* You can buy Items at the shop
+* Every time you buy an item from the shop, you'll have to wait 5 turns before you can buy again."
 
-[editable path="VBoxContainer/HeaderPanel"]
+[node name="HSeparator" type="HSeparator" parent="VBoxContainer"]
+margin_top = 21.0
+margin_right = 176.0
+margin_bottom = 25.0
+custom_styles/separator = ExtResource( 3 )
+
+[node name="PanelContainer" type="PanelContainer" parent="VBoxContainer"]
+margin_top = 29.0
+margin_right = 176.0
+margin_bottom = 70.0
+mouse_filter = 1
+size_flags_vertical = 3
+custom_styles/panel = SubResource( 2 )
+
+[node name="SlotContainer" type="HBoxContainer" parent="VBoxContainer/PanelContainer"]
+visible = false
+margin_right = 176.0
+margin_bottom = 76.0
+alignment = 1
+
+[node name="ShopSlot" parent="VBoxContainer/PanelContainer/SlotContainer" instance=ExtResource( 2 )]
+margin_right = 32.0
+margin_bottom = 76.0
+ItemFactoriesPath = NodePath("../../../../HealthPotionFactories")
+
+[node name="ShopSlot2" parent="VBoxContainer/PanelContainer/SlotContainer" instance=ExtResource( 2 )]
+margin_left = 36.0
+margin_right = 68.0
+margin_bottom = 76.0
+ItemFactoriesPath = NodePath("../../../../HealthPotionFactories")
+
+[node name="ShopSlot3" parent="VBoxContainer/PanelContainer/SlotContainer" instance=ExtResource( 2 )]
+margin_left = 72.0
+margin_right = 104.0
+margin_bottom = 76.0
+ItemFactoriesPath = NodePath("../../../../Factories")
+
+[node name="ShopSlot4" parent="VBoxContainer/PanelContainer/SlotContainer" instance=ExtResource( 2 )]
+margin_left = 108.0
+margin_right = 140.0
+margin_bottom = 76.0
+ItemFactoriesPath = NodePath("../../../../Factories")
+
+[node name="ShopSlot5" parent="VBoxContainer/PanelContainer/SlotContainer" instance=ExtResource( 2 )]
+margin_left = 144.0
+margin_right = 176.0
+margin_bottom = 76.0
+ItemFactoriesPath = NodePath("../../../../Factories")
+
+[node name="CooldownProgressBar" parent="VBoxContainer/PanelContainer" instance=ExtResource( 7 )]
+margin_top = 0.0
+margin_right = 176.0
+margin_bottom = 41.0
+rect_rotation = 0.0
+mouse_filter = 1
+size_flags_horizontal = 3
+size_flags_vertical = 1
+value = 50.0
+
+[node name="Label" parent="VBoxContainer/PanelContainer/CooldownProgressBar" index="0"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 0.0
+margin_right = 0.0
+margin_bottom = 0.0
+rect_rotation = 0.0
+
+[node name="Factories" type="Node" parent="."]
+
+[node name="StaffFactory" parent="Factories" instance=ExtResource( 5 )]
+IsKnown = false
+
+[node name="HealthPotionFactories" type="Node" parent="."]
+
+[node name="HealthPotionFactory" parent="HealthPotionFactories" instance=ExtResource( 6 )]
+
+[editable path="VBoxContainer/SubHeader"]
+[editable path="VBoxContainer/PanelContainer/CooldownProgressBar"]

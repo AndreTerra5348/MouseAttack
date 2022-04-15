@@ -11,16 +11,16 @@ namespace MouseAttack.Item.Data
 {
     public abstract class CommonItem : Observable
     {
-        public string Name { get; protected set; }
+        public virtual string Name { get; protected set; }
         public virtual int Value { get; set; }
         public List<Texture> IconTexture { get; private set; }
         public virtual Color Color { get; protected set; } = new Color("a8a8a8");
-        public int MonsterLevel { get; protected set; } = 1;
         public virtual bool IsDraggable => true;
         public virtual bool IsStorable => true;
         public virtual string DropText => Name;
         public virtual string TooltipType { get; protected set; } = "Misc";
         public virtual bool IsKnown { get; set; } = true;
+        public int MonsterLevel { get; set; } = 1;
         protected Random Random => 
             TreeSharer.GetNode<Stage>().Random;
 
@@ -53,7 +53,6 @@ namespace MouseAttack.Item.Data
             }
         }
 
-        public virtual void ItemDropped(int monsterLevel) { }
         public virtual Stack<TooltipInfo> GetTooltipInfo()
         {
             Stack<TooltipInfo> tooltipInfo = new Stack<TooltipInfo>();
@@ -62,7 +61,7 @@ namespace MouseAttack.Item.Data
         }           
 
         public Texture GetIconTexture() =>
-            IconTexture[Math.Max(MonsterLevel - 1, IconTexture.Count - 1)];
-        
+            IconTexture[Math.Min(MonsterLevel - 1, IconTexture.Count - 1)];
+
     }
 }

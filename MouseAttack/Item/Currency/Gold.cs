@@ -11,9 +11,5 @@ namespace MouseAttack.Item.Currency
 {
     public class Gold : ConsumableItem
     {
-        public override bool IsStorable => false;
-
-        public override void ItemDropped(int monsterLevel) =>
-            PlayerInventory.Gold.Count += (DroppedCount = GetRandomCount(monsterLevel));
     }
 }

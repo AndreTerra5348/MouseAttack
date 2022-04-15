@@ -1,0 +1,24 @@
+[gd_scene load_steps=2 format=2]
+
+[ext_resource path="res://MouseAttack/GUI/info_icon.png" type="Texture" id=1]
+
+[node name="SubHeader" type="HBoxContainer"]
+margin_right = 155.0
+margin_bottom = 16.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Label" type="Label" parent="."]
+margin_top = 1.0
+margin_right = 28.0
+margin_bottom = 15.0
+text = "Title"
+
+[node name="TextureRect" type="TextureRect" parent="."]
+margin_left = 139.0
+margin_right = 155.0
+margin_bottom = 16.0
+size_flags_horizontal = 10
+size_flags_vertical = 4
+texture = ExtResource( 1 )

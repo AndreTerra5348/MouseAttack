@@ -56,10 +56,10 @@ namespace MouseAttack.Skill.Data
             ApplyAction = () =>
             {
                 float damage = CalculateDamage(user.Character, target.Character);
-                target.Character.Hit(damage);
-
                 SpawnFloatingLabel(target, damage.ToString("0.0"));
                 SpawnTargetEffects(target);
+
+                target.Character.Hit(damage);
 
                 if (target.Character.IsDead)
                     user.Character.Experience += target.Character.Experience;

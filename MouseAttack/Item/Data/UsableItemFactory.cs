@@ -21,6 +21,6 @@ namespace MouseAttack.Item.Data
         public Color EffectColor { get; private set; } = Colors.White;
         [AssignTo(nameof(UsableItem.TargetEffectSpawners))]
         [Export]
-        public List<TargetEffectSpawner> TargetEffectSpawners { get; private set; } = new List<TargetEffectSpawner>();
+        public List<TargetEffectSpawner> TargetEffectSpawners { get; private set; }
     }
 }

@@ -3,20 +3,13 @@ using MouseAttack.Misc;
 
 namespace MouseAttack.Entity.Player.Inventory
 {
-    public class AddCommonItemCommand : CommandBase
+    public class AddCommonItemCommand : AddItemBaseCommand<CommonItem>
     {
-        readonly PlayerInventory _inventory;
-
-        public AddCommonItemCommand(PlayerInventory inventory) =>
-            _inventory = inventory;
-
-        public override void Execute(object parameter)
+        public AddCommonItemCommand(PlayerInventory inventory) : base(inventory)
         {
-            var item = parameter as CommonItem;
-            if (item == null)
-                return;
-
-            _inventory.OnItemAdded(item);
         }
+
+        protected override void Execure(CommonItem item) =>
+            Inventory.OnItemAdded(item);
     }
 }

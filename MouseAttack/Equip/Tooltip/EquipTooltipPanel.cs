@@ -39,13 +39,29 @@ namespace MouseAttack.Equip.Tooltip
 
             itemTooltipPanel1.SetupItem(equip);
             if (equip.IsKnown)
+            {
                 itemTooltipPanel1.SetTooltipInfo(equip.GetTooltipInfo(equipedEquip));
+                if (equip.IsSlotted)
+                    itemTooltipPanel1.SetAsEquiped();
+                SetDiffTooltip(equip, equipedEquip);
+            }
             else
                 itemTooltipPanel1.SetUnknownInfo();
 
-            if (equip.IsSlotted)
-                itemTooltipPanel1.SetAsEquiped();
+            
 
+
+            // Update Position
+            await this.SkipNextFrame();
+
+            RectGlobalPosition = TreeSharer
+                .GetNode<PlayArea>()
+                .ClampPosition(RectGlobalPosition, RectSize);
+            Show();
+        }
+
+        private void SetDiffTooltip(CommonEquip equip, CommonEquip equipedEquip)
+        {
             if (equipedEquip != null && equipedEquip != equip)
             {
                 ItemTooltipPanel itemTooltipPanel2 = GetNode<ItemTooltipPanel>(ItemTooltipPanel2Path);
@@ -57,16 +73,6 @@ namespace MouseAttack.Equip.Tooltip
 
                 GetNode<Control>(SeparatorPath).Show();
             }
-
-
-            // Update Position
-            await this.SkipNextFrame();
-
-            RectGlobalPosition = TreeSharer
-                .GetNode<PlayArea>()
-                .ClampPosition(RectGlobalPosition, RectSize);
-            Show();
         }
-            
     }
 }

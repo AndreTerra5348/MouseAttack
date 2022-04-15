@@ -37,10 +37,8 @@ namespace MouseAttack.Entity.Monster
                     if (!itemFactory.Dropped)
                         continue;
 
-                    var item = itemFactory.CreateItem<CommonItem>();
-                    item.ItemDropped(monsterEntity.Level);
-                    if (item.IsStorable)
-                        PlayerInventory.Add(item);
+                    var item = itemFactory.CreateItem<CommonItem>(monsterEntity.Level);
+                    PlayerInventory.Add(item);
                     FloatingLabel floatingLabel = DropLabelProvider.GetDropLabel(item);
                     floatingLabel.Position = monsterEntity.Position;
                     monsterEntity.QueueFloatingLabel(floatingLabel);

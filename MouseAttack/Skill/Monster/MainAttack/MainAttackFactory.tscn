@@ -6,6 +6,9 @@
 [node name="MainAttackFactory" type="Node"]
 script = ExtResource( 1 )
 ItemName = "Stone"
+IconTexture = [  ]
+EffectColor = Color( 1, 0, 0, 1 )
+TargetEffectSpawners = [  ]
 WorldEffectScene = ExtResource( 3 )
 CollisionLayer = 8
 CollisionMask = 1

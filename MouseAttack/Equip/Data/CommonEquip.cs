@@ -83,58 +83,56 @@ namespace MouseAttack.Equip.Data
             return tooltipInfo;
         }
 
-        public override void ItemDropped(int monsterLevel)
+        public void GenerateStats()
         {
-            MonsterLevel = monsterLevel;            
-            Tier = GetRandomTier(monsterLevel);
+            Tier = GetRandomTier();
             string tierName = Enum.GetName(typeof(EquipTier), Tier).Capitalize();
             Name = $"{tierName} {Name}";
 
             // Set Primary Stats
-            PrimaryStats = GetEquipStats(EquipDataChart.EquipTypePrimaryStats[Type], monsterLevel);
-            Value += monsterLevel * (int)PrimaryStats.Percentage;
+            PrimaryStats = GetEquipStats(EquipDataChart.EquipTypePrimaryStats[Type]);
+            Value += MonsterLevel * (int)PrimaryStats.Percentage;
 
             // Set Secondary stats
             if (Tier != EquipTier.Common)
-                GenerateSecondaryStats(monsterLevel, Tier == EquipTier.Rare ? Random.Next(1, 2) : Random.Next(3, 4));
+                GenerateSecondaryStats(Tier == EquipTier.Rare ? Random.Next(1, 2) : Random.Next(3, 4));
 
             // Set value
-            Value *= monsterLevel * ((int)Tier + 1) * (SecondaryStats.Count+1);
-            
-            
+            Value *= MonsterLevel * ((int)Tier + 1) * (SecondaryStats.Count + 1);
+
             // Update colors
             TierColor = EquipDataChart.EquipTierColor[Tier];
             Color = TierColor;
         }
 
-        private void GenerateSecondaryStats(int monsterLevel, int secondaryStatsCount)
+        void GenerateSecondaryStats(int secondaryStatsCount)
         {
             EquipStats biggest = new EquipStats(StatsType.None, 0);
             for (int i = 0; i < secondaryStatsCount; i++)
             {
                 StatsType secundaryStats = EquipDataChart.EquipTypeSecundaryStats[Type].GetRandomElement(Random);
-                EquipStats equipStats = GetEquipStats(secundaryStats, monsterLevel);
+                EquipStats equipStats = GetEquipStats(secundaryStats);
                 if (equipStats.Percentage > biggest.Percentage)
                     biggest = equipStats;
                 SecondaryStats.Add(equipStats);
-                Value += monsterLevel * (int)equipStats.Percentage;
+                Value += MonsterLevel * (int)equipStats.Percentage;
             }
             SecondaryStats = SecondaryStats.OrderBy(x => x.Type).ToList();
             string statsName = StatsConstants.FullNameMap[biggest.Type];
             Name += $" Of {statsName}";
         }
-        EquipStats GetEquipStats(StatsType type, int multiplier)
+        EquipStats GetEquipStats(StatsType type)
         {
             IntegerRange range = EquipDataChart.StatsTypeBasePercentage[type].ToIntegerRange();
             int value = range.GetRandom(Random);
-            return new EquipStats(type, value * multiplier);
+            return new EquipStats(type, value * MonsterLevel);
         }
 
-        public EquipTier GetRandomTier(int monsterLevel)
+        EquipTier GetRandomTier()
         {
             foreach (var item in EquipDataChart.EquipTierDropRate)
             {
-                if (item.Value * monsterLevel < Random.Next(100))
+                if (item.Value * MonsterLevel < Random.Next(100))
                     continue;
                 return item.Key;
             }

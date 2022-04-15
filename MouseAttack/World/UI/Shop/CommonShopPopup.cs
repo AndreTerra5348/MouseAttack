@@ -1,6 +1,7 @@
 ﻿using Godot;
 using MouseAttack.Constants;
 using MouseAttack.Entity.Player.Inventory;
+using MouseAttack.Extensions;
 using MouseAttack.Item.Data;
 using MouseAttack.Item.Icon;
 using MouseAttack.Item.Provider;
@@ -13,7 +14,7 @@ using System.Threading.Tasks;
 
 namespace MouseAttack.World.UI.Shop
 {
-    public class CommonShopPopup : WindowDialog
+    public class CommonShopPopup : AcceptDialog
     {
         [Export]
         NodePath ItemLabelPath { get; set; } = "";
@@ -21,8 +22,6 @@ namespace MouseAttack.World.UI.Shop
         NodePath ItemIconContainerPath { get; set; } = "";
         [Export]
         NodePath PriceLabelPath { get; set; } = "";
-        [Export]
-        NodePath SellButtonPath { get; set; } = "";
 
         protected Label PriceLabel { get; private set; }
 
@@ -43,7 +42,9 @@ namespace MouseAttack.World.UI.Shop
             CommonIcon icon = IconProvider.GetDefaultIcon(Item);
             itemIconContainer.AddChild(icon);
 
-            var sellButton = GetNode<Button>(SellButtonPath);
+            var sellButton = GetOk();
+            sellButton.RectMinSize = new Vector2(40, 20);
+            sellButton.Text = "Sell";
             sellButton.Connect(Signals.Pressed, this, nameof(OnSellButtonPressed));
 
             PriceLabel = GetNode<Label>(PriceLabelPath);

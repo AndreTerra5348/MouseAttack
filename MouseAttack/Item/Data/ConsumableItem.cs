@@ -16,9 +16,6 @@ namespace MouseAttack.Item.Data
     public abstract class ConsumableItem : UsableItem
     {
         const string TypeName = "Consumable";
-        public int MinBaseValue { get; private set; } = 1;
-        public int MaxBaseValue { get; private set; } = 3;
-
         protected override Action ApplyAction => Use;
 
         int _count = 0;
@@ -35,22 +32,12 @@ namespace MouseAttack.Item.Data
             }
         }
 
-        public int DroppedCount { get; set; } = 0;
-
         public override string TooltipType => TypeName;
-        public override string DropText => DroppedCount.ToString();
-        public override bool IsDraggable => false;
-
+        public override string DropText => Count.ToString();
         public override bool CanUse => ElapsedCooldown <= 0 && Count > 0;
 
         protected PlayerInventory PlayerInventory =>
             TreeSharer.GetNode<PlayerInventory>();
-
-        protected int GetRandomCount(int monsterLevel) =>
-            Random.Next(MinBaseValue * monsterLevel, MaxBaseValue * monsterLevel);
-
-        public override void ItemDropped(int monsterLevel) =>
-            Count += (DroppedCount = GetRandomCount(monsterLevel));
 
         public override void Use()
         {

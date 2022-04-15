@@ -19,14 +19,13 @@ namespace MouseAttack.World.UI.Inventory
     {
         All,
         Equip,
-        Skill
+        Skill,
+        Consumable
     }
     public class InventoryGrid : GridContainer
     {
         [Export]
         PackedScene _slotScene = null;
-        [Export]
-        int _startSlotCount = 25;
         [Export]
         GridType _gridType = GridType.All;
 
@@ -34,43 +33,22 @@ namespace MouseAttack.World.UI.Inventory
         {
             { GridType.All, typeof(CommonItem) },
             { GridType.Equip, typeof(CommonEquip) },
-            { GridType.Skill, typeof(CommonSkill) }
+            { GridType.Skill, typeof(CommonSkill) },
+            { GridType.Consumable, typeof(ConsumableItem) }
         };
 
         PlayerInventory PlayerInventory => TreeSharer.GetNode<PlayerInventory>();
 
         public override void _Ready()
         {
-            int childCount = GetChildCount();
-            for (int i = 0; i < _startSlotCount - childCount; i++)
-            {
-                AddNewSlot(null);
-            }
-
             AddAll();
 
             PlayerInventory.Added += (s, e) => AddItem(e.Item);
-            PlayerInventory.Removed += (s, e) =>
-            {
-                RemoveAll();
-                AddAll();
-            };
+            PlayerInventory.Removed += (s, e) => RemoveItem(e.Item);
         }
 
         private bool IsItemValid(CommonItem item) =>
             _typeMap[_gridType].IsAssignableFrom(item.GetType());
-
-        private void RemoveAll()
-        {
-            foreach (InventorySlot slot in GetChildren())
-            {
-                if (slot.IsEmpty)
-                    continue;
-                slot.UnsetItem();
-                if (slot.GetIndex() > _startSlotCount)
-                    slot.Hide();
-            }
-        }
 
         private void AddAll()
         {
@@ -86,13 +64,12 @@ namespace MouseAttack.World.UI.Inventory
                 return;
             foreach (InventorySlot slot in GetChildren())
             {
-                if (slot.IsEmpty || slot.Item != item)
-                    continue;
-                slot.UnsetItem();
-                if (slot.GetIndex() > _startSlotCount)
-                    slot.Hide();
-
-                break;
+                if (slot.Item == item)
+                {
+                    slot.UnsetItem();
+                    slot.QueueFree();
+                    break;
+                }
             }
         }
 
@@ -100,19 +77,7 @@ namespace MouseAttack.World.UI.Inventory
         {
             if (!IsItemValid(item))
                 return;
-            foreach (InventorySlot slot in GetChildren())
-            {
-                if (!slot.IsEmpty)
-                    continue;
-                slot.Item = item;
-                slot.Show();
-                return;
-            }
-            AddNewSlot(item);
-        }
 
-        private void AddNewSlot(CommonItem item)
-        {
             InventorySlot slot = _slotScene.Instance<InventorySlot>();
             AddChild(slot);
             slot.Item = item;

@@ -12,12 +12,10 @@ namespace MouseAttack.Item.Data
     {
         [AssignTo(nameof(CommonItem.Name))]
         [Export]
-        public string ItemName { get; private set; }
+        public virtual string ItemName { get; protected set; }
         [AssignTo(nameof(CommonItem.Value))]
         [Export]
-        public int Value { get; protected set; }
-        [Export]
-        public int DropRate { get; private set; }
+        public int Value { get; protected set; }        
         [AssignTo(nameof(CommonItem.IconTexture))]
         [Export]
         public List<Texture> IconTexture { get; private set; }
@@ -25,14 +23,18 @@ namespace MouseAttack.Item.Data
         [Export]
         public bool IsKnown { get; set; } = true;
 
+
+        [Export]
+        public int DropRate { get; private set; }
         protected Random Random => TreeSharer.GetNode<Stage>().Random;
         public virtual bool Dropped => DropRate > Random.Next(100);
 
         protected abstract CommonItem GetNewItem();
 
-        public virtual T CreateItem<T>() where T : CommonItem
+        public virtual T CreateItem<T>(int monsterLevel = 1) where T : CommonItem
         {
             CommonItem instance = GetNewItem();
+            instance.MonsterLevel = monsterLevel;
 
             var factoryProperties = GetType()
                 .GetProperties()
@@ -53,6 +55,7 @@ namespace MouseAttack.Item.Data
                         .GetProperty(attribute.PropertyName, bindings);
                 instanceProperty?.SetValue(instance, factoryValue);
             }
+
 
             return instance as T;
         }

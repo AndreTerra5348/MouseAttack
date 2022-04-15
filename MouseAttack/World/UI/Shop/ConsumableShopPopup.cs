@@ -27,7 +27,7 @@ namespace MouseAttack.World.UI.Shop
         }
 
         private void OnSpinBoxValueChanged(float value) =>
-            PriceLabel.Text = (Item.Value * value).ToString("0.0");
+            PriceLabel.Text = (Item.Value * value).ToString("0");
 
         protected override void Sold()
         {

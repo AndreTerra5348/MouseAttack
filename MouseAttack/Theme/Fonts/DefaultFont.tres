@@ -3,6 +3,6 @@
 [ext_resource path="res://MouseAttack/Theme/Fonts/Roboto-Regular.ttf" type="DynamicFontData" id=1]
 
 [resource]
-size = 11
+size = 13
 use_filter = true
 font_data = ExtResource( 1 )

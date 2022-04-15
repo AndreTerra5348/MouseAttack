@@ -52,6 +52,7 @@ namespace MouseAttack.Entity.Player.Inventory
             Items = new ReadOnlyCollection<CommonItem>(_items);
             _addCommandMap.Add(typeof(CommonItem), new AddCommonItemCommand(this));
             _addCommandMap.Add(typeof(ConsumableItem), new AddConsumableItemCommand(this));
+            _addCommandMap.Add(typeof(Gold), new AddGoldCommand(this));
 
             Initialized?.Invoke(this, EventArgs.Empty);
         }

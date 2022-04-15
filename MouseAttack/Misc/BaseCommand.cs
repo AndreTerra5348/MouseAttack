@@ -7,7 +7,7 @@ using System.Windows.Input;
 
 namespace MouseAttack.Misc
 {
-    public abstract class CommandBase : ICommand
+    public abstract class BaseCommand : ICommand
     {
         public event EventHandler CanExecuteChanged;
 

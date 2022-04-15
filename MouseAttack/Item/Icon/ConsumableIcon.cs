@@ -13,11 +13,12 @@ namespace MouseAttack.Item.Icon
 {
     public class ConsumableIcon : CommonIcon
     {
+        const string UnknownLabel = "???";
+
         [Export]
         NodePath CountLabelPath { get; set; } = "";
         Label _countLabel;
         ConsumableItem _item;
-
         public override void SetItem(CommonItem item)
         {
             base.SetItem(item);
@@ -40,7 +41,7 @@ namespace MouseAttack.Item.Icon
         }
 
         private void UpdateLabel() =>
-            _countLabel.Text = _item.Count.ToString();
+            _countLabel.Text = _item.IsKnown ? _item.Count.ToString() : UnknownLabel;
 
         public override void _ExitTree() =>
             _item.PropertyChanged -= OnItemPropertyChanged;

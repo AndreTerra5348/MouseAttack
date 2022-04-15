@@ -28,8 +28,6 @@ namespace MouseAttack.Item.ActionMenu
 
         DragPreviewParent DragPreviewParent => 
             TreeSharer.GetNode<DragPreviewParent>();
-        PlayerInventory PlayerInventory =>
-            TreeSharer.GetNode<PlayerInventory>();
         ShopPopupProvider SellPopupProvider => 
             TreeSharer.GetNode<ShopPopupProvider>();
 

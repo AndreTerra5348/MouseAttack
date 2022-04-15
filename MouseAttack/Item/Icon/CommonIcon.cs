@@ -25,8 +25,8 @@ namespace MouseAttack.Item.Icon
 
             TextureRect.Texture = item.IsKnown ? item.GetIconTexture() : UnknowTexture;
             StyleBoxFlat styleBox = Get(Overrides.CustomStylesPanel) as StyleBoxFlat;
-            styleBox.BorderColor = item.Color.WithAlpha(ColorAlpha);
-            styleBox.BgColor = item.Color.WithAlpha(ColorAlpha).Contrasted();
+            styleBox.BorderColor = item.IsKnown ? item.Color.WithAlpha(ColorAlpha) : Colors.DarkGray;
+            styleBox.BgColor = item.IsKnown ? item.Color.WithAlpha(ColorAlpha).Contrasted() : Colors.DimGray;
         }
     }
 }

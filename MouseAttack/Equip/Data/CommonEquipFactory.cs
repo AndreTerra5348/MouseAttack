@@ -1,5 +1,6 @@
 ﻿using Godot;
 using MouseAttack.Item.Data;
+using System;
 
 namespace MouseAttack.Equip.Data
 {
@@ -10,5 +11,13 @@ namespace MouseAttack.Equip.Data
         public EquipType Type { get; private set; } = EquipType.Offensive;
 
         protected override CommonItem GetNewItem() => new CommonEquip();
+
+        public override T CreateItem<T>(int monsterLevel = 1)
+        {
+            var item = base.CreateItem<CommonEquip>(monsterLevel);
+            item.GenerateStats();
+            return item as T;
+        }
+
     }
 }

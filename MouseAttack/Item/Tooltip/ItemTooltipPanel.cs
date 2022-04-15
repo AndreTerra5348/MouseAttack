@@ -39,7 +39,7 @@ namespace MouseAttack.Item.Tooltip
             NameLabel.Text = item.IsKnown ? item.Name : UnknownLabel;
             TypeLabel.Text = item.TooltipType;
             IconContainer.AddChild(IconProvider.GetIcon(item));
-            NameLabel.AddColorOverride(Overrides.FontColor, item.Color);
+            NameLabel.AddColorOverride(Overrides.FontColor, item.IsKnown ? item.Color : Colors.White);
         }
 
         public void SetAsEquiped() =>

@@ -1,265 +1,81 @@
-[gd_scene load_steps=12 format=2]
+[gd_scene load_steps=7 format=2]
 
 [ext_resource path="res://MouseAttack/Theme/TabbedPanelTheme.tres" type="Theme" id=1]
-[ext_resource path="res://MouseAttack/World/UI/Inventory/EquipSlot.tscn" type="PackedScene" id=2]
-[ext_resource path="res://MouseAttack/Theme/TabFg.tres" type="StyleBox" id=3]
-[ext_resource path="res://MouseAttack/Theme/TabBg.tres" type="StyleBox" id=4]
-[ext_resource path="res://MouseAttack/Equip/Defensive/slot_icon.png" type="Texture" id=5]
-[ext_resource path="res://MouseAttack/World/UI/Inventory/InventoryTab.tscn" type="PackedScene" id=6]
-[ext_resource path="res://MouseAttack/Equip/Special/slot_icon.png" type="Texture" id=7]
-[ext_resource path="res://MouseAttack/World/UI/Inventory/InventorySlot.tscn" type="PackedScene" id=8]
+[ext_resource path="res://MouseAttack/World/UI/Inventory/InventorySlot.tscn" type="PackedScene" id=2]
+[ext_resource path="res://MouseAttack/World/UI/Inventory/InventoryGrid.cs" type="Script" id=3]
+[ext_resource path="res://MouseAttack/GUI/SubHeader.tscn" type="PackedScene" id=4]
 [ext_resource path="res://MouseAttack/Theme/HSeparetorStyle.tres" type="StyleBox" id=11]
-
-[sub_resource type="StyleBoxEmpty" id=5]
 
 [sub_resource type="StyleBoxEmpty" id=1]
 
 [node name="InventoryPanel" type="PanelContainer"]
 pause_mode = 2
 margin_right = 192.0
-margin_bottom = 236.0
+margin_bottom = 100.0
 mouse_filter = 1
 theme = ExtResource( 1 )
-custom_styles/panel = SubResource( 5 )
+custom_styles/panel = SubResource( 1 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
 [node name="VBoxContainer" type="VBoxContainer" parent="."]
 margin_right = 192.0
-margin_bottom = 236.0
+margin_bottom = 100.0
 
-[node name="TabContainer" type="TabContainer" parent="VBoxContainer"]
+[node name="SubHeader" parent="VBoxContainer" instance=ExtResource( 4 )]
 margin_right = 192.0
-margin_bottom = 192.0
-size_flags_vertical = 3
-custom_styles/tab_fg = ExtResource( 3 )
-custom_styles/tab_bg = ExtResource( 4 )
-custom_styles/panel = SubResource( 1 )
-drag_to_rearrange_enabled = true
+margin_bottom = 17.0
 
-[node name="All" parent="VBoxContainer/TabContainer" instance=ExtResource( 6 )]
-margin_top = 24.0
+[node name="Label" parent="VBoxContainer/SubHeader" index="0"]
+margin_top = 0.0
+margin_right = 52.0
+margin_bottom = 17.0
+text = "Inventory"
 
-[node name="ScrollContainer" parent="VBoxContainer/TabContainer/All" index="0"]
-margin_right = 190.0
-margin_bottom = 166.0
-
-[node name="MarginContainer" parent="VBoxContainer/TabContainer/All/ScrollContainer" index="0"]
-margin_right = 185.0
-margin_bottom = 184.0
-
-[node name="InventoryGrid" parent="VBoxContainer/TabContainer/All/ScrollContainer/MarginContainer" index="0"]
-margin_left = 2.0
-margin_top = 2.0
-margin_right = 182.0
-margin_bottom = 182.0
-
-[node name="InventorySlot" parent="VBoxContainer/TabContainer/All/ScrollContainer/MarginContainer/InventoryGrid" index="0" instance=ExtResource( 8 )]
-
-[node name="InventorySlot2" parent="VBoxContainer/TabContainer/All/ScrollContainer/MarginContainer/InventoryGrid" index="1" instance=ExtResource( 8 )]
-margin_left = 37.0
-margin_right = 69.0
-
-[node name="InventorySlot3" parent="VBoxContainer/TabContainer/All/ScrollContainer/MarginContainer/InventoryGrid" index="2" instance=ExtResource( 8 )]
-margin_left = 74.0
-margin_right = 106.0
-
-[node name="InventorySlot4" parent="VBoxContainer/TabContainer/All/ScrollContainer/MarginContainer/InventoryGrid" index="3" instance=ExtResource( 8 )]
-margin_left = 111.0
-margin_right = 143.0
-
-[node name="InventorySlot5" parent="VBoxContainer/TabContainer/All/ScrollContainer/MarginContainer/InventoryGrid" index="4" instance=ExtResource( 8 )]
-margin_left = 148.0
-margin_right = 180.0
-
-[node name="InventorySlot6" parent="VBoxContainer/TabContainer/All/ScrollContainer/MarginContainer/InventoryGrid" index="5" instance=ExtResource( 8 )]
-margin_top = 37.0
-margin_bottom = 69.0
-
-[node name="InventorySlot7" parent="VBoxContainer/TabContainer/All/ScrollContainer/MarginContainer/InventoryGrid" index="6" instance=ExtResource( 8 )]
-margin_left = 37.0
-margin_top = 37.0
-margin_right = 69.0
-margin_bottom = 69.0
-
-[node name="InventorySlot8" parent="VBoxContainer/TabContainer/All/ScrollContainer/MarginContainer/InventoryGrid" index="7" instance=ExtResource( 8 )]
-margin_left = 74.0
-margin_top = 37.0
-margin_right = 106.0
-margin_bottom = 69.0
-
-[node name="InventorySlot9" parent="VBoxContainer/TabContainer/All/ScrollContainer/MarginContainer/InventoryGrid" index="8" instance=ExtResource( 8 )]
-margin_left = 111.0
-margin_top = 37.0
-margin_right = 143.0
-margin_bottom = 69.0
-
-[node name="InventorySlot10" parent="VBoxContainer/TabContainer/All/ScrollContainer/MarginContainer/InventoryGrid" index="9" instance=ExtResource( 8 )]
-margin_left = 148.0
-margin_top = 37.0
-margin_right = 180.0
-margin_bottom = 69.0
-
-[node name="InventorySlot11" parent="VBoxContainer/TabContainer/All/ScrollContainer/MarginContainer/InventoryGrid" index="10" instance=ExtResource( 8 )]
-margin_top = 74.0
-margin_bottom = 106.0
-
-[node name="InventorySlot12" parent="VBoxContainer/TabContainer/All/ScrollContainer/MarginContainer/InventoryGrid" index="11" instance=ExtResource( 8 )]
-margin_left = 37.0
-margin_top = 74.0
-margin_right = 69.0
-margin_bottom = 106.0
-
-[node name="InventorySlot13" parent="VBoxContainer/TabContainer/All/ScrollContainer/MarginContainer/InventoryGrid" index="12" instance=ExtResource( 8 )]
-margin_left = 74.0
-margin_top = 74.0
-margin_right = 106.0
-margin_bottom = 106.0
-
-[node name="InventorySlot14" parent="VBoxContainer/TabContainer/All/ScrollContainer/MarginContainer/InventoryGrid" index="13" instance=ExtResource( 8 )]
-margin_left = 111.0
-margin_top = 74.0
-margin_right = 143.0
-margin_bottom = 106.0
-
-[node name="InventorySlot15" parent="VBoxContainer/TabContainer/All/ScrollContainer/MarginContainer/InventoryGrid" index="14" instance=ExtResource( 8 )]
-margin_left = 148.0
-margin_top = 74.0
-margin_right = 180.0
-margin_bottom = 106.0
-
-[node name="InventorySlot16" parent="VBoxContainer/TabContainer/All/ScrollContainer/MarginContainer/InventoryGrid" index="15" instance=ExtResource( 8 )]
-margin_top = 111.0
-margin_bottom = 143.0
-
-[node name="InventorySlot17" parent="VBoxContainer/TabContainer/All/ScrollContainer/MarginContainer/InventoryGrid" index="16" instance=ExtResource( 8 )]
-margin_left = 37.0
-margin_top = 111.0
-margin_right = 69.0
-margin_bottom = 143.0
-
-[node name="InventorySlot18" parent="VBoxContainer/TabContainer/All/ScrollContainer/MarginContainer/InventoryGrid" index="17" instance=ExtResource( 8 )]
-margin_left = 74.0
-margin_top = 111.0
-margin_right = 106.0
-margin_bottom = 143.0
-
-[node name="InventorySlot19" parent="VBoxContainer/TabContainer/All/ScrollContainer/MarginContainer/InventoryGrid" index="18" instance=ExtResource( 8 )]
-margin_left = 111.0
-margin_top = 111.0
-margin_right = 143.0
-margin_bottom = 143.0
-
-[node name="InventorySlot20" parent="VBoxContainer/TabContainer/All/ScrollContainer/MarginContainer/InventoryGrid" index="19" instance=ExtResource( 8 )]
-margin_left = 148.0
-margin_top = 111.0
-margin_right = 180.0
-margin_bottom = 143.0
-
-[node name="InventorySlot21" parent="VBoxContainer/TabContainer/All/ScrollContainer/MarginContainer/InventoryGrid" index="20" instance=ExtResource( 8 )]
-margin_top = 148.0
-margin_bottom = 180.0
-
-[node name="InventorySlot22" parent="VBoxContainer/TabContainer/All/ScrollContainer/MarginContainer/InventoryGrid" index="21" instance=ExtResource( 8 )]
-margin_left = 37.0
-margin_top = 148.0
-margin_right = 69.0
-margin_bottom = 180.0
-
-[node name="InventorySlot23" parent="VBoxContainer/TabContainer/All/ScrollContainer/MarginContainer/InventoryGrid" index="22" instance=ExtResource( 8 )]
-margin_left = 74.0
-margin_top = 148.0
-margin_right = 106.0
-margin_bottom = 180.0
-
-[node name="InventorySlot24" parent="VBoxContainer/TabContainer/All/ScrollContainer/MarginContainer/InventoryGrid" index="23" instance=ExtResource( 8 )]
-margin_left = 111.0
-margin_top = 148.0
-margin_right = 143.0
-margin_bottom = 180.0
-
-[node name="InventorySlot25" parent="VBoxContainer/TabContainer/All/ScrollContainer/MarginContainer/InventoryGrid" index="24" instance=ExtResource( 8 )]
-margin_left = 148.0
-margin_top = 148.0
-margin_right = 180.0
-margin_bottom = 180.0
-
-[node name="Equip" parent="VBoxContainer/TabContainer" instance=ExtResource( 6 )]
-visible = false
-margin_top = 24.0
-
-[node name="ScrollContainer" parent="VBoxContainer/TabContainer/Equip" index="0"]
-margin_right = 190.0
-margin_bottom = 166.0
-
-[node name="MarginContainer" parent="VBoxContainer/TabContainer/Equip/ScrollContainer" index="0"]
-margin_right = 188.0
-margin_bottom = 164.0
-
-[node name="InventoryGrid" parent="VBoxContainer/TabContainer/Equip/ScrollContainer/MarginContainer" index="0"]
-margin_left = 94.0
-margin_top = 82.0
-margin_right = 94.0
-margin_bottom = 82.0
-_gridType = 1
-
-[node name="Skill" parent="VBoxContainer/TabContainer" instance=ExtResource( 6 )]
-visible = false
-margin_top = 24.0
-
-[node name="ScrollContainer" parent="VBoxContainer/TabContainer/Skill" index="0"]
-margin_right = 190.0
-margin_bottom = 166.0
-
-[node name="MarginContainer" parent="VBoxContainer/TabContainer/Skill/ScrollContainer" index="0"]
-margin_right = 188.0
-margin_bottom = 164.0
-
-[node name="InventoryGrid" parent="VBoxContainer/TabContainer/Skill/ScrollContainer/MarginContainer" index="0"]
-margin_left = 94.0
-margin_top = 82.0
-margin_right = 94.0
-margin_bottom = 82.0
-_gridType = 2
+[node name="TextureRect" parent="VBoxContainer/SubHeader" index="1"]
+margin_left = 176.0
+margin_right = 192.0
+hint_tooltip = "* You have unlimited inventory space
+* You can open the item menu clicking with the right mouse button"
 
 [node name="HSeparator" type="HSeparator" parent="VBoxContainer"]
-margin_top = 196.0
+margin_top = 21.0
 margin_right = 192.0
-margin_bottom = 200.0
+margin_bottom = 25.0
 custom_styles/separator = ExtResource( 11 )
 
-[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer"]
-margin_top = 204.0
+[node name="ScrollContainer" type="ScrollContainer" parent="VBoxContainer"]
+margin_top = 29.0
 margin_right = 192.0
-margin_bottom = 236.0
-alignment = 1
+margin_bottom = 100.0
+mouse_filter = 1
+size_flags_vertical = 3
+scroll_horizontal_enabled = false
 
-[node name="EquipSlot" parent="VBoxContainer/HBoxContainer" instance=ExtResource( 2 )]
-margin_left = 44.0
-margin_right = 76.0
-size_flags_vertical = 4
+[node name="MarginContainer" type="MarginContainer" parent="VBoxContainer/ScrollContainer"]
+margin_right = 192.0
+margin_bottom = 71.0
+mouse_filter = 1
+size_flags_horizontal = 3
+size_flags_vertical = 3
+custom_constants/margin_right = 2
+custom_constants/margin_top = 2
+custom_constants/margin_left = 2
+custom_constants/margin_bottom = 2
 
-[node name="EquipSlot2" parent="VBoxContainer/HBoxContainer" instance=ExtResource( 2 )]
-margin_left = 80.0
-margin_right = 112.0
-size_flags_vertical = 4
-Type = 1
+[node name="InventoryGrid" type="GridContainer" parent="VBoxContainer/ScrollContainer/MarginContainer"]
+margin_left = 6.0
+margin_top = 2.0
+margin_right = 186.0
+margin_bottom = 2.0
+rect_min_size = Vector2( 180, 0 )
+size_flags_horizontal = 4
+size_flags_vertical = 0
+custom_constants/vseparation = 5
+custom_constants/hseparation = 5
+columns = 5
+script = ExtResource( 3 )
+_slotScene = ExtResource( 2 )
 
-[node name="SubIcon" parent="VBoxContainer/HBoxContainer/EquipSlot2" index="0"]
-texture = ExtResource( 5 )
-
-[node name="EquipSlot3" parent="VBoxContainer/HBoxContainer" instance=ExtResource( 2 )]
-margin_left = 116.0
-margin_right = 148.0
-size_flags_vertical = 4
-Type = 2
-
-[node name="SubIcon" parent="VBoxContainer/HBoxContainer/EquipSlot3" index="0"]
-texture = ExtResource( 7 )
-
-[editable path="VBoxContainer/TabContainer/All"]
-[editable path="VBoxContainer/TabContainer/Equip"]
-[editable path="VBoxContainer/TabContainer/Skill"]
-[editable path="VBoxContainer/HBoxContainer/EquipSlot2"]
-[editable path="VBoxContainer/HBoxContainer/EquipSlot3"]
+[editable path="VBoxContainer/SubHeader"]

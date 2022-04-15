@@ -3,6 +3,7 @@ using MouseAttack.Characteristic;
 using MouseAttack.Entity;
 using MouseAttack.Entity.Player;
 using MouseAttack.Item.Data;
+using MouseAttack.Item.Tooltip;
 using MouseAttack.Misc;
 using MouseAttack.Misc.UI;
 using System;
@@ -15,9 +16,29 @@ namespace MouseAttack.Item.Consumable
 {
     public class PotionItem : ConsumableItem
     {
-        const string DropTextFormat = "{0} {1}";
         public StatsType Type { get; private set; }
-        public int Amount { get; private set; }
+
+        int _amount = 0;
+        public int Amount
+        {
+            get => _amount * MonsterLevel;
+            private set => _amount = value;
+        }
+
+        int _value;
+        public override int Value
+        {
+            get => _value * MonsterLevel;
+            set => _value = value;
+        }
+
+        string _name = "";
+
+        public override string Name
+        {
+            get => $"{_name} Lv. {MonsterLevel}";
+            protected set => _name = value;
+        }
 
         PlayerEntity PlayerEntity => 
             TreeSharer.GetNode<PlayerEntity>();
@@ -25,12 +46,13 @@ namespace MouseAttack.Item.Consumable
             PlayerEntity.Character;
 
         public override Color Color => Colors.LightSalmon;
-        public override string DropText => String.Format(DropTextFormat, DroppedCount, Name);
+        public override string DropText => $"{Count} {Name}";
 
-        public override void ItemDropped(int monsterLevel)
+        public override Stack<TooltipInfo> GetTooltipInfo()
         {
-            base.ItemDropped(monsterLevel);
-            Amount *= monsterLevel;
+            Stack<TooltipInfo> tooltipInfo = base.GetTooltipInfo();
+            tooltipInfo.Push(new TooltipInfo($"Recharge: {Amount} {Enum.GetName(typeof(StatsType), Type)}", Color));
+            return tooltipInfo;
         }
 
         public override void Use()

@@ -4,22 +4,35 @@ using System.Linq;
 
 namespace MouseAttack.Entity.Player.Inventory
 {
-    public class AddConsumableItemCommand : CommandBase
+    public class AddConsumableItemCommand : AddItemBaseCommand<ConsumableItem>
     {
-        readonly PlayerInventory _inventory;
-
-        public AddConsumableItemCommand(PlayerInventory inventory) =>
-            _inventory = inventory;
-
-        public override void Execute(object parameter)
+        public AddConsumableItemCommand(PlayerInventory inventory) : base(inventory)
         {
-            var item = parameter as ConsumableItem;
+        }
+
+        protected override void Execure(ConsumableItem item)
+        {
             if (item == null)
                 return;
 
-            var invItem = _inventory.Consumables.FirstOrDefault(i => i.Name == item.Name);
-            if (invItem == null)
-                _inventory.OnItemAdded(item);
+            var invItem = Inventory.Consumables.FirstOrDefault(i => i.Name == item.Name);
+            if (invItem != null)
+            {
+                invItem.Count += item.Count;
+                return;
+            }
+
+            var createdItem = Inventory.CreatedConsumables.FirstOrDefault(i => i.Name == item.Name);
+
+            if (createdItem != null)
+            {
+                createdItem.Count += item.Count;
+                Inventory.OnItemAdded(createdItem);
+                return;
+            }
+
+            Inventory.CreatedConsumables.Add(item);
+            Inventory.OnItemAdded(item);
         }
     }
 }
