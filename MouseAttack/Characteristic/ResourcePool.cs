@@ -3,6 +3,13 @@ using System;
 
 namespace MouseAttack.Characteristic
 {
+    public enum ResourceType
+    {
+        None = StatsType.None,
+        Health = StatsType.Health,
+        Mana = StatsType.Mana
+    }
+
     public class ResourceChangedEventArgs : EventArgs
     {
         public readonly float Value;
@@ -21,6 +28,7 @@ namespace MouseAttack.Characteristic
         public ResourceUsedEventArgs(float value) =>
             Value = value;
     }
+
     public class ResourcePool : Stats
     {
         public event EventHandler Depleted;

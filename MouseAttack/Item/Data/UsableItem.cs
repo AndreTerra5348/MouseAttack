@@ -14,8 +14,16 @@ using System.Threading.Tasks;
 
 namespace MouseAttack.Item.Data
 {
+    public class CooldownEventArgs : EventArgs
+    {
+        public readonly int Cooldown;
+
+        public CooldownEventArgs(int cooldown) =>
+            Cooldown = cooldown;
+    }
     public abstract class UsableItem : CommonItem
     {
+        public event EventHandler<CooldownEventArgs> CooldownStarted;
         public int Cooldown { get; private set; }
         public Color EffectColor { get; private set; }
         public int Duration { get; private set; } = 0;
@@ -55,13 +63,7 @@ namespace MouseAttack.Item.Data
             {
                 spawner.Spawn(target);
             }
-        }
-
-        public void StartCooldown()
-        {
-            ElapsedCooldown = Cooldown;
-            GridController.ElapseTurn();
-        }    
+        } 
         
         public override Stack<TooltipInfo> GetTooltipInfo()
         {
@@ -73,7 +75,12 @@ namespace MouseAttack.Item.Data
 
         public virtual void SlotInputEvent(InputEvent @event) { }
         public virtual void SlotPressed() { }
-        public virtual void Use() =>
+        public virtual void Use()
+        {
             ElapsedDuration = Duration;
+            ElapsedCooldown = Cooldown;
+            CooldownStarted?.Invoke(this, new CooldownEventArgs(Cooldown));
+            GridController.ElapseTurn();
+        }
     }
 }

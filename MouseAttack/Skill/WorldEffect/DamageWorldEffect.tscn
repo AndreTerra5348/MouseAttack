@@ -7,6 +7,7 @@
 position = Vector2( 0, 0 )
 script = ExtResource( 2 )
 QueueFreeMode = 0
+SpriteNodePath = NodePath("Sprite")
 
 [node name="Sprite" type="Sprite" parent="." index="1"]
 position = Vector2( 16, 16 )

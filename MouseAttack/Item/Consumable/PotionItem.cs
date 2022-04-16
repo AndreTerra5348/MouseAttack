@@ -16,7 +16,7 @@ namespace MouseAttack.Item.Consumable
 {
     public class PotionItem : ConsumableItem
     {
-        public StatsType Type { get; private set; }
+        public ResourceType Type { get; private set; }
 
         int _amount = 0;
         public int Amount
@@ -32,12 +32,10 @@ namespace MouseAttack.Item.Consumable
             set => _value = value;
         }
 
-        string _name = "";
-
         public override string Name
         {
-            get => $"{_name} Lv. {MonsterLevel}";
-            protected set => _name = value;
+            get => $"{Enum.GetName(typeof(ResourceType), Type)} Potion Lv. {MonsterLevel}";
+            protected set { }
         }
 
         PlayerEntity PlayerEntity => 

@@ -21,6 +21,7 @@ namespace MouseAttack.Characteristic
         MovementSpeed,
         CooldownReducion,
     }
+    
 
     public class StatsConstants
     {

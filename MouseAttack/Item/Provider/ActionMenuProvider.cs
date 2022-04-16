@@ -18,6 +18,7 @@ namespace MouseAttack.Item.Provider
         protected override Dictionary<Type, PackedScene> ResourceMap { get; set; } = new Dictionary<Type, PackedScene>()
         {
             { typeof(CommonItem), null },
+            { typeof(ConsumableItem), null },
             { typeof(CommonEquip), null },
         };
 
@@ -35,6 +36,13 @@ namespace MouseAttack.Item.Provider
         {
             get => ResourceMap[typeof(CommonEquip)];
             set => ResourceMap[typeof(CommonEquip)] = value;
+        }
+
+        [Export]
+        PackedScene ConsumableActionMenu
+        {
+            get => ResourceMap[typeof(ConsumableItem)];
+            set => ResourceMap[typeof(ConsumableItem)] = value;
         }
 
         public ItemActionMenu GetActionMenu(CommonItem item)

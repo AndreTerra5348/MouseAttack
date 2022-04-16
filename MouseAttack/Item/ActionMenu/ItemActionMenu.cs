@@ -18,16 +18,13 @@ namespace MouseAttack.Item.ActionMenu
     public class ItemActionMenu : ActionMenuBase
     {
         [Export]
-        PackedScene ConfirmationPanelScene { get; set; }
-        [Export]
-        PackedScene ConsumableSellPanelScene { get; set; }
-        [Export]
         PackedScene DropLabelScene { get; set; }
         [Export]
         Texture GoldTexture { get; set; }
 
         DragPreviewParent DragPreviewParent => 
             TreeSharer.GetNode<DragPreviewParent>();
+
         ShopPopupProvider SellPopupProvider => 
             TreeSharer.GetNode<ShopPopupProvider>();
 

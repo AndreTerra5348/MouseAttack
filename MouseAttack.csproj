@@ -8,4 +8,7 @@
     <EmbeddedResource Remove="MouseAttack\World\UI\Inventory\SellPopup\**" />
     <EmbeddedResource Remove="MouseAttack\World\UI\Inventory\Shop\**" />
   </ItemGroup>
+  <ItemGroup>
+    <Folder Include="MouseAttack\Skill\Module\" />
+  </ItemGroup>
 </Project>

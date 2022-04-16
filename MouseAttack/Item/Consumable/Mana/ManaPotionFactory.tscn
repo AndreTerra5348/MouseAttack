@@ -1,0 +1,15 @@
+[gd_scene load_steps=3 format=2]
+
+[ext_resource path="res://MouseAttack/Item/Consumable/Mana/sky_blue.png" type="Texture" id=1]
+[ext_resource path="res://MouseAttack/Item/Consumable/PotionItemFactory.cs" type="Script" id=2]
+
+[node name="ManaPotionFactory" type="Node"]
+script = ExtResource( 2 )
+ItemName = "Mana"
+Value = 100
+IconTexture = [ ExtResource( 1 ) ]
+DropRate = 50
+EffectColor = Color( 0, 1, 1, 1 )
+MaxBaseValue = 1
+Type = 3
+Amount = 20

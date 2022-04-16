@@ -83,12 +83,24 @@ namespace MouseAttack.World.UI.Skill
             if (!Item.CanUse)
                 return;
 
-            Item.Use();
-            Item.StartCooldown();
-
-            _cooldownProgress.Start(Item.Cooldown);
+            Item.Use();            
         }
 
+        protected override void RegistryItemEvents(UsableItem item)
+        {
+            item.CooldownStarted += OnCooldownStarted;
+            base.RegistryItemEvents(item);
+        }
+        
+
+        protected override void UnregistryItemEvents(UsableItem item)
+        {
+            item.CooldownStarted -= OnCooldownStarted;
+            base.UnregistryItemEvents(item);
+        }
+
+        private void OnCooldownStarted(object sender, CooldownEventArgs e) =>
+            _cooldownProgress.Start(e.Cooldown);
 
 
         protected override void ItemDragged()

@@ -1,4 +1,4 @@
-[gd_scene load_steps=11 format=2]
+[gd_scene load_steps=12 format=2]
 
 [ext_resource path="res://MouseAttack/Theme/TabbedPanelTheme.tres" type="Theme" id=1]
 [ext_resource path="res://MouseAttack/World/UI/Shop/ShopSlot.tscn" type="PackedScene" id=2]
@@ -8,6 +8,7 @@
 [ext_resource path="res://MouseAttack/Item/Consumable/Health/HealthPotionFactory.tscn" type="PackedScene" id=6]
 [ext_resource path="res://MouseAttack/World/UI/Skill/CooldownProgressBar.tscn" type="PackedScene" id=7]
 [ext_resource path="res://MouseAttack/World/UI/Shop/ShopPanel.cs" type="Script" id=8]
+[ext_resource path="res://MouseAttack/Item/Consumable/Mana/ManaPotionFactory.tscn" type="PackedScene" id=9]
 
 [sub_resource type="StyleBoxEmpty" id=1]
 
@@ -72,13 +73,13 @@ alignment = 1
 [node name="ShopSlot" parent="VBoxContainer/PanelContainer/SlotContainer" instance=ExtResource( 2 )]
 margin_right = 32.0
 margin_bottom = 76.0
-ItemFactoriesPath = NodePath("../../../../HealthPotionFactories")
+ItemFactoriesPath = NodePath("../../../../PotionFactories")
 
 [node name="ShopSlot2" parent="VBoxContainer/PanelContainer/SlotContainer" instance=ExtResource( 2 )]
 margin_left = 36.0
 margin_right = 68.0
 margin_bottom = 76.0
-ItemFactoriesPath = NodePath("../../../../HealthPotionFactories")
+ItemFactoriesPath = NodePath("../../../../PotionFactories")
 
 [node name="ShopSlot3" parent="VBoxContainer/PanelContainer/SlotContainer" instance=ExtResource( 2 )]
 margin_left = 72.0
@@ -121,9 +122,11 @@ rect_rotation = 0.0
 [node name="StaffFactory" parent="Factories" instance=ExtResource( 5 )]
 IsKnown = false
 
-[node name="HealthPotionFactories" type="Node" parent="."]
+[node name="PotionFactories" type="Node" parent="."]
 
-[node name="HealthPotionFactory" parent="HealthPotionFactories" instance=ExtResource( 6 )]
+[node name="HealthPotionFactory" parent="PotionFactories" instance=ExtResource( 6 )]
+
+[node name="ManaPotionFactory" parent="PotionFactories" instance=ExtResource( 9 )]
 
 [editable path="VBoxContainer/SubHeader"]
 [editable path="VBoxContainer/PanelContainer/CooldownProgressBar"]

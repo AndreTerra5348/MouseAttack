@@ -13,7 +13,7 @@ namespace MouseAttack.Item.Consumable
     {
         [AssignTo(nameof(PotionItem.Type))]
         [Export]
-        public StatsType Type { get; private set; }
+        public ResourceType Type { get; private set; }
         [AssignTo(nameof(PotionItem.Amount))]
         [Export]
         public int Amount { get; private set; }

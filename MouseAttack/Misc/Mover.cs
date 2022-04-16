@@ -27,8 +27,13 @@ namespace MouseAttack.Misc
                 QueueFree();
         }
 
-        public override void _Ready() =>
-            _effect.GetNodeOrNull<Sprite>(nameof(Sprite))?.LookAt(Target);
+        public override void _Ready()
+        {
+            var damageEffect = _effect as DamageWorldEffect;
+            if (damageEffect == null)
+                return;
+            damageEffect.Sprite.LookAt(Target);
+        }
 
 
         public override void _Process(float delta) =>
