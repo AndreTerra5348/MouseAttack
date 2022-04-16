@@ -1,4 +1,4 @@
-[gd_scene load_steps=23 format=2]
+[gd_scene load_steps=27 format=2]
 
 [ext_resource path="res://MouseAttack/World/Tiles/grass.png" type="Texture" id=1]
 [ext_resource path="res://MouseAttack/World/Tiles/grass-spawn.png" type="Texture" id=2]
@@ -15,11 +15,15 @@
 [ext_resource path="res://MouseAttack/Equip/EquipDataChart.tscn" type="PackedScene" id=13]
 [ext_resource path="res://MouseAttack/Theme/HUDPanelStyle.tres" type="StyleBox" id=14]
 [ext_resource path="res://MouseAttack/World/Providers.tscn" type="PackedScene" id=15]
-[ext_resource path="res://MouseAttack/World/UI/Character/CharacterPanel.tscn" type="PackedScene" id=16]
-[ext_resource path="res://MouseAttack/World/UI/Character/CharacterPanelButton.tscn" type="PackedScene" id=18]
+[ext_resource path="res://MouseAttack/World/UI/Menu/MenuPanel.tscn" type="PackedScene" id=16]
+[ext_resource path="res://MouseAttack/Theme/Button/NormalStyle.tres" type="StyleBox" id=17]
+[ext_resource path="res://MouseAttack/World/UI/Menu/MenuPanelButton.tscn" type="PackedScene" id=18]
 [ext_resource path="res://MouseAttack/World/UI/LevelPanel.tscn" type="PackedScene" id=19]
-[ext_resource path="res://MouseAttack/World/UI/Skill/SkillBar.tscn" type="PackedScene" id=21]
+[ext_resource path="res://MouseAttack/Theme/Button/DisabledStyle.tres" type="StyleBox" id=20]
+[ext_resource path="res://MouseAttack/World/UI/Skill/UsableBar.tscn" type="PackedScene" id=21]
 [ext_resource path="res://MouseAttack/World/UI/GoldContainer.tscn" type="PackedScene" id=22]
+[ext_resource path="res://MouseAttack/Theme/Button/PressedStyle.tres" type="StyleBox" id=23]
+[ext_resource path="res://MouseAttack/World/UI/SkipTurnButton.cs" type="Script" id=24]
 
 [sub_resource type="TileSet" id=1]
 0/name = "grass.png 0"
@@ -118,18 +122,37 @@ __meta__ = {
 }
 
 [node name="SystemButtonsContainer" type="HBoxContainer" parent="HudLayer/Border/VBoxContainer/TopPanel/MarginContainer"]
-margin_left = 632.0
+margin_left = 608.0
 margin_top = 3.0
 margin_right = 652.0
 margin_bottom = 29.0
 size_flags_horizontal = 8
 alignment = 2
 
-[node name="CharacterPanelButton" parent="HudLayer/Border/VBoxContainer/TopPanel/MarginContainer/SystemButtonsContainer" instance=ExtResource( 18 )]
-margin_left = 0.0
+[node name="SkipTurnButton" type="Button" parent="HudLayer/Border/VBoxContainer/TopPanel/MarginContainer/SystemButtonsContainer"]
 margin_top = 3.0
 margin_right = 20.0
 margin_bottom = 23.0
+rect_min_size = Vector2( 20, 20 )
+hint_tooltip = "Skip Turn (Hotkey: Space Bar)"
+focus_mode = 0
+size_flags_horizontal = 8
+size_flags_vertical = 4
+custom_styles/hover = ExtResource( 23 )
+custom_styles/pressed = ExtResource( 17 )
+custom_styles/disabled = ExtResource( 20 )
+custom_styles/normal = ExtResource( 17 )
+enabled_focus_mode = 0
+text = "<"
+script = ExtResource( 24 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="MenuPanelButton" parent="HudLayer/Border/VBoxContainer/TopPanel/MarginContainer/SystemButtonsContainer" instance=ExtResource( 18 )]
+margin_top = 3.0
+margin_bottom = 23.0
+hint_tooltip = "Menu (Hotkey: Escape)"
 
 [node name="BottomPanel" type="PanelContainer" parent="HudLayer/Border/VBoxContainer"]
 margin_top = 419.0
@@ -184,7 +207,7 @@ margin_bottom = 20.0
 size_flags_vertical = 8
 alignment = 2
 
-[node name="SkillBarMarginContainer" type="MarginContainer" parent="HudLayer/Border/VBoxContainer/BottomPanel/MarginContainer"]
+[node name="UsableBarMarginContainer" type="MarginContainer" parent="HudLayer/Border/VBoxContainer/BottomPanel/MarginContainer"]
 margin_left = 248.0
 margin_top = 10.0
 margin_right = 424.0
@@ -192,7 +215,7 @@ margin_bottom = 51.0
 mouse_filter = 1
 size_flags_horizontal = 4
 
-[node name="SkillBar" parent="HudLayer/Border/VBoxContainer/BottomPanel/MarginContainer/SkillBarMarginContainer" instance=ExtResource( 21 )]
+[node name="UsableBar" parent="HudLayer/Border/VBoxContainer/BottomPanel/MarginContainer/UsableBarMarginContainer" instance=ExtResource( 21 )]
 pause_mode = 2
 margin_right = 176.0
 margin_bottom = 32.0
@@ -220,12 +243,11 @@ __meta__ = {
 [node name="MenuLayer" type="CanvasLayer" parent="."]
 layer = 5
 
-[node name="CharacterPanel" parent="MenuLayer" instance=ExtResource( 16 )]
+[node name="MenuPanel" parent="MenuLayer" instance=ExtResource( 16 )]
 visible = false
-margin_left = 134.0
-margin_top = 49.0
-margin_right = 540.0
-margin_bottom = 329.0
+margin_top = 32.0
+margin_right = 672.0
+margin_bottom = 416.0
 
 [node name="DragPreviewRig" type="CanvasLayer" parent="."]
 layer = 6

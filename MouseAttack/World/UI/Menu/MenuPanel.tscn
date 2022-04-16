@@ -1,23 +1,25 @@
-[gd_scene load_steps=11 format=2]
+[gd_scene load_steps=13 format=2]
 
 [ext_resource path="res://MouseAttack/Theme/DefaultFontTheme.tres" type="Theme" id=1]
 [ext_resource path="res://MouseAttack/Theme/PanelStyle.tres" type="StyleBox" id=2]
-[ext_resource path="res://MouseAttack/Misc/UI/MovableControl.cs" type="Script" id=3]
+[ext_resource path="res://MouseAttack/Theme/TabFg.tres" type="StyleBox" id=3]
 [ext_resource path="res://MouseAttack/World/UI/Attribute/AttributesPanel.tscn" type="PackedScene" id=4]
 [ext_resource path="res://MouseAttack/World/UI/Inventory/InventoryPanel.tscn" type="PackedScene" id=5]
 [ext_resource path="res://MouseAttack/World/UI/SystemPanel.cs" type="Script" id=6]
 [ext_resource path="res://MouseAttack/GUI/HeaderPanel.tscn" type="PackedScene" id=7]
 [ext_resource path="res://MouseAttack/World/UI/Equip/EquipPanel.tscn" type="PackedScene" id=8]
 [ext_resource path="res://MouseAttack/World/UI/Shop/ShopPanel.tscn" type="PackedScene" id=9]
+[ext_resource path="res://MouseAttack/Theme/TabBg.tres" type="StyleBox" id=10]
+[ext_resource path="res://MouseAttack/Theme/TabContainerPanel.tres" type="StyleBox" id=11]
 
 [sub_resource type="StyleBoxLine" id=1]
 color = Color( 0.392157, 0.392157, 0.392157, 1 )
 vertical = true
 
-[node name="CharacterPanel" type="PanelContainer"]
+[node name="MenuPanel" type="PanelContainer"]
 margin_right = 406.0
 margin_bottom = 275.0
-rect_min_size = Vector2( 430, 300 )
+rect_min_size = Vector2( 672, 384 )
 theme = ExtResource( 1 )
 custom_styles/panel = ExtResource( 2 )
 script = ExtResource( 6 )
@@ -28,79 +30,90 @@ __meta__ = {
 [node name="VBoxContainer" type="VBoxContainer" parent="."]
 margin_left = 5.0
 margin_top = 5.0
-margin_right = 425.0
-margin_bottom = 295.0
+margin_right = 667.0
+margin_bottom = 379.0
 
 [node name="HeaderPanel" parent="VBoxContainer" instance=ExtResource( 7 )]
-margin_right = 420.0
+margin_right = 662.0
 margin_bottom = 34.0
 
 [node name="MarginContainer" parent="VBoxContainer/HeaderPanel" index="0"]
-margin_right = 420.0
+margin_right = 662.0
 
 [node name="VBoxContainer" parent="VBoxContainer/HeaderPanel/MarginContainer" index="0"]
-margin_right = 417.0
+margin_right = 659.0
 
 [node name="HBoxContainer" parent="VBoxContainer/HeaderPanel/MarginContainer/VBoxContainer" index="0"]
-margin_right = 414.0
+margin_right = 656.0
 
 [node name="TitleLabel" parent="VBoxContainer/HeaderPanel/MarginContainer/VBoxContainer/HBoxContainer" index="0"]
-margin_right = 390.0
-text = "Character"
+margin_right = 632.0
+text = "Menu"
+align = 1
 
 [node name="CloseButton" parent="VBoxContainer/HeaderPanel/MarginContainer/VBoxContainer/HBoxContainer" index="1"]
-margin_left = 394.0
-margin_right = 414.0
+margin_left = 636.0
+margin_right = 656.0
 
 [node name="HSeparator" parent="VBoxContainer/HeaderPanel/MarginContainer/VBoxContainer" index="1"]
-margin_right = 414.0
+margin_right = 656.0
 
-[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer"]
+[node name="TabContainer" type="TabContainer" parent="VBoxContainer"]
 margin_top = 38.0
-margin_right = 420.0
-margin_bottom = 290.0
-mouse_filter = 0
+margin_right = 662.0
+margin_bottom = 374.0
 size_flags_vertical = 3
+custom_styles/tab_fg = ExtResource( 3 )
+custom_styles/tab_bg = ExtResource( 10 )
+custom_styles/panel = ExtResource( 11 )
+tab_align = 0
+
+[node name="Character" type="HBoxContainer" parent="VBoxContainer/TabContainer"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 5.0
+margin_top = 32.0
+margin_right = -5.0
+margin_bottom = -5.0
+mouse_filter = 0
 alignment = 1
 
-[node name="VBoxContainer" type="VBoxContainer" parent="VBoxContainer/HBoxContainer"]
-margin_left = 12.0
-margin_right = 196.0
-margin_bottom = 252.0
+[node name="VBoxContainer" type="VBoxContainer" parent="VBoxContainer/TabContainer/Character"]
+margin_right = 320.0
+margin_bottom = 299.0
+size_flags_horizontal = 3
 
-[node name="InventoryPanel" parent="VBoxContainer/HBoxContainer/VBoxContainer" instance=ExtResource( 5 )]
-margin_right = 184.0
-margin_bottom = 91.0
+[node name="InventoryPanel" parent="VBoxContainer/TabContainer/Character/VBoxContainer" instance=ExtResource( 5 )]
+margin_bottom = 234.0
 size_flags_vertical = 3
 
-[node name="EquipPanel" parent="VBoxContainer/HBoxContainer/VBoxContainer" instance=ExtResource( 8 )]
+[node name="EquipPanel" parent="VBoxContainer/TabContainer/Character/VBoxContainer" instance=ExtResource( 8 )]
 margin_left = 0.0
-margin_top = 95.0
-margin_right = 184.0
-margin_bottom = 156.0
+margin_top = 238.0
+margin_right = 320.0
+margin_bottom = 299.0
 
-[node name="ShopPanel" parent="VBoxContainer/HBoxContainer/VBoxContainer" instance=ExtResource( 9 )]
-margin_left = 0.0
-margin_top = 160.0
-margin_right = 184.0
-margin_bottom = 252.0
-size_flags_vertical = 3
-
-[node name="VSeparator" type="VSeparator" parent="VBoxContainer/HBoxContainer"]
-margin_left = 200.0
-margin_right = 204.0
-margin_bottom = 252.0
+[node name="VSeparator" type="VSeparator" parent="VBoxContainer/TabContainer/Character"]
+margin_left = 324.0
+margin_right = 328.0
+margin_bottom = 299.0
 custom_styles/separator = SubResource( 1 )
 
-[node name="AttributesPanel" parent="VBoxContainer/HBoxContainer" instance=ExtResource( 4 )]
-margin_left = 208.0
+[node name="AttributesPanel" parent="VBoxContainer/TabContainer/Character" instance=ExtResource( 4 )]
+margin_left = 332.0
 margin_top = 0.0
-margin_right = 408.0
-margin_bottom = 252.0
+margin_right = 652.0
+margin_bottom = 299.0
 rect_min_size = Vector2( 200, 212 )
+size_flags_horizontal = 3
 
-[node name="MovableControl" type="Node" parent="."]
-script = ExtResource( 3 )
+[node name="Shop" parent="VBoxContainer/TabContainer" instance=ExtResource( 9 )]
+visible = false
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_top = 32.0
+margin_right = -5.0
+margin_bottom = -5.0
 
 [connection signal="pressed" from="VBoxContainer/HeaderPanel/MarginContainer/VBoxContainer/HBoxContainer/CloseButton" to="." method="hide"]
 

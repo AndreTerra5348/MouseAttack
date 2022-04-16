@@ -3,9 +3,9 @@ using MouseAttack.Entity.Player;
 using MouseAttack.Extensions;
 using MouseAttack.Misc;
 
-namespace MouseAttack.World.UI.Character
+namespace MouseAttack.World.UI.Menu
 {
-    public class CharacterPanelButton : SystemButton<SystemPanel>
+    public class MenuPanelButton : SystemButton<SystemPanel>
     {
         PlayerEntity PlayerEntity => TreeSharer.GetNode<PlayerEntity>();
         PlayerCharacter Character => PlayerEntity.Character;

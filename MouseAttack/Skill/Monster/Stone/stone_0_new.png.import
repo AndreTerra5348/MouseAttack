@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/human_male.png-fbe45803692b9e8b5231e149856d4445.stex"
+path="res://.import/stone_0_new.png-727db9c96ff1079310d01b500601e69f.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://MouseAttack/World/UI/Character/human_male.png"
-dest_files=[ "res://.import/human_male.png-fbe45803692b9e8b5231e149856d4445.stex" ]
+source_file="res://MouseAttack/Skill/Monster/Stone/stone_0_new.png"
+dest_files=[ "res://.import/stone_0_new.png-727db9c96ff1079310d01b500601e69f.stex" ]
 
 [params]
 

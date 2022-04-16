@@ -8,6 +8,7 @@ script = ExtResource( 2 )
 ItemName = "Health Potion"
 Value = 100
 IconTexture = [ ExtResource( 1 ) ]
+Color = Color( 0.929412, 0.419608, 0.419608, 1 )
 DropRate = 50
 EffectColor = Color( 0, 1, 0, 1 )
 MaxBaseValue = 1

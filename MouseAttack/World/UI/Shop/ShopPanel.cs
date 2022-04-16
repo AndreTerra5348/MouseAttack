@@ -1,6 +1,6 @@
 ﻿using Godot;
+using MouseAttack.GUI;
 using MouseAttack.Misc;
-using MouseAttack.World.UI.Skill;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,15 +11,16 @@ namespace MouseAttack.World.UI.Shop
 {
     public class ShopPanel : PanelContainer
     {
+        const string CooldownTextFormat = "Open in {0} Turn(s)";
         [Export]
-        NodePath CooldownPath { get; set; }
+        NodePath CooldownLabelPath { get; set; }
         [Export]
         NodePath SlotContainerPath { get; set; }
         [Export]
         int Cooldown { get; set; } = 5;
         int _elapsedCooldown = 0;
 
-        CooldownProgressBar _cooldownBar;
+        Label _cooldownLabel;
         List<ShopSlot> _slots;
         Control _slotContainer;
         GridController GridController => TreeSharer.GetNode<GridController>();
@@ -27,11 +28,11 @@ namespace MouseAttack.World.UI.Shop
 
         public override void _Ready()
         {
-            _cooldownBar = GetNode<CooldownProgressBar>(CooldownPath);
+            _cooldownLabel = GetNode<Label>(CooldownLabelPath);
             _slotContainer = GetNode<Control>(SlotContainerPath);
             _slots = _slotContainer.GetChildren().OfType<ShopSlot>().ToList();
 
-            foreach(var slot in _slots)
+            foreach (var slot in _slots)
             {
                 slot.ItemBought += (s, e) =>
                     Reset();
@@ -46,15 +47,16 @@ namespace MouseAttack.World.UI.Shop
             {
                 slot.Reset();
             }
-            _slotContainer.Hide();
-            _cooldownBar.Show();
-            _cooldownBar.Start(_elapsedCooldown = Cooldown);
+            _elapsedCooldown = Cooldown;
+            UpdateCooldownLabel();
+            UpdateSlotContainer();
             GridController.RoundFinished += OnRoundFinished;
         }
 
         private void OnRoundFinished(object sender, EventArgs e)
         {
             _elapsedCooldown--;
+            UpdateCooldownLabel();
             if (_elapsedCooldown > 0)
                 return;
 
@@ -63,8 +65,17 @@ namespace MouseAttack.World.UI.Shop
             {
                 slot.UpdateItem();
             }
-            _slotContainer.Show();
-            _cooldownBar.Hide();
+            UpdateSlotContainer();
         }
+
+        private void UpdateCooldownLabel()
+        {
+            _cooldownLabel.Text = String.Format(CooldownTextFormat, _elapsedCooldown);
+            _cooldownLabel.Visible = _elapsedCooldown > 0;
+        }
+
+        private void UpdateSlotContainer() =>
+            _slotContainer.Visible = _elapsedCooldown == 0;
+
     }
 }

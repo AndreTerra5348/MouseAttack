@@ -9,6 +9,7 @@
 script = ExtResource( 1 )
 ItemName = "Fire Spark"
 IconTexture = [ ExtResource( 4 ) ]
+Color = Color( 0.94902, 0.388235, 0.141176, 1 )
 TargetEffectSpawners = [ ExtResource( 2 ) ]
 WorldEffectScene = ExtResource( 3 )
 CollisionLayer = 8

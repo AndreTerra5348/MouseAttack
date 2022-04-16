@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/stone_0_new.png-b9fcb1ac85aed8fb65812ca396a6e0da.stex"
+path="res://.import/arrow_2.png-c51502f414db0c125bcd33e3819ba2c7.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://MouseAttack/Skill/Monster/MainAttack/stone_0_new.png"
-dest_files=[ "res://.import/stone_0_new.png-b9fcb1ac85aed8fb65812ca396a6e0da.stex" ]
+source_file="res://MouseAttack/Skill/Monster/Arrow/arrow_2.png"
+dest_files=[ "res://.import/arrow_2.png-c51502f414db0c125bcd33e3819ba2c7.stex" ]
 
 [params]
 

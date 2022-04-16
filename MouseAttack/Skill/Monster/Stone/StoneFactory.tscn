@@ -1,0 +1,14 @@
+[gd_scene load_steps=3 format=2]
+
+[ext_resource path="res://MouseAttack/Skill/Data/DamageSkillFactory.cs" type="Script" id=1]
+[ext_resource path="res://MouseAttack/Skill/Monster/Stone/WorldEffect.tscn" type="PackedScene" id=2]
+
+[node name="StoneFactory" type="Node"]
+script = ExtResource( 1 )
+ItemName = "Stone"
+IconTexture = [  ]
+EffectColor = Color( 1, 0, 0, 1 )
+TargetEffectSpawners = [  ]
+WorldEffectScene = ExtResource( 2 )
+CollisionLayer = 8
+CollisionMask = 1

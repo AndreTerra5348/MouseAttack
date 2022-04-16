@@ -7,10 +7,14 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace MouseAttack.World.UI.Skill
+namespace MouseAttack.GUI
 {
-    public class CooldownProgressBar : ProgressBar
+    public class CooldownBar : TextureProgress
     {
+        [Export]
+        string Prefix { get; set; } = "";
+        [Export]
+        string Sufix { get; set; } = "";
         Label _label;
         GridController GridController => TreeSharer.GetNode<GridController>();
 
@@ -25,17 +29,20 @@ namespace MouseAttack.World.UI.Skill
         private void OnRoundFinished(object sender, EventArgs e)
         {
             Value--;
-            _label.Text = Value.ToString("0");
+            UpdateLabel();
             if (Value == 0)
                 Hide();
-        }        
+        }
 
         public void Start(int cooldown)
         {
             MaxValue = cooldown;
             Value = cooldown;
-            _label.Text = cooldown.ToString();
+            UpdateLabel();
             Show();
         }
+
+        void UpdateLabel() =>
+            _label.Text = $"{Prefix} {Value.ToString("0")} {Sufix}";
     }
 }

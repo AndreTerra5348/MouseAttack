@@ -6,10 +6,11 @@
 [node name="ManaPotionFactory" type="Node"]
 script = ExtResource( 2 )
 ItemName = "Mana"
-Value = 100
+Value = 50
 IconTexture = [ ExtResource( 1 ) ]
+Color = Color( 0, 1, 1, 1 )
 DropRate = 50
 EffectColor = Color( 0, 1, 1, 1 )
 MaxBaseValue = 1
 Type = 3
-Amount = 20
+Amount = 5

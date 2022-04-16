@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/arrow_2.png-8a8b3124fa4f40f87c7916af273d2742.stex"
+path="res://.import/cooldown.png-479ed0c250fa482cd7f48ddd90a11714.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://MouseAttack/Skill/Monster/MainAttack/arrow_2.png"
-dest_files=[ "res://.import/arrow_2.png-8a8b3124fa4f40f87c7916af273d2742.stex" ]
+source_file="res://MouseAttack/GUI/cooldown.png"
+dest_files=[ "res://.import/cooldown.png-479ed0c250fa482cd7f48ddd90a11714.stex" ]
 
 [params]
 

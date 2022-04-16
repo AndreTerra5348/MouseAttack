@@ -24,14 +24,6 @@ namespace MouseAttack.Entity.Player
             OnEntityInitialized();
         }
 
-        public override void _Input(InputEvent @event)
-        {
-            if (GridController.IsTurnElapsing)
-                return;
-            if (@event.IsActionPressed(InputAction.ElapseTurn))
-                GridController.ElapseTurn();
-        }
-
         protected override void OnDeath()
         {
             // Game Over

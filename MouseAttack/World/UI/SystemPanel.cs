@@ -37,11 +37,9 @@ namespace MouseAttack.World.UI
             TreeSharer.RegistryNode(this);
 
 
-        [Export]
-        MenuInputAction MenuInputAction { get; set; } = MenuInputAction.CharacterPanel;
         public override void _UnhandledKeyInput(InputEventKey @event)
         {
-            if (@event.IsActionPressed(Enum.GetName(typeof(MenuInputAction), MenuInputAction)))
+            if (@event.IsActionPressed(InputAction.MenuPanel))
                 Visible = !Visible;
         }
     }

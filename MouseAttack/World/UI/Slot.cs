@@ -69,7 +69,6 @@ namespace MouseAttack.World.UI
                     return;
 
                 HintTooltip = TooltipPlaceholder;
-
                 // Set new Icon
                 _extraContainer.AddChild(_icon = GetIcon(_item));
                 if (SpawnActionMenu)

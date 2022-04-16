@@ -32,12 +32,8 @@ namespace MouseAttack.Item.ActionMenu
 
         const string SellTextFormat = "Sell: {0}g";
 
-        public override void AddAction()
-        {
-            if (Item.Value == 0)
-                return;
+        public override void AddAction() =>
             AddAction(String.Format(SellTextFormat, Item.Value), Sell);
-        }
 
         void Sell()
         {

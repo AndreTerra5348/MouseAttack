@@ -6,7 +6,7 @@
 [ext_resource path="res://MouseAttack/GUI/SubHeader.tscn" type="PackedScene" id=4]
 [ext_resource path="res://MouseAttack/Equip/Offensive/Staff/StaffFactory.tscn" type="PackedScene" id=5]
 [ext_resource path="res://MouseAttack/Item/Consumable/Health/HealthPotionFactory.tscn" type="PackedScene" id=6]
-[ext_resource path="res://MouseAttack/World/UI/Skill/CooldownProgressBar.tscn" type="PackedScene" id=7]
+[ext_resource path="res://MouseAttack/Theme/Fonts/Roboto16.tres" type="DynamicFont" id=7]
 [ext_resource path="res://MouseAttack/World/UI/Shop/ShopPanel.cs" type="Script" id=8]
 [ext_resource path="res://MouseAttack/Item/Consumable/Mana/ManaPotionFactory.tscn" type="PackedScene" id=9]
 
@@ -20,6 +20,7 @@ margin_left = 5.0
 margin_top = 5.0
 margin_right = 181.0
 margin_bottom = 75.0
+rect_min_size = Vector2( 0, 105 )
 mouse_filter = 1
 theme = ExtResource( 1 )
 custom_styles/panel = SubResource( 1 )
@@ -27,12 +28,12 @@ script = ExtResource( 8 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
-CooldownPath = NodePath("VBoxContainer/PanelContainer/CooldownProgressBar")
+CooldownLabelPath = NodePath("VBoxContainer/PanelContainer/CooldownLabel")
 SlotContainerPath = NodePath("VBoxContainer/PanelContainer/SlotContainer")
 
 [node name="VBoxContainer" type="VBoxContainer" parent="."]
 margin_right = 176.0
-margin_bottom = 70.0
+margin_bottom = 105.0
 
 [node name="SubHeader" parent="VBoxContainer" instance=ExtResource( 4 )]
 margin_right = 176.0
@@ -59,7 +60,7 @@ custom_styles/separator = ExtResource( 3 )
 [node name="PanelContainer" type="PanelContainer" parent="VBoxContainer"]
 margin_top = 29.0
 margin_right = 176.0
-margin_bottom = 70.0
+margin_bottom = 105.0
 mouse_filter = 1
 size_flags_vertical = 3
 custom_styles/panel = SubResource( 2 )
@@ -74,12 +75,16 @@ alignment = 1
 margin_right = 32.0
 margin_bottom = 76.0
 ItemFactoriesPath = NodePath("../../../../PotionFactories")
+ItemLevelRange = 1
+PriceRange = 1
 
 [node name="ShopSlot2" parent="VBoxContainer/PanelContainer/SlotContainer" instance=ExtResource( 2 )]
 margin_left = 36.0
 margin_right = 68.0
 margin_bottom = 76.0
 ItemFactoriesPath = NodePath("../../../../PotionFactories")
+ItemLevelRange = 1
+PriceRange = 1
 
 [node name="ShopSlot3" parent="VBoxContainer/PanelContainer/SlotContainer" instance=ExtResource( 2 )]
 margin_left = 72.0
@@ -99,23 +104,13 @@ margin_right = 176.0
 margin_bottom = 76.0
 ItemFactoriesPath = NodePath("../../../../Factories")
 
-[node name="CooldownProgressBar" parent="VBoxContainer/PanelContainer" instance=ExtResource( 7 )]
-margin_top = 0.0
+[node name="CooldownLabel" type="Label" parent="VBoxContainer/PanelContainer"]
+margin_top = 28.0
 margin_right = 176.0
-margin_bottom = 41.0
-rect_rotation = 0.0
-mouse_filter = 1
-size_flags_horizontal = 3
-size_flags_vertical = 1
-value = 50.0
-
-[node name="Label" parent="VBoxContainer/PanelContainer/CooldownProgressBar" index="0"]
-anchor_right = 1.0
-anchor_bottom = 1.0
-margin_left = 0.0
-margin_right = 0.0
-margin_bottom = 0.0
-rect_rotation = 0.0
+margin_bottom = 47.0
+custom_fonts/font = ExtResource( 7 )
+text = "Open in 5 Turns"
+align = 1
 
 [node name="Factories" type="Node" parent="."]
 
@@ -125,8 +120,9 @@ IsKnown = false
 [node name="PotionFactories" type="Node" parent="."]
 
 [node name="HealthPotionFactory" parent="PotionFactories" instance=ExtResource( 6 )]
+Value = 50
+Amount = 10
 
 [node name="ManaPotionFactory" parent="PotionFactories" instance=ExtResource( 9 )]
 
 [editable path="VBoxContainer/SubHeader"]
-[editable path="VBoxContainer/PanelContainer/CooldownProgressBar"]

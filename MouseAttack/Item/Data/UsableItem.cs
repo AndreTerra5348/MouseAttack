@@ -68,8 +68,10 @@ namespace MouseAttack.Item.Data
         public override Stack<TooltipInfo> GetTooltipInfo()
         {
             Stack<TooltipInfo> tooltipInfo = base.GetTooltipInfo();
-            tooltipInfo.Push(new TooltipInfo($"Duration: {Duration}", Colors.MediumVioletRed));
-            tooltipInfo.Push(new TooltipInfo($"Cooldown: {Cooldown}", Colors.Aquamarine));
+            if(Duration > 0)
+                tooltipInfo.Push(new TooltipInfo($"Duration: {Duration}", Colors.MediumVioletRed));
+            if(Cooldown > 0)
+                tooltipInfo.Push(new TooltipInfo($"Cooldown: {Cooldown}", Colors.Aquamarine));
             return tooltipInfo;
         }
 

@@ -1,6 +1,6 @@
 ﻿using Godot;
+using MouseAttack.GUI;
 using MouseAttack.Item.Data;
-using MouseAttack.World.UI.Skill;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,13 +15,13 @@ namespace MouseAttack.Item.ActionMenu
 
         [Export]
         NodePath CooldownProgressPath = "";
-        CooldownProgressBar _cooldownProgress;
+        CooldownBar _cooldownProgress;
 
         new ConsumableItem Item => base.Item as ConsumableItem;
         public override void _Ready()
         {
             base._Ready();
-            _cooldownProgress = GetNode<CooldownProgressBar>(CooldownProgressPath);
+            _cooldownProgress = GetNode<CooldownBar>(CooldownProgressPath);
             Item.CooldownStarted += OnCooldownStarted;
         }        
 

@@ -22,6 +22,9 @@ namespace MouseAttack.Item.Data
         [AssignTo(nameof(CommonItem.IsKnown))]
         [Export]
         public bool IsKnown { get; set; } = true;
+        [AssignTo(nameof(CommonItem.Color))]
+        [Export]
+        public Color Color { get; set; } = new Color("a8a8a8");
 
 
         [Export]

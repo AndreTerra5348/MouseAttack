@@ -25,8 +25,6 @@ namespace MouseAttack.Skill.Data
     {
         public int Damage { get; private set; }
 
-        public override Color Color => Colors.Red;
-
         public override Stack<TooltipInfo> GetTooltipInfo()
         {
             Stack<TooltipInfo> tooltipInfo = base.GetTooltipInfo();

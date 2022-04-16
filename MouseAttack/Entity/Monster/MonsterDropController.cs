@@ -18,10 +18,14 @@ namespace MouseAttack.Entity.Monster
 {
     public class MonsterDropController : Node
     {
+        const string ExpTextFormat = "+{0} EXP";
+        Color _expTextColor = new Color("96eeaa12");
         DropLabelProvider DropLabelProvider => 
             TreeSharer.GetNode<DropLabelProvider>();
         PlayerInventory PlayerInventory =>
             TreeSharer.GetNode<PlayerInventory>();
+        FloatingLabelProvider FloatingLabelProvider =>
+            TreeSharer.GetNode<FloatingLabelProvider>();
 
         IEnumerable<CommonItemFactory> GetDropList() =>
             GetChildren().OfType<CommonItemFactory>();
@@ -32,6 +36,12 @@ namespace MouseAttack.Entity.Monster
             IEnumerable<CommonItemFactory> dropList = GetDropList();
             monsterEntity.Dead += (s, e) =>
             {
+                FloatingLabel expLabel = FloatingLabelProvider.GetLabel();
+                expLabel.Text = String.Format(ExpTextFormat, monsterEntity.Character.Experience);
+                expLabel.Position = monsterEntity.Position;
+                expLabel.Color = _expTextColor;
+                monsterEntity.QueueFloatingLabel(expLabel);
+
                 foreach (CommonItemFactory itemFactory in dropList)
                 {
                     if (!itemFactory.Dropped)

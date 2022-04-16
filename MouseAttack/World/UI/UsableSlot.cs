@@ -7,27 +7,28 @@ using MouseAttack.Entity.Player.Inventory;
 using System.ComponentModel;
 using MouseAttack.Skill.Data;
 using System.Linq;
+using MouseAttack.GUI;
 
-namespace MouseAttack.World.UI.Skill
+namespace MouseAttack.World.UI
 {
-    public class SkillSlot : Slot<UsableItem>
+    public class UsableSlot : Slot<UsableItem>
     {
         // Reset and Update Cooldown when Item dragged or dropped
         [Export]
-        NodePath CooldownProgressPath = "";
-        CooldownProgressBar _cooldownProgress;
+        NodePath CooldownBarPath = "";
+        CooldownBar _cooldownBar;
         [Export]
         bool IsMainAttack { get; set; } = false;
 
-        GridController GridController => 
+        GridController GridController =>
             TreeSharer.GetNode<GridController>();
-        PlayerInventory PlayerInventory => 
+        PlayerInventory PlayerInventory =>
             TreeSharer.GetNode<PlayerInventory>();
 
         public override void _Ready()
         {
             base._Ready();
-            _cooldownProgress = GetNode<CooldownProgressBar>(CooldownProgressPath);
+            _cooldownBar = GetNode<CooldownBar>(CooldownBarPath);
             UnsetItem();
 
             if (!IsMainAttack)
@@ -57,11 +58,11 @@ namespace MouseAttack.World.UI.Skill
 
         public override void _Input(InputEvent @event)
         {
-            if (@event.IsActionPressed(String.Format(InputAction.HotkeyFormat, GetIndex() + 1)))
+            if (@event.IsActionPressed(string.Format(InputAction.HotkeyFormat, GetIndex() + 1)))
             {
                 Pressed = true;
                 _Pressed();
-            }            
+            }
 
             if (!Pressed)
                 return;
@@ -83,7 +84,7 @@ namespace MouseAttack.World.UI.Skill
             if (!Item.CanUse)
                 return;
 
-            Item.Use();            
+            Item.Use();
         }
 
         protected override void RegistryItemEvents(UsableItem item)
@@ -91,7 +92,7 @@ namespace MouseAttack.World.UI.Skill
             item.CooldownStarted += OnCooldownStarted;
             base.RegistryItemEvents(item);
         }
-        
+
 
         protected override void UnregistryItemEvents(UsableItem item)
         {
@@ -100,7 +101,7 @@ namespace MouseAttack.World.UI.Skill
         }
 
         private void OnCooldownStarted(object sender, CooldownEventArgs e) =>
-            _cooldownProgress.Start(e.Cooldown);
+            _cooldownBar.Start(e.Cooldown);
 
 
         protected override void ItemDragged()

@@ -2,10 +2,11 @@
 
 [ext_resource path="res://MouseAttack/Item/ActionMenu/ConsumableActionMenu.cs" type="Script" id=1]
 [ext_resource path="res://MouseAttack/Item/ActionMenu/ItemActionMenu.tscn" type="PackedScene" id=2]
-[ext_resource path="res://MouseAttack/World/UI/Skill/CooldownProgressBar.tscn" type="PackedScene" id=3]
+[ext_resource path="res://MouseAttack/GUI/CooldownBar.tscn" type="PackedScene" id=3]
 
 [node name="ConsumableActionMenu" instance=ExtResource( 2 )]
 script = ExtResource( 1 )
 CooldownProgressPath = NodePath("CooldownProgressBar")
 
 [node name="CooldownProgressBar" parent="." index="1" instance=ExtResource( 3 )]
+visible = false

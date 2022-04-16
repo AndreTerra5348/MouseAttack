@@ -43,7 +43,6 @@ namespace MouseAttack.Item.Consumable
         PlayerCharacter Character => 
             PlayerEntity.Character;
 
-        public override Color Color => Colors.LightSalmon;
         public override string DropText => $"{Count} {Name}";
 
         public override Stack<TooltipInfo> GetTooltipInfo()
