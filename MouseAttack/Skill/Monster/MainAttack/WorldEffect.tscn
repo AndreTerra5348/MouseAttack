@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=2]
+
+[ext_resource path="res://MouseAttack/Skill/WorldEffect/DamageWorldEffect.tscn" type="PackedScene" id=1]
+
+[node name="MainAttack" instance=ExtResource( 1 )]
+QueueFreeDelay = 0.0

@@ -1,10 +1,9 @@
-[gd_scene load_steps=6 format=2]
+[gd_scene load_steps=5 format=2]
 
 [ext_resource path="res://MouseAttack/Entity/Monster/MonsterEntity.tscn" type="PackedScene" id=1]
-[ext_resource path="res://MouseAttack/Skill/Monster/Stone/StoneFactory.tscn" type="PackedScene" id=2]
+[ext_resource path="res://MouseAttack/Skill/Monster/MainAttack/MainAttackFactory.tscn" type="PackedScene" id=2]
 [ext_resource path="res://MouseAttack/Item/Currency/GoldFactory.tscn" type="PackedScene" id=3]
 [ext_resource path="res://MouseAttack/Equip/Offensive/Staff/StaffFactory.tscn" type="PackedScene" id=4]
-[ext_resource path="res://MouseAttack/Item/Consumable/Mana/ManaPotionFactory.tscn" type="PackedScene" id=5]
 
 [node name="Rat" instance=ExtResource( 1 )]
 
@@ -27,10 +26,10 @@ Points = 10
 Points = 10
 
 [node name="MonsterSkillController" parent="." index="2"]
-MainAttackFactoryPath = NodePath("StoneFactory")
+MainAttackFactoryPath = NodePath("MainAttackFactory")
 Range = 0
 
-[node name="StoneFactory" parent="MonsterSkillController" index="0" instance=ExtResource( 2 )]
+[node name="MainAttackFactory" parent="MonsterSkillController" index="0" instance=ExtResource( 2 )]
 
 [node name="StaffFactory" parent="MonsterDropController" index="0" instance=ExtResource( 4 )]
 DropRate = 100
@@ -38,7 +37,5 @@ DropRate = 100
 [node name="GoldFactory" parent="MonsterDropController" index="1" instance=ExtResource( 3 )]
 MinBaseValue = 2
 MaxBaseValue = 5
-
-[node name="ManaPotionFactory" parent="MonsterDropController" index="2" instance=ExtResource( 5 )]
 
 [editable path="Graphics/HealthBar"]

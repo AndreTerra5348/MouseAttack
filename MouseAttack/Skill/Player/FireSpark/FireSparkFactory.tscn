@@ -2,10 +2,10 @@
 
 [ext_resource path="res://MouseAttack/Skill/Data/DamageSkillFactory.cs" type="Script" id=1]
 [ext_resource path="res://MouseAttack/Skill/TargetEffect/World/Blood/Blood.tres" type="Resource" id=2]
-[ext_resource path="res://MouseAttack/Skill/Player/MainAttack/WorldEffect.tscn" type="PackedScene" id=3]
-[ext_resource path="res://MouseAttack/Skill/Player/MainAttack/flame_0.png" type="Texture" id=4]
+[ext_resource path="res://MouseAttack/Skill/Player/FireSpark/WorldEffect.tscn" type="PackedScene" id=3]
+[ext_resource path="res://MouseAttack/Skill/Player/FireSpark/flame_0.png" type="Texture" id=4]
 
-[node name="MainAttackFactory" type="Node"]
+[node name="FireSparkFactory" type="Node"]
 script = ExtResource( 1 )
 ItemName = "Fire Spark"
 IconTexture = [ ExtResource( 4 ) ]

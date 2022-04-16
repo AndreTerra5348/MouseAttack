@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/flame_0.png-dbec2eb735647ad86329270ebbc082c4.stex"
+path="res://.import/flame_0.png-5fec24cc27ec6049fdd6cbc3b378a924.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://MouseAttack/Skill/Player/MainAttack/flame_0.png"
-dest_files=[ "res://.import/flame_0.png-dbec2eb735647ad86329270ebbc082c4.stex" ]
+source_file="res://MouseAttack/Skill/Player/FireSpark/flame_0.png"
+dest_files=[ "res://.import/flame_0.png-5fec24cc27ec6049fdd6cbc3b378a924.stex" ]
 
 [params]
 

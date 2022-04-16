@@ -10,7 +10,7 @@
 [ext_resource path="res://MouseAttack/Entity/UI/HealthBar.tscn" type="PackedScene" id=8]
 [ext_resource path="res://MouseAttack/World/UI/ManaBar.tscn" type="PackedScene" id=9]
 [ext_resource path="res://MouseAttack/Item/Currency/GoldFactory.tscn" type="PackedScene" id=13]
-[ext_resource path="res://MouseAttack/Skill/Player/MainAttack/MainAttackFactory.tscn" type="PackedScene" id=17]
+[ext_resource path="res://MouseAttack/Skill/Player/FireSpark/FireSparkFactory.tscn" type="PackedScene" id=17]
 [ext_resource path="res://MouseAttack/Misc/UI/FloatingLabelSpawner.cs" type="Script" id=18]
 [ext_resource path="res://MouseAttack/Entity/Player/PlayerEquip.cs" type="Script" id=20]
 
@@ -86,10 +86,10 @@ script = ExtResource( 20 )
 
 [node name="PlayerInventory" type="Node" parent="."]
 script = ExtResource( 7 )
-MainAttackFactoryPath = NodePath("MainAttackFactory")
+MainAttackFactoryPath = NodePath("FireSparkFactory")
 GoldFactoryPath = NodePath("GoldFactory")
 
-[node name="MainAttackFactory" parent="PlayerInventory" instance=ExtResource( 17 )]
+[node name="FireSparkFactory" parent="PlayerInventory" instance=ExtResource( 17 )]
 EffectColor = Color( 0.705882, 0, 0, 1 )
 
 [node name="GoldFactory" parent="PlayerInventory" instance=ExtResource( 13 )]
