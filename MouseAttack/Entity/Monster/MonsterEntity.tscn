@@ -47,6 +47,7 @@ script = ExtResource( 5 )
 [node name="MonsterSkillController" type="Node" parent="."]
 script = ExtResource( 7 )
 GraphicsPath = NodePath("../Graphics")
+Range = 2
 
 [node name="MonsterDropController" type="Node" parent="."]
 script = ExtResource( 10 )

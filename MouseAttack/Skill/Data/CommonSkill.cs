@@ -23,6 +23,7 @@ namespace MouseAttack.Skill.Data
         const string TypeName = "Skill";
 
         public PackedScene WorldEffectScene { get; private set; }
+        public int EffectDuration { get; private set; } = 1;
         public int ManaCost { get; private set; } = 1;
         public override bool CanUse
         {

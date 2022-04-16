@@ -16,9 +16,11 @@ namespace MouseAttack.Misc
         [Export]
         float _queueFreeDelay = 0.3f;
 
+        GridController GridController => TreeSharer.GetNode<GridController>();
+
         public override void _Ready()
         {
-            TreeSharer.GetNode<GridController>().RoundFinished += OnRoundFinished;
+            GridController.RoundFinished += OnRoundFinished;
             ElapseTurn();
         }
 
@@ -32,7 +34,7 @@ namespace MouseAttack.Misc
             if (_duration > 0)
                 return;
 
-            TreeSharer.GetNode<GridController>().RoundFinished -= OnRoundFinished;
+            GridController.RoundFinished -= OnRoundFinished;
 
             await this.CreateTimer(_queueFreeDelay);
 

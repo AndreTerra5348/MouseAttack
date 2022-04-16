@@ -36,6 +36,8 @@ namespace MouseAttack.Constants
         public static readonly string IndexPressed = "index_pressed";
 
         public static readonly string PopupHide = "popup_hide";
+
+        public static readonly string TreeExiting = "tree_exiting";
     }
     
 }

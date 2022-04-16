@@ -46,7 +46,7 @@ namespace MouseAttack.Entity.Monster
         {
             if (Range == 0)
                 return StartApproachAnimation();
-            return this.CreateTimer(_monsterEntity.MovementDelay);
+            return UseRangedSkill();
         }
 
         private SignalAwaiter StartApproachAnimation()
@@ -58,7 +58,7 @@ namespace MouseAttack.Entity.Monster
                 PlayerEntity.GlobalPosition,
                 TweenSpeed);
 
-            UseSkill();
+            UseCloseRangeSkill();
 
             _tween.InterpolateProperty(_graphics,
                 GodotProperties.GlobalPosition,
@@ -70,13 +70,27 @@ namespace MouseAttack.Entity.Monster
             return ToSignal(_tween, Signals.TweenAllCompleted);
         }
 
-        async private void UseSkill()
+        async private void UseCloseRangeSkill()
         {
             await this.CreateTimer(TweenSpeed);
+            CommonWorldEffect worldEffect = GetWorldEffect(PlayerEntity.GlobalPosition);
+            GridController.AddChild(worldEffect);
+        }
+
+        private SignalAwaiter UseRangedSkill()
+        {
+            CommonWorldEffect worldEffect = GetWorldEffect(_monsterEntity.GlobalPosition);
+            Mover mover = new Mover(worldEffect);
+            GridController.AddChild(mover);
+            return ToSignal(mover, Signals.TreeExiting);
+        }
+
+        private CommonWorldEffect GetWorldEffect(Vector2 position)
+        {
             CommonWorldEffect worldEffect = _skill.GetWorldEffect();
             worldEffect.User = _monsterEntity;
-            worldEffect.Position = PlayerEntity.GlobalPosition;
-            GridController.AddChild(worldEffect);
+            worldEffect.Position = position;
+            return worldEffect;
         }
 
     }

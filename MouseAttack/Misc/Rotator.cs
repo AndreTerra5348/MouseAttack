@@ -1,5 +1,4 @@
 ﻿using Godot;
-using MouseAttack.Misc;
 using MouseAttack.World;
 using System;
 using System.Collections.Generic;
@@ -7,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace MouseAttack.Skill.Module
+namespace MouseAttack.Misc
 {
     public class Rotator : Node
     {

@@ -11,6 +11,7 @@ namespace MouseAttack.Skill.WorldEffect
     public abstract class CollidableWorldEffect : CommonWorldEffect
     {
         new CollidableSkill Skill => base.Skill as CollidableSkill;
+
         public override void _Ready()
         {
             base._Ready();
@@ -32,8 +33,15 @@ namespace MouseAttack.Skill.WorldEffect
             OnCollision(target);
         }
 
-        protected virtual void OnCollision(CommonEntity target) =>
+        async protected virtual void OnCollision(CommonEntity target)
+        {
             Skill.Apply(User, target);
+            if (QueueFreeMode != QueueFreeMode.Collision)
+                return;
+
+            await this.CreateTimer(QueueFreeDelay);
+            QueueFree();
+        }
 
     }
 }
