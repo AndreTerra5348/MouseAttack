@@ -32,9 +32,9 @@ namespace MouseAttack.Skill.Data
             return tooltipInfo;
         }
 
-        private float CalculateDamage(Character attacker, Character defender)
+        private float CalculateDamage(Character attacker, Character defender, out bool isCritical)
         {
-            bool isCritical = attacker.IsCritical;
+            isCritical = attacker.IsCritical;
             float attackerDamage = attacker.Damage.Value;
             float attackerCriticalDamage = attacker.CriticalDamage.Value;
             if (isCritical)
@@ -53,8 +53,8 @@ namespace MouseAttack.Skill.Data
         {
             ApplyAction = () =>
             {
-                float damage = CalculateDamage(user.Character, target.Character);
-                SpawnFloatingLabel(target, damage.ToString("0.0"));
+                float damage = CalculateDamage(user.Character, target.Character, out bool isCritical);
+                SpawnFloatingLabel(target, damage.ToString("0.0"), isCritical ? 15 : 13);
                 SpawnTargetEffects(target);
 
                 target.Character.Hit(damage);

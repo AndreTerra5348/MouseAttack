@@ -5,6 +5,7 @@ using MouseAttack.Entity.Monster;
 using MouseAttack.Extensions;
 using MouseAttack.Item.Data;
 using MouseAttack.Misc;
+using MouseAttack.Misc.UI;
 using MouseAttack.World;
 using System;
 using System.Collections.Generic;
@@ -13,7 +14,7 @@ namespace MouseAttack.Entity.Player
 {
     public class PlayerEntity : SpecializedEntity<PlayerCharacter>, ISharable
     {
-        protected override string CharacterName => nameof(PlayerCharacter);
+        protected override string CharacterName => nameof(PlayerCharacter);       
 
         public PlayerEntity() => 
             TreeSharer.RegistryNode(this);

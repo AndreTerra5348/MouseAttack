@@ -21,20 +21,24 @@ namespace MouseAttack.World.Monster
 
     public class MonsterGenerator : Node, ISharable
     {
+        
         public event EventHandler<MonsterSpawnedEventArgs> MonsterSpawned;
-
         public static readonly int MonsterSpawnTile = 1;
 
         [Export]
-        List<MonsterPool> _pool = new List<MonsterPool>();
+        PackedScene MonsterEntityScene { get; set; }
 
-        int _dbIndex = 0;
-        int _divisor = 5;
+        int _nextSpawnTurnThreashold = 5;
+        int _nextLevelTurnThreashold = 10;
+
         List<Vector2> _monsterSpawnPoints;
-        Stage Stage => TreeSharer.GetNode<Stage>();
-        GridController GridController => TreeSharer.GetNode<GridController>();
+        Stage Stage => 
+            TreeSharer.GetNode<Stage>();
+        GridController GridController => 
+            TreeSharer.GetNode<GridController>();
 
-        public MonsterGenerator() => TreeSharer.RegistryNode(this);     
+        public MonsterGenerator() => 
+            TreeSharer.RegistryNode(this);     
         
 
         public override void _Ready()
@@ -59,7 +63,7 @@ namespace MouseAttack.World.Monster
             HasZeroMonsters();
 
         bool IsSpawnableRound() =>
-            GridController.RoundCount % _divisor == 0;
+            GridController.RoundCount % _nextSpawnTurnThreashold == 0;
 
         bool HasZeroMonsters() =>
             GridController.MonsterCount <= 1;
@@ -73,7 +77,9 @@ namespace MouseAttack.World.Monster
             if (!GridController.IsCellAvailable(position))
                 return;
 
-            MonsterEntity monsterEntity = _pool[_dbIndex].GetRandomMonster();
+            var monsterLevel = Stage.Random.Next(GridController.RoundCount / _nextLevelTurnThreashold) + 1;
+            var monsterEntity = MonsterEntityScene.Instance<MonsterEntity>();
+            monsterEntity.Level = monsterLevel;
             GridController.AddChild(monsterEntity);
             monsterEntity.Position = position;
             MonsterSpawned?.Invoke(this, new MonsterSpawnedEventArgs(monsterEntity));                     

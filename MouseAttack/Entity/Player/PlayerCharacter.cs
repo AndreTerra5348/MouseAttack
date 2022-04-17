@@ -1,4 +1,7 @@
-﻿using MouseAttack.Characteristic;
+﻿using Godot;
+using MouseAttack.Characteristic;
+using MouseAttack.Misc;
+using MouseAttack.Misc.UI;
 using System;
 
 namespace MouseAttack.Entity.Player
@@ -24,15 +27,8 @@ namespace MouseAttack.Entity.Player
         public Stats ManaRegen => StatsMap[StatsType.ManaRegen];
         public Stats HealthRegen => StatsMap[StatsType.HealthRegen];
 
-        public override void _Ready()
-        {
-            base._Ready();
-        }
-
-        protected override void OnLevelRaised()
-        {
+        protected override void OnLevelRaised() =>
             AttributePoints += AttributesPerLevel;
-        }
 
         public bool HasEnoughMana(float value) => Mana.CurrentValue >= value;
 

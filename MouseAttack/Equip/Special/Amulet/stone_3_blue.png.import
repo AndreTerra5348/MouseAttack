@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/rat.png-68779c8e67b4d0f69d2d92f7b972a2d9.stex"
+path="res://.import/stone_3_blue.png-e68e1a7b5ae58ce605229b00b7bfa3ac.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://MouseAttack/Entity/Monster/Database/Rat/rat.png"
-dest_files=[ "res://.import/rat.png-68779c8e67b4d0f69d2d92f7b972a2d9.stex" ]
+source_file="res://MouseAttack/Equip/Special/Amulet/stone_3_blue.png"
+dest_files=[ "res://.import/stone_3_blue.png-e68e1a7b5ae58ce605229b00b7bfa3ac.stex" ]
 
 [params]
 

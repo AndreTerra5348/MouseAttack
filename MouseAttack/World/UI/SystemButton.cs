@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace MouseAttack.World.UI
 {
-    public abstract class SystemButton<T> : Button where T : SystemPanel, ISharable
+    public abstract class SystemButton<T> : Button where T : SystemPanel
     {
         [Export]
         float BlickTimeout { get; set; } = 0.5f;

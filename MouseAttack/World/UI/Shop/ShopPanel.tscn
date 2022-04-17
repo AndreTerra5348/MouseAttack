@@ -1,4 +1,4 @@
-[gd_scene load_steps=12 format=2]
+[gd_scene load_steps=14 format=2]
 
 [ext_resource path="res://MouseAttack/Theme/TabbedPanelTheme.tres" type="Theme" id=1]
 [ext_resource path="res://MouseAttack/World/UI/Shop/ShopSlot.tscn" type="PackedScene" id=2]
@@ -9,6 +9,8 @@
 [ext_resource path="res://MouseAttack/Theme/Fonts/Roboto16.tres" type="DynamicFont" id=7]
 [ext_resource path="res://MouseAttack/World/UI/Shop/ShopPanel.cs" type="Script" id=8]
 [ext_resource path="res://MouseAttack/Item/Consumable/Mana/ManaPotionFactory.tscn" type="PackedScene" id=9]
+[ext_resource path="res://MouseAttack/Equip/Defensive/Robe/RobeFactory.tscn" type="PackedScene" id=10]
+[ext_resource path="res://MouseAttack/Equip/Special/Amulet/AmuletFactory.tscn" type="PackedScene" id=11]
 
 [sub_resource type="StyleBoxEmpty" id=1]
 
@@ -28,7 +30,7 @@ script = ExtResource( 8 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
-CooldownLabelPath = NodePath("VBoxContainer/PanelContainer/CooldownLabel")
+CooldownLabelPath = NodePath("VBoxContainer/CooldownLabel")
 SlotContainerPath = NodePath("VBoxContainer/PanelContainer/SlotContainer")
 
 [node name="VBoxContainer" type="VBoxContainer" parent="."]
@@ -60,7 +62,7 @@ custom_styles/separator = ExtResource( 3 )
 [node name="PanelContainer" type="PanelContainer" parent="VBoxContainer"]
 margin_top = 29.0
 margin_right = 176.0
-margin_bottom = 105.0
+margin_bottom = 82.0
 mouse_filter = 1
 size_flags_vertical = 3
 custom_styles/panel = SubResource( 2 )
@@ -104,10 +106,10 @@ margin_right = 176.0
 margin_bottom = 76.0
 ItemFactoriesPath = NodePath("../../../../Factories")
 
-[node name="CooldownLabel" type="Label" parent="VBoxContainer/PanelContainer"]
-margin_top = 28.0
+[node name="CooldownLabel" type="Label" parent="VBoxContainer"]
+margin_top = 86.0
 margin_right = 176.0
-margin_bottom = 47.0
+margin_bottom = 105.0
 custom_fonts/font = ExtResource( 7 )
 text = "Open in 5 Turns"
 align = 1
@@ -117,12 +119,17 @@ align = 1
 [node name="StaffFactory" parent="Factories" instance=ExtResource( 5 )]
 IsKnown = false
 
+[node name="RobeFactory" parent="Factories" instance=ExtResource( 10 )]
+IsKnown = false
+
+[node name="AmuletFactory" parent="Factories" instance=ExtResource( 11 )]
+IsKnown = false
+
 [node name="PotionFactories" type="Node" parent="."]
 
 [node name="HealthPotionFactory" parent="PotionFactories" instance=ExtResource( 6 )]
-Value = 50
-Amount = 10
 
 [node name="ManaPotionFactory" parent="PotionFactories" instance=ExtResource( 9 )]
+Value = 25
 
 [editable path="VBoxContainer/SubHeader"]

@@ -14,7 +14,7 @@ using System.Threading.Tasks;
 
 namespace MouseAttack.Item.Consumable
 {
-    public class PotionItem : ConsumableItem
+    public class ResourcePotion : ConsumableItem
     {
         public ResourceType Type { get; private set; }
 

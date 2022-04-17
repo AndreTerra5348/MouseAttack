@@ -32,6 +32,8 @@ namespace MouseAttack.Entity
             get => _level;
             set
             {
+                if (DisableLevelUp)
+                    return;
                 if (value == _level)
                     return;
                 _level = value;
@@ -41,6 +43,8 @@ namespace MouseAttack.Entity
                 Experience = 0;
             }
         }
+
+        public bool DisableLevelUp { get; set; } = false;
 
         float _experience = 0;
         [Export]

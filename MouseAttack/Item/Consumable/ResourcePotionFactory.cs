@@ -9,16 +9,16 @@ using System.Threading.Tasks;
 
 namespace MouseAttack.Item.Consumable
 {
-    public class PotionItemFactory : ConsumableItemFactory
+    public class ResourcePotionFactory : ConsumableItemFactory
     {
-        [AssignTo(nameof(PotionItem.Type))]
+        [AssignTo(nameof(ResourcePotion.Type))]
         [Export]
         public ResourceType Type { get; private set; }
-        [AssignTo(nameof(PotionItem.Amount))]
+        [AssignTo(nameof(ResourcePotion.Amount))]
         [Export]
         public int Amount { get; private set; }
 
         protected override CommonItem GetNewItem() =>
-            new PotionItem();
+            new ResourcePotion();
     }
 }

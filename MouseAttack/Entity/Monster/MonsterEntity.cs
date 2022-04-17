@@ -5,6 +5,7 @@ using MouseAttack.Extensions;
 using MouseAttack.Misc;
 using MouseAttack.World;
 using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace MouseAttack.Entity.Monster
@@ -15,10 +16,13 @@ namespace MouseAttack.Entity.Monster
         protected override string CharacterName => nameof(MonsterCharacter);
         
         PlayerEntity PlayerEntity => TreeSharer.GetNode<PlayerEntity>();
+        Stage Stage => TreeSharer.GetNode<Stage>();
         MonsterSkillController MonsterSkillController { get; set; }
-        [Export]
-        public int Level { get; private set; } = 1;
 
+        public int Level { get; set; } = 1;
+
+        [Export]
+        List<Texture> Textures { get; set; }
         [Export]
         NodePath _spritePath = "";
         Sprite _sprite;
@@ -32,8 +36,20 @@ namespace MouseAttack.Entity.Monster
             base._Ready();
             MonsterSkillController = GetNode<MonsterSkillController>(nameof(MonsterSkillController));
             _sprite = GetNode<Sprite>(_spritePath);
+            _sprite.Texture = Textures[(Level - 1) % Textures.Count];
             Label nameLabel = GetNode<Label>(_nameLabelPath);
             nameLabel.Text += $" Lv:{Level}";
+
+            Character.DisableLevelUp = true;
+
+            var multiplier = Level / 2.0f;
+            Character.Experience *= multiplier;
+            Character.Health.AlteredPercentage = multiplier;
+            Character.Health.AlteredPercentage = multiplier;
+            Character.Damage.AlteredPercentage = multiplier;
+            Character.Defense.AlteredPercentage = multiplier;
+            Character.CriticalRate.AlteredPercentage = multiplier;
+            Character.CriticalDamage.AlteredPercentage = multiplier;
 
             OnEntityInitialized();
             // Skip a frame to update it's position

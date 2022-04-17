@@ -16,8 +16,6 @@ namespace MouseAttack.Entity.Monster
 {
     public class MonsterSkillController : Node
     {
-        [Export]
-        NodePath MainAttackFactoryPath { get; set; } = "";
         DamageSkill _skill;
         [Export]
         NodePath GraphicsPath { get; set; } = "";
@@ -38,7 +36,8 @@ namespace MouseAttack.Entity.Monster
         {
             _monsterEntity = GetParent<MonsterEntity>();
             _graphics = GetNode<Node2D>(GraphicsPath);
-            _skill = GetNode<DamageSkillFactory>(MainAttackFactoryPath).CreateItem<DamageSkill>();
+            var skillFactory = GetChild<DamageSkillFactory>((_monsterEntity.Level-1) % GetChildCount());
+            _skill = skillFactory.CreateItem<DamageSkill>();
             AddChild(_tween);
         }
 

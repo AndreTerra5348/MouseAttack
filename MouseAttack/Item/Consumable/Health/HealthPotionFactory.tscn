@@ -1,15 +1,14 @@
 [gd_scene load_steps=3 format=2]
 
 [ext_resource path="res://MouseAttack/Item/Consumable/Health/pink.png" type="Texture" id=1]
-[ext_resource path="res://MouseAttack/Item/Consumable/PotionItemFactory.cs" type="Script" id=2]
+[ext_resource path="res://MouseAttack/Item/Consumable/ResourcePotionFactory.cs" type="Script" id=2]
 
 [node name="HealthPotionFactory" type="Node"]
 script = ExtResource( 2 )
-ItemName = "Health Potion"
-Value = 100
+ItemName = "Health"
+Value = 50
 IconTexture = [ ExtResource( 1 ) ]
-Color = Color( 0.929412, 0.419608, 0.419608, 1 )
-DropRate = 50
+Color = Color( 0.835294, 0.505882, 0.505882, 1 )
 EffectColor = Color( 0, 1, 0, 1 )
 MaxBaseValue = 1
 Type = 1

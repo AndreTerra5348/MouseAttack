@@ -48,12 +48,13 @@ namespace MouseAttack.Item.Data
             }                
         }
 
-        protected void SpawnFloatingLabel(CommonEntity target, string text)
+        protected void SpawnFloatingLabel(CommonEntity target, string text, int size = 13)
         {
             var label = FloatingLabelProvider.GetLabel();
             label.Text = text;
             label.Color = EffectColor;
             label.Position = target.GlobalPosition;
+            label.FontSize = size;
             target.QueueFloatingLabel(label);
         }
 

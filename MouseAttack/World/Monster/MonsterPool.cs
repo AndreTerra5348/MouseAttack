@@ -14,6 +14,7 @@ namespace MouseAttack.World.Monster
         [Export]
         public List<PackedScene> Monsters { get; private set; }
         Stage Stage => TreeSharer.GetNode<Stage>();
-        public MonsterEntity GetRandomMonster() => Monsters[Stage.Random.Next(Monsters.Count)].Instance<MonsterEntity>();
+        public MonsterEntity GetRandomMonster() => 
+            Monsters[Stage.Random.Next(Monsters.Count)].Instance<MonsterEntity>();
     }
 }

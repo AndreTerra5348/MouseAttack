@@ -1,18 +1,21 @@
-[gd_scene load_steps=6 format=2]
+[gd_scene load_steps=12 format=2]
 
 [ext_resource path="res://MouseAttack/Equip/Data/CommonEquipFactory.cs" type="Script" id=1]
-[ext_resource path="res://MouseAttack/Misc/UI/FloatingLabel.tscn" type="PackedScene" id=2]
-[ext_resource path="res://MouseAttack/Item/Icon/CommonIcon.tscn" type="PackedScene" id=3]
-[ext_resource path="res://MouseAttack/Equip/Tooltip/EquipTooltipPanel.tscn" type="PackedScene" id=4]
+[ext_resource path="res://MouseAttack/Equip/Special/Amulet/cameo_orange.png" type="Texture" id=2]
+[ext_resource path="res://MouseAttack/Equip/Special/Amulet/ring_cyan.png" type="Texture" id=3]
+[ext_resource path="res://MouseAttack/Equip/Special/Amulet/celtic_yellow.png" type="Texture" id=4]
 [ext_resource path="res://MouseAttack/Equip/Special/Amulet/crystal_green.png" type="Texture" id=5]
+[ext_resource path="res://MouseAttack/Equip/Special/Amulet/face_1_gold.png" type="Texture" id=6]
+[ext_resource path="res://MouseAttack/Equip/Special/Amulet/ring_red.png" type="Texture" id=7]
+[ext_resource path="res://MouseAttack/Equip/Special/Amulet/eye_cyan.png" type="Texture" id=8]
+[ext_resource path="res://MouseAttack/Equip/Special/Amulet/stone_2_green.png" type="Texture" id=9]
+[ext_resource path="res://MouseAttack/Equip/Special/Amulet/crystal_white.png" type="Texture" id=10]
+[ext_resource path="res://MouseAttack/Equip/Special/Amulet/stone_3_blue.png" type="Texture" id=11]
 
 [node name="AmuletFactory" type="Node"]
 script = ExtResource( 1 )
 ItemName = "Amulet"
 Value = 30
-DropRate = 20
-FloatingLabelDropScene = ExtResource( 2 )
-IconScene = ExtResource( 3 )
-IconTexture = [ ExtResource( 5 ) ]
-TooltipScene = ExtResource( 4 )
+IconTexture = [ ExtResource( 5 ), ExtResource( 10 ), ExtResource( 2 ), ExtResource( 8 ), ExtResource( 4 ), ExtResource( 6 ), ExtResource( 3 ), ExtResource( 7 ), ExtResource( 9 ), ExtResource( 11 ) ]
+DropRate = 1
 Type = 2

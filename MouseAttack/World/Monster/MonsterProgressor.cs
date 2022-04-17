@@ -26,15 +26,15 @@ namespace MouseAttack.World.Monster
             { StatsType.CriticalDamage, 1 },
             { StatsType.MovementSpeed, 1 }
         };
-        Stage Stage => TreeSharer.GetNode<Stage>();
-        
+        Stage Stage => 
+            TreeSharer.GetNode<Stage>();
+        MonsterGenerator MonsterGenerator => 
+            TreeSharer.GetNode<MonsterGenerator>();
+
         int _monsterCount = 0;
 
-        public override void _Ready()
-        {
-            MonsterGenerator monsterGenerator = TreeSharer.GetNode<MonsterGenerator>();
-            monsterGenerator.MonsterSpawned += OnMonsterSpawned;
-        }
+        public override void _Ready() =>
+            MonsterGenerator.MonsterSpawned += OnMonsterSpawned;
 
         private void OnMonsterSpawned(object sender, MonsterSpawnedEventArgs e)
         {

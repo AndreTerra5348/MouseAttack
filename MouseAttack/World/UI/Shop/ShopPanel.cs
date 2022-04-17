@@ -12,6 +12,7 @@ namespace MouseAttack.World.UI.Shop
     public class ShopPanel : PanelContainer
     {
         const string CooldownTextFormat = "Open in {0} Turn(s)";
+        const string RestockTextFormt = "Restock in {0} Turn(s)";
         [Export]
         NodePath CooldownLabelPath { get; set; }
         [Export]
@@ -19,7 +20,7 @@ namespace MouseAttack.World.UI.Shop
         [Export]
         int Cooldown { get; set; } = 5;
         int _elapsedCooldown = 0;
-
+        bool _onSale = false;
         Label _cooldownLabel;
         List<ShopSlot> _slots;
         Control _slotContainer;
@@ -31,6 +32,8 @@ namespace MouseAttack.World.UI.Shop
             _cooldownLabel = GetNode<Label>(CooldownLabelPath);
             _slotContainer = GetNode<Control>(SlotContainerPath);
             _slots = _slotContainer.GetChildren().OfType<ShopSlot>().ToList();
+
+            GridController.RoundFinished += OnRoundFinished;
 
             foreach (var slot in _slots)
             {
@@ -48,34 +51,39 @@ namespace MouseAttack.World.UI.Shop
                 slot.Reset();
             }
             _elapsedCooldown = Cooldown;
+            _onSale = false;
             UpdateCooldownLabel();
             UpdateSlotContainer();
-            GridController.RoundFinished += OnRoundFinished;
+            
         }
 
         private void OnRoundFinished(object sender, EventArgs e)
         {
             _elapsedCooldown--;
             UpdateCooldownLabel();
+
             if (_elapsedCooldown > 0)
                 return;
 
-            GridController.RoundFinished -= OnRoundFinished;
+            _onSale = true;
+            _elapsedCooldown = Cooldown;
+
             foreach (var slot in _slots)
             {
                 slot.UpdateItem();
             }
             UpdateSlotContainer();
+            UpdateCooldownLabel();
         }
 
         private void UpdateCooldownLabel()
         {
-            _cooldownLabel.Text = String.Format(CooldownTextFormat, _elapsedCooldown);
-            _cooldownLabel.Visible = _elapsedCooldown > 0;
+            var format = _onSale ? RestockTextFormt : CooldownTextFormat;
+            _cooldownLabel.Text = String.Format(format, _elapsedCooldown);
         }
 
         private void UpdateSlotContainer() =>
-            _slotContainer.Visible = _elapsedCooldown == 0;
+            _slotContainer.Visible = _onSale;
 
     }
 }

@@ -1,18 +1,13 @@
 ﻿using Godot;
-using MouseAttack.Entity.Player;
 using MouseAttack.Entity.Player.Inventory;
-using MouseAttack.Extensions;
 using MouseAttack.Item.Data;
 using MouseAttack.Item.Provider;
 using MouseAttack.Misc;
 using MouseAttack.Misc.UI;
-using MouseAttack.Skill.TargetEffect;
-using MouseAttack.World;
+using MouseAttack.World.Monster;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace MouseAttack.Entity.Monster
 {
@@ -20,6 +15,7 @@ namespace MouseAttack.Entity.Monster
     {
         const string ExpTextFormat = "+{0} EXP";
         Color _expTextColor = new Color("96eeaa12");
+
         DropLabelProvider DropLabelProvider => 
             TreeSharer.GetNode<DropLabelProvider>();
         PlayerInventory PlayerInventory =>

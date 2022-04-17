@@ -1,11 +1,11 @@
-[gd_scene load_steps=27 format=2]
+[gd_scene load_steps=28 format=2]
 
 [ext_resource path="res://MouseAttack/World/Tiles/grass.png" type="Texture" id=1]
 [ext_resource path="res://MouseAttack/World/Tiles/grass-spawn.png" type="Texture" id=2]
 [ext_resource path="res://MouseAttack/World/Monster/MonsterGenerator.cs" type="Script" id=3]
 [ext_resource path="res://MouseAttack/Entity/Player/PlayerEntity.tscn" type="PackedScene" id=4]
 [ext_resource path="res://MouseAttack/World/GridController.cs" type="Script" id=5]
-[ext_resource path="res://MouseAttack/World/Monster/Pool/Level1.tres" type="Resource" id=6]
+[ext_resource path="res://MouseAttack/Entity/Monster/MonsterEntity.tscn" type="PackedScene" id=6]
 [ext_resource path="res://MouseAttack/World/PlayerCursor.tscn" type="PackedScene" id=7]
 [ext_resource path="res://MouseAttack/World/PlayArea.cs" type="Script" id=8]
 [ext_resource path="res://MouseAttack/World/PlayerCursor.cs" type="Script" id=9]
@@ -24,6 +24,7 @@
 [ext_resource path="res://MouseAttack/World/UI/GoldContainer.tscn" type="PackedScene" id=22]
 [ext_resource path="res://MouseAttack/Theme/Button/PressedStyle.tres" type="StyleBox" id=23]
 [ext_resource path="res://MouseAttack/World/UI/SkipTurnButton.cs" type="Script" id=24]
+[ext_resource path="res://MouseAttack/Theme/Fonts/Roboto10.tres" type="DynamicFont" id=25]
 
 [sub_resource type="TileSet" id=1]
 0/name = "grass.png 0"
@@ -62,7 +63,7 @@ script = ExtResource( 11 )
 
 [node name="MonsterGenerator" type="Node" parent="."]
 script = ExtResource( 3 )
-_pool = [ ExtResource( 6 ) ]
+MonsterEntityScene = ExtResource( 6 )
 
 [node name="EquipDataChart" parent="." instance=ExtResource( 13 )]
 RareDropRate = 30
@@ -88,6 +89,7 @@ collision_mask = 7
 script = ExtResource( 9 )
 
 [node name="HudLayer" type="CanvasLayer" parent="."]
+layer = 2
 
 [node name="Border" type="PanelContainer" parent="HudLayer"]
 anchor_right = 1.0
@@ -153,6 +155,16 @@ __meta__ = {
 margin_top = 3.0
 margin_bottom = 23.0
 hint_tooltip = "Menu (Hotkey: Escape)"
+
+[node name="Label" type="Label" parent="HudLayer/Border/VBoxContainer/TopPanel/MarginContainer/SystemButtonsContainer/MenuPanelButton/AlertIcon" index="0"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+mouse_filter = 1
+custom_colors/font_color = Color( 0.741176, 0.627451, 0, 1 )
+custom_fonts/font = ExtResource( 25 )
+text = "Lv"
+align = 1
+valign = 1
 
 [node name="BottomPanel" type="PanelContainer" parent="HudLayer/Border/VBoxContainer"]
 margin_top = 419.0
@@ -250,10 +262,12 @@ margin_right = 672.0
 margin_bottom = 416.0
 
 [node name="DragPreviewRig" type="CanvasLayer" parent="."]
-layer = 6
+layer = 7
 
 [node name="DragPreviewParent" type="Control" parent="DragPreviewRig"]
 script = ExtResource( 10 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
+
+[editable path="HudLayer/Border/VBoxContainer/TopPanel/MarginContainer/SystemButtonsContainer/MenuPanelButton"]

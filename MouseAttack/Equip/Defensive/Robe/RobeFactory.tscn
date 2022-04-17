@@ -1,18 +1,21 @@
-[gd_scene load_steps=6 format=2]
+[gd_scene load_steps=12 format=2]
 
 [ext_resource path="res://MouseAttack/Equip/Data/CommonEquipFactory.cs" type="Script" id=1]
-[ext_resource path="res://MouseAttack/Equip/Tooltip/EquipTooltipPanel.tscn" type="PackedScene" id=2]
-[ext_resource path="res://MouseAttack/Item/Icon/CommonIcon.tscn" type="PackedScene" id=3]
-[ext_resource path="res://MouseAttack/Misc/UI/FloatingLabel.tscn" type="PackedScene" id=4]
+[ext_resource path="res://MouseAttack/Equip/Defensive/Robe/robe_2_old.png" type="Texture" id=2]
+[ext_resource path="res://MouseAttack/Equip/Defensive/Robe/robe_art_2.png" type="Texture" id=3]
+[ext_resource path="res://MouseAttack/Equip/Defensive/Robe/ring_mail_3.png" type="Texture" id=4]
 [ext_resource path="res://MouseAttack/Equip/Defensive/Robe/robe_2_new.png" type="Texture" id=5]
+[ext_resource path="res://MouseAttack/Equip/Defensive/Robe/robe_ego_1.png" type="Texture" id=6]
+[ext_resource path="res://MouseAttack/Equip/Defensive/Robe/robe_ego_2.png" type="Texture" id=7]
+[ext_resource path="res://MouseAttack/Equip/Defensive/Robe/robe_3.png" type="Texture" id=8]
+[ext_resource path="res://MouseAttack/Equip/Defensive/Robe/robe_1_new.png" type="Texture" id=9]
+[ext_resource path="res://MouseAttack/Equip/Defensive/Robe/robe_art_1.png" type="Texture" id=10]
+[ext_resource path="res://MouseAttack/Equip/Defensive/Robe/robe_1_old.png" type="Texture" id=11]
 
 [node name="RobeFactory" type="Node"]
 script = ExtResource( 1 )
 ItemName = "Robe"
 Value = 20
-DropRate = 50
-FloatingLabelDropScene = ExtResource( 4 )
-IconScene = ExtResource( 3 )
-IconTexture = [ ExtResource( 5 ) ]
-TooltipScene = ExtResource( 2 )
+IconTexture = [ ExtResource( 5 ), ExtResource( 9 ), ExtResource( 3 ), ExtResource( 6 ), ExtResource( 7 ), ExtResource( 11 ), ExtResource( 2 ), ExtResource( 10 ), ExtResource( 4 ), ExtResource( 8 ) ]
+DropRate = 3
 Type = 1

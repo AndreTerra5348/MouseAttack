@@ -18,6 +18,7 @@ namespace MouseAttack.Misc.UI
         public string Text { get; set; } = "";
         public Vector2 Position { get; set; }
         public Color Color { get; set; }
+        public int FontSize { get; set; } = 13;
 
         public AnimationPlayer AnimationPlayer { get; private set; }
         public float AnimationPosition => AnimationPlayer.CurrentAnimationPosition;
@@ -29,6 +30,8 @@ namespace MouseAttack.Misc.UI
             AnimationPlayer = GetNode<AnimationPlayer>(nameof(AnimationPlayer));
             var label = GetNode<Label>(LabelPath);
             label.Text = Text;
+            var font = label.GetFont("font") as DynamicFont;
+            font.Size = FontSize;
             if (Color.a > 0.0f)
                 label.AddColorOverride(Overrides.FontColor, Color);
 

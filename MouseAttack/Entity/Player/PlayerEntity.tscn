@@ -61,7 +61,7 @@ _regenPath = NodePath("../../ManaRegen")
 [node name="ManaRegen" type="Node" parent="PlayerCharacter"]
 script = ExtResource( 3 )
 ValuePerPoint = 0.1
-Points = 2
+Points = 3
 
 [node name="Damage" type="Node" parent="PlayerCharacter"]
 script = ExtResource( 3 )

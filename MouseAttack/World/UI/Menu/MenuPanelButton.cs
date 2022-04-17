@@ -16,6 +16,5 @@ namespace MouseAttack.World.UI.Menu
             Character.Listen(nameof(PlayerCharacter.Level), onChanged: () => SetAlertEnable(true));
             Panel.Listen(nameof(SystemPanel.Visible), onChanged: () => SetAlertEnable(false));
         }
-
     }
 }
