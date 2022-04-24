@@ -12,6 +12,8 @@ namespace MouseAttack.GUI
     public class CooldownBar : TextureProgress
     {
         [Export]
+        bool LabelDisabled { get; set; } = false;
+        [Export]
         string Prefix { get; set; } = "";
         [Export]
         string Sufix { get; set; } = "";
@@ -21,13 +23,19 @@ namespace MouseAttack.GUI
         public override void _Ready()
         {
             _label = GetNode<Label>(nameof(Label));
-            GridController.RoundFinished += OnRoundFinished;
+            _label.Visible = !LabelDisabled;
         }
+
+        public override void _EnterTree() =>
+            GridController.RoundFinished += OnRoundFinished;
+
         public override void _ExitTree() =>
             GridController.RoundFinished -= OnRoundFinished;
 
         private void OnRoundFinished(object sender, EventArgs e)
         {
+            if (!Visible)
+                return;
             Value--;
             UpdateLabel();
             if (Value == 0)

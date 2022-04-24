@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/redback_new.png-880376ca30233d1091dea188a8ef188d.stex"
+path="res://.import/white_new.png-09b6af149e8fa73d9dadf4ddfb2b0d82.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://MouseAttack/Entity/Monster/Sprites/redback_new.png"
-dest_files=[ "res://.import/redback_new.png-880376ca30233d1091dea188a8ef188d.stex" ]
+source_file="res://MouseAttack/Item/Consumable/Defense/white_new.png"
+dest_files=[ "res://.import/white_new.png-09b6af149e8fa73d9dadf4ddfb2b0d82.stex" ]
 
 [params]
 

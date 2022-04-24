@@ -50,7 +50,7 @@ namespace MouseAttack.World.UI.Shop
         DropLabelProvider DropLabelProvider => TreeSharer.GetNode<DropLabelProvider>();
         DragPreviewParent DragPreviewParent => TreeSharer.GetNode<DragPreviewParent>();
 
-        
+
         public override void _Ready()
         {
             _buyButton = GetNode<Button>(BuyButtonPath);
@@ -102,7 +102,7 @@ namespace MouseAttack.World.UI.Shop
             _item.IsKnown = true;
             PlayerInventory.Add(_item);
             PlayerInventory.Gold.Count -= _price;
-            var dropLabel = DropLabelProvider.GetDropLabel(_item);
+            var dropLabel = DropLabelProvider.GetLabel(_item);
             dropLabel.Position = RectGlobalPosition;
             DragPreviewParent.AddChild(dropLabel);
             ItemBought?.Invoke(this, EventArgs.Empty);

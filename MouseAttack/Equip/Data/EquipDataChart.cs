@@ -61,7 +61,7 @@ namespace MouseAttack.Equip.Data
         {
             { EquipType.Offensive,  StatsType.Damage },
             { EquipType.Defensive,  StatsType.Defense },
-            { EquipType.Special,  StatsType.Defense },
+            { EquipType.Special,  StatsType.Health },
         };
 
         public Dictionary<EquipType, List<StatsType>> EquipTypeSecundaryStats { get; private set; } = new Dictionary<EquipType, List<StatsType>>()
@@ -79,7 +79,7 @@ namespace MouseAttack.Equip.Data
                 new List<StatsType>()
                 {
                     StatsType.Health,
-                    StatsType.Mana,
+                    StatsType.HealthRegen
 
                 }
             },
@@ -87,9 +87,8 @@ namespace MouseAttack.Equip.Data
                 EquipType.Special,
                 new List<StatsType>()
                 {
-                    StatsType.Mana,
-                    StatsType.ManaRegen,
-                    StatsType.Health,
+                    StatsType.Damage,
+                    StatsType.Defense,
                     StatsType.HealthRegen,
                     StatsType.CriticalDamage,
                     StatsType.CriticalRate

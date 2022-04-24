@@ -1,4 +1,4 @@
-[gd_scene load_steps=28 format=2]
+[gd_scene load_steps=31 format=2]
 
 [ext_resource path="res://MouseAttack/World/Tiles/grass.png" type="Texture" id=1]
 [ext_resource path="res://MouseAttack/World/Tiles/grass-spawn.png" type="Texture" id=2]
@@ -25,6 +25,8 @@
 [ext_resource path="res://MouseAttack/Theme/Button/PressedStyle.tres" type="StyleBox" id=23]
 [ext_resource path="res://MouseAttack/World/UI/SkipTurnButton.cs" type="Script" id=24]
 [ext_resource path="res://MouseAttack/Theme/Fonts/Roboto10.tres" type="DynamicFont" id=25]
+[ext_resource path="res://MouseAttack/World/UI/Buff/BuffDisplay.cs" type="Script" id=26]
+[ext_resource path="res://MouseAttack/World/UI/Buff/BuffLabelPanel.tscn" type="PackedScene" id=27]
 
 [sub_resource type="TileSet" id=1]
 0/name = "grass.png 0"
@@ -57,6 +59,8 @@
 1/z_index = 0
 
 [sub_resource type="StyleBoxEmpty" id=5]
+
+[sub_resource type="StyleBoxEmpty" id=6]
 
 [node name="Stage" type="Node2D"]
 script = ExtResource( 11 )
@@ -165,6 +169,32 @@ custom_fonts/font = ExtResource( 25 )
 text = "Lv"
 align = 1
 valign = 1
+
+[node name="LeftPanel" type="PanelContainer" parent="HudLayer/Border/VBoxContainer"]
+margin_top = 33.0
+margin_right = 10.0
+margin_bottom = 43.0
+mouse_filter = 1
+size_flags_horizontal = 0
+size_flags_vertical = 0
+custom_styles/panel = SubResource( 6 )
+
+[node name="MarginContainer" type="MarginContainer" parent="HudLayer/Border/VBoxContainer/LeftPanel"]
+margin_right = 10.0
+margin_bottom = 10.0
+mouse_filter = 1
+custom_constants/margin_right = 5
+custom_constants/margin_top = 5
+custom_constants/margin_left = 5
+custom_constants/margin_bottom = 5
+
+[node name="BuffDisplay" type="VBoxContainer" parent="HudLayer/Border/VBoxContainer/LeftPanel/MarginContainer"]
+margin_left = 5.0
+margin_top = 5.0
+margin_right = 5.0
+margin_bottom = 5.0
+script = ExtResource( 26 )
+BuffLabelPanelScene = ExtResource( 27 )
 
 [node name="BottomPanel" type="PanelContainer" parent="HudLayer/Border/VBoxContainer"]
 margin_top = 419.0

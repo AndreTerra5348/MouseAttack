@@ -8,13 +8,13 @@ using System.Threading.Tasks;
 
 namespace MouseAttack.Skill.Data
 {
-    public class DamageSkillFactory : CollidableSkillFactory
-    {
-        [AssignTo(nameof(DamageSkill.Damage))]
-        [Export]
-        public int Damage { get; private set; } = 1;
+	public class DamageSkillFactory : CollidableSkillFactory
+	{
+		[AssignTo(nameof(DamageSkill.Damage))]
+		[Export]
+		public int Damage { get; private set; } = 1;
 
-        protected override CommonItem GetNewItem() =>
-            new DamageSkill();
-    }
+		protected override CommonItem GetNewItem() =>
+			new DamageSkill();
+	}
 }

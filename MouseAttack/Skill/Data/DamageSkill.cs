@@ -9,18 +9,6 @@ using System.Collections.Generic;
 
 namespace MouseAttack.Skill.Data
 {
-    public class DamageAppliedEventArgs : EventArgs
-    {
-        public readonly float Damage;
-        public readonly bool IsCritical;
-
-        public DamageAppliedEventArgs(float damage, bool isCritical)
-        {
-            Damage = damage;
-            IsCritical = isCritical;
-        }
-    }
-
     public class DamageSkill : CollidableSkill
     {
         public int Damage { get; private set; }
@@ -36,9 +24,8 @@ namespace MouseAttack.Skill.Data
         {
             isCritical = attacker.IsCritical;
             float attackerDamage = attacker.Damage.Value;
-            float attackerCriticalDamage = attacker.CriticalDamage.Value;
-            if (isCritical)
-                attackerDamage += attackerCriticalDamage;
+            float attackerCriticalDamage = attacker.CriticalDamage.Percentage;
+            attackerDamage *= (isCritical ? attackerCriticalDamage : 1);
             float defenderDefense = defender.Defense.Value;
             float finalDamage = attackerDamage + Damage - defenderDefense;
             return finalDamage < 0 ? 0 : finalDamage;

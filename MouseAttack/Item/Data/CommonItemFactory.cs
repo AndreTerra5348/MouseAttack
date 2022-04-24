@@ -26,11 +26,12 @@ namespace MouseAttack.Item.Data
         [Export]
         public Color Color { get; set; } = new Color("a8a8a8");
 
-
         [Export]
-        public int DropRate { get; private set; }
+        public bool IsUnique { get; private set; } = false;
+        [Export]
+        public int Die { get; private set; } = 10;
         protected Random Random => TreeSharer.GetNode<Stage>().Random;
-        public virtual bool Dropped => DropRate > Random.Next(100);
+        public virtual bool Dropped => 0 == Random.Next(Die);
 
         protected abstract CommonItem GetNewItem();
 

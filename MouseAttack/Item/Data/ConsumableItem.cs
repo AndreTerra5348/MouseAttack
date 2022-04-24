@@ -1,15 +1,6 @@
-﻿using Godot;
-using MouseAttack.Entity;
-using MouseAttack.Entity.Player.Inventory;
-using MouseAttack.Item.Icon;
-using MouseAttack.Item.Tooltip;
+﻿using MouseAttack.Entity.Player.Inventory;
 using MouseAttack.Misc;
-using MouseAttack.World;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace MouseAttack.Item.Data
 {
@@ -32,9 +23,17 @@ namespace MouseAttack.Item.Data
             }
         }
 
+        int _value;
+        public override int Value
+        {
+            get => _value * MonsterLevel;
+            set => _value = value;
+        }
+
         public override string TooltipType => TypeName;
         public override string DropText => Count.ToString();
         public override bool CanUse => ElapsedCooldown <= 0 && Count > 0;
+        protected override bool ElapseTurnOnUse => false;
 
         protected PlayerInventory PlayerInventory =>
             TreeSharer.GetNode<PlayerInventory>();

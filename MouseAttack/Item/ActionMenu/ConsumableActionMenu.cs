@@ -1,6 +1,8 @@
 ﻿using Godot;
 using MouseAttack.GUI;
 using MouseAttack.Item.Data;
+using MouseAttack.Misc;
+using MouseAttack.Misc.UI;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -16,7 +18,8 @@ namespace MouseAttack.Item.ActionMenu
         [Export]
         NodePath CooldownProgressPath = "";
         CooldownBar _cooldownProgress;
-
+        protected FloatingLabelProvider FloatingLabelProvider =>
+            TreeSharer.GetNode<FloatingLabelProvider>();
         new ConsumableItem Item => base.Item as ConsumableItem;
         public override void _Ready()
         {
@@ -44,6 +47,12 @@ namespace MouseAttack.Item.ActionMenu
                 return;
 
             Item.Use();
+
+            var label = FloatingLabelProvider.GetLabel();
+            label.Text = Item.UseText;
+            label.Color = Item.EffectColor;
+            label.Position = RectGlobalPosition;
+            DragPreviewParent.AddChild(label);
         }
     }
 }

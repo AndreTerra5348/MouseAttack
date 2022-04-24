@@ -21,25 +21,27 @@ namespace MouseAttack.World.Monster
 
     public class MonsterGenerator : Node, ISharable
     {
-        
+
         public event EventHandler<MonsterSpawnedEventArgs> MonsterSpawned;
         public static readonly int MonsterSpawnTile = 1;
 
         [Export]
         PackedScene MonsterEntityScene { get; set; }
 
-        int _nextSpawnTurnThreashold = 5;
-        int _nextLevelTurnThreashold = 10;
+        int _nextSpawnTurnThreashold = 2;
+        int _nextLevelTurnThreashold = 5;
+
+        int _levelRange = 1;
 
         List<Vector2> _monsterSpawnPoints;
-        Stage Stage => 
+        Stage Stage =>
             TreeSharer.GetNode<Stage>();
-        GridController GridController => 
+        GridController GridController =>
             TreeSharer.GetNode<GridController>();
 
-        public MonsterGenerator() => 
-            TreeSharer.RegistryNode(this);     
-        
+        public MonsterGenerator() =>
+            TreeSharer.RegistryNode(this);
+
 
         public override void _Ready()
         {
@@ -59,7 +61,7 @@ namespace MouseAttack.World.Monster
         }
 
         bool CanSpawn() =>
-            IsSpawnableRound() || 
+            IsSpawnableRound() ||
             HasZeroMonsters();
 
         bool IsSpawnableRound() =>
@@ -77,12 +79,15 @@ namespace MouseAttack.World.Monster
             if (!GridController.IsCellAvailable(position))
                 return;
 
-            var monsterLevel = Stage.Random.Next(GridController.RoundCount / _nextLevelTurnThreashold) + 1;
+            var currentLevel = Math.Max(1, GridController.RoundCount / _nextLevelTurnThreashold);
+            var minLevel = Math.Max(1, currentLevel - _levelRange);
+            var maxLevel = Math.Max(minLevel + 1, currentLevel + _levelRange);
+            var monsterLevel = Stage.Random.Next(minLevel, maxLevel);
             var monsterEntity = MonsterEntityScene.Instance<MonsterEntity>();
             monsterEntity.Level = monsterLevel;
             GridController.AddChild(monsterEntity);
             monsterEntity.Position = position;
-            MonsterSpawned?.Invoke(this, new MonsterSpawnedEventArgs(monsterEntity));                     
+            MonsterSpawned?.Invoke(this, new MonsterSpawnedEventArgs(monsterEntity));
         }
     }
 }

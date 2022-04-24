@@ -31,7 +31,7 @@ namespace MouseAttack.Skill.WorldEffect
         {
             ZIndex = ZOrder.WorldEffect;
             GridController.RoundFinished += OnRoundFinished;
-            _elapsedDuration = Skill.EffectDuration;
+            _elapsedDuration = Skill.WorldEffectDuration;
             ElapseTurn();
         }
 

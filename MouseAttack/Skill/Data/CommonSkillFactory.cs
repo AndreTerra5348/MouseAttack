@@ -8,12 +8,9 @@ namespace MouseAttack.Skill.Data
         [AssignTo(nameof(CommonSkill.WorldEffectScene))]
         [Export]
         public PackedScene WorldEffectScene { get; private set; }
-        [AssignTo(nameof(CommonSkill.EffectDuration))]
+        [AssignTo(nameof(CommonSkill.WorldEffectDuration))]
         [Export]
-        public int EffectDuration { get; private set; } = 1;
-        [AssignTo(nameof(CommonSkill.ManaCost))]
-        [Export]
-        public int ManaCost { get; private set; } = 1;    
+        public int WorldEffectDuration { get; private set; } = 1;
     }
 }
 

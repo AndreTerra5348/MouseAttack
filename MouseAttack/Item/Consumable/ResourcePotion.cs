@@ -23,20 +23,16 @@ namespace MouseAttack.Item.Consumable
         {
             get => _amount * MonsterLevel;
             private set => _amount = value;
-        }
+        }        
 
-        int _value;
-        public override int Value
-        {
-            get => _value * MonsterLevel;
-            set => _value = value;
-        }
-
+        string _name = "";
         public override string Name
         {
             get => $"{Enum.GetName(typeof(ResourceType), Type)} Potion Lv. {MonsterLevel}";
-            protected set { }
+            protected set => _name = value;
         }
+        string TypeName => StatsConstants.FullNameMap[(StatsType)Type];
+        public override string UseText => $"{Amount} {TypeName}";
 
         PlayerEntity PlayerEntity => 
             TreeSharer.GetNode<PlayerEntity>();
@@ -48,7 +44,7 @@ namespace MouseAttack.Item.Consumable
         public override Stack<TooltipInfo> GetTooltipInfo()
         {
             Stack<TooltipInfo> tooltipInfo = base.GetTooltipInfo();
-            tooltipInfo.Push(new TooltipInfo($"Recharge: {Amount} {Enum.GetName(typeof(StatsType), Type)}", Color));
+            tooltipInfo.Push(new TooltipInfo($"Recharge: {Amount} {TypeName}", Color));
             return tooltipInfo;
         }
 
@@ -59,7 +55,7 @@ namespace MouseAttack.Item.Consumable
             ResourcePool resource = Character.GetResourcePool(Type);
             resource.Regenerate(Amount);
 
-            SpawnFloatingLabel(PlayerEntity, Amount.ToString());
+            SpawnFloatingLabel(PlayerEntity, UseText);
         }
     }
 }

@@ -21,10 +21,10 @@ namespace MouseAttack.Item.Data
         public virtual string TooltipType { get; protected set; } = "Misc";
         public virtual bool IsKnown { get; set; } = true;
         public int MonsterLevel { get; set; } = 1;
-        protected Random Random => 
+        protected Random Random =>
             TreeSharer.GetNode<Stage>().Random;
 
-        protected GridController GridController => 
+        protected GridController GridController =>
             TreeSharer.GetNode<GridController>();
 
         public CommonItem() =>
@@ -39,8 +39,9 @@ namespace MouseAttack.Item.Data
         protected virtual void OnRoundFinished() { }
 
 
+
         bool _isSlotted = false;
-        public bool IsSlotted 
+        public bool IsSlotted
         {
             get => _isSlotted;
             set
@@ -58,7 +59,7 @@ namespace MouseAttack.Item.Data
             Stack<TooltipInfo> tooltipInfo = new Stack<TooltipInfo>();
             tooltipInfo.Push(new TooltipInfo($"Value: {Value}", Colors.Yellow));
             return tooltipInfo;
-        }           
+        }
 
         public Texture GetIconTexture() =>
             IconTexture[Math.Min(MonsterLevel - 1, IconTexture.Count - 1)];

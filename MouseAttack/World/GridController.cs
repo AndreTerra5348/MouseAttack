@@ -143,7 +143,7 @@ namespace MouseAttack.World
                 if (monster == null)
                     continue;
 
-                await monster.Act();
+                monster.Act();
             }
             RoundFinished?.Invoke(this, EventArgs.Empty);
             RoundCount++;

@@ -19,7 +19,7 @@ namespace MouseAttack.Item.Data
         public override T CreateItem<T>(int monsterLevel = 1)
         {
             var item = base.CreateItem<ConsumableItem>(monsterLevel);
-            item.Count += Random.Next(MinBaseValue * monsterLevel, MaxBaseValue * monsterLevel);
+            item.Count += Random.Next(MinBaseValue, MaxBaseValue);
             return item as T;
         }
     }

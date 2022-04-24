@@ -1,4 +1,4 @@
-[gd_scene load_steps=14 format=2]
+[gd_scene load_steps=13 format=2]
 
 [ext_resource path="res://MouseAttack/Theme/TabbedPanelTheme.tres" type="Theme" id=1]
 [ext_resource path="res://MouseAttack/World/UI/Shop/ShopSlot.tscn" type="PackedScene" id=2]
@@ -8,7 +8,6 @@
 [ext_resource path="res://MouseAttack/Item/Consumable/Health/HealthPotionFactory.tscn" type="PackedScene" id=6]
 [ext_resource path="res://MouseAttack/Theme/Fonts/Roboto16.tres" type="DynamicFont" id=7]
 [ext_resource path="res://MouseAttack/World/UI/Shop/ShopPanel.cs" type="Script" id=8]
-[ext_resource path="res://MouseAttack/Item/Consumable/Mana/ManaPotionFactory.tscn" type="PackedScene" id=9]
 [ext_resource path="res://MouseAttack/Equip/Defensive/Robe/RobeFactory.tscn" type="PackedScene" id=10]
 [ext_resource path="res://MouseAttack/Equip/Special/Amulet/AmuletFactory.tscn" type="PackedScene" id=11]
 
@@ -84,7 +83,7 @@ PriceRange = 1
 margin_left = 36.0
 margin_right = 68.0
 margin_bottom = 76.0
-ItemFactoriesPath = NodePath("../../../../PotionFactories")
+ItemFactoriesPath = NodePath("../../../../Factories")
 ItemLevelRange = 1
 PriceRange = 1
 
@@ -128,8 +127,5 @@ IsKnown = false
 [node name="PotionFactories" type="Node" parent="."]
 
 [node name="HealthPotionFactory" parent="PotionFactories" instance=ExtResource( 6 )]
-
-[node name="ManaPotionFactory" parent="PotionFactories" instance=ExtResource( 9 )]
-Value = 25
 
 [editable path="VBoxContainer/SubHeader"]

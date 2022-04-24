@@ -1,0 +1,17 @@
+[gd_scene load_steps=3 format=2]
+
+[ext_resource path="res://MouseAttack/Item/Consumable/StatsPotionFactory.cs" type="Script" id=1]
+[ext_resource path="res://MouseAttack/Item/Consumable/HealthRegen/ruby_old.png" type="Texture" id=2]
+
+[node name="HealthRegenPotionFactory" type="Node"]
+script = ExtResource( 1 )
+ItemName = ""
+Value = 200
+IconTexture = [ ExtResource( 2 ) ]
+Color = Color( 0.921569, 0, 0, 1 )
+Cooldown = 3
+EffectDuration = 5
+EffectColor = Color( 0.921569, 0, 0, 1 )
+MaxBaseValue = 1
+Type = 2
+Percentage = 5.0

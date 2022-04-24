@@ -14,7 +14,7 @@ namespace MouseAttack.Entity.Monster
     {
         public event EventHandler Dead;
         protected override string CharacterName => nameof(MonsterCharacter);
-        
+
         PlayerEntity PlayerEntity => TreeSharer.GetNode<PlayerEntity>();
         Stage Stage => TreeSharer.GetNode<Stage>();
         MonsterSkillController MonsterSkillController { get; set; }
@@ -38,11 +38,17 @@ namespace MouseAttack.Entity.Monster
             _sprite = GetNode<Sprite>(_spritePath);
             _sprite.Texture = Textures[(Level - 1) % Textures.Count];
             Label nameLabel = GetNode<Label>(_nameLabelPath);
-            nameLabel.Text += $" Lv:{Level}";
+
+            // Get the name of the monster from the name of the texture
+            // Fix: ResourceName if Empty
+            string monsterName = _sprite.Texture.ResourcePath.BaseName().GetFile().Capitalize();
+            // Set the name of the monster and its level
+            nameLabel.Text = $"{monsterName} Lv: {Level}";
+
 
             Character.DisableLevelUp = true;
 
-            var multiplier = Level / 2.0f;
+            var multiplier = Level;
             Character.Experience *= multiplier;
             Character.Health.AlteredPercentage = multiplier;
             Character.Health.AlteredPercentage = multiplier;
@@ -80,7 +86,7 @@ namespace MouseAttack.Entity.Monster
             Vector2[] availablePath = GridController.GetAvailablePath(Position, PlayerEntity.Position);
             if (availablePath.Length == 0)
                 return this.CreateTimer(MovementDelay);
-            if (availablePath.Length <= MonsterSkillController.AttackRange)            
+            if (availablePath.Length <= MonsterSkillController.AttackRange)
                 return MonsterSkillController.Attack();
             return Move(availablePath);
         }

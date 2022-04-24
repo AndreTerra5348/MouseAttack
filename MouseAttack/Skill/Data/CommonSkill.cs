@@ -23,7 +23,7 @@ namespace MouseAttack.Skill.Data
         const string TypeName = "Skill";
 
         public PackedScene WorldEffectScene { get; private set; }
-        public int EffectDuration { get; private set; } = 1;
+        public int WorldEffectDuration { get; private set; } = 1;
         public int ManaCost { get; private set; } = 1;
         public override bool CanUse
         {
@@ -35,9 +35,6 @@ namespace MouseAttack.Skill.Data
                 if (!PlayArea.OnPlayArea)
                     return false;
 
-                if (!Character.HasEnoughMana(ManaCost))
-                    return false;
-
                 return true;
             }
         }
@@ -45,8 +42,7 @@ namespace MouseAttack.Skill.Data
 
         PlayArea PlayArea => TreeSharer.GetNode<PlayArea>();
         PlayerEntity PlayerEntity => TreeSharer.GetNode<PlayerEntity>();
-        PlayerCharacter Character => PlayerEntity.Character;        
-
+        PlayerCharacter Character => PlayerEntity.Character;
         public CommonWorldEffect GetWorldEffect()
         {
             CommonWorldEffect instance = WorldEffectScene.Instance<CommonWorldEffect>();
@@ -57,6 +53,7 @@ namespace MouseAttack.Skill.Data
         public override Stack<TooltipInfo> GetTooltipInfo()
         {
             Stack<TooltipInfo> tooltipInfo = base.GetTooltipInfo();
+            tooltipInfo.Push(new TooltipInfo($"World Effect Duration: {WorldEffectDuration}", Colors.White));
             tooltipInfo.Push(new TooltipInfo($"Mana Cost: {ManaCost}", Colors.Aqua));
             return tooltipInfo;
         }
@@ -67,7 +64,6 @@ namespace MouseAttack.Skill.Data
         public override void Use()
         {
             base.Use();
-            Character.UseMana(ManaCost);
 
             CommonWorldEffect worldEffect = GetWorldEffect();
             worldEffect.User = PlayerEntity;

@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/apocalypse_crab.png-da8152989272f6d767e82ad716bea0f0.stex"
+path="res://.import/bubbly.png-678e3507378a5a56be619af8a86f6c05.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://MouseAttack/Entity/Monster/Sprites/apocalypse_crab.png"
-dest_files=[ "res://.import/apocalypse_crab.png-da8152989272f6d767e82ad716bea0f0.stex" ]
+source_file="res://MouseAttack/Item/Consumable/CriticalRate/bubbly.png"
+dest_files=[ "res://.import/bubbly.png-678e3507378a5a56be619af8a86f6c05.stex" ]
 
 [params]
 

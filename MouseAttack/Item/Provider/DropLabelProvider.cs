@@ -15,7 +15,7 @@ namespace MouseAttack.Item.Provider
         [Export]
         PackedScene DropLabelScene { get; set; }
 
-        public FloatingLabel GetDropLabel(CommonItem item)
+        public FloatingLabel GetLabel(CommonItem item)
         {
             DropLabel dropLabel = DropLabelScene.Instance<DropLabel>();
             dropLabel.IconTexture = item.GetIconTexture();
@@ -23,6 +23,6 @@ namespace MouseAttack.Item.Provider
             dropLabel.Color = item.Color;
             return dropLabel;
         }
-        
+
     }
 }

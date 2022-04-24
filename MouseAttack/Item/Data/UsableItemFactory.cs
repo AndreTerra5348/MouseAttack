@@ -13,9 +13,9 @@ namespace MouseAttack.Item.Data
         [AssignTo(nameof(UsableItem.Cooldown))]
         [Export]
         public int Cooldown { get; private set; } = 1;
-        [AssignTo(nameof(UsableItem.Duration))]
+        [AssignTo(nameof(UsableItem.EffectDuration))]
         [Export]
-        public int Duration { get; private set; } = 0;
+        public int EffectDuration { get; private set; } = 0;
         [AssignTo(nameof(UsableItem.EffectColor))]
         [Export]
         public Color EffectColor { get; private set; } = Colors.White;

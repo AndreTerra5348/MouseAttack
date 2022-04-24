@@ -22,7 +22,7 @@ namespace MouseAttack.Item.ActionMenu
         [Export]
         Texture GoldTexture { get; set; }
 
-        DragPreviewParent DragPreviewParent => 
+        protected DragPreviewParent DragPreviewParent => 
             TreeSharer.GetNode<DragPreviewParent>();
 
         ShopPopupProvider SellPopupProvider => 

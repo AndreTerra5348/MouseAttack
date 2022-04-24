@@ -1,0 +1,44 @@
+[gd_scene load_steps=4 format=2]
+
+[ext_resource path="res://MouseAttack/GUI/CooldownBar.tscn" type="PackedScene" id=1]
+[ext_resource path="res://MouseAttack/World/UI/Buff/BuffLabelPanel.cs" type="Script" id=2]
+
+[sub_resource type="StyleBoxEmpty" id=1]
+
+[node name="BuffLabelPanel" type="PanelContainer"]
+margin_right = 100.0
+margin_bottom = 32.0
+custom_styles/panel = SubResource( 1 )
+script = ExtResource( 2 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+CooldownPath = NodePath("CooldownBar")
+LabelPath = NodePath("MarginContainer/BuffLabel")
+
+[node name="CooldownBar" parent="." instance=ExtResource( 1 )]
+margin_right = 100.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+value = 100.0
+fill_mode = 0
+tint_progress = Color( 0.588235, 0.588235, 0.588235, 0.294118 )
+nine_patch_stretch = true
+LabelDisabled = true
+
+[node name="MarginContainer" type="MarginContainer" parent="."]
+margin_right = 100.0
+margin_bottom = 32.0
+custom_constants/margin_right = 5
+custom_constants/margin_top = 5
+custom_constants/margin_left = 5
+custom_constants/margin_bottom = 5
+
+[node name="BuffLabel" type="Label" parent="MarginContainer"]
+margin_left = 5.0
+margin_top = 5.0
+margin_right = 95.0
+margin_bottom = 27.0
+size_flags_vertical = 1
+align = 1
+valign = 1

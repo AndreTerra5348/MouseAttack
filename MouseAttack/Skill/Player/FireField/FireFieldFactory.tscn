@@ -1,0 +1,20 @@
+[gd_scene load_steps=5 format=2]
+
+[ext_resource path="res://MouseAttack/Skill/Data/DamageSkillFactory.cs" type="Script" id=1]
+[ext_resource path="res://MouseAttack/Skill/TargetEffect/World/Blood/Blood.tres" type="Resource" id=2]
+[ext_resource path="res://MouseAttack/Skill/Player/FireField/cloud_fire_1.png" type="Texture" id=3]
+[ext_resource path="res://MouseAttack/Skill/Player/FireField/WorldEffect.tscn" type="PackedScene" id=4]
+
+[node name="FireFieldFactory" type="Node"]
+script = ExtResource( 1 )
+ItemName = "Fire Field"
+IconTexture = [ ExtResource( 3 ) ]
+Color = Color( 0.94902, 0.388235, 0.141176, 1 )
+IsUnique = true
+Die = 50
+Cooldown = 3
+TargetEffectSpawners = [ ExtResource( 2 ) ]
+WorldEffectScene = ExtResource( 4 )
+Area = Vector2( 3, 3 )
+CollisionLayer = 8
+CollisionMask = 2

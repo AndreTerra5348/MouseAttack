@@ -24,7 +24,8 @@ namespace MouseAttack.World.UI.Shop
         Label _cooldownLabel;
         List<ShopSlot> _slots;
         Control _slotContainer;
-        GridController GridController => TreeSharer.GetNode<GridController>();
+        GridController GridController => 
+            TreeSharer.GetNode<GridController>();
 
 
         public override void _Ready()

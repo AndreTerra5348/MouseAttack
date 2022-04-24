@@ -10,15 +10,17 @@ namespace MouseAttack.Skill.WorldEffect
 {
     public abstract class CollidableWorldEffect : CommonWorldEffect
     {
+
+        private const int ShapeExtentsMultiplier = 14;
+
         new CollidableSkill Skill => base.Skill as CollidableSkill;
 
         public override void _Ready()
         {
             base._Ready();
             var area2d = GetNode<Area2D>(nameof(Area2D));
-            // Update collision shape and position            
             var shape = area2d.ShapeOwnerGetShape(0, 0) as RectangleShape2D;
-            shape.Extents = Skill.Area * 14;
+            shape.Extents = Skill.Area * ShapeExtentsMultiplier;
 
             area2d.Connect(Signals.AreaEntered, this, nameof(OnAreaEntered));
             area2d.CollisionLayer = Skill.CollisionLayer;
